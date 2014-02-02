@@ -1,0 +1,77 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>    
+    
+    <dimen name="person_li_padding">6dp</dimen>
+    <dimen name="person_li_avatar_layout_width">60dp</dimen>
+    <dimen name="person_li_avatar_layout_height">60dp</dimen>
+    <dimen name="person_li_avatar_layout_marginRight">6dp</dimen>
+    <dimen name="person_li_shortbio_layout_height">26dp</dimen>
+    <dimen name="person_li_shortbio_textSize">14sp</dimen>
+    <dimen name="person_li_username_textSize">18sp</dimen>
+    <dimen name="person_li_showmore_layout_height">60dp</dimen>
+    <dimen name="person_li_footer_height">72dp</dimen>
+    
+    <dimen name="notif_li_padding">6dp</dimen>
+    <dimen name="notif_li_avatar_layout_width">60dp</dimen>
+    <dimen name="notif_li_avatar_layout_height">60dp</dimen>
+    <dimen name="notif_li_avatar_layout_marginLeft">32dp</dimen>
+    <dimen name="notif_li_avatar_layout_marginRight">6dp</dimen>
+    <dimen name="notif_li_button_layout_width">90dp</dimen>
+    <dimen name="notif_li_button_layout_height">60dp</dimen>
+    <dimen name="notif_li_button_layout_marginLeft">6dp</dimen>
+    <dimen name="notif_li_sender_username_textSize">16sp</dimen>
+    <dimen name="notif_li_title_textSize">14sp</dimen>
+    <dimen name="notif_li_time_textSize">11sp</dimen>
+    <dimen name="notif_li_sender_shortBio_textSize">14sp</dimen>
+    <dimen name="notif_li_sender_descr_textSize">12sp</dimen>
+    <dimen name="notif_li_details_padding_left">40dp</dimen>
+    <dimen name="notif_li_details_padding">10dp</dimen>
+    <dimen name="notif_li_sender_descr_marginTop">6dp</dimen>  
+    
+    <dimen name="general_margin">6dp</dimen>
+    <dimen name="general_margin_vertical">6dp</dimen>
+    <dimen name="general_margin_horizontal">6dp</dimen>
+    
+    <dimen name="general_margin_big">12dp</dimen>
+    <dimen name="general_margin_big_vertical">12dp</dimen>
+    <dimen name="general_margin_big_horizontal">12dp</dimen>
+    
+    <dimen name="general_margin_xbig">18dp</dimen>
+    
+    <dimen name="general_padding">6dp</dimen>
+    <dimen name="general_padding_vertical">6dp</dimen>
+    <dimen name="general_padding_horizontal">6dp</dimen>
+    
+    <dimen name="general_padding_big">12dp</dimen>
+    <dimen name="general_padding_big_vertical">12dp</dimen>
+    <dimen name="general_padding_big_horizontal">12dp</dimen>
+    
+    <dimen name="btn_continue_height">80dp</dimen>
+    
+    <dimen name="avatar_width">60dp</dimen>
+    <dimen name="avatar_height">60dp</dimen>
+    <dimen name="avatar_marginRight">6dp</dimen>  
+    
+    <dimen name="thumbnail_width">100dp</dimen>
+    <dimen name="thumbnail_height">100dp</dimen>
+    
+    <dimen name="header_textSize">20sp</dimen>
+    <dimen name="firstLine_textSize">18sp</dimen>
+    <dimen name="secondLine_textSize">14sp</dimen>
+        
+    <dimen name="candidate_padding">6dp</dimen>
+    <dimen name="candidate_avatar_layout_width">60dp</dimen>
+	<dimen name="candidate_avatar_layout_height">60dp</dimen>
+	<dimen name="candidate_avatar_layout_margin">6dp</dimen>
+	<dimen name="candidate_username_textSize">18dp</dimen>
+	<dimen name="candidate_shortbio_textSize">14dp</dimen>
+	<dimen name="candidate_action_btn_height">60dp</dimen>
+	<dimen name="candidate_mainPhoto_marginVertical">6dp</dimen>
+	<dimen name="candidate_descr_textSize">14sp</dimen>
+	
+	<dimen name="watermark_textSize">20sp</dimen>
+	<dimen name="watermark_padding">20dp</dimen>
+</resources>

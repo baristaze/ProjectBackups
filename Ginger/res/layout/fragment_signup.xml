@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+	android:layout_height="match_parent"
+    android:padding="@dimen/general_padding_big"
+    tools:context=".SignupActivity">
+
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+	
+	    <TextView
+	        android:id="@+id/textView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="@dimen/general_margin_xbig"
+	        android:layout_marginLeft="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"
+	        android:layout_marginBottom="@dimen/general_margin"
+	        android:text="@string/signup_username_label"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	    <EditText
+	        android:id="@+id/usernameEditText"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"
+	        android:layout_marginBottom="@dimen/general_margin_xbig"
+	        android:ems="12"
+	        android:hint="@string/signup_username_text_hint"
+	        android:textColor="#FF4444"
+	        android:singleLine="true" >
+	
+	        <requestFocus />
+	    </EditText>
+	
+	    <TextView
+	        android:id="@+id/textView2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="@dimen/general_margin_xbig"
+	        android:layout_marginLeft="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"
+	        android:layout_marginBottom="@dimen/general_margin_big"
+	        android:text="@string/signup_password_label"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	    <EditText
+	        android:id="@+id/passwordEditText"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"
+	        android:layout_marginBottom="@dimen/general_margin_xbig"
+	        android:ems="12"
+	        android:hint="@string/signup_password_hint"
+	        android:inputType="textPassword" />
+	
+	    <Button
+	        android:id="@+id/continueButton"
+	        android:layout_width="match_parent"
+	        android:layout_height="@dimen/btn_continue_height"
+	        android:layout_marginTop="@dimen/general_margin_xbig"
+	        android:layout_marginLeft="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"
+	        android:layout_marginBottom="@dimen/general_margin"
+	        android:text="@string/general_continue" />
+	    
+	</LinearLayout>
+	
+</ScrollView>

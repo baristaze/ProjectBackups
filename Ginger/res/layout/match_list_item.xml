@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="@dimen/person_li_padding">    
+   
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/person_li_avatar_layout_width"
+        android:layout_height="@dimen/person_li_avatar_layout_height"
+        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/person_li_avatar_layout_marginRight"
+        android:contentDescription="@string/avatar_descr"
+        android:src="@android:drawable/ic_menu_gallery" />    
+	
+	<TextView        
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toRightOf="@id/avatar"
+        android:singleLine="true"
+        android:textColor="#FF4444"
+        android:text="@string/username_descr"
+        android:textSize="@dimen/person_li_username_textSize" />
+		
+    <TextView
+        android:id="@+id/shortBio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"        
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/username"
+        android:layout_toRightOf="@id/avatar"
+        android:ellipsize="marquee"
+        android:singleLine="false"
+        android:text="@string/short_bio_descr"
+        android:textSize="@dimen/person_li_shortbio_textSize" />
+	   	   
+</RelativeLayout>

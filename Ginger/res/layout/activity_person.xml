@@ -1,0 +1,141 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".PersonActivity" >
+
+	<LinearLayout
+	    android:id="@+id/candidateView"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical">
+	    
+	    <!-- header section: icon + username + short_bio -->
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:padding="@dimen/candidate_padding" >
+		    
+		    <ImageView
+		        android:id="@+id/candidateAvatar"
+		        android:layout_width="@dimen/candidate_avatar_layout_width"
+		        android:layout_height="@dimen/candidate_avatar_layout_height"
+		        android:scaleType="centerCrop"        
+		        android:layout_marginRight="@dimen/candidate_avatar_layout_margin"
+		        android:contentDescription="@string/avatar_descr"
+		        android:src="@android:drawable/ic_menu_gallery" /> 
+		    
+		    <LinearLayout 
+			    android:layout_width="0dp"
+			    android:layout_weight="1"
+			    android:layout_height="match_parent"
+			    android:orientation="vertical" >
+			    
+		        <TextView        
+			        android:id="@+id/candidateUsername"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:singleLine="true"
+			        android:textColor="#FF4444"
+			        android:textSize="@dimen/candidate_username_textSize" />
+		        
+				<TextView
+			        android:id="@+id/candidateShortBio"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"        
+			        android:ellipsize="marquee"
+			        android:singleLine="false"
+			        android:textSize="@dimen/candidate_shortbio_textSize" />
+		    	 
+		    </LinearLayout>
+		        
+		</LinearLayout>
+	    
+		<FrameLayout
+		    android:id="@+id/candidateMainPhotoContainer"
+		    android:layout_width="match_parent"
+		    android:layout_height="0dp"
+	        android:layout_weight="0.5"
+	        android:layout_marginLeft="@dimen/general_margin"
+		    android:layout_marginRight="@dimen/general_margin">
+		    
+			<ImageView
+		        android:id="@+id/candidateMainPhoto"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:scaleType="centerCrop"        
+		        android:contentDescription="@string/photo_descr"
+		        android:src="@android:drawable/ic_menu_gallery" />
+					    
+		</FrameLayout>
+				
+		<LinearLayout
+		    android:id="@+id/candidateAnonymousActions"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:padding="@dimen/candidate_padding" >
+		    <!-- android:style="?android:attr/buttonBarStyle" -->
+		    
+		    <Button 
+			    android:id="@+id/candidateLikeButton"
+			    android:layout_width="0dp"
+			    android:layout_weight="0.3"
+			    android:layout_height="@dimen/candidate_action_btn_height"
+			    android:text="@string/candidate_like" >
+			</Button>
+			
+		    <!-- android:style="?android:attr/buttonBarButtonStyle" -->
+		    
+		    <Button 
+			    android:id="@+id/candidateSendP4PButton"
+			    android:layout_width="0dp"
+			    android:layout_weight="0.7"
+			    android:layout_height="@dimen/candidate_action_btn_height"
+			    android:text="@string/candidate_sendP4P" >
+			</Button>
+		    
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:id="@+id/candidateActions"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:padding="@dimen/candidate_padding" >
+		    
+		    <Button 
+			    android:id="@+id/candidateMessageButton"
+			    android:layout_width="0dp"
+			    android:layout_weight="0.5"
+			    android:layout_height="@dimen/candidate_action_btn_height"
+			    android:text="@string/candidate_message" >
+			</Button>
+			
+		    <Button 
+			    android:id="@+id/candidateSendMoreP4PButton"
+			    android:layout_width="0dp"
+			    android:layout_weight="0.5"
+			    android:layout_height="@dimen/candidate_action_btn_height"
+			    android:text="@string/candidate_sendMoreP4P" >
+			</Button>
+		    
+		</LinearLayout>
+		
+		<TextView        
+	        android:id="@+id/candidateDescription"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"
+	        android:layout_marginBottom="@dimen/general_margin"
+	        android:paddingLeft="@dimen/candidate_padding"
+	        android:paddingRight="@dimen/candidate_padding"
+	        android:singleLine="false"
+	        android:textSize="@dimen/candidate_descr_textSize" />
+		
+	</LinearLayout>
+
+</ScrollView>

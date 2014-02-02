@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/general_padding">
+	
+    <!-- removing scrollview prevents the full-screen property -->
+    <ScrollView
+        android:layout_width="match_parent"        
+        android:layout_height="match_parent"        
+        android:layout_alignParentBottom="true">
+    	<!-- layout_alignParentBottom has something to do with the keyboard -->
+    	    	
+        <EditText
+	        android:id="@+id/editTextMain"
+	        android:layout_width="match_parent"        
+	        android:layout_height="wrap_content"
+	        android:gravity="top"
+	        android:ems="10"
+	        android:inputType="textMultiLine" >
+	
+	        <!-- <requestFocus />  -->
+	    </EditText>
+    
+    </ScrollView>
+    
+</RelativeLayout>

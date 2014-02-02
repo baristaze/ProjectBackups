@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+	android:layout_height="match_parent"
+    android:padding="@dimen/general_padding">
+        
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+	   	
+	    <!-- HEADER TITLE -->
+	    <TextView
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="@dimen/general_margin"
+	        android:layout_marginLeft="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"		        
+	        android:layout_gravity="center"
+	        android:gravity="center"
+	        android:text="@string/my_public_profile"
+	        android:textColor="@android:color/holo_blue_light"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	    
+	    <!-- SEPARATOR -->
+	    <!-- 
+	    <View
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginLeft="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"
+		    android:background="@android:color/darker_gray"/>
+	     -->
+	     
+	    <!-- PHOTO -->	
+	    <LinearLayout
+	        android:layout_marginTop="@dimen/general_margin"
+	        android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal">
+		    
+	        <TextView
+	             android:layout_width="0dp"
+	             android:layout_weight="0.3"
+	             android:layout_height="wrap_content"
+	             android:layout_marginLeft="@dimen/general_margin"
+	             android:layout_marginRight="@dimen/general_margin"
+	             android:layout_gravity="center_vertical|right"
+	             android:gravity="center_vertical|right"
+	             android:text="@string/public_photo_label"
+	             android:textColor="@android:color/secondary_text_light"
+	             android:textAppearance="?android:attr/textAppearanceSmall" />
+	         	        
+	        <LinearLayout
+	             android:id="@+id/photoWrapper"
+	             android:layout_width="0dp"
+	             android:layout_weight="0.7"
+	             android:layout_height="wrap_content"
+	             android:layout_margin="@dimen/general_margin"
+	             android:layout_gravity="center_vertical|left"
+	             android:gravity="center_vertical|left">
+	             	         	
+	             <ImageView
+	                 android:id="@+id/thumbnailImage"
+	                 android:layout_width="@dimen/thumbnail_width"
+	                 android:layout_height="@dimen/thumbnail_height"
+	                 android:layout_gravity="center_vertical|left"
+	                 android:scaleType="centerCrop"
+	                 android:contentDescription="@string/photo_descr"
+	                 android:src="@android:drawable/ic_menu_crop"  >
+				 </ImageView> 
+				
+	         </LinearLayout>
+	         
+		</LinearLayout>
+		
+	    <!-- USER NAME -->
+	    <LinearLayout
+	        android:layout_marginTop="@dimen/general_margin"
+	        android:layout_marginBottom="@dimen/general_margin"	         
+	        android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal">
+		    
+	         <TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="0.3"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="@dimen/general_margin"
+		        android:layout_marginRight="@dimen/general_margin"		        
+		        android:layout_gravity="center_vertical|right"
+		        android:gravity="center_vertical|right"
+		        android:text="@string/screen_name_label"
+		        android:singleLine="true"
+		        android:textColor="@android:color/secondary_text_light"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+	         
+	         <TextView
+	            android:id="@+id/usernameText"
+		        android:layout_width="0dp"
+		        android:layout_weight="0.7"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="@dimen/general_margin"
+		        android:layout_marginRight="@dimen/general_margin"		        
+		        android:layout_gravity="center_vertical|left"
+		        android:gravity="center_vertical|left"
+		        android:textColor="#FF4444"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+	         
+		</LinearLayout>
+		
+	    <!-- GENDER -->
+	    <LinearLayout
+	        android:layout_marginTop="@dimen/general_margin"	         
+	        android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal" >
+		    
+	        <TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="0.3"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="@dimen/general_margin"
+		        android:layout_marginRight="@dimen/general_margin"		        
+		        android:layout_gravity="center_vertical|right"
+		        android:gravity="center_vertical|right"
+		        android:text="@string/gender_label"
+		        android:textColor="@android:color/secondary_text_light"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />  
+		    
+	        <TextView
+	            android:id="@+id/genderText"
+		        android:layout_width="0dp"
+		        android:layout_weight="0.7"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="@dimen/general_margin"
+		        android:layout_marginRight="@dimen/general_margin"		        
+		        android:layout_gravity="center_vertical|left"
+		        android:gravity="center_vertical|left"
+		        android:singleLine="true"
+		        android:textColor="@android:color/black"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+		    
+		</LinearLayout>
+		
+	    <!-- AGE -->
+	    <LinearLayout	         
+	        android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal">
+		    
+	        <TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="0.3"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="@dimen/general_margin"
+		        android:layout_marginRight="@dimen/general_margin"		        
+		        android:layout_gravity="center_vertical|right"
+		        android:gravity="center_vertical|right"
+		        android:text="@string/age_label"
+		        android:singleLine="true"
+		        android:textColor="@android:color/secondary_text_light"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />  
+		        
+		    <LinearLayout
+		        android:layout_width="0dp"
+			    android:layout_weight="0.7"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="@dimen/general_margin"
+			    android:layout_marginRight="@dimen/general_margin"
+			    android:gravity="center_vertical|left"
+			    android:orientation="horizontal">
+		        
+		        <TextView
+			        android:id="@+id/ageText"
+			        android:layout_width="0dp"
+			    	android:layout_weight="1.0"
+			    	android:layout_height="match_parent"
+			        android:layout_marginRight="@dimen/general_margin"
+			        android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:text="@string/required"
+			        android:singleLine="true"
+		        	android:textColor="#888888"
+		        	android:textAppearance="?android:attr/textAppearanceMedium" />	
+		        
+		        <ImageButton
+		            android:id="@+id/buttonAgeEdit"
+		            android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical|right"
+					android:contentDescription="@string/edit_button_description"
+					android:src="@android:drawable/ic_menu_edit"/>
+		        		        
+		    </LinearLayout>
+		    
+		</LinearLayout>
+		
+	    <!-- HOMETOWN -->
+	    <LinearLayout
+	        android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal">
+		    
+	        <TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="0.3"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="@dimen/general_margin"
+		        android:layout_marginRight="@dimen/general_margin"		        
+		        android:layout_gravity="center_vertical|right"
+		        android:gravity="center_vertical|right"
+		        android:text="@string/home_town_label"
+		        android:textColor="@android:color/secondary_text_light"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />  
+		        
+		    <LinearLayout
+		        android:layout_width="0dp"
+			    android:layout_weight="0.7"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="@dimen/general_margin"
+			    android:layout_marginRight="@dimen/general_margin"
+			    android:gravity="center_vertical|left"
+			    android:orientation="horizontal">
+		        
+		        <TextView
+			        android:id="@+id/homeTownText"
+			        android:layout_width="0dp"
+			    	android:layout_weight="1.0"
+			    	android:layout_height="match_parent"
+			        android:layout_marginRight="@dimen/general_margin"
+			        android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:text="@string/required"
+			        android:singleLine="true"
+		        	android:textColor="#888888"
+		        	android:textAppearance="?android:attr/textAppearanceMedium" />	
+		        
+		        <ImageButton
+		            android:id="@+id/buttonHomeTownEdit"
+		            android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical|right"
+					android:contentDescription="@string/edit_button_description"
+					android:src="@android:drawable/ic_menu_edit"/>
+		        		        
+		    </LinearLayout>
+		    
+		</LinearLayout>
+		
+	    <!-- RELATION STATUS -->
+	    <LinearLayout	         
+	        android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal">
+		    
+	        <TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="0.3"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="@dimen/general_margin"
+		        android:layout_marginRight="@dimen/general_margin"		        
+		        android:layout_gravity="center_vertical|right"
+		        android:gravity="center_vertical|right"
+		        android:text="@string/relation_status_label"
+		        android:textColor="@android:color/secondary_text_light"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />  
+		        
+		    <LinearLayout
+		        android:layout_width="0dp"
+			    android:layout_weight="0.7"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="@dimen/general_margin"
+			    android:layout_marginRight="@dimen/general_margin"
+			    android:gravity="center_vertical|left"
+			    android:orientation="horizontal">
+		        
+		        <TextView
+			        android:id="@+id/relationStatusText"
+			        android:layout_width="0dp"
+			    	android:layout_weight="1.0"
+			    	android:layout_height="match_parent"
+			        android:layout_marginRight="@dimen/general_margin"
+			        android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:text="@string/optional"
+			        android:singleLine="true"
+		        	android:textColor="#888888"
+		        	android:textAppearance="?android:attr/textAppearanceMedium" />	
+		        
+		        <ImageButton
+		            android:id="@+id/buttonRelationStatusEdit"
+		            android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical|right"
+					android:contentDescription="@string/edit_button_description"
+					android:src="@android:drawable/ic_menu_edit"/>
+		        		        
+		    </LinearLayout>
+		    
+		</LinearLayout>
+	    
+	    <!-- PROFESSION -->
+	    <LinearLayout	         
+	        android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal">
+		    
+	        <TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="0.3"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="@dimen/general_margin"
+		        android:layout_marginRight="@dimen/general_margin"		        
+		        android:layout_gravity="center_vertical|right"
+		        android:gravity="center_vertical|right"
+		        android:text="@string/profession_label"
+		        android:textColor="@android:color/secondary_text_light"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />  
+		        
+		    <LinearLayout
+		        android:layout_width="0dp"
+			    android:layout_weight="0.7"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="@dimen/general_margin"
+			    android:layout_marginRight="@dimen/general_margin"
+			    android:gravity="center_vertical|left"
+			    android:orientation="horizontal">
+		        
+		        <TextView
+			        android:id="@+id/professionText"
+			        android:layout_width="0dp"
+			    	android:layout_weight="1.0"
+			    	android:layout_height="match_parent"
+			        android:layout_marginRight="@dimen/general_margin"
+			        android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:text="@string/optional"
+			        android:singleLine="true"
+		        	android:textColor="#888888"
+		        	android:textAppearance="?android:attr/textAppearanceMedium" />	
+		        
+		        <ImageButton
+		            android:id="@+id/buttonProfessionEdit"
+		            android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical|right"
+					android:contentDescription="@string/edit_button_description"
+					android:src="@android:drawable/ic_menu_edit"/>
+		        		        
+		    </LinearLayout>
+		    
+		</LinearLayout>
+		
+	    <!-- EDUCATION -->
+	    <LinearLayout	         
+	        android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal">
+		    
+	        <TextView
+		        android:layout_width="0dp"
+		        android:layout_weight="0.3"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="@dimen/general_margin"
+		        android:layout_marginRight="@dimen/general_margin"		        
+		        android:layout_gravity="center_vertical|right"
+		        android:gravity="center_vertical|right"
+		        android:text="@string/education_level_label"
+		        android:textColor="@android:color/secondary_text_light"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />  
+		        
+		    <LinearLayout
+		        android:layout_width="0dp"
+			    android:layout_weight="0.7"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="@dimen/general_margin"
+			    android:layout_marginRight="@dimen/general_margin"
+			    android:gravity="center_vertical|left"
+			    android:orientation="horizontal">
+		        
+		        <TextView
+			        android:id="@+id/educationLevelText"
+			        android:layout_width="0dp"
+			    	android:layout_weight="1.0"
+			    	android:layout_height="match_parent"
+			        android:layout_marginRight="@dimen/general_margin"
+			        android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:text="@string/optional"
+			        android:singleLine="true"
+		        	android:textColor="#888888"
+		        	android:textAppearance="?android:attr/textAppearanceMedium" />	
+		        
+		        <ImageButton
+		            android:id="@+id/buttonEducationLevelEdit"
+		            android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical|right" 
+					android:contentDescription="@string/edit_button_description"       
+			        android:src="@android:drawable/ic_menu_edit"/>
+		        		        
+		    </LinearLayout>
+		    
+		</LinearLayout>
+		
+	    <Button
+	        android:id="@+id/finishButton"
+	        android:layout_width="match_parent"
+	        android:layout_height="@dimen/btn_continue_height"
+	        android:layout_marginTop="@dimen/general_margin_big"
+	        android:layout_marginLeft="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"
+	        android:layout_marginBottom="@dimen/general_margin"
+	        android:text="@string/finish" />
+		
+	</LinearLayout>
+	
+</ScrollView>

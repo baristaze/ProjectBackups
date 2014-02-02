@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignupActivity">
+    
+    <RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent">
+	    
+	    <ImageView
+		    android:id="@+id/imageView"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:scaleType="centerCrop"
+		    android:contentDescription="@string/photo_descr"
+		    android:src="@android:drawable/ic_menu_gallery"  >
+		</ImageView>    
+	    
+		<ProgressBar
+	        android:id="@+id/spinnerProgressBar"
+	        style="?android:attr/progressBarStyleLarge"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        android:indeterminate="true" />
+	
+	    <TextView
+	        android:id="@+id/feedbackTextView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/spinnerProgressBar"
+	        android:layout_centerHorizontal="true"
+	        android:text="@string/face_detect_analyzing"
+	        android:layout_marginTop="@dimen/general_margin"
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:textColor="@android:color/holo_blue_light" />
+    
+	</RelativeLayout>    
+    
+</FrameLayout>
+
+

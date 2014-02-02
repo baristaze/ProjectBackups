@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+	android:layout_height="match_parent"
+    android:padding="@dimen/general_padding">
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+	
+	    <TextView
+	        android:id="@+id/infoTextView"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	    
+		<LinearLayout
+	        android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="@dimen/general_padding"
+		    android:orientation="horizontal">
+	    	
+	    	<Button 
+	    	    android:id="@+id/galleryButton"
+	    	    android:layout_width="0dp"
+	    	    android:layout_weight="0.6"
+		    	android:layout_height="@dimen/btn_continue_height"		    	
+		    	android:text="@string/photo_gallery">
+		    	<!-- 
+		    	android:drawableStart="@android:drawable/ic_menu_gallery"
+		    	android:background="?android:attr/selectableItemBackground"
+		    	 -->	    
+	    	</Button>
+	    	
+	    	<!-- 
+	    	<View
+	            android:layout_width="1dp"
+	            android:layout_height="match_parent"
+	            android:layout_marginLeft="4dp"
+	            android:layout_marginRight="4dp"
+	            android:background="?android:attr/dividerVertical" />
+	    	-->
+	    	
+	    	<Button 
+	    	    android:id="@+id/cameraButton"
+	    	    android:layout_width="0dp"
+	    	    android:layout_weight="0.4"
+		    	android:layout_height="@dimen/btn_continue_height"
+		    	android:text="@string/photo_camera" >
+		    	<!-- 
+		    	android:drawableStart="@android:drawable/ic_menu_camera" 
+		    	android:background="?android:attr/selectableItemBackground" -->    	    
+	    	</Button>
+	    	
+	    	
+	    </LinearLayout>
+	
+	</LinearLayout>
+	
+</ScrollView>
