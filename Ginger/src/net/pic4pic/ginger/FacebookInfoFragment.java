@@ -24,6 +24,7 @@ import net.pic4pic.ginger.tasks.ImageDownloadTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.PageAdvancer;
 
+// informs about FaceBook
 public class FacebookInfoFragment extends Fragment {
 	
 	// constructor cannot have any parameters!!!
