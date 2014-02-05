@@ -2,10 +2,6 @@ package net.pic4pic.ginger.utils;
 
 import java.util.List;
 
-import net.pic4pic.ginger.ImageInfo;
-import net.pic4pic.ginger.MainActivity;
-import net.pic4pic.ginger.R;
-import net.pic4pic.ginger.tasks.ImageDownloadTask;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,6 +14,11 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import net.pic4pic.ginger.MainActivity;
+import net.pic4pic.ginger.R;
+import net.pic4pic.ginger.entities.ImageInfo;
+import net.pic4pic.ginger.tasks.ImageDownloadTask;
 
 public class ImageGalleryView {
 	

@@ -3,10 +3,6 @@ package net.pic4pic.ginger;
 import java.util.List;
 import java.util.Random;
 
-import net.pic4pic.ginger.tasks.ImageDownloadTask;
-import net.pic4pic.ginger.utils.ImageClickListener;
-import net.pic4pic.ginger.utils.ImageGalleryView;
-import net.pic4pic.ginger.utils.TextInputDialog;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,6 +21,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import net.pic4pic.ginger.entities.Familiarity;
+import net.pic4pic.ginger.entities.Gender;
+import net.pic4pic.ginger.entities.ImageInfo;
+import net.pic4pic.ginger.entities.Person;
+import net.pic4pic.ginger.tasks.ImageDownloadTask;
+import net.pic4pic.ginger.utils.ImageClickListener;
+import net.pic4pic.ginger.utils.ImageGalleryView;
+import net.pic4pic.ginger.utils.TextInputDialog;
 
 public class ProfileFragment extends Fragment implements TextInputDialog.TextInputListener {
 

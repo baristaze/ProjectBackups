@@ -2,13 +2,13 @@ package net.pic4pic.ginger.tasks;
 
 import java.util.List;
 
-import net.pic4pic.ginger.Familiarity;
-import net.pic4pic.ginger.Gender;
-import net.pic4pic.ginger.ImageInfo;
-import net.pic4pic.ginger.LaunchActivity;
-import net.pic4pic.ginger.Person;
-
 import android.os.AsyncTask;
+
+import net.pic4pic.ginger.LaunchActivity;
+import net.pic4pic.ginger.entities.Familiarity;
+import net.pic4pic.ginger.entities.Gender;
+import net.pic4pic.ginger.entities.ImageInfo;
+import net.pic4pic.ginger.entities.Person;
 
 public class SigninTask extends AsyncTask<String, Void, Person> {
 	

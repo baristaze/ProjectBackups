@@ -11,6 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 
+import net.pic4pic.ginger.entities.Familiarity;
+import net.pic4pic.ginger.entities.Gender;
+import net.pic4pic.ginger.entities.ImageInfo;
+import net.pic4pic.ginger.entities.Notification;
+import net.pic4pic.ginger.entities.NotificationAction;
+import net.pic4pic.ginger.entities.NotificationType;
+import net.pic4pic.ginger.entities.Person;
+
 public class NotificationListFragment extends Fragment {
 
 	// a public empty constructor is a must in fragment. 

@@ -1,8 +1,5 @@
 package net.pic4pic.ginger;
 
-import net.pic4pic.ginger.tasks.ImageDownloadTask;
-import net.pic4pic.ginger.utils.ImageClickListener;
-import net.pic4pic.ginger.utils.ImageGalleryView;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +10,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import net.pic4pic.ginger.entities.Familiarity;
+import net.pic4pic.ginger.entities.Gender;
+import net.pic4pic.ginger.entities.Person;
+import net.pic4pic.ginger.tasks.ImageDownloadTask;
+import net.pic4pic.ginger.utils.ImageClickListener;
+import net.pic4pic.ginger.utils.ImageGalleryView;
 
 public class PersonActivity extends Activity {
 

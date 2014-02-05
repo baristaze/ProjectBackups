@@ -1,8 +1,9 @@
-package net.pic4pic.ginger;
+package net.pic4pic.ginger.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
+
 
 public class Person implements Serializable {
 	

@@ -1,7 +1,5 @@
 package net.pic4pic.ginger;
 
-import net.pic4pic.ginger.tasks.SigninTask;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,6 +12,9 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import net.pic4pic.ginger.entities.Person;
+import net.pic4pic.ginger.tasks.SigninTask;
 
 public class LaunchActivity extends Activity {
 
@@ -31,11 +32,7 @@ public class LaunchActivity extends Activity {
 		String username = prefs.getString(this.getString(R.string.pref_username_key), null);
 		String password = prefs.getString(this.getString(R.string.pref_password_key), null);
 		int signupCompleted = prefs.getInt(this.getString(R.string.pref_signupComplete_key), 0);
-		/*
-		username = "foobar";
-		password = "1234";
-		signupCompleted = 1;
-		*/
+		
 		if(username != null && password != null && signupCompleted == 1){
 			// sign in
 			this.signIn(username, password);			

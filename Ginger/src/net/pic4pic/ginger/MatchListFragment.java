@@ -16,6 +16,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import net.pic4pic.ginger.entities.Gender;
+import net.pic4pic.ginger.entities.Person;
+
 public class MatchListFragment extends Fragment {
 	
 	// a public empty constructor is a must in fragment. 

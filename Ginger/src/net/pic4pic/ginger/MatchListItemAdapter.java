@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.pic4pic.ginger.entities.Person;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 
 public class MatchListItemAdapter extends ArrayAdapter<Person> {

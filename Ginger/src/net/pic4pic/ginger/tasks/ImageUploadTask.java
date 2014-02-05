@@ -5,11 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import net.pic4pic.ginger.GingerException;
-import net.pic4pic.ginger.entities.ImageUploadRequest;
-import net.pic4pic.ginger.entities.ImageUploadResponse;
-import net.pic4pic.ginger.utils.GingerNetUtils;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -18,6 +13,11 @@ import org.apache.http.entity.InputStreamEntity;
 
 import android.content.Context;
 import android.util.Log;
+
+import net.pic4pic.ginger.entities.GingerException;
+import net.pic4pic.ginger.entities.ImageUploadRequest;
+import net.pic4pic.ginger.entities.ImageUploadResponse;
+import net.pic4pic.ginger.utils.GingerNetUtils;
 
 public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadResponse> {
 

@@ -1,4 +1,4 @@
-package net.pic4pic.ginger;
+package net.pic4pic.ginger.entities;
 
 public class GingerException extends Exception {
 

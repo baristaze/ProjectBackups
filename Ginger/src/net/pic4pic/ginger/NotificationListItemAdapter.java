@@ -3,8 +3,6 @@ package net.pic4pic.ginger;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.pic4pic.ginger.tasks.ImageDownloadTask;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -15,6 +13,9 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import net.pic4pic.ginger.entities.Notification;
+import net.pic4pic.ginger.tasks.ImageDownloadTask;
 
 public class NotificationListItemAdapter extends BaseExpandableListAdapter {
 
@@ -30,7 +31,7 @@ public class NotificationListItemAdapter extends BaseExpandableListAdapter {
 	
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
-		return this.notifications.get(groupPosition).sender;
+		return this.notifications.get(groupPosition).getSender();
 	}
 
 	@Override

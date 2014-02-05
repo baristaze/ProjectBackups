@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.pic4pic.ginger.entities.Person;
+
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
 	public static final String SignedInPersonType = "net.pic4pic.ginger.SignedInPerson"; 

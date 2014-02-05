@@ -7,8 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Scanner;
 
-import net.pic4pic.ginger.GingerException;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -20,6 +18,8 @@ import org.apache.http.params.HttpParams;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import net.pic4pic.ginger.entities.GingerException;
 
 public class GingerNetUtils {
 

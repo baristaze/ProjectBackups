@@ -1,5 +1,6 @@
-package net.pic4pic.ginger;
+package net.pic4pic.ginger.entities;
 
+import net.pic4pic.ginger.R;
 import android.content.Context;
 
 public class Notification {
