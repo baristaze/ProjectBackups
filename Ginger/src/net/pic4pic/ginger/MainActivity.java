@@ -16,15 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import net.pic4pic.ginger.entities.Person;
+import net.pic4pic.ginger.entities.UserResponse;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
-	public static final String SignedInPersonType = "net.pic4pic.ginger.SignedInPerson"; 
+	public static final String AuthenticatedUserBundleType = "net.pic4pic.ginger.AuthenticatedUser"; 
 	public static final int CaptureCameraCode = 102;
 	public static final int PickFromGalleryCode = 103;
 	
-	private Person me;
+	private UserResponse me;
 	
 	private SectionsPagerAdapter mSectionsPagerAdapter;	
 	private ViewPager mViewPager;
@@ -35,8 +35,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		setContentView(R.layout.activity_main);
 		
 		Intent intent = getIntent();
-		this.me = (Person)intent.getSerializableExtra(SignedInPersonType);
-		Log.v("CurrentUser", "current user is: " + this.me.getUsername());
+		this.me = (UserResponse)intent.getSerializableExtra(AuthenticatedUserBundleType);
+		Log.v("CurrentUser", "current user is: " + this.me.getUserProfile().getUsername());
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();

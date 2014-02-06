@@ -1,5 +1,7 @@
 package net.pic4pic.ginger;
 
+import java.util.UUID;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -7,13 +9,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import net.pic4pic.ginger.entities.Person;
+import net.pic4pic.ginger.entities.UserCredentials;
+import net.pic4pic.ginger.entities.UserResponse;
+import net.pic4pic.ginger.service.Service;
 import net.pic4pic.ginger.tasks.SigninTask;
 
 public class LaunchActivity extends Activity {
@@ -22,6 +27,11 @@ public class LaunchActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_launch);
+		
+		UUID clientId = Service.getInstance().init(this);
+		if(clientId != null){
+			Log.i("ClientId", "ClientId = " + clientId.toString());
+		}
 		
 		this.signinOrSignup();
 	}
@@ -35,20 +45,23 @@ public class LaunchActivity extends Activity {
 		
 		if(username != null && password != null && signupCompleted == 1){
 			// sign in
-			this.signIn(username, password);			
+			UserCredentials credentials = new UserCredentials();
+			credentials.setUsername(username);
+			credentials.setPassword(password);
+			this.signIn(credentials);			
 		}
 		else{
 			// sign up
-			this.startSignUp(username, password);
+			this.startSignUp();
 		}
 	}
 	
-	private void signIn(String username, String password){
-		SigninTask asyncTask = new SigninTask(this, username, password);
+	private void signIn(UserCredentials credentials){
+		SigninTask asyncTask = new SigninTask(this, credentials);
 		asyncTask.execute(new String[]{});
 	}
 	
-	private void startSignUp(String username, String password){
+	private void startSignUp(){
 		Intent intent = new Intent(this, SignupActivity.class);
 		this.startActivity(intent);
 		this.finish();
@@ -61,14 +74,19 @@ public class LaunchActivity extends Activity {
 		return true;
 	}
 	
-	public void onSignin(Person person, final String username, final String password){
-		if(person != null){
+	public void onSignin(UserResponse response, final UserCredentials credentials){
+		
+		if(response.getErrorCode() == 0){
+			// successfully signed in
 			Intent intent = new Intent(this, MainActivity.class);
-			intent.putExtra(MainActivity.SignedInPersonType, person); 
+			intent.putExtra(MainActivity.AuthenticatedUserBundleType, response); 
 			this.startActivity(intent);
 			this.finish();
 		}
 		else{
+			
+			Log.e("Signin", response.getErrorMessage());
+			
 			final ProgressBar spinnerProgressBar = (ProgressBar)this.findViewById(R.id.spinnerProgressBar);
 			spinnerProgressBar.setVisibility(View.INVISIBLE);
 			
@@ -82,7 +100,7 @@ public class LaunchActivity extends Activity {
 		        public void onClick(DialogInterface dialog, int which) {
 		        	spinnerProgressBar.setVisibility(View.VISIBLE);
 		        	feedbackTextView.setVisibility(View.VISIBLE);
-		        	LaunchActivity.this.signIn(username, password);
+		        	LaunchActivity.this.signIn(credentials);
 		        }
 		     })
 		    .setNegativeButton(this.getString(R.string.general_close), new DialogInterface.OnClickListener() {

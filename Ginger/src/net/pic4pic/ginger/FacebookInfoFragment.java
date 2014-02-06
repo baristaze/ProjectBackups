@@ -178,7 +178,7 @@ public class FacebookInfoFragment extends Fragment {
 		this.getFacebookUserAsTest(session);
 	}
 	
-	private void getFacebookUserAsTest(Session session){	
+	private void getFacebookUserAsTest(final Session session){	
 		//make request to the /me API
 		Log.v("FacebookInfoFragment", "Retrieving Facebook user info...");
 		Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
@@ -195,7 +195,7 @@ public class FacebookInfoFragment extends Fragment {
 				else {
 					Log.v("FacebookInfoFragment", "Facebook user: " + user.getName());
 					//GingerHelpers.toast(FacebookInfoFragment.this.getActivity(), "You are " + user.getName());
-					FacebookInfoFragment.this.onFacebookUserRetrieval(user);
+					FacebookInfoFragment.this.onFacebookUserRetrieval(user, session.getAccessToken());
 				}
 			}
 		});
@@ -217,17 +217,43 @@ public class FacebookInfoFragment extends Fragment {
 		}
 		
 		return "Unspecified";
-	} 
+	}
 	
-	private void onFacebookUserRetrieval(GraphUser user){
+	private long getFacebookId(Object o){
+		if(o == null){
+			return 0;
+		}
+		
+		String s = o.toString();
+		
+		long id = 0;
+		try{		
+			id = Long.parseLong(s);
+		}
+		catch(NumberFormatException e){
+			id = 0;
+		}
+		
+		if(id < 0){
+			id = 0;
+		}
+		
+		return id;
+	}
+	
+	private void onFacebookUserRetrieval(GraphUser user, String facebookAccessToken){
 		
 		String gender = this.getGenderAsString(user.getProperty("gender"));
+		long fbId = this.getFacebookId(user.getProperty("id"));
 		
 		SharedPreferences prefs = this.getActivity().getSharedPreferences(
 			getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
 		
 		SharedPreferences.Editor editor = prefs.edit();		
 		editor.putString(this.getString(R.string.pref_user_gender_key), gender);
+		editor.putString(this.getString(R.string.pref_user_facebookid_key), facebookAccessToken);
+		editor.putLong(this.getString(R.string.pref_user_facebooktoken_key), fbId); 
+		
 		editor.commit();
 		
 		((PageAdvancer)this.getActivity()).moveToNextPage(0);

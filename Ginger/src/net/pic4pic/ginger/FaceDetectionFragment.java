@@ -32,7 +32,6 @@ public class FaceDetectionFragment extends Fragment
 	
 	private static final int MAX_FACE_COUNT = 5;
 	
-	private Bitmap faceDetectedBitmap;
 	private View uploadControls;
 	
 	// constructor cannot have any parameters!!!
@@ -97,7 +96,6 @@ public class FaceDetectionFragment extends Fragment
 			// temporarily draw this until we detect the faces
 			Bitmap bitmap = this.readAndShowImageBitmap(rootView);
 			if(bitmap != null){
-				this.faceDetectedBitmap = null;
 				FaceDetectionTask detectTask = new FaceDetectionTask(this, this.getActivity(), bitmap, MAX_FACE_COUNT);
 				detectTask.execute();
 			}
@@ -131,7 +129,6 @@ public class FaceDetectionFragment extends Fragment
 		}
 		else{
 			Log.v("Detection", "Detected Face Count: " + detectedFaces.length);
-			this.faceDetectedBitmap = bitmap;
 			drawGreenStrokesOnCanvas(bitmap, detectedFaces);	
 			showUploadControls();
 		}
@@ -152,25 +149,18 @@ public class FaceDetectionFragment extends Fragment
 		String absoluteFilePath = ImageStorageHelper.getAbsolutePath(this.getActivity(), fileName);
 		ImageUploadRequest request = new ImageUploadRequest();
 		request.setFullLocalPath(absoluteFilePath);
-		request.setWidth(this.faceDetectedBitmap.getWidth());
-		request.setHeight(this.faceDetectedBitmap.getHeight());
 		ImageUploadTask task = new ImageUploadTask(this, this.getActivity(), request);
-		String url = "http://p4p-web-svc.azurewebsites.net/file/upload";
-		task.execute(url);
+		task.execute();
 	}
 
 	@Override
 	public void onUpload(ImageUploadRequest request, ImageUploadResponse response) {
 		
-		String error = null;
-		if(response == null){
-			error = "Photo couldn't be uploaded. Please try again later!";
-		}
-		else if(response.getErrorCode() != 0){
-			error = response.getErrorMessage();
-		}
+		if(response.getErrorCode() != 0){
 			
-		if(error != null){
+			// String error = "Photo couldn't be uploaded. Please try again later!";		
+			String error = response.getErrorMessage();
+			
 			new AlertDialog.Builder(new ContextThemeWrapper(this.getActivity(), android.R.style.Theme_Holo_Dialog))
 		    .setTitle(this.getString(R.string.general_error_title))
 		    .setMessage(error)		    
@@ -195,15 +185,18 @@ public class FaceDetectionFragment extends Fragment
 					" & CreateTime: " + response.getFullImage().getCreateTimeUTC()
 					);*/
 			
-			Log.v("FaceDetectionFragment", "Full Image Url = " + response.getFullImage().getCloudUrl());
-			Log.v("FaceDetectionFragment", "Thumbnail Image Url = " + response.getThumbnail().getCloudUrl());
+			Log.v("FaceDetectionFragment", "Full Image Url = " + response.getImages().getFullSizeClear().getCloudUrl());
+			Log.v("FaceDetectionFragment", "Thumbnail Image Url = " + response.getImages().getThumbnailClear().getCloudUrl());
 			
 			SharedPreferences prefs = this.getActivity().getSharedPreferences(
 					getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
 			
 			SharedPreferences.Editor editor = prefs.edit();
-			editor.putString(this.getString(R.string.pref_user_bighoto_plain_key), response.getFullImage().getCloudUrl());
-			editor.putString(this.getString(R.string.pref_user_thumbnail_plain_key), response.getThumbnail().getCloudUrl());
+			editor.putString(this.getString(R.string.pref_user_bighoto_plain_key), response.getImages().getFullSizeClear().getCloudUrl());
+			editor.putString(this.getString(R.string.pref_user_thumbnail_plain_key), response.getImages().getThumbnailClear().getCloudUrl());
+			editor.putString(this.getString(R.string.pref_user_bighoto_blurred_key), response.getImages().getFullSizeBlurred().getCloudUrl());
+			editor.putString(this.getString(R.string.pref_user_thumbnail_blurred_key), response.getImages().getThumbnailBlurred().getCloudUrl());
+			editor.putString(this.getString(R.string.pref_user_uploadreference_key), response.getUploadReference());						
 			editor.commit();
 			
 			((PageAdvancer)this.getActivity()).moveToNextPage(0);

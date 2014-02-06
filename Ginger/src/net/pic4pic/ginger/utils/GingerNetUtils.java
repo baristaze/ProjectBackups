@@ -11,6 +11,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
@@ -54,7 +55,7 @@ public class GingerNetUtils {
 			Class<T> theClass) throws GingerException {
 
 		if (response == null) {
-			throw new GingerException("Response is null");
+			throw new GingerException("Response from service is null");
 		}
 
 		if (response.getStatusLine() == null) {
@@ -113,6 +114,41 @@ public class GingerNetUtils {
 		return gson.fromJson(json.toString(), theClass);
 	}
 
+	public static HttpEntity convertToHttpEntity(Object input) throws GingerException {
+		
+		// convert object to JSON string
+		String json = convertToJsonString(input);
+		
+		// convert JSON string to HttpEntity
+		StringEntity httpEntity = null;
+		try {
+			httpEntity = new StringEntity(json);			
+		} 
+		catch (UnsupportedEncodingException e) {
+			throw new GingerException("Unsupported Encoding Exception", e);
+		}
+				
+		// set the content type
+		httpEntity.setContentType("application/json");
+		
+		// return
+		return httpEntity;
+	}
+	
+	public static String convertToJsonString(Object input) throws GingerException {
+		
+		// check input
+		if (input == null) {
+			throw new GingerException("Object is null");
+		}
+		
+		// create a GSON object
+		Gson gson = createGson();
+		
+		// convert to JSON string
+		return gson.toJson(input);
+	}
+	
 	public static Gson createGson() {
 
 		// Creates the json object which will manage the information received

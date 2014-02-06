@@ -1,29 +1,44 @@
 package net.pic4pic.ginger.entities;
 
+import java.io.Serializable;
 
-import com.google.gson.annotations.*;
+import com.google.gson.annotations.SerializedName;
 
-public class ImageUploadResponse extends BaseResponse {
+public class ImageUploadResponse extends BaseResponse implements Serializable {
 	
-	@SerializedName("FullImage")
-	protected ImageFile fullImage;
+	private static final long serialVersionUID = 1;
 	
-	@SerializedName("Thumbnail")
-	protected ImageFile thumbnail;
-	
-	public ImageFile getFullImage(){
-		return this.fullImage;
+	@SerializedName("Images")
+	protected UserProfilePics images;
+
+	@SerializedName("UploadReference")
+	protected String uploadReference;
+
+	/**
+	 * @return the images
+	 */
+	public UserProfilePics getImages() {
+		return images;
 	}
-	
-	public ImageFile getThumbnail(){
-		return this.thumbnail;
+
+	/**
+	 * @param images the images to set
+	 */
+	public void setImages(UserProfilePics images) {
+		this.images = images;
 	}
-	
-	public void setFullImage(ImageFile fullImage){
-		this.fullImage = fullImage;
+
+	/**
+	 * @return the uploadReference
+	 */
+	public String getUploadReference() {
+		return uploadReference;
 	}
-	
-	public void setThumbnail(ImageFile thumbnail){
-		this.thumbnail = thumbnail;
+
+	/**
+	 * @param uploadReference the uploadReference to set
+	 */
+	public void setUploadReference(String uploadReference) {
+		this.uploadReference = uploadReference;
 	}
 }

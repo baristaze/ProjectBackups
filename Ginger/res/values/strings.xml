@@ -48,10 +48,15 @@
     <string name="pref_username_key">saved_username</string>
     <string name="pref_password_key">saved_password</string>
     <string name="pref_signupComplete_key">saved_signup_status</string>
+    <string name="pref_user_authtoken_key">saved_authtoken</string>
+    <string name="pref_user_clientid_key">saved_clientid</string>
     <string name="pref_user_thumbnail_plain_key">saved_thumbnail_plain_url</string>
     <string name="pref_user_bighoto_plain_key">saved_bigphoto_plain_url</string>
     <string name="pref_user_thumbnail_blurred_key">saved_thumbnail_blurred_url</string>
     <string name="pref_user_bighoto_blurred_key">saved_bigphoto_blurred_url</string>
+    <string name="pref_user_uploadreference_key">saved_uploadreference</string>
+    <string name="pref_user_facebookid_key">saved_facebookid</string>
+    <string name="pref_user_facebooktoken_key">saved_facebooktoken</string>
     <string name="pref_user_gender_key">saved_gender</string>
     <string name="pref_user_birthday_key">saved_birthday</string>
     <string name="pref_user_hometown_city_key">saved_hometown_city</string>

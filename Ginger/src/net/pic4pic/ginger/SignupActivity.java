@@ -177,18 +177,18 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 	
 	public static class SignupPagerAdapter extends FragmentPagerAdapter{
 		
-		private SignupFragment signupFragment;
+		private CheckUsernameFragment checkUsernameFragment;
 		private PhotoInfoFragment photoInfoFragment;
 		private FaceDetectionFragment faceDetectionFragment;
 		private FacebookInfoFragment facebookInfoFragment;
 		private PersonalDetailsFragment personalDetailsFragment;
 		
-		private synchronized SignupFragment getSignupFragment(){
-			if(this.signupFragment == null){
-				this.signupFragment = new SignupFragment();
+		private synchronized CheckUsernameFragment getCheckUsernameFragment(){
+			if(this.checkUsernameFragment == null){
+				this.checkUsernameFragment = new CheckUsernameFragment();
 			}
 			
-			return this.signupFragment;
+			return this.checkUsernameFragment;
 		}
 		
 		private synchronized PhotoInfoFragment getPhotoInfoFragment(){
@@ -230,8 +230,8 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 		@Override
 		public Fragment getItem(int fragmentIndex) {
 			if(fragmentIndex == FRAG_INDEX_SIGN_UP){
-				return this.getSignupFragment();
-				// return new SignupFragment();
+				return this.getCheckUsernameFragment();
+				// return new CheckUsernameFragment();
 			}
 			else if(fragmentIndex == FRAG_INDEX_PHOTO_INFO){
 				return this.getPhotoInfoFragment();

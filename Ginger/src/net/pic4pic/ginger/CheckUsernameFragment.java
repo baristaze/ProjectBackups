@@ -1,9 +1,7 @@
 package net.pic4pic.ginger;
 
-import net.pic4pic.ginger.tasks.SignupTask;
-import net.pic4pic.ginger.utils.GingerHelpers;
-import net.pic4pic.ginger.utils.PageAdvancer;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,10 +13,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class SignupFragment extends Fragment implements SignupTask.SignupListener {
+import net.pic4pic.ginger.entities.UserCredentials;
+import net.pic4pic.ginger.entities.UserResponse;
+import net.pic4pic.ginger.tasks.CheckUsernameTask;
+import net.pic4pic.ginger.utils.GingerHelpers;
+import net.pic4pic.ginger.utils.PageAdvancer;
+
+public class CheckUsernameFragment extends Fragment implements CheckUsernameTask.CheckUsernameListener {
 	
 	// constructor cannot have any parameters!!!
-	public SignupFragment(/*no parameter here please*/){
+	public CheckUsernameFragment(/*no parameter here please*/){
 	}
 		
 	@Override
@@ -27,7 +31,7 @@ public class SignupFragment extends Fragment implements SignupTask.SignupListene
 		// other fragments might have hidden the bar
 		this.getActivity().getActionBar().show();
 		
-		View rootView = inflater.inflate(R.layout.fragment_signup, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_checkusername, container, false);
 		this._applyData(rootView);
 		
 		final EditText usernameEditText = (EditText)(rootView.findViewById(R.id.usernameEditText));
@@ -37,8 +41,8 @@ public class SignupFragment extends Fragment implements SignupTask.SignupListene
 		continueButton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {				
-				GingerHelpers.hideKeyboard(SignupFragment.this.getActivity(), usernameEditText);
-				GingerHelpers.hideKeyboard(SignupFragment.this.getActivity(), passwordEditText);
+				GingerHelpers.hideKeyboard(CheckUsernameFragment.this.getActivity(), usernameEditText);
+				GingerHelpers.hideKeyboard(CheckUsernameFragment.this.getActivity(), passwordEditText);
 				signUp();
 			}});
 		
@@ -66,7 +70,7 @@ public class SignupFragment extends Fragment implements SignupTask.SignupListene
 			_applyData(rootView);
 		}	
 		else{
-			Log.e("SignupFragment", "applyData() has been called before onCreateView() of SignupFragment");
+			Log.e("CheckUsernameFragment", "applyData() has been called before onCreateView() of CheckUsernameFragment");
 		}
 	}
 	
@@ -99,25 +103,48 @@ public class SignupFragment extends Fragment implements SignupTask.SignupListene
 		
 		Button continueButton = (Button)(rootView.findViewById(R.id.continueButton));
 		
-		SignupTask asyncTask = new SignupTask(this, this.getActivity(), continueButton, username, password);
+		// prepare input
+		UserCredentials credentials = new UserCredentials();
+		credentials.setUsername(username);
+		credentials.setPassword(password);
+		
+		// call the task asynchronously... it will make a web service call. see results onSignup method
+		CheckUsernameTask asyncTask = new CheckUsernameTask(this, this.getActivity(), continueButton,credentials);
 		asyncTask.execute(new String[]{});
 	}
 	
-	public void onSignup(String errorMessage, String username, String password){
-		if(errorMessage == null || errorMessage.trim().length() == 0){
+	@Override
+	public void onCheckUser(UserResponse response, UserCredentials credentials){
+		/**
+         * ErrorCode != 0 : UserName is already in use
+         * ErrorCode == 0 & AuthToken == null => UserName is available
+         * ErrorCode == 0 & AuthToken != null => User is already signed up
+         */
+		if(response.getErrorCode() != 0){
+			// ErrorCode != 0 : UserName is already in use
+			Log.i("CheckUserName", response.getErrorMessage());			
+			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
+		}
+		else if (response.getAuthToken() == null || response.getAuthToken().trim().length() == 0){
+			// ErrorCode == 0 & AuthToken == null => UserName is available
 			
 			SharedPreferences prefs = this.getActivity().getSharedPreferences(
 					getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
 			
 			SharedPreferences.Editor editor = prefs.edit();
-			editor.putString(this.getString(R.string.pref_username_key), username);
-			editor.putString(this.getString(R.string.pref_password_key), password);
+			editor.putString(this.getString(R.string.pref_username_key), credentials.getUsername());
+			editor.putString(this.getString(R.string.pref_password_key), credentials.getPassword());
 			editor.commit();
 			
 			((PageAdvancer)this.getActivity()).moveToNextPage(0);
 		}
 		else{
-			GingerHelpers.showErrorMessage(this.getActivity(), errorMessage);
+			// ErrorCode == 0 & AuthToken != null => User is already signed up
+			// launch the view for the signed-in use
+			Intent intent = new Intent(this.getActivity(), MainActivity.class);
+			intent.putExtra(MainActivity.AuthenticatedUserBundleType, response); 
+			this.startActivity(intent);
+			this.getActivity().finish();
 		}
 	}
 }

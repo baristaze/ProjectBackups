@@ -1,8 +1,12 @@
 package net.pic4pic.ginger.entities;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class BaseResponse {
+public class BaseResponse implements Serializable {
+	
+	private static final long serialVersionUID = 1;
 	
 	@SerializedName("ErrorCode")
 	protected int errorCode;

@@ -1,17 +1,18 @@
 package net.pic4pic.ginger.entities;
 
+import java.util.UUID;
 import com.google.gson.annotations.SerializedName;
 
 public class Identifiable {
     
 	@SerializedName("Id")
-	protected long id;
+	protected UUID id;
 	
-	public long getId(){
+	public UUID getId(){
 		return this.id;
 	}
 	
-	public void setId(long id){
+	public void setId(UUID id){
 		this.id = id;
 	}
 }
