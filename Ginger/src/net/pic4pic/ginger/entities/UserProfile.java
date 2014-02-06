@@ -212,4 +212,29 @@ public class UserProfile implements Serializable {
 	public void setLastUpdateTimeUTC(Date lastUpdateTimeUTC) {
 		this.lastUpdateTimeUTC = lastUpdateTimeUTC;
 	}
+	
+	/**
+	 * gets the education level as string
+	 * @return
+	 */
+	public String getEducationLevelAsString(){
+		
+		if(this.educationLevel == EducationLevel.Elementary){
+			return "Elementary";
+		}
+		else if(this.educationLevel == EducationLevel.HighSchool){
+			return "High School";
+		}
+		else if(this.educationLevel == EducationLevel.College){
+			return "College";
+		}		
+		else if(this.educationLevel == EducationLevel.Master){
+			return "Master";
+		}
+		else if(this.educationLevel == EducationLevel.PhdOrAbove){
+			return "PhD or above";
+		}
+		
+	    return "Unknown";	    
+	}
 }

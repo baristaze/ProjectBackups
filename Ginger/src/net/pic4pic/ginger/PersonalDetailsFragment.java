@@ -7,18 +7,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.facebook.Request;
-import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
-import com.facebook.model.GraphObject;
-import com.facebook.model.GraphUser;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,14 +27,27 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.pic4pic.ginger.entities.EducationLevel;
+import net.pic4pic.ginger.entities.MaritalStatus;
+import net.pic4pic.ginger.entities.UserProfile;
+import net.pic4pic.ginger.entities.UserResponse;
+import net.pic4pic.ginger.entities.VerifyBioRequest;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
+import net.pic4pic.ginger.tasks.VerifyBioTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
 
 @SuppressLint("ResourceAsColor")
-public class PersonalDetailsFragment extends Fragment {
+public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.VerifyBioListener{
+
+	private UserResponse userInfo = null;
+	private Button finishButton = null;
 	
 	// constructor cannot have any parameters!!!
-	public PersonalDetailsFragment(/*no parameter here please*/){
+	public PersonalDetailsFragment(/*no parameter here please*/){		 
+	}	
+	
+	public void setUserResponse(UserResponse userInfo){
+		this.userInfo = userInfo;
 	}
 	
 	@Override
@@ -89,11 +96,25 @@ public class PersonalDetailsFragment extends Fragment {
 						"user_education_history", "education", R.string.pref_user_education_key, R.id.educationLevelText);					
 			}});
 		
-		Button finishButton = (Button)(rootView.findViewById(R.id.finishButton));
-		finishButton.setOnClickListener(new OnClickListener(){
+		this.finishButton = (Button)(rootView.findViewById(R.id.finishButton));
+		this.finishButton.setOnClickListener(new OnClickListener(){
 			@Override
-			public void onClick(View v) {				
-				// ((PageAdvancer)PersonalDetailsFragment.this.getActivity()).moveToNextPage(0);				
+			public void onClick(View v) {
+				
+				// flag that signup is done
+				SharedPreferences prefs = PersonalDetailsFragment.this.getActivity().getSharedPreferences(
+						getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
+					
+				SharedPreferences.Editor editor = prefs.edit();		
+				editor.putInt(PersonalDetailsFragment.this.getString(R.string.pref_signupComplete_key), 1);
+				editor.commit();
+				
+				// launch the main activity
+				Intent intent = new Intent(PersonalDetailsFragment.this.getActivity(), MainActivity.class);
+				// TODO: userInfo might get wiped out?
+				intent.putExtra(MainActivity.AuthenticatedUserBundleType, PersonalDetailsFragment.this.userInfo); 
+				PersonalDetailsFragment.this.startActivity(intent);
+				PersonalDetailsFragment.this.getActivity().finish();				
 			}});
 		
 		return rootView;
@@ -130,7 +151,9 @@ public class PersonalDetailsFragment extends Fragment {
 				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Date birthDate =  format.parse(birthday);
 				int ageInt = this.calculateAge(birthDate);
-				age = Integer.toString(ageInt);
+				if(ageInt > 0 && ageInt < 120){
+					age = Integer.toString(ageInt);
+				}
 			}
 			catch(Exception ex){
 				Log.e("PersonalDetailsFragment", ex.toString());
@@ -174,6 +197,7 @@ public class PersonalDetailsFragment extends Fragment {
 		}
 		
 		Log.v("PersonalDetailsFragment", "Thumbnail Url = " + thumbnailUrl);
+		
 		if(thumbnailUrl != null && !thumbnailUrl.isEmpty()){
 			ImageView imageView = (ImageView)(rootView.findViewById(R.id.thumbnailImage));
 			ImageDownloadTask asyncTask = new ImageDownloadTask(imageView);
@@ -212,13 +236,118 @@ public class PersonalDetailsFragment extends Fragment {
 				// session is never null indeed...
 				if (session != null && session.isOpened()) {
 					if(session.getPermissions().contains(requiredPermission)){
-						PersonalDetailsFragment.this.getFacebookUser(session, fieldName, userSettingsKeyForField, matchingTextViewId);
+						// PersonalDetailsFragment.this.getFacebookUser(session, fieldName, userSettingsKeyForField, matchingTextViewId);
+						PersonalDetailsFragment.this.startVerifyBio(session, fieldName, userSettingsKeyForField, matchingTextViewId);
 					}					
 				}
 			}
 		});
 	}
 	
+	private void startVerifyBio(Session session, final String fieldName, final int userSettingsKeyForField, final int matchingTextViewId){
+		
+		SharedPreferences prefs = this.getActivity().getSharedPreferences(
+				getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
+		
+		String facebookAccessToken = prefs.getString(this.getString(R.string.pref_user_facebookid_key), "");
+		long facebookUserId = prefs.getLong(this.getString(R.string.pref_user_facebooktoken_key), 0);
+		
+		// prepare verification request		
+		VerifyBioRequest request = new VerifyBioRequest();
+		request.setFacebookUserId(facebookUserId);
+		request.setFacebookAccessToken(facebookAccessToken);
+		request.setUserFields(fieldName); // comma separated
+		
+		// start verifying... 
+		VerifyBioTask task = new VerifyBioTask(this, this.getActivity(), this.finishButton, request);
+		task.execute();
+	}
+		
+	public void onVerifyBio(UserResponse response, VerifyBioRequest request){
+		
+		if(response.getErrorCode() != 0){
+			//  "We couldn't verify your data with Facebook"
+			Log.e("PersonalDetailsFragment", response.getErrorMessage());
+			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
+		}
+		else{
+			
+			this.userInfo = response;
+			UserProfile user = response.getUserProfile();
+						
+			SharedPreferences prefs = this.getActivity().getSharedPreferences(
+					getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
+				
+			SharedPreferences.Editor editor = prefs.edit();		
+			editor.putString(this.getString(R.string.pref_user_gender_key), user.getGender().toString());
+			
+			if(user.getHometownCity() != null && user.getHometownCity().trim().length() > 0){
+				String data = user.getHometownCity().trim();
+				editor.putString(this.getString(R.string.pref_user_hometown_city_key), data);
+				this.updatePageField(data, R.id.homeTownText);
+			}
+			
+			if(user.getMaritalStatus() != MaritalStatus.Unknown){
+				String data = user.getMaritalStatus().toString();
+				editor.putString(this.getString(R.string.pref_user_relation_status), data);
+				this.updatePageField(data, R.id.relationStatusText);
+			}
+			
+			if(user.getProfession() != null && user.getProfession().trim().length() > 0){
+				String data = user.getProfession().trim();
+				editor.putString(this.getString(R.string.pref_user_profession_key), data);
+				this.updatePageField(data, R.id.professionText);
+			}
+			
+			if(user.getEducationLevel() != EducationLevel.Unknown){
+				String data = user.getEducationLevelAsString();
+				editor.putString(this.getString(R.string.pref_user_education_key), data);
+				this.updatePageField(data, R.id.educationLevelText);
+			}
+			
+			if(user.getBirthDay() != null){
+				
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String data = format.format(user.getBirthDay());				
+				editor.putString(this.getString(R.string.pref_user_education_key), data);
+				this.updatePageField(data, R.id.ageText);
+			}
+			
+			editor.commit();
+		}
+	}
+	
+	private void updatePageField(String userFriendlyValue, int matchingTextViewId){
+		View rootView = this.getView();
+		TextView textView = (TextView)(rootView.findViewById(matchingTextViewId));
+		textView.setText(userFriendlyValue);
+		this.setActiveColor(textView);
+	}
+	
+	private void setActiveColor(TextView textView){		
+		// int color = this.getResources().getColor(android.R.color.holo_blue_light);
+		// textView.setTextColor(color);
+		textView.setTextColor(Color.BLACK);
+		// android.R.color.
+	}
+	
+	private int calculateAge(Date birthDate){
+		Calendar dob = Calendar.getInstance();  
+		dob.setTime(birthDate);  
+		Calendar today = Calendar.getInstance();  
+		int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);  
+		if (today.get(Calendar.MONTH) < dob.get(Calendar.MONTH)) {
+		  age--;  
+		} 
+		else if (today.get(Calendar.MONTH) == dob.get(Calendar.MONTH)
+		    && today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH)) {
+		  age--;  
+		}
+		
+		return age;
+	}
+	
+	/*
 	private void getFacebookUser(Session session, final String fieldName, final int userSettingsKeyForField, final int matchingTextViewId){	
 		//make request to the /me API
 		Log.v("PersonalDetailsFragment", "Retrieving Facebook user info...");
@@ -272,38 +401,6 @@ public class PersonalDetailsFragment extends Fragment {
 		TextView textView = (TextView)(rootView.findViewById(matchingTextViewId));
 		textView.setText(userFriendlyValue);
 		this.setActiveColor(textView);
-		
-		/*
-		LinearLayout parent = (LinearLayout)textView.getParent();
-		if(parent.getChildCount() > 1){
-			Log.v("PersonalDetailsFragment", "Removing button for " + fieldName);
-			parent.removeViewAt(1);
-			parent.invalidate();
-		}
-		*/
-	}
-	
-	private void setActiveColor(TextView textView){		
-		// int color = this.getResources().getColor(android.R.color.holo_blue_light);
-		// textView.setTextColor(color);
-		textView.setTextColor(Color.BLACK);
-		// android.R.color.
-	}
-	
-	private int calculateAge(Date birthDate){
-		Calendar dob = Calendar.getInstance();  
-		dob.setTime(birthDate);  
-		Calendar today = Calendar.getInstance();  
-		int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);  
-		if (today.get(Calendar.MONTH) < dob.get(Calendar.MONTH)) {
-		  age--;  
-		} 
-		else if (today.get(Calendar.MONTH) == dob.get(Calendar.MONTH)
-		    && today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH)) {
-		  age--;  
-		}
-		
-		return age;
 	}
 	
 	private String getUserFriendlyFieldValue(String fieldName, String fieldValue){
@@ -421,4 +518,5 @@ public class PersonalDetailsFragment extends Fragment {
 		
 		return null;
 	}
+	*/	
 }

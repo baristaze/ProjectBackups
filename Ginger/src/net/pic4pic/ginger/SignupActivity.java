@@ -30,7 +30,7 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 	private static final int FRAG_INDEX_PHOTO_INFO = 1;
 	private static final int FRAG_INDEX_FACE_DETECT = 2;
 	private static final int FRAG_INDEX_FBOOK_INFO = 3;
-	private static final int FRAG_INDEX_PERSONAL_DETAILS = 4;
+	public static final int FRAG_INDEX_PERSONAL_DETAILS = 4;
 	
 	private NonSwipeableViewPager fragmentPager;
 	private SignupPagerAdapter fragmentPagerAdapter;

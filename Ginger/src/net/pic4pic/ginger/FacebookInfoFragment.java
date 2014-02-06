@@ -1,5 +1,7 @@
 package net.pic4pic.ginger;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +22,19 @@ import android.widget.TextView;
 import com.facebook.*;
 import com.facebook.model.GraphUser;
 
+import net.pic4pic.ginger.entities.EducationLevel;
+import net.pic4pic.ginger.entities.MaritalStatus;
+import net.pic4pic.ginger.entities.SignupRequest;
+import net.pic4pic.ginger.entities.UserProfile;
+import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
+import net.pic4pic.ginger.tasks.SignupTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.PageAdvancer;
 
-public class FacebookInfoFragment extends Fragment {
+public class FacebookInfoFragment extends Fragment implements SignupTask.SignupListener {
+	
+	private Button continueButton;
 	
 	// constructor cannot have any parameters!!!
 	public FacebookInfoFragment(/*no parameter here please*/){
@@ -36,8 +46,8 @@ public class FacebookInfoFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_facebook_info, container, false);
 		this._applyData(rootView);
 		
-		Button continueButton = (Button)(rootView.findViewById(R.id.continueButton));
-		continueButton.setOnClickListener(new OnClickListener(){
+		this.continueButton = (Button)(rootView.findViewById(R.id.continueButton));
+		this.continueButton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {				
 				// ((PageAdvancer)FacebookInfoFragment.this.getActivity()).moveToNextPage(0);
@@ -142,6 +152,7 @@ public class FacebookInfoFragment extends Fragment {
 		List<String> permissions = new ArrayList<String>();
         permissions.add("email");
         /*
+        // gender doesn't require any permission
         permissions.add("user_hometown");				// field = hometown
         permissions.add("user_birthday");				// field = birthday
         permissions.add("user_work_history");			// field = work
@@ -172,13 +183,11 @@ public class FacebookInfoFragment extends Fragment {
         return true;
     }
 	
-	private void onFacebookLoginWithPermissions(Session session){
+	private void onFacebookLoginWithPermissions(final Session session){
+		
 		Log.v("FacebookInfoFragment", "Facebook token: " + session.getAccessToken());
 		// GingerHelpers.toast(FacebookInfoFragment.this.getActivity(), "Logged in to Facebook!");
-		this.getFacebookUserAsTest(session);
-	}
-	
-	private void getFacebookUserAsTest(final Session session){	
+		
 		//make request to the /me API
 		Log.v("FacebookInfoFragment", "Retrieving Facebook user info...");
 		Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
@@ -195,7 +204,7 @@ public class FacebookInfoFragment extends Fragment {
 				else {
 					Log.v("FacebookInfoFragment", "Facebook user: " + user.getName());
 					//GingerHelpers.toast(FacebookInfoFragment.this.getActivity(), "You are " + user.getName());
-					FacebookInfoFragment.this.onFacebookUserRetrieval(user, session.getAccessToken());
+					FacebookInfoFragment.this.onFacebookUserRetrieval(user, session.getAccessToken(), user.getId());
 				}
 			}
 		});
@@ -203,59 +212,82 @@ public class FacebookInfoFragment extends Fragment {
 		Request.executeBatchAsync(request);
 	}
 	
-	private String getGenderAsString(Object o){
-		if(o == null){
-			return "Unspecified";
-		}
-		
-		if(o.toString().compareToIgnoreCase("Male") == 0){
-			return "Male";
-		}
-		
-		if(o.toString().compareToIgnoreCase("Female") == 0){
-			return "Female";
-		}
-		
-		return "Unspecified";
-	}
-	
-	private long getFacebookId(Object o){
-		if(o == null){
-			return 0;
-		}
-		
-		String s = o.toString();
-		
-		long id = 0;
-		try{		
-			id = Long.parseLong(s);
-		}
-		catch(NumberFormatException e){
-			id = 0;
-		}
-		
-		if(id < 0){
-			id = 0;
-		}
-		
-		return id;
-	}
-	
-	private void onFacebookUserRetrieval(GraphUser user, String facebookAccessToken){
-		
-		String gender = this.getGenderAsString(user.getProperty("gender"));
-		long fbId = this.getFacebookId(user.getProperty("id"));
+	private void onFacebookUserRetrieval(GraphUser user, String facebookAccessToken, String userIdAsText){
+				
+		long facebookUserId = Long.parseLong(userIdAsText);
 		
 		SharedPreferences prefs = this.getActivity().getSharedPreferences(
-			getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
+				getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
 		
-		SharedPreferences.Editor editor = prefs.edit();		
-		editor.putString(this.getString(R.string.pref_user_gender_key), gender);
+		String username = prefs.getString(this.getString(R.string.pref_username_key), "");	
+		String password = prefs.getString(this.getString(R.string.pref_password_key), "");
+		String photoUploadReference = prefs.getString(this.getString(R.string.pref_user_uploadreference_key), "");
+		
+		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString(this.getString(R.string.pref_user_facebookid_key), facebookAccessToken);
-		editor.putLong(this.getString(R.string.pref_user_facebooktoken_key), fbId); 
-		
+		editor.putLong(this.getString(R.string.pref_user_facebooktoken_key), facebookUserId);
 		editor.commit();
 		
+		// prepare sign up request		
+		SignupRequest request = new SignupRequest();
+		request.setUsername(username);
+		request.setPassword(password);
+		request.setFacebookUserId(facebookUserId);
+		request.setFacebookAccessToken(facebookAccessToken);
+		request.setPhotoUploadReference(photoUploadReference);
+		
+		// start sign up
+		SignupTask task = new SignupTask(this, this.getActivity(), this.continueButton, request);
+		task.execute();
+	}	
+	
+	@Override
+	public void onSignup(UserResponse response, SignupRequest request){
+		
+		if(response.getErrorCode() != 0){
+			//  "We couldn't verify your data with Facebook"
+			Log.e("FacebookInfoFragment", response.getErrorMessage());
+			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
+		}
+		else{
+			
+			UserProfile user = response.getUserProfile();
+						
+			SharedPreferences prefs = this.getActivity().getSharedPreferences(
+					getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
+				
+			SharedPreferences.Editor editor = prefs.edit();		
+			editor.putString(this.getString(R.string.pref_user_gender_key), user.getGender().toString());
+			
+			if(user.getHometownCity() != null && user.getHometownCity().trim().length() > 0){
+				editor.putString(this.getString(R.string.pref_user_hometown_city_key), user.getHometownCity().trim());
+			}
+			
+			if(user.getMaritalStatus() != MaritalStatus.Unknown){
+				editor.putString(this.getString(R.string.pref_user_relation_status), user.getMaritalStatus().toString());
+			}
+			
+			if(user.getProfession() != null && user.getProfession().trim().length() > 0){
+				editor.putString(this.getString(R.string.pref_user_profession_key), user.getProfession().trim());
+			}
+			
+			if(user.getEducationLevel() != EducationLevel.Unknown){
+				editor.putString(this.getString(R.string.pref_user_education_key), user.getEducationLevelAsString());	
+			}
+			
+			if(user.getBirthDay() != null){
+				
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String birthDateAsText = format.format(user.getBirthDay());				
+				editor.putString(this.getString(R.string.pref_user_education_key), birthDateAsText);
+			}
+			
+			editor.commit();
+		}		
+		
+		SignupActivity activity = ((SignupActivity)this.getActivity());
+		PersonalDetailsFragment nextFragment = (PersonalDetailsFragment)activity.getFragment(SignupActivity.FRAG_INDEX_PERSONAL_DETAILS);
+		nextFragment.setUserResponse(response);
 		((PageAdvancer)this.getActivity()).moveToNextPage(0);
 	}
 }

@@ -4,19 +4,19 @@ import android.content.Context;
 import android.widget.Button;
 
 import net.pic4pic.ginger.entities.GingerException;
-import net.pic4pic.ginger.entities.UserCredentials;
+import net.pic4pic.ginger.entities.SignupRequest;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.service.Service;
 
-public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
+public class SignupTask extends BlockedTask<String, Void, UserResponse> {
 	
-	private CheckUsernameListener listener;
-	private UserCredentials credentials;
+	private SignupListener listener;
+	private SignupRequest request;
 	
-	public CheckUsernameTask(CheckUsernameListener listener, Context context, Button button, UserCredentials credentials){			
+	public SignupTask(SignupListener listener, Context context, Button button, SignupRequest request){			
 		super(context, button);		
 		this.listener = listener;
-		this.credentials = credentials;
+		this.request = request;
 	}
 		
     @Override
@@ -24,7 +24,7 @@ public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
     	// make an HTTP post in a RESTfull way. Use JSON. 
     	// Once you get the data, convert it to UserResponse
     	try {
-			return Service.getInstance().checkUsername(this.context, this.credentials);
+			return Service.getInstance().signup(this.context, this.request);
 		} 
     	catch (GingerException e) {
 			UserResponse response = new UserResponse();
@@ -35,17 +35,17 @@ public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
     	catch(Exception e){
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);
-			response.setErrorMessage("Unexpected error when checking username");
+			response.setErrorMessage("Unexpected error when signing up");
 			return response; 	
     	}
     }
 
     protected void onPostExecute(UserResponse response) {    	
     	super.onPostExecute(response);    	
-    	this.listener.onCheckUser(response, this.credentials);
+    	this.listener.onSignup(response, this.request);
     }
     
-    public interface CheckUsernameListener{
-    	public void onCheckUser(UserResponse response, UserCredentials credentials);
+    public interface SignupListener{
+    	public void onSignup(UserResponse response, SignupRequest request);
     }
 }
