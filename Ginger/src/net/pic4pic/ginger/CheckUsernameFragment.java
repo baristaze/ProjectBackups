@@ -43,7 +43,7 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 			public void onClick(View v) {				
 				GingerHelpers.hideKeyboard(CheckUsernameFragment.this.getActivity(), usernameEditText);
 				GingerHelpers.hideKeyboard(CheckUsernameFragment.this.getActivity(), passwordEditText);
-				signUp();
+				checkUsername();
 			}});
 		
 		return rootView;
@@ -74,7 +74,7 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 		}
 	}
 	
-	private void signUp(){
+	private void checkUsername(){
 		View rootView = this.getView();
 		EditText usernameEditText = (EditText)(rootView.findViewById(R.id.usernameEditText));
 		EditText passwordEditText = (EditText)(rootView.findViewById(R.id.passwordEditText));
@@ -140,6 +140,17 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 		}
 		else{
 			// ErrorCode == 0 & AuthToken != null => User is already signed up
+			
+			// flag that signup was done previously
+			SharedPreferences prefs = this.getActivity().getSharedPreferences(
+					getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
+				
+			SharedPreferences.Editor editor = prefs.edit();		
+			editor.putString(this.getString(R.string.pref_username_key), credentials.getUsername());
+			editor.putString(this.getString(R.string.pref_password_key), credentials.getPassword());
+			editor.putInt(this.getString(R.string.pref_signupComplete_key), 1);
+			editor.commit();
+			
 			// launch the view for the signed-in use
 			Intent intent = new Intent(this.getActivity(), MainActivity.class);
 			intent.putExtra(MainActivity.AuthenticatedUserBundleType, response); 
