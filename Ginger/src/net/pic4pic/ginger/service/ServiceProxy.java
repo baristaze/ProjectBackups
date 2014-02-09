@@ -42,7 +42,7 @@ public class ServiceProxy extends ServiceBase implements IService {
 				UserResponse.class, 
 				ServiceEndpoint.MainService, 
 				null, 
-				"/checkusername").getData();
+				"/svc/rest/checkusername").getData();
 		
 		if(response.getAuthToken() != null && response.getAuthToken().trim().length() > 0){
 			super.saveAuthToken(context, response.getAuthToken().trim());
@@ -61,7 +61,7 @@ public class ServiceProxy extends ServiceBase implements IService {
 				UserResponse.class, 
 				ServiceEndpoint.MainService, 
 				null, 
-				"/signin").getData();
+				"/svc/rest/signin").getData();
 		
 		if(response.getAuthToken() != null && response.getAuthToken().trim().length() > 0){
 			super.saveAuthToken(context, response.getAuthToken().trim());
@@ -80,7 +80,7 @@ public class ServiceProxy extends ServiceBase implements IService {
 				UserResponse.class, 
 				ServiceEndpoint.MainService, 
 				super.getAuthToken(context), 
-				"/verifybio").getData();
+				"/svc/rest/verifybio").getData();
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class ServiceProxy extends ServiceBase implements IService {
 				UserResponse.class, 
 				ServiceEndpoint.MainService, 
 				null, 
-				"/signup").getData();
+				"/svc/rest/signup").getData();
 		
 		if(response.getAuthToken() != null && response.getAuthToken().trim().length() > 0){
 			super.saveAuthToken(context, response.getAuthToken().trim());

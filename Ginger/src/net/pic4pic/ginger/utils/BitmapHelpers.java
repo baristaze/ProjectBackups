@@ -2,6 +2,8 @@ package net.pic4pic.ginger.utils;
 
 import java.io.IOException;
 
+import net.pic4pic.ginger.entities.IntegerEnum;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,19 +18,40 @@ import android.util.Log;
 public class BitmapHelpers {
 	
 	/*
-	private static enum Orientation {
-		Unknown,
-		NormalPortrait,
-		NormalLandscpage,
-		UpsideDownPortrait,
-		UpsideDownLandscpage,
+	private enum Orientation {
+		Unknown(0),
+		NormalPortrait(1),
+		NormalLandscpage(2),
+		UpsideDownPortrait(3),
+		UpsideDownLandscpage(4);
+		
+		private final int value;
+		
+		private Orientation(int value) {
+			this.value = value;
+		}
+
+		public int getIntValue() {
+			return this.value;
+		}
 	}
 	*/
 	
-	public static enum ScaleType{
-		Unknown,
-		CenterCrop,
-		CenterFit
+	public enum ScaleType implements IntegerEnum {
+		
+		Unknown(0),
+		CenterCrop(1),
+		CenterFit(2);
+		
+	    private final int value;
+		
+		private ScaleType(int value) {
+			this.value = value;
+		}
+
+		public int getIntValue() {
+			return this.value;
+		}
 	}
 	
 	public static float calculateScale(int sourceWidth, int sourceHeight, int newWidth, int newHeight, ScaleType scaleType){

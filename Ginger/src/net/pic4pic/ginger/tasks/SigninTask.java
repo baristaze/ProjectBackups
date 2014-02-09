@@ -1,6 +1,7 @@
 package net.pic4pic.ginger.tasks;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import net.pic4pic.ginger.LaunchActivity;
 import net.pic4pic.ginger.entities.GingerException;
@@ -26,12 +27,18 @@ public class SigninTask extends AsyncTask<String, Void, UserResponse> {
 			return Service.getInstance().signin(this.activity, this.credentials);
 		} 
     	catch (GingerException e) {
+    		
+    		Log.e("Signin", e.toString());
+    		
 			UserResponse response = new UserResponse();
 			response.setErrorCode(1);
 			response.setErrorMessage(e.getMessage());
 			return response; 
 		}
     	catch(Exception e){
+    		
+    		Log.e("Signin", e.toString());
+    		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);
 			response.setErrorMessage("Unexpected error when ");

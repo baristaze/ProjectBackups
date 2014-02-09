@@ -1,6 +1,7 @@
 package net.pic4pic.ginger.tasks;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Button;
 
 import net.pic4pic.ginger.entities.GingerException;
@@ -27,12 +28,18 @@ public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
 			return Service.getInstance().checkUsername(this.context, this.credentials);
 		} 
     	catch (GingerException e) {
+    		
+    		Log.e("CheckUsername", e.toString());
+    		
 			UserResponse response = new UserResponse();
 			response.setErrorCode(1);
 			response.setErrorMessage(e.getMessage());
 			return response; 
 		}
     	catch(Exception e){
+    		
+    		Log.e("CheckUsername", e.toString());
+    		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);
 			response.setErrorMessage("Unexpected error when checking username");

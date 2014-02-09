@@ -27,7 +27,7 @@ package net.pic4pic.ginger.service;
 		}			 
 		
 		// http://
-		String uri = this.ssl ? "https://" : "https://";
+		String uri = this.ssl ? "https://" : "http://";
 		
 		// http://pic4pic-web-svc.cloudapp.net
 		uri += this.url;

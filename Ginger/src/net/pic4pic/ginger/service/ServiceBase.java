@@ -16,6 +16,7 @@ import org.apache.http.entity.InputStreamEntity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.BaseResponse;
@@ -308,7 +309,8 @@ public class ServiceBase {
 		HttpEntity inputEntity = GingerNetUtils.convertToHttpEntity(input);
 		
 		// create post request
-		String url = webSvc.getUrl(pathAndQuery);		
+		String url = webSvc.getUrl(pathAndQuery);	
+		Log.d("ServiceCall", url);
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setEntity(inputEntity);
 		
@@ -361,6 +363,8 @@ public class ServiceBase {
 			throw new GingerException("Input image path is null or empty");
 		}
 		
+		Log.d("Service call", "File Path = " + localImageFullPath);
+		
 	    InputStreamEntity reqEntity = null;
 		try {
 			File file = new File(localImageFullPath);	
@@ -376,6 +380,9 @@ public class ServiceBase {
 	    reqEntity.setChunked(true); // Send in multiple parts if needed
 	    
 	    String url = webSvc.getUrl(pathAndQuery);
+	    
+	    Log.d("Service call", "URL = " + url);
+	    
 	    HttpPost httpPost = new HttpPost(url);
 	    httpPost.setEntity(reqEntity);
 	    httpPost.addHeader("ClientId", clientId.toString());

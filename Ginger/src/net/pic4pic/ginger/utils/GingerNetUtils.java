@@ -20,7 +20,14 @@ import org.apache.http.params.HttpParams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.pic4pic.ginger.entities.AssetState;
+import net.pic4pic.ginger.entities.EducationLevel;
+import net.pic4pic.ginger.entities.Familiarity;
+import net.pic4pic.ginger.entities.Gender;
 import net.pic4pic.ginger.entities.GingerException;
+import net.pic4pic.ginger.entities.MaritalStatus;
+import net.pic4pic.ginger.entities.NotificationAction;
+import net.pic4pic.ginger.entities.NotificationType;
 
 public class GingerNetUtils {
 
@@ -109,7 +116,9 @@ public class GingerNetUtils {
 			json.append(scanner.nextLine());
 			json.append("\n");
 		}
-
+		
+		// Log.d("JSON", json.toString());
+		
 		Gson gson = createGson();
 		return gson.fromJson(json.toString(), theClass);
 	}
@@ -151,12 +160,22 @@ public class GingerNetUtils {
 	
 	public static Gson createGson() {
 
-		// Creates the json object which will manage the information received
+		// Creates the JSON object which will manage the information received
 		GsonBuilder builder = new GsonBuilder();
 
 		// Register an adapter to manage the date types as long values
 		builder.registerTypeAdapter(Date.class, new JsonDateDeserializer());
+		
+		// register adapters for enumeration types
+		builder.registerTypeAdapter(AssetState.class, new JsonEnumDeserializer<AssetState>());
+		builder.registerTypeAdapter(EducationLevel.class, new JsonEnumDeserializer<EducationLevel>());
+		builder.registerTypeAdapter(Familiarity.class, new JsonEnumDeserializer<Familiarity>());
+		builder.registerTypeAdapter(Gender.class, new JsonEnumDeserializer<Gender>());
+		builder.registerTypeAdapter(MaritalStatus.class, new JsonEnumDeserializer<MaritalStatus>());
+		builder.registerTypeAdapter(NotificationAction.class, new JsonEnumDeserializer<NotificationAction>());
+		builder.registerTypeAdapter(NotificationType.class, new JsonEnumDeserializer<NotificationType>());
 
+		// create
 		return builder.create();
 	}
 }

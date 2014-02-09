@@ -137,7 +137,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 				getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
 		
 		String username = prefs.getString(this.getString(R.string.pref_username_key), "");	
-		String thumbnailUrl = prefs.getString(this.getString(R.string.pref_user_thumbnail_plain_key), "");
+		String thumbnailUrl = prefs.getString(this.getString(R.string.pref_user_thumbnail_blurred_key), "");
 		String gender = prefs.getString(this.getString(R.string.pref_user_gender_key), "Unspecified");
 		String homeTownCity = prefs.getString(this.getString(R.string.pref_user_hometown_city_key), "required");
 		String relationStatus = prefs.getString(this.getString(R.string.pref_user_relation_status), "optional");
@@ -145,7 +145,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 		String educationLevel = prefs.getString(this.getString(R.string.pref_user_education_key), "optional");
 		
 		String age = "required";
-		String birthday = prefs.getString(this.getString(R.string.pref_user_birthday_key), "required");
+		String birthday = prefs.getString(this.getString(R.string.pref_user_birthday_key), null); // "required"
 		if(birthday != null && !birthday.isEmpty()){
 			try{
 				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -310,7 +310,12 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				String data = format.format(user.getBirthDay());				
 				editor.putString(this.getString(R.string.pref_user_education_key), data);
-				this.updatePageField(data, R.id.ageText);
+				
+				int ageInt = this.calculateAge(user.getBirthDay());
+				if(ageInt > 0 && ageInt < 120){
+					String age = Integer.toString(ageInt);
+					this.updatePageField(age, R.id.ageText);
+				}
 			}
 			
 			editor.commit();

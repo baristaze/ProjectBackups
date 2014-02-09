@@ -2,6 +2,8 @@ package net.pic4pic.ginger.utils;
 
 import java.io.IOException;
 
+import net.pic4pic.ginger.entities.IntegerEnum;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,22 +16,43 @@ import android.util.Log;
 
 public class ImageActivity {
 	
-	public enum ErrorCode{
-		None,
-		UnknownError,
-		Canceled,
-		InvalidUri,
-		InvalidAbsolutePath,
-		StoredRemotely,
-		OrientationFailure,
-		RotationFailure,
-		DecodingFailure,
-		NullAfterDecoding,
+	public enum ErrorCode implements IntegerEnum {
+		
+		None (0),
+		UnknownError (1),
+		Canceled (2),
+		InvalidUri (3),
+		InvalidAbsolutePath (4),
+		StoredRemotely (5),
+		OrientationFailure (6),
+		RotationFailure (7),
+		DecodingFailure (8),
+		NullAfterDecoding (9);
+		
+		private final int value;
+		
+		private ErrorCode(int value) {
+			this.value = value;
+		}
+
+		public int getIntValue() {
+			return this.value;
+		}
 	}
 	
-	public static enum Source{
-		Camera,
-		Gallery
+	public enum Source implements IntegerEnum {
+		Camera(0),
+		Gallery(1);
+		
+		private final int value;
+		
+		private Source(int value) {
+			this.value = value;
+		}
+
+		public int getIntValue() {
+			return this.value;
+		}
 	}
 	
 	public static class Result {
