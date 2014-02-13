@@ -23,7 +23,7 @@ public class MatchListFragment extends Fragment {
 	
 	// a public empty constructor is a must in fragment. 
 	// Do not add any parameter to this constructor.
-	public MatchListFragment() {
+	public MatchListFragment(/*no parameter here please*/) {
 	}
 
 	@Override

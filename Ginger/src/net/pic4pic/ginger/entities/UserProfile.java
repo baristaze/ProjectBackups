@@ -44,6 +44,9 @@ public class UserProfile implements Serializable {
 
     @SerializedName("LastUpdateTimeUTC")
     protected Date lastUpdateTimeUTC;
+    
+    @SerializedName("Description")
+    protected String description;
 
 	/**
 	 * @return the userId
@@ -213,6 +216,20 @@ public class UserProfile implements Serializable {
 		this.lastUpdateTimeUTC = lastUpdateTimeUTC;
 	}
 	
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	/**
 	 * gets the education level as string
 	 * @return

@@ -2,6 +2,8 @@ package net.pic4pic.ginger.service;
 
 import java.util.UUID;
 
+import net.pic4pic.ginger.entities.BaseResponse;
+import net.pic4pic.ginger.entities.FacebookRequest;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
@@ -30,5 +32,7 @@ public interface IService {
     
     public UserResponse signup(Context context, SignupRequest request) throws GingerException; 
     
-    public ImageUploadResponse uploadProfileImage(Context context, ImageUploadRequest request) throws GingerException;
+    public BaseResponse downloadFriends(Context context, FacebookRequest request) throws GingerException;
+    
+    public ImageUploadResponse uploadProfileImage(Context context, ImageUploadRequest request) throws GingerException;    
 }

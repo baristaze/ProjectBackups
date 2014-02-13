@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import android.content.Context;
 
+import net.pic4pic.ginger.entities.BaseResponse;
+import net.pic4pic.ginger.entities.FacebookRequest;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
@@ -35,7 +37,9 @@ public class ServiceProxy extends ServiceBase implements IService {
 	@Override
 	public UserResponse checkUsername(Context context, UserCredentials request) throws GingerException {
 		
-		request.setClientId(super.getClientId(context));
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
 		
 		UserResponse response = super.post(
 				request, 
@@ -54,7 +58,9 @@ public class ServiceProxy extends ServiceBase implements IService {
 	@Override
 	public UserResponse signin(Context context, UserCredentials request) throws GingerException {
 		
-		request.setClientId(super.getClientId(context));
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
 		
 		UserResponse response = super.post(
 				request, 
@@ -73,7 +79,9 @@ public class ServiceProxy extends ServiceBase implements IService {
 	@Override
 	public UserResponse verifyBio(Context context, VerifyBioRequest request) throws GingerException {
 
-		request.setClientId(super.getClientId(context));
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
 		
 		return super.post(
 				request, 
@@ -82,11 +90,28 @@ public class ServiceProxy extends ServiceBase implements IService {
 				super.getAuthToken(context), 
 				"/svc/rest/verifybio").getData();
 	}
+	
+	@Override
+	public BaseResponse downloadFriends(Context context, FacebookRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}		
+		
+		return super.post(
+				request, 
+				BaseResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/friends").getData();	
+	}
 
 	@Override
 	public UserResponse signup(Context context, SignupRequest request) throws GingerException {
 		
-		request.setClientId(super.getClientId(context));
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
 		
 		UserResponse response = super.post(
 				request, 
@@ -105,7 +130,9 @@ public class ServiceProxy extends ServiceBase implements IService {
 	@Override
 	public ImageUploadResponse uploadProfileImage(Context context, ImageUploadRequest request) throws GingerException {
 		
-		request.setClientId(super.getClientId(context));
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
 		
 		return super.postLocalImage(
 				request.getFullLocalPath(), 

@@ -22,12 +22,18 @@ import android.widget.TextView;
 import com.facebook.*;
 import com.facebook.model.GraphUser;
 
+import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.EducationLevel;
+import net.pic4pic.ginger.entities.FacebookRequest;
+import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.MaritalStatus;
 import net.pic4pic.ginger.entities.SignupRequest;
 import net.pic4pic.ginger.entities.UserProfile;
 import net.pic4pic.ginger.entities.UserResponse;
+import net.pic4pic.ginger.service.Service;
+import net.pic4pic.ginger.tasks.ITask;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
+import net.pic4pic.ginger.tasks.NonBlockedTask;
 import net.pic4pic.ginger.tasks.SignupTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.PageAdvancer;
@@ -240,8 +246,7 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 		request.setPhotoUploadReference(photoUploadReference);
 
 		// start sign up
-		SignupTask task = new SignupTask(this, this.getActivity(),
-				this.continueButton, request);
+		SignupTask task = new SignupTask(this, this.getActivity(), this.continueButton, request);
 		task.execute();
 	}
 
@@ -287,7 +292,30 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 
 			editor.commit();
 			
-			// some properties have been 
+			// get facebook friends	in background	
+			final FacebookRequest friendsRequest = new FacebookRequest();
+			friendsRequest.setClientId(request.getClientId());
+			friendsRequest.setFacebookAccessToken(request.getFacebookAccessToken());
+			friendsRequest.setFacebookUserId(request.getFacebookUserId());
+			NonBlockedTask.SafeRun(new ITask(){
+				@Override
+				public void perform() {
+					try
+					{
+						BaseResponse response = Service.getInstance().downloadFriends(FacebookInfoFragment.this.getActivity(), friendsRequest);
+						if(response.getErrorCode() == 0){
+							Log.i("FacebookInfoFragment", "Friends retrieved");
+						}
+						else {
+							Log.e("FacebookInfoFragment", "Friend request failed: " + response.getErrorMessage());
+						}
+					}
+					catch(GingerException e) {
+						
+						Log.e("FacebookInfoFragment", "Friend request failed: " + e.getMessage());
+					}
+				}
+			});
 
 			SignupActivity activity = ((SignupActivity) this.getActivity());
 			PersonalDetailsFragment nextFragment = (PersonalDetailsFragment) activity.getFragment(SignupActivity.FRAG_INDEX_PERSONAL_DETAILS);
