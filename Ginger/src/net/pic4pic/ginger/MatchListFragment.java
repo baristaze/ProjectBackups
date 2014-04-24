@@ -16,8 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import net.pic4pic.ginger.entities.Gender;
-import net.pic4pic.ginger.entities.Person;
+import net.pic4pic.ginger.entities.MatchedCandidate;
 
 public class MatchListFragment extends Fragment {
 	
@@ -48,14 +47,14 @@ public class MatchListFragment extends Fragment {
 		    }
 		 });
 		
-		ArrayList<Person> plist = this.getMatchList();	    
+		ArrayList<MatchedCandidate> plist = this.getMatchList();	    
 		final MatchListItemAdapter adapter = new MatchListItemAdapter(this.getActivity(), plist);
 		listview.setAdapter(adapter);
 		
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-				Person item = (Person) parent.getItemAtPosition(position);
+				MatchedCandidate item = (MatchedCandidate) parent.getItemAtPosition(position);
 				onShowPersonDetails(item, view);
 			}
 		});
@@ -67,7 +66,7 @@ public class MatchListFragment extends Fragment {
 		Toast.makeText(this.getActivity(), "Please purchase some credit", Toast.LENGTH_LONG).show();
 	}
 	
-	public void onShowPersonDetails(Person person, View v){
+	public void onShowPersonDetails(MatchedCandidate person, View v){
 		// Toast.makeText(this.getActivity(), "Showing " + person, Toast.LENGTH_LONG).show();
 		Intent intent = new Intent(this.getActivity(), PersonActivity.class);
 		intent.putExtra(PersonActivity.PersonType, person);
@@ -77,44 +76,9 @@ public class MatchListFragment extends Fragment {
 		startActivityForResult(intent, PersonActivity.PersonActivityCode);
 	}
 	
-	private ArrayList<Person> getMatchList(){
+	private ArrayList<MatchedCandidate> getMatchList(){
 		
-		ArrayList<Person> plist = new ArrayList<Person>();
-		
-		Person p = new Person();
-	    p.setUsername("Jennifer123");
-	    p.setShortBio("23 / F / Single / Seattle / Teacher");
-	    p.setAvatarUri("http://wcdn3.dataknet.com/static/resources/icons/set47/790d2343.png");
-	    p.setMainPhoto("http://upload.wikimedia.org/wikipedia/commons/0/0a/Robert_Downey_Jr_avp_Iron_Man_3_Paris.jpg");
-	    p.setDescription("Persius officiis eloquentiam ut sed,ius nostrud sensibus ea. Eu ullum inani posidonium quo, zzril quaestio intellegat in quo. Persius officiis eloquentiam ut sed,ius nostrud sensibus ea.");
-	    p.setGender(Gender.Female);
-	    plist.add(p);	    
-	    
-	    p = new Person();
-	    p.setUsername("Lora79 The Princes");
-	    p.setShortBio("34 / F / Married / Kirkland / Lawyer / Lorem ipsum dolor sit amet.");
-	    p.setAvatarUri("http://www.designdownloader.com/item/pngl/user_f020/user_f020-20111112123715-00005.png");
-	    p.setMainPhoto("http://themify.me/demo/themes/pinshop/files/2012/12/man-in-suit.jpg");
-	    p.setDescription("Persius officiis eloquentiam ut sed,ius nostrud sensibus ea. Eu ullum inani posidonium quo, zzril quaestio intellegat in quo. Persius officiis eloquentiam ut sed,ius nostrud sensibus ea.");
-	    p.setGender(Gender.Female);
-	    plist.add(p);
-	    
-	    for(int x=0; x<10; x++){
-	    	if(x % 2 == 0){
-	    		plist.add(plist.get(0));
-	    	}else{
-	    		plist.add(plist.get(1));
-	    	}
-	    }
-	    
-	    for(int x=0; x<5; x++){
-	    	plist.add(plist.get(0));
-	    }
-	    
-	    for(int x=0; x<5; x++){
-	    	plist.add(plist.get(1));
-	    }
-	    
+		ArrayList<MatchedCandidate> plist = new ArrayList<MatchedCandidate>();
 	    return plist;
 	}
 }

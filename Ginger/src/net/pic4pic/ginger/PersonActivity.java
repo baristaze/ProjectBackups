@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import net.pic4pic.ginger.entities.Familiarity;
 import net.pic4pic.ginger.entities.Gender;
-import net.pic4pic.ginger.entities.Person;
+import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 import net.pic4pic.ginger.utils.ImageClickListener;
 import net.pic4pic.ginger.utils.ImageGalleryView;
@@ -23,7 +23,7 @@ public class PersonActivity extends Activity {
 	public static final String PersonType = "net.pic4pic.ginger.Person"; 
 	public static final int PersonActivityCode = 201;
 	
-	private Person person;
+	private MatchedCandidate person;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,8 @@ public class PersonActivity extends Activity {
 		setContentView(R.layout.activity_person);
 		
 		Intent intent = getIntent();
-		this.person = (Person)intent.getSerializableExtra(PersonType);
-		this.setTitle(this.person.getUsername());
+		this.person = (MatchedCandidate)intent.getSerializableExtra(PersonType);
+		this.setTitle(this.person.getCandidateProfile().getUsername());
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
@@ -43,12 +43,12 @@ public class PersonActivity extends Activity {
 	
 	private void fillData(){
 		TextView usernameText = (TextView)this.findViewById(R.id.candidateUsername);
-		usernameText.setText(this.person.getUsername());
+		usernameText.setText(this.person.getCandidateProfile().getUsername());
 		
 		TextView shortBioText = (TextView)this.findViewById(R.id.candidateShortBio);
-		shortBioText.setText(this.person.getShortBio());
+		shortBioText.setText(this.person.getCandidateProfile().getShortBio());
 		
-		String descr = this.person.getDescription();
+		String descr = this.person.getCandidateProfile().getDescription();
 		TextView descrText = (TextView)this.findViewById(R.id.candidateDescription);
 		if(descr == null || descr.trim().length() <= 0){
 			descrText.setVisibility(View.GONE);
@@ -60,16 +60,16 @@ public class PersonActivity extends Activity {
 		ImageView avatarView = (ImageView)this.findViewById(R.id.candidateAvatar);
 		avatarView.setImageResource(android.R.drawable.ic_menu_gallery);
 		ImageDownloadTask avatarDownloadTask = new ImageDownloadTask(avatarView);
-		avatarDownloadTask.execute(person.getAvatarUri());
+		avatarDownloadTask.execute(person.getProfilePics().getThumbnail().getCloudUrl());
 		
 		ImageView mainPhotoView = (ImageView)this.findViewById(R.id.candidateMainPhoto);
 		mainPhotoView.setImageResource(android.R.drawable.ic_menu_gallery);
 		ImageDownloadTask mainPhotoDownloadTask = new ImageDownloadTask(mainPhotoView, true);
-		mainPhotoDownloadTask.execute(person.getMainPhoto());
+		mainPhotoDownloadTask.execute(person.getProfilePics().getFullSize().getCloudUrl());
 		
 		this.showHideActionButtons();
 		
-		if(person.getFamiliarity() == Familiarity.Familiar){
+		if(person.getCandidateProfile().getFamiliarity() == Familiarity.Familiar){
 			mainPhotoView.setOnClickListener(new ImageClickListener(this, R.id.candidateMainPhoto));			
 		}
 		else{					
@@ -77,13 +77,13 @@ public class PersonActivity extends Activity {
 		}
 		
 		LinearLayout photoGalleryParent = (LinearLayout)this.findViewById(R.id.candidateView);
-		ImageGalleryView gallery = new ImageGalleryView(this, photoGalleryParent, this.person.getOtherPhotos()); 
+		ImageGalleryView gallery = new ImageGalleryView(this, photoGalleryParent, this.person.getOtherPictures()); 
 		gallery.fillPhotos();
 	}
 	
 	private void showHideActionButtons(){
 		
-		if(this.person.getFamiliarity() == Familiarity.Familiar){
+		if(this.person.getCandidateProfile().getFamiliarity() == Familiarity.Familiar){
 			LinearLayout buttonGroup = (LinearLayout)this.findViewById(R.id.candidateAnonymousActions);
 			// buttonGroup.setVisibility(View.INVISIBLE);
 			buttonGroup.setVisibility(View.GONE);
@@ -96,10 +96,10 @@ public class PersonActivity extends Activity {
 
 	private void addWatermark(){
 		String readyText = this.getString(R.string.candidate_ready_for_p4p);
-		if(this.person.getGender() == Gender.Female){
+		if(this.person.getCandidateProfile().getGender() == Gender.Female){
 			readyText = this.getString(R.string.candidate_ready_for_p4p_she);
 		}
-		else if(this.person.getGender() == Gender.Male){
+		else if(this.person.getCandidateProfile().getGender() == Gender.Male){
 			readyText = this.getString(R.string.candidate_ready_for_p4p_he);
 		}
 		

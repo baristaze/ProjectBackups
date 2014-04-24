@@ -1,6 +1,7 @@
 package net.pic4pic.ginger.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -17,6 +18,9 @@ public class UserResponse extends BaseResponse implements Serializable {
 	@SerializedName("ProfilePictures")
     protected UserProfilePics profilePictures;
 
+	@SerializedName("OtherPictures")
+    protected ArrayList<PicturePair> otherPictures = new ArrayList<PicturePair>();
+	
 	/**
 	 * @return the authToken
 	 */
@@ -57,5 +61,12 @@ public class UserResponse extends BaseResponse implements Serializable {
 	 */
 	public void setProfilePictures(UserProfilePics profilePictures) {
 		this.profilePictures = profilePictures;
+	}
+	
+	/**
+	 * @return the otherPictures
+	 */
+	public ArrayList<PicturePair> getOtherPictures() {
+		return otherPictures;
 	}
 }

@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 
 import net.pic4pic.ginger.MainActivity;
 import net.pic4pic.ginger.R;
-import net.pic4pic.ginger.entities.ImageInfo;
+import net.pic4pic.ginger.entities.PicturePair;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 
 public class ImageGalleryView {
@@ -56,21 +56,21 @@ public class ImageGalleryView {
 	
 	private Activity activity;
 	private LinearLayout parentView;
-	private List<ImageInfo> images;
+	private List<PicturePair> images;
 	private boolean enableImageClick;
 	private Margin marginOuter;
 	private int gapBetweenImages;
 	private boolean insertAddImgIcon;
 	private int populatedImageCount;
 	
-	public ImageGalleryView(Activity activity, LinearLayout parentView, List<ImageInfo> images){
+	public ImageGalleryView(Activity activity, LinearLayout parentView, List<PicturePair> images){
 		this(activity, parentView, images, true, null, 6, false);
 	}
 	
 	public ImageGalleryView(
 			Activity activity, 
 			LinearLayout parentView, 
-			List<ImageInfo> images,
+			List<PicturePair> images,
 			boolean enableImageClick,
 			Margin marginOuter, 
 			int gapBetweenImages,
@@ -176,7 +176,7 @@ public class ImageGalleryView {
 	protected void assignImageToView(ImageView imgView){
 		imgView.setOnClickListener(new ImageClickListener(this.activity, imgView));
 		ImageDownloadTask photoDownloadTask = new ImageDownloadTask(imgView, this.enableImageClick);
-		photoDownloadTask.execute(images.get(this.populatedImageCount).getThumbnail());	
+		photoDownloadTask.execute(images.get(this.populatedImageCount).getThumbnail().getCloudUrl());	
 	}
 	
 	protected void assignCameraIconToView(ImageView imgView){

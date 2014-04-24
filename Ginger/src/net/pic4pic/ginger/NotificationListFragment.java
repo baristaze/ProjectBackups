@@ -1,7 +1,6 @@
 package net.pic4pic.ginger;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,19 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 
-import net.pic4pic.ginger.entities.Familiarity;
-import net.pic4pic.ginger.entities.Gender;
-import net.pic4pic.ginger.entities.ImageInfo;
 import net.pic4pic.ginger.entities.Notification;
-import net.pic4pic.ginger.entities.NotificationAction;
-import net.pic4pic.ginger.entities.NotificationType;
-import net.pic4pic.ginger.entities.Person;
 
 public class NotificationListFragment extends Fragment {
 
 	// a public empty constructor is a must in fragment. 
 	// Do not add any parameter to this constructor.
-	public NotificationListFragment() {
+	public NotificationListFragment(/*no parameter here please*/) {
 	}
 	
 	@Override
@@ -43,7 +36,9 @@ public class NotificationListFragment extends Fragment {
 	private ArrayList<Notification> getNotificationList(){
 		
 		ArrayList<Notification> list = new ArrayList<Notification>();
+		return list;
 		
+		/*
 		// 1
 		Person p = new Person();
 	    p.setUsername("Jennifer123");
@@ -73,7 +68,7 @@ public class NotificationListFragment extends Fragment {
 	    p.setFamiliarity(Familiarity.Familiar);
 	    p.setGender(Gender.Female);
 	    
-	    /* don't include the message count as in 'Sent you a message (3)'. It doesn't fit */
+	    //  don't include the message count as in 'Sent you a message (3)'. It doesn't fit
 	    n = new Notification();
 	    n.setTitle("Sent you a message");
 	    n.setType(NotificationType.SentText);
@@ -149,7 +144,6 @@ public class NotificationListFragment extends Fragment {
  	 	    	}
  	    	}
  	    }
- 	    
-	    return list;
+ 	    */
 	}	
 }

@@ -4,12 +4,17 @@ import java.util.UUID;
 
 import android.content.Context;
 
+import net.pic4pic.ginger.entities.AcceptingPic4PicRequest;
+import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.FacebookRequest;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
+import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.SignupRequest;
+import net.pic4pic.ginger.entities.SimpleResponseGuid;
+import net.pic4pic.ginger.entities.StartingPic4PicRequest;
 import net.pic4pic.ginger.entities.UserCredentials;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.entities.VerifyBioRequest;
@@ -142,4 +147,49 @@ public class ServiceProxy extends ServiceBase implements IService {
 				super.getAuthToken(context, false), 
 				"/file/upload?blurSize=20&profile=1&thumbx=200&thumby=200").getData();
 	}
+	
+	@Override
+	public MatchedCandidateListResponse getTodaysMatches(Context context, BaseRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				MatchedCandidateListResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/matches").getData();
+	}
+	
+	@Override
+	public SimpleResponseGuid requestPic4Pic(Context context, StartingPic4PicRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				SimpleResponseGuid.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/requestP4P").getData();
+	}
+    
+	@Override
+    public SimpleResponseGuid acceptPic4Pic(Context context, AcceptingPic4PicRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				SimpleResponseGuid.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/acceptP4P").getData();	
+    }
 }

@@ -48,6 +48,9 @@ public class UserProfile implements Serializable {
     @SerializedName("Description")
     protected String description;
 
+	@SerializedName("ShortBio")
+    protected String shortBio;
+    
 	/**
 	 * @return the userId
 	 */
@@ -228,6 +231,20 @@ public class UserProfile implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	/**
+	 * @return the shortBio
+	 */
+	public String getShortBio() {
+		return shortBio;
+	}
+
+	/**
+	 * @param shortBio the shortBio to set
+	 */
+	public void setShortBio(String shortBio) {
+		this.shortBio = shortBio;
 	}
 
 	/**

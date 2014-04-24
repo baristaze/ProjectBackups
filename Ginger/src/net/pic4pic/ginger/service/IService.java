@@ -2,11 +2,16 @@ package net.pic4pic.ginger.service;
 
 import java.util.UUID;
 
+import net.pic4pic.ginger.entities.AcceptingPic4PicRequest;
+import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.FacebookRequest;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
+import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
+import net.pic4pic.ginger.entities.SimpleResponseGuid;
+import net.pic4pic.ginger.entities.StartingPic4PicRequest;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.entities.UserCredentials;
 import net.pic4pic.ginger.entities.VerifyBioRequest;
@@ -34,5 +39,11 @@ public interface IService {
     
     public BaseResponse downloadFriends(Context context, FacebookRequest request) throws GingerException;
     
-    public ImageUploadResponse uploadProfileImage(Context context, ImageUploadRequest request) throws GingerException;    
+    public ImageUploadResponse uploadProfileImage(Context context, ImageUploadRequest request) throws GingerException;
+    
+    public MatchedCandidateListResponse getTodaysMatches(Context context, BaseRequest request) throws GingerException;
+    
+    public SimpleResponseGuid requestPic4Pic(Context context, StartingPic4PicRequest request) throws GingerException;
+    
+    public SimpleResponseGuid acceptPic4Pic(Context context, AcceptingPic4PicRequest request) throws GingerException;
 }

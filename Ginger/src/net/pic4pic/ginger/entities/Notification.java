@@ -1,17 +1,46 @@
 package net.pic4pic.ginger.entities;
 
-import net.pic4pic.ginger.R;
+import java.io.Serializable;
+import java.util.UUID;
+
+import com.google.gson.annotations.SerializedName;
 import android.content.Context;
 
-public class Notification {
+import net.pic4pic.ginger.R;
+
+public class Notification implements Serializable {
 	
+	private static final long serialVersionUID = 1;
+	
+	@SerializedName("Id")
+	protected UUID id;
+
+	@SerializedName("IsViewed")
 	protected boolean read;
+	
+	@SerializedName("ActionType")
 	protected NotificationType type;
+	
+	@SerializedName("Title")
 	protected String title;
+		
+	@SerializedName("ActionTimeUTC")
 	protected String sentTime;
-	protected Person sender;
+		
+	@SerializedName("StartedBy")
+	protected MatchedCandidate sender;
+	
+	@SerializedName("RecommendedAction")
 	protected NotificationAction recommendedAction;
 
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+	
 	public boolean isRead(){
 		return this.read;
 	}
@@ -44,11 +73,11 @@ public class Notification {
 		this.sentTime = sentTime;
 	}
 	
-	public Person getSender(){
+	public MatchedCandidate getSender(){
 		return this.sender;
 	}
 	
-	public void setSender(Person sender){
+	public void setSender(MatchedCandidate sender){
 		this.sender = sender;
 	}
 	

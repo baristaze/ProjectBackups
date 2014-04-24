@@ -1,6 +1,5 @@
 package net.pic4pic.ginger;
 
-import java.util.List;
 import java.util.Random;
 
 import android.app.Activity;
@@ -22,10 +21,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.pic4pic.ginger.entities.Familiarity;
-import net.pic4pic.ginger.entities.Gender;
-import net.pic4pic.ginger.entities.ImageInfo;
-import net.pic4pic.ginger.entities.Person;
+import net.pic4pic.ginger.entities.ImageFile;
+import net.pic4pic.ginger.entities.PicturePair;
+import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 import net.pic4pic.ginger.utils.ImageClickListener;
 import net.pic4pic.ginger.utils.ImageGalleryView;
@@ -35,7 +33,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 
 	private static final String defaultDescr = "tell something about yourself here (tap to edit)";
 	
-	private Person me;
+	private UserResponse me;
 	private TextView meDescriptionView;
 	private ImageGalleryView gallery;
 	
@@ -57,10 +55,10 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 			this.me = this.getMe();
 		}
 		
-		meUsernameView.setText(this.me.getUsername());
-		meShortBioView.setText(this.me.getShortBio());
+		meUsernameView.setText(this.me.getUserProfile().getUsername());
+		meShortBioView.setText(this.me.getUserProfile().getShortBio());
 		
-		String descr = this.me.getDescription();
+		String descr = this.me.getUserProfile().getDescription();
 		if(descr == null || descr.trim().length() == 0){
 			descr = defaultDescr;
 		}
@@ -78,7 +76,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 				*/
 								
 				Intent intent = new Intent(ProfileFragment.this.getActivity(), TextInputActivity.class);
-				intent.putExtra(TextInputActivity.TextInputType, ProfileFragment.this.me.getDescription());
+				intent.putExtra(TextInputActivity.TextInputType, ProfileFragment.this.me.getUserProfile().getDescription());
 
 				// calling a child activity for a result keeps the parent activity alive.
 				// by that way, we don't have to keep track of active tab when child activity is closed.
@@ -87,12 +85,12 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 				ProfileFragment.this.getActivity().startActivityForResult(intent, TextInputActivity.TextInputCode);
 			}});
 		
-		// set the default image for avatar
+		// set the default image for thumb-nail
 		meAvatarView.setImageResource(android.R.drawable.ic_menu_gallery);
 		
 		// set the real image with an asynchronous download operation
 		ImageDownloadTask downloadTask = new ImageDownloadTask(meAvatarView);
-		downloadTask.execute(this.me.getAvatarUri());
+		downloadTask.execute(this.me.getProfilePictures().getThumbnailClear().getCloudUrl());
 		
 		// set the default image for mainPhoto
 		meMainPhotoView.setImageResource(android.R.drawable.ic_menu_gallery);		
@@ -100,23 +98,23 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		
 		// set the real image with an asynchronous download operation
 		ImageDownloadTask downloadTask2 = new ImageDownloadTask(meMainPhotoView);
-		downloadTask2.execute(this.me.getMainPhoto());
+		downloadTask2.execute(this.me.getProfilePictures().getFullSizeClear().getCloudUrl());
 		
 		LinearLayout photoGalleryParent = (LinearLayout)rootView.findViewById(R.id.thumbnailPlaceholder);
 		ImageGalleryView.Margin margin = new ImageGalleryView.Margin(6);   
 		this.gallery = new ImageGalleryView(
-				this.getActivity(), photoGalleryParent, this.me.getOtherPhotos(), true, margin, 6, true);
+				this.getActivity(), photoGalleryParent, this.me.getOtherPictures(), true, margin, 6, true);
 		
 		gallery.fillPhotos();
 		
 		return rootView;
 	}	
 	
-	public void addNewImage(ImageInfo image, Bitmap bitmap){
+	public void addNewImage(PicturePair image, Bitmap bitmap){
 		if(this.me != null){
-			this.me.getOtherPhotos().add(image);
+			this.me.getOtherPictures().add(image);
 			if(this.gallery != null){
-				this.gallery.addNewImage(bitmap, image.getOriginal());
+				this.gallery.addNewImage(bitmap, image.getFullSize().getCloudUrl());
 			}
 		}
 	}
@@ -129,41 +127,18 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 	public void updateDescription(String descr){
 		if(this.me != null && this.meDescriptionView != null){			
 			if (descr == null || descr.trim().length() == 0 || descr.trim().equalsIgnoreCase(defaultDescr)){
-				this.me.setDescription("");
+				this.me.getUserProfile().setDescription("");
 				this.meDescriptionView.setText(defaultDescr);
 			}
 			else{
-				this.me.setDescription(descr);
+				this.me.getUserProfile().setDescription(descr);
 				this.meDescriptionView.setText(descr);
 			}
 		}
 	}
 	
-	private Person getMe(){
-		
-		String s = "Persius officiis eloquentiam ut sed,ius nostrud sensibus ea. Eu ullum inani posidonium quo, zzril quaestio intellegat in quo. Persius officiis eloquentiam ut sed,ius nostrud sensibus ea.";
-		s += " " + s;
-		
-		Person p = new Person();
-		p.setUsername("CuriousGeorge79");
-		p.setAvatarUri("http://www.prosportstickers.com/product_images/h/curious_george_decal_head__26524.jpg");
-		p.setShortBio("34 / M / Married / Redmond / Software Developer");
-		p.setDescription(s);
-		p.setFamiliarity(Familiarity.Familiar);
-		p.setGender(Gender.Male);
-		p.setMainPhoto("http://4.bp.blogspot.com/_dO5wi4i0JDs/TSYVpF2xp6I/AAAAAAAAAns/Khd0ETSNNvA/s1600/ad.jpg");
-		
-		String commonUrl = "http://tvmedia.ign.com/tv/image/article/805/805797/bionic-woman-2007-20070717053021720.jpg"; 
- 	    String commonUrl2 = "http://tvreviews.files.wordpress.com/2007/10/michelle-ryan-bionic-woman.jpg";
- 	     	    
- 	    List<ImageInfo> photos = p.getOtherPhotos();
-    	for(int y=0; y<11; y++){
-    		ImageInfo imgInfo = new ImageInfo();
- 	    	imgInfo.setThumbnail((y%2 == 0) ? commonUrl : commonUrl2);
- 	    	photos.add(imgInfo);	
-    	}
-    	 	    
-    	return p;
+	private UserResponse getMe(){		
+		return null;
 	}
 	
 	@Override
@@ -209,8 +184,13 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 				uri = "http://tvreviews.files.wordpress.com/2007/10/michelle-ryan-bionic-woman.jpg";
 			}
 			
-			ImageInfo info = new ImageInfo();
-			info.setThumbnail(uri);
+			ImageFile imgFile = new ImageFile();
+			imgFile.setCloudUrl(uri);
+			imgFile.setThumbnailed(true);
+			
+			PicturePair info = new PicturePair();
+			info.setThumbnail(imgFile);
+			
 			this.addNewImage(info, bitmapPhoto);
 			
 	        Toast toast = Toast.makeText(this.getActivity(), "Camera is a success", Toast.LENGTH_LONG);
@@ -264,8 +244,13 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 								uri = "http://tvreviews.files.wordpress.com/2007/10/michelle-ryan-bionic-woman.jpg";
 							}
 							
-							ImageInfo info = new ImageInfo();
-							info.setThumbnail(uri);
+							ImageFile imgFile = new ImageFile();
+							imgFile.setCloudUrl(uri);
+							imgFile.setThumbnailed(true);
+							
+							PicturePair info = new PicturePair();
+							info.setThumbnail(imgFile);
+							
 							this.addNewImage(info, bitmapPhoto);
 							
 							success = true;

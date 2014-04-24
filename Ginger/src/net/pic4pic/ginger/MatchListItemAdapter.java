@@ -11,13 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.pic4pic.ginger.entities.Person;
+import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 
-public class MatchListItemAdapter extends ArrayAdapter<Person> {
+public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 	
 	private Context context;
-	private ArrayList<Person> people;
+	private ArrayList<MatchedCandidate> people;
 	
 	private class ViewCache{
 		public ImageView avatarImageView;
@@ -25,10 +25,10 @@ public class MatchListItemAdapter extends ArrayAdapter<Person> {
 	    public TextView shortBioTextView;
 	}
 	
-	public MatchListItemAdapter(Context context, List<Person> values) {	
+	public MatchListItemAdapter(Context context, List<MatchedCandidate> values) {	
 	    super(context, R.layout.match_list_item, values);
 	    this.context = context;
-	    this.people = new ArrayList<Person>(values);
+	    this.people = new ArrayList<MatchedCandidate>(values);
 	}
 
 	@Override
@@ -47,16 +47,16 @@ public class MatchListItemAdapter extends ArrayAdapter<Person> {
 	
 		ViewCache cachedView = (ViewCache) rowView.getTag();
 		
-		Person person = this.people.get(position);
-		cachedView.usernameTextView.setText(person.getUsername());
-		cachedView.shortBioTextView.setText(person.getShortBio());
+		MatchedCandidate person = this.people.get(position);
+		cachedView.usernameTextView.setText(person.getCandidateProfile().getUsername());
+		cachedView.shortBioTextView.setText(person.getCandidateProfile().getShortBio());
 		
 		// set the default image
 		cachedView.avatarImageView.setImageResource(android.R.drawable.ic_menu_gallery);
 		
 		// set the real image with an asynchronous download operation
 		ImageDownloadTask asyncTask = new ImageDownloadTask(cachedView.avatarImageView);
-		asyncTask.execute(person.getAvatarUri());
+		asyncTask.execute(person.getProfilePics().getThumbnail().getCloudUrl());
 		
 		return rowView;
 	}

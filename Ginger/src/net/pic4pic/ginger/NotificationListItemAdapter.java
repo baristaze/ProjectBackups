@@ -47,8 +47,8 @@ public class NotificationListItemAdapter extends BaseExpandableListAdapter {
 		}
 		
 		Notification group = (Notification) getGroup(groupPosition);
-		((TextView) convertView.findViewById(R.id.senderShortBio)).setText(group.getSender().getShortBio());
-		((TextView) convertView.findViewById(R.id.senderDescription)).setText(group.getSender().getDescription());
+		((TextView) convertView.findViewById(R.id.senderShortBio)).setText(group.getSender().getCandidateProfile().getShortBio());
+		((TextView) convertView.findViewById(R.id.senderDescription)).setText(group.getSender().getCandidateProfile().getDescription());
 		return convertView;
 	}
 
@@ -92,7 +92,7 @@ public class NotificationListItemAdapter extends BaseExpandableListAdapter {
 		final Notification group = (Notification) getGroup(groupPosition);
 		
 		TextView usernameText = (TextView)convertView.findViewById(R.id.senderUsername);
-		usernameText.setText(group.getSender().getUsername());
+		usernameText.setText(group.getSender().getCandidateProfile().getUsername());
 		
 		TextView titleText = (TextView)convertView.findViewById(R.id.notifTitle); 
 		titleText.setText(group.getTitle());
@@ -106,7 +106,7 @@ public class NotificationListItemAdapter extends BaseExpandableListAdapter {
 		
 		// set the real image with an asynchronous download operation
 		ImageDownloadTask asyncTask = new ImageDownloadTask(imageView);
-		asyncTask.execute(group.getSender().getAvatarUri());
+		asyncTask.execute(group.getSender().getProfilePics().getThumbnail().getCloudUrl());
 		
 		String actionName = Notification.GetActionText(this.activity, group.getRecommendedAction());
 		Button actionButton = ((Button)convertView.findViewById(R.id.notifActionButton));
