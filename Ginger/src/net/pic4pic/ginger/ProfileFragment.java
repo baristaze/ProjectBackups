@@ -33,7 +33,6 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 
 	private static final String defaultDescr = "tell something about yourself here (tap to edit)";
 	
-	private UserResponse me;
 	private TextView meDescriptionView;
 	private ImageGalleryView gallery;
 	
@@ -51,14 +50,11 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		this.meDescriptionView = (TextView) rootView.findViewById(R.id.meDescription);
 		ImageView meMainPhotoView = (ImageView) rootView.findViewById(R.id.meMainPhoto);
 		
-		if(this.me == null){
-			this.me = this.getMe();
-		}
+		final UserResponse me = this.getMe();
+		meUsernameView.setText(me.getUserProfile().getUsername());
+		meShortBioView.setText(me.getUserProfile().getShortBio());
 		
-		meUsernameView.setText(this.me.getUserProfile().getUsername());
-		meShortBioView.setText(this.me.getUserProfile().getShortBio());
-		
-		String descr = this.me.getUserProfile().getDescription();
+		String descr = me.getUserProfile().getDescription();
 		if(descr == null || descr.trim().length() == 0){
 			descr = defaultDescr;
 		}
@@ -66,6 +62,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		this.meDescriptionView.setText(descr);
 		
 		this.meDescriptionView.setOnClickListener(new OnClickListener(){
+			
 			@Override
 			public void onClick(View v) {
 				/*
@@ -76,7 +73,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 				*/
 								
 				Intent intent = new Intent(ProfileFragment.this.getActivity(), TextInputActivity.class);
-				intent.putExtra(TextInputActivity.TextInputType, ProfileFragment.this.me.getUserProfile().getDescription());
+				intent.putExtra(TextInputActivity.TextInputType, me.getUserProfile().getDescription());
 
 				// calling a child activity for a result keeps the parent activity alive.
 				// by that way, we don't have to keep track of active tab when child activity is closed.
@@ -90,7 +87,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		
 		// set the real image with an asynchronous download operation
 		ImageDownloadTask downloadTask = new ImageDownloadTask(meAvatarView);
-		downloadTask.execute(this.me.getProfilePictures().getThumbnailClear().getCloudUrl());
+		downloadTask.execute(me.getProfilePictures().getThumbnailBlurred().getCloudUrl());
 		
 		// set the default image for mainPhoto
 		meMainPhotoView.setImageResource(android.R.drawable.ic_menu_gallery);		
@@ -98,12 +95,12 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		
 		// set the real image with an asynchronous download operation
 		ImageDownloadTask downloadTask2 = new ImageDownloadTask(meMainPhotoView);
-		downloadTask2.execute(this.me.getProfilePictures().getFullSizeClear().getCloudUrl());
+		downloadTask2.execute(me.getProfilePictures().getFullSizeClear().getCloudUrl());
 		
 		LinearLayout photoGalleryParent = (LinearLayout)rootView.findViewById(R.id.thumbnailPlaceholder);
 		ImageGalleryView.Margin margin = new ImageGalleryView.Margin(6);   
 		this.gallery = new ImageGalleryView(
-				this.getActivity(), photoGalleryParent, this.me.getOtherPictures(), true, margin, 6, true);
+				this.getActivity(), photoGalleryParent, me.getOtherPictures(), true, margin, 6, true);
 		
 		gallery.fillPhotos();
 		
@@ -111,8 +108,10 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 	}	
 	
 	public void addNewImage(PicturePair image, Bitmap bitmap){
-		if(this.me != null){
-			this.me.getOtherPictures().add(image);
+		
+		UserResponse me = this.getMe();
+		if(me != null){
+			me.getOtherPictures().add(image);
 			if(this.gallery != null){
 				this.gallery.addNewImage(bitmap, image.getFullSize().getCloudUrl());
 			}
@@ -125,20 +124,24 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 	}
 	
 	public void updateDescription(String descr){
-		if(this.me != null && this.meDescriptionView != null){			
+		
+		UserResponse me = this.getMe();
+		
+		if(me != null && this.meDescriptionView != null){			
 			if (descr == null || descr.trim().length() == 0 || descr.trim().equalsIgnoreCase(defaultDescr)){
-				this.me.getUserProfile().setDescription("");
+				me.getUserProfile().setDescription("");
 				this.meDescriptionView.setText(defaultDescr);
 			}
 			else{
-				this.me.getUserProfile().setDescription(descr);
+				me.getUserProfile().setDescription(descr);
 				this.meDescriptionView.setText(descr);
 			}
 		}
 	}
 	
 	private UserResponse getMe(){		
-		return null;
+		MainActivity parent = (MainActivity)this.getActivity();
+		return parent.getCurrentUser();
 	}
 	
 	@Override

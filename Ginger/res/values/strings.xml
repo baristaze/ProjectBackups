@@ -101,4 +101,7 @@
     <string name="optional">optional</string>
     <string name="edit_button_description">edit</string>
     
+    <string name="match_list_retrieving">Retrieving Matches&#8230;</string>
+    <string name="match_list_empty_info">Sorry, no match at this time.\nTap and pull down to refresh!</string>
+    
 </resources>

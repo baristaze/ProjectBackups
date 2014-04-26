@@ -74,4 +74,6 @@
 	
 	<dimen name="watermark_textSize">20sp</dimen>
 	<dimen name="watermark_padding">20dp</dimen>
+	
+	<dimen name="general_margin_fragment_vertical_centralizer">80dp</dimen>
 </resources>

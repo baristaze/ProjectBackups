@@ -1,5 +1,8 @@
 package net.pic4pic.ginger;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -16,15 +19,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.pic4pic.ginger.entities.BaseRequest;
+import net.pic4pic.ginger.entities.MatchedCandidate;
+import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.UserResponse;
+import net.pic4pic.ginger.tasks.MatchedCandidatesTask;
+import net.pic4pic.ginger.tasks.MatchedCandidatesTask.MatchedCandidatesListener;
+import net.pic4pic.ginger.utils.GingerHelpers;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, MatchedCandidatesListener {
 
 	public static final String AuthenticatedUserBundleType = "net.pic4pic.ginger.AuthenticatedUser"; 
 	public static final int CaptureCameraCode = 102;
 	public static final int PickFromGalleryCode = 103;
 	
 	private UserResponse me;
+	public UserResponse getCurrentUser(){
+		return this.me;
+	}
+	
+	private Date lastMatchRetrieveTime = null;
+	private ArrayList<MatchedCandidate> matches = new ArrayList<MatchedCandidate>();
 	
 	private SectionsPagerAdapter mSectionsPagerAdapter;	
 	private ViewPager mViewPager;
@@ -72,6 +87,58 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 	}
 
+	public boolean isNeedOfRequestingMatches(){
+		
+		if(this.lastMatchRetrieveTime == null){
+			return true;
+		}
+		
+		Date now = new Date();
+		long diffAsMilliSeconds = now.getTime() - this.lastMatchRetrieveTime.getTime();
+		long diffAsMinutes = diffAsMilliSeconds / 60000;
+		if(diffAsMinutes > 30){
+			return true;
+		}
+		
+		if(matches.size() == 0){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public ArrayList<MatchedCandidate> getMatchedCandidates(){
+		return this.matches;
+	}
+	
+	public void startRetrievingMatches(){
+		BaseRequest request = new BaseRequest();
+		MatchedCandidatesTask task = new MatchedCandidatesTask(this, this, request);
+		task.execute();
+	}
+	
+	public void onMatchComplete(MatchedCandidateListResponse response, BaseRequest request){
+		
+		if(response.getErrorCode() == 0){
+			
+			// update cache
+			ArrayList<MatchedCandidate> candidates = response.getItems();
+			if(candidates != null && candidates.size() > 0){
+				this.matches.addAll(candidates);
+			}
+			
+			// update UI
+			this.mSectionsPagerAdapter.getMatchListFragment().onMatchComplete(this.matches);			
+		}
+		else{
+			// show error
+			GingerHelpers.showErrorMessage(this, response.getErrorMessage());
+			
+			// update UI
+			this.mSectionsPagerAdapter.getMatchListFragment().onMatchComplete(this.matches);
+		}	
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

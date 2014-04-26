@@ -1,6 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/matchList"    
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
-</ListView>
+    android:layout_height="match_parent"
+    android:id="@+id/matchListParentFrame"
+    tools:context=".MainActivity">
+
+    <ListView 
+	    android:id="@+id/matchList"    
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" >
+	</ListView>    
+    
+    <RelativeLayout 
+        android:id="@+id/emptyMatchList"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:gravity="center_vertical"
+	    android:background="@android:color/background_light">
+    	
+        <TextView
+	        android:id="@+id/emptyContentInfoTextView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:text="@string/match_list_empty_info"
+	        android:layout_marginTop="@dimen/general_margin"
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:textColor="@android:color/holo_blue_light" />
+        
+         <!-- this is a dummy control to help vertical center -->
+	    <TextView 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_below="@+id/emptyContentInfoTextView"
+	    	android:layout_marginTop="@dimen/general_margin_fragment_vertical_centralizer" />
+        
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/spinnerBlock"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:gravity="center_vertical"
+	    android:background="@android:color/background_light">
+	    
+		<ProgressBar
+	        android:id="@+id/spinnerProgressBar"
+	        style="?android:attr/progressBarStyleLarge"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:indeterminate="true" />
+	
+	    <TextView
+	        android:id="@+id/feedbackTextView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/spinnerProgressBar"
+	        android:layout_centerHorizontal="true"
+	        android:text="@string/match_list_retrieving"
+	        android:layout_marginTop="@dimen/general_margin"
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:textColor="@android:color/holo_blue_light" />
+	    
+	    <!-- this is a dummy control to help vertical center -->
+	    <TextView 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_below="@+id/feedbackTextView"
+	    	android:layout_marginTop="@dimen/general_margin_fragment_vertical_centralizer" />
+    
+	</RelativeLayout>    
+    
+</FrameLayout>
