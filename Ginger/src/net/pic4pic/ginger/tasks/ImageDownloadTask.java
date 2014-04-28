@@ -2,10 +2,11 @@ package net.pic4pic.ginger.tasks;
 
 import java.io.InputStream;
 
+import net.pic4pic.ginger.utils.MyLog;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
 
 public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
@@ -32,12 +33,12 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 	            bitmap = BitmapFactory.decodeStream(in);
 	        } 
 	        catch (Exception e) {
-	            Log.e("Error", e.getMessage());
+	            MyLog.e("Error", e.getMessage());
 	            e.printStackTrace();
 	        }
     	}
     	else{
-    		Log.e("ImageDownloadTask", "ImageDownloadTask.execute() method should have a valid Url to download.");
+    		MyLog.e("ImageDownloadTask", "ImageDownloadTask.execute() method should have a valid Url to download.");
     	}
         return bitmap;
     }
@@ -50,7 +51,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     		}
     	}
     	else{
-    		Log.e("ImageDownloadTask", "Image couldn't be downloaded? Result bitmap is null in onPostExecute()");
+    		MyLog.e("ImageDownloadTask", "Image couldn't be downloaded? Result bitmap is null in onPostExecute()");
     	}
     }	
 }

@@ -2,11 +2,12 @@ package net.pic4pic.ginger.tasks;
 
 import java.util.ArrayList;
 
+import net.pic4pic.ginger.utils.MyLog;
+
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.FaceDetector;
-import android.util.Log;
 
 public class FaceDetectionTask extends BlockedTask<String, Void, FaceDetector.Face[]> {
 	
@@ -45,8 +46,8 @@ public class FaceDetectionTask extends BlockedTask<String, Void, FaceDetector.Fa
 			return all.toArray(new FaceDetector.Face[detectCount]);
     	}
     	catch(Exception ex){    
-    		Log.v("FaceDetection", "Face detection failed");
-    		Log.e("FaceDetection", ex.toString());
+    		MyLog.v("FaceDetection", "Face detection failed");
+    		MyLog.e("FaceDetection", ex.toString());
     	}
 
     	return new FaceDetector.Face[0];

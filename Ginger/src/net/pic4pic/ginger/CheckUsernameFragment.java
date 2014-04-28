@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import net.pic4pic.ginger.entities.UserCredentials;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.tasks.CheckUsernameTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
+import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.PageAdvancer;
 
 public class CheckUsernameFragment extends Fragment implements CheckUsernameTask.CheckUsernameListener {
@@ -70,7 +70,7 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 			_applyData(rootView);
 		}	
 		else{
-			Log.e("CheckUsernameFragment", "applyData() has been called before onCreateView() of CheckUsernameFragment");
+			MyLog.e("CheckUsernameFragment", "applyData() has been called before onCreateView() of CheckUsernameFragment");
 		}
 	}
 	
@@ -122,7 +122,7 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
          */
 		if(response.getErrorCode() != 0){
 			// ErrorCode != 0 : UserName is already in use
-			Log.i("CheckUserName", response.getErrorMessage());			
+			MyLog.i("CheckUserName", response.getErrorMessage());			
 			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
 		}
 		else if (response.getAuthToken() == null || response.getAuthToken().trim().length() == 0){

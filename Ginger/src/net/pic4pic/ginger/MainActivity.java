@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -26,6 +25,7 @@ import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.tasks.MatchedCandidatesTask;
 import net.pic4pic.ginger.tasks.MatchedCandidatesTask.MatchedCandidatesListener;
 import net.pic4pic.ginger.utils.GingerHelpers;
+import net.pic4pic.ginger.utils.MyLog;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, MatchedCandidatesListener {
 
@@ -51,7 +51,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		
 		Intent intent = getIntent();
 		this.me = (UserResponse)intent.getSerializableExtra(AuthenticatedUserBundleType);
-		Log.v("CurrentUser", "current user is: " + this.me.getUserProfile().getUsername());
+		MyLog.v("CurrentUser", "current user is: " + this.me.getUserProfile().getUsername());
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -166,19 +166,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == MainActivity.CaptureCameraCode) {
-			Log.v("ActivityResult", "CaptureCameraActivity has returned");
+			MyLog.v("ActivityResult", "CaptureCameraActivity has returned");
 			this.mSectionsPagerAdapter.getProfileFragment().processCameraActivityResult(resultCode, data);			
 	    }
 		else if (requestCode == MainActivity.PickFromGalleryCode) {
-			Log.v("ActivityResult", "PickFromGalleryActivity has returned");
+			MyLog.v("ActivityResult", "PickFromGalleryActivity has returned");
 			this.mSectionsPagerAdapter.getProfileFragment().processGalleryActivityResult(resultCode, data);
 		}
 		else if (requestCode == TextInputActivity.TextInputCode) {
-			Log.v("ActivityResult", "TextInputActivity has returned");
+			MyLog.v("ActivityResult", "TextInputActivity has returned");
 			this.mSectionsPagerAdapter.getProfileFragment().processTextInputActivityResult(resultCode, data);
 		}		
 		else{
-			Log.v("ActivityResult", "Unknown Activity  has been received by MainActivity: " + requestCode);
+			MyLog.v("ActivityResult", "Unknown Activity  has been received by MainActivity: " + requestCode);
 		}
 	}
 	

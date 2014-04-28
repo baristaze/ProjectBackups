@@ -1,13 +1,13 @@
 package net.pic4pic.ginger.tasks;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Button;
 
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.UserCredentials;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.service.Service;
+import net.pic4pic.ginger.utils.MyLog;
 
 public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
 	
@@ -29,7 +29,7 @@ public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
 		} 
     	catch (GingerException e) {
     		
-    		Log.e("CheckUsername", e.toString());
+    		MyLog.e("CheckUsername", e.toString());
     		
 			UserResponse response = new UserResponse();
 			response.setErrorCode(1);
@@ -38,7 +38,7 @@ public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
 		}
     	catch(Exception e){
     		
-    		Log.e("CheckUsername", e.toString());
+    		MyLog.e("CheckUsername", e.toString());
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);

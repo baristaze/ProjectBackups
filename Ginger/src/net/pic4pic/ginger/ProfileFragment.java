@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +26,7 @@ import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 import net.pic4pic.ginger.utils.ImageClickListener;
 import net.pic4pic.ginger.utils.ImageGalleryView;
+import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.TextInputDialog;
 
 public class ProfileFragment extends Fragment implements TextInputDialog.TextInputListener {
@@ -157,11 +157,11 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		}
 		*/ 
 		if (requestCode == TextInputActivity.TextInputCode) {
-			Log.v("ActivityResult", "TextInputActivity has returned");
+			MyLog.v("ActivityResult", "TextInputActivity has returned");
 			this.processTextInputActivityResult(resultCode, data);
 		}
 		else{
-			Log.v("ActivityResult", "Unknown Activity has returned: " + requestCode);
+			MyLog.v("ActivityResult", "Unknown Activity has returned: " + requestCode);
 		}
 	}
 	
@@ -176,11 +176,11 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		
 		if(resultCode == Activity.RESULT_OK && data != null){
 			
-			Log.v("Camera", "Camera result seems OK");				
+			MyLog.v("Camera", "Camera result seems OK");				
 			
 			Bitmap bitmapPhoto = (Bitmap) data.getExtras().get("data");
-			Log.v("Camera", "Photo width: " + bitmapPhoto.getWidth());
-			Log.v("Camera", "Photo height: " + bitmapPhoto.getHeight());
+			MyLog.v("Camera", "Photo width: " + bitmapPhoto.getWidth());
+			MyLog.v("Camera", "Photo height: " + bitmapPhoto.getHeight());
 			
 			String uri = "http://tvmedia.ign.com/tv/image/article/805/805797/bionic-woman-2007-20070717053021720.jpg";
 			if((new Random()).nextInt(2) % 2 == 0){
@@ -200,7 +200,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 			toast.show();
 		}
 		else{
-			Log.e("Camera", "Camera result is not ok");
+			MyLog.e("Camera", "Camera result is not ok");
 			
 			Toast toast = Toast.makeText(this.getActivity(), "Capturing photo is unsuccessfull", Toast.LENGTH_LONG);
 			toast.show();
@@ -213,8 +213,8 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		if(resultCode == Activity.RESULT_OK && data != null){
 			Uri selectedImageUri = data.getData();
 			if(selectedImageUri != null){					
-				Log.v("Gallery", "Gallery result seems OK");
-				Log.v("Gallery", "Uri: " + selectedImageUri.toString());
+				MyLog.v("Gallery", "Gallery result seems OK");
+				MyLog.v("Gallery", "Uri: " + selectedImageUri.toString());
                 
 				String selectedImagePath = this.getImagePath(selectedImageUri);
 				if(selectedImagePath == null){
@@ -222,7 +222,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 				}
 				else
 				{
-					Log.v("Gallery", "Path: " + selectedImagePath);
+					MyLog.v("Gallery", "Path: " + selectedImagePath);
 					
 					if(selectedImagePath.startsWith("http")){
 						errorMessage = "Selected image is not on this phone!";
@@ -234,13 +234,13 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 						}
 						catch(Exception ex){
 							errorMessage = "Selected image couldn't be decoded!";
-							Log.e("Gallery", ex.toString());
+							MyLog.e("Gallery", ex.toString());
 						}
 						
 						if(bitmapPhoto != null){
 							
-							Log.v("Gallery", "Photo width: " + bitmapPhoto.getWidth());
-							Log.v("Gallery", "Photo height: " + bitmapPhoto.getHeight());
+							MyLog.v("Gallery", "Photo width: " + bitmapPhoto.getWidth());
+							MyLog.v("Gallery", "Photo height: " + bitmapPhoto.getHeight());
 							
 							String uri = "http://tvmedia.ign.com/tv/image/article/805/805797/bionic-woman-2007-20070717053021720.jpg";
 							if((new Random()).nextInt(2) % 2 == 0){
@@ -264,7 +264,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		}
 
 		if(!success){
-			Log.e("Gallery", "Gallery result is not ok");
+			MyLog.e("Gallery", "Gallery result is not ok");
 			
 			Toast toast = Toast.makeText(this.getActivity(), errorMessage, Toast.LENGTH_LONG);
 			toast.show();
@@ -280,7 +280,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 	        return cursor.getString(column_index);
 		}
 		catch(Exception ex){
-			Log.e("Gallery", ex.toString());
+			MyLog.e("Gallery", ex.toString());
 			return null;
 		}
     }

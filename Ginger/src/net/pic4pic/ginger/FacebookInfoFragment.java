@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +35,7 @@ import net.pic4pic.ginger.tasks.ImageDownloadTask;
 import net.pic4pic.ginger.tasks.NonBlockedTask;
 import net.pic4pic.ginger.tasks.SignupTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
+import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.PageAdvancer;
 
 public class FacebookInfoFragment extends Fragment implements SignupTask.SignupListener {
@@ -79,7 +79,7 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 		TextView infoTextView = (TextView)(rootView.findViewById(R.id.infoTextView));
 		infoTextView.setText(Html.fromHtml(info));
 
-		Log.v("FacebookInfoFragment", "Thumbnail Url = " + thumbnailUrl);
+		MyLog.v("FacebookInfoFragment", "Thumbnail Url = " + thumbnailUrl);
 		if (thumbnailUrl != null && !thumbnailUrl.isEmpty()){
 			ImageView imageView = (ImageView)(rootView.findViewById(R.id.thumbnailImage));
 			ImageDownloadTask asyncTask = new ImageDownloadTask(imageView);
@@ -94,7 +94,7 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 			_applyData(rootView);
 		} 
 		else{
-			Log.e("FacebookInfoFragment", "applyData() has been called before onCreateView() of FacebookInfoFragment");
+			MyLog.e("FacebookInfoFragment", "applyData() has been called before onCreateView() of FacebookInfoFragment");
 		}
 	}
 
@@ -146,7 +146,7 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 						session.closeAndClearTokenInformation();
 					} 
 					else{
-						Log.v("FacebookInfoFragment","Facebook session with required permissions are ready.");
+						MyLog.v("FacebookInfoFragment","Facebook session with required permissions are ready.");
 						FacebookInfoFragment.this.onFacebookLoginWithPermissions(session);
 					}
 				}
@@ -182,7 +182,7 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 		List<String> existingPermissions = session.getPermissions();
 		for (String reqPerm : requiredPermissions) {
 			if (!existingPermissions.contains(reqPerm)) {
-				Log.v("FacebookInfoFragment", reqPerm + " permission doesn't exist");
+				MyLog.v("FacebookInfoFragment", reqPerm + " permission doesn't exist");
 				return false;
 			}
 		}
@@ -192,12 +192,12 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 
 	private void onFacebookLoginWithPermissions(final Session session) {
 
-		Log.v("FacebookInfoFragment", "Facebook token: " + session.getAccessToken());
+		MyLog.v("FacebookInfoFragment", "Facebook token: " + session.getAccessToken());
 		// GingerHelpers.toast(FacebookInfoFragment.this.getActivity(),
 		// "Logged in to Facebook!");
 
 		// make request to the /me API
-		Log.v("FacebookInfoFragment", "Retrieving Facebook user info...");
+		MyLog.v("FacebookInfoFragment", "Retrieving Facebook user info...");
 		Request request = Request.newMeRequest(session,
 			new Request.GraphUserCallback() {
 				// callback after Graph API response with user object
@@ -207,11 +207,11 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 						GingerHelpers.showErrorMessage(FacebookInfoFragment.this.getActivity(), response.getError().getErrorMessage());
 					} 
 					else if (user == null) {
-						Log.e("FacebookInfoFragment", "Facebook user retrieved from 'Me' request is null");
+						MyLog.e("FacebookInfoFragment", "Facebook user retrieved from 'Me' request is null");
 						GingerHelpers.showErrorMessage(FacebookInfoFragment.this.getActivity(), "We couldn't retrieve your data from Facebook");
 					} 
 					else {
-						Log.v("FacebookInfoFragment", "Facebook user: " + user.getName());
+						MyLog.v("FacebookInfoFragment", "Facebook user: " + user.getName());
 						// GingerHelpers.toast(FacebookInfoFragment.this.getActivity(),
 						// "You are " + user.getName());
 						FacebookInfoFragment.this.onFacebookUserRetrieval(user, session.getAccessToken(),user.getId());
@@ -255,7 +255,7 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 
 		if (response.getErrorCode() != 0) {
 			// "We couldn't verify your data with Facebook"
-			Log.e("FacebookInfoFragment", response.getErrorMessage());
+			MyLog.e("FacebookInfoFragment", response.getErrorMessage());
 			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
 		} 
 		else {
@@ -304,15 +304,15 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 					{
 						BaseResponse response = Service.getInstance().downloadFriends(FacebookInfoFragment.this.getActivity(), friendsRequest);
 						if(response.getErrorCode() == 0){
-							Log.i("FacebookInfoFragment", "Friends retrieved");
+							MyLog.i("FacebookInfoFragment", "Friends retrieved");
 						}
 						else {
-							Log.e("FacebookInfoFragment", "Friend request failed: " + response.getErrorMessage());
+							MyLog.e("FacebookInfoFragment", "Friend request failed: " + response.getErrorMessage());
 						}
 					}
 					catch(GingerException e) {
 						
-						Log.e("FacebookInfoFragment", "Friend request failed: " + e.getMessage());
+						MyLog.e("FacebookInfoFragment", "Friend request failed: " + e.getMessage());
 					}
 				}
 			});

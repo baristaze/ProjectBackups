@@ -3,8 +3,6 @@ package net.pic4pic.ginger.utils;
 import java.lang.reflect.Type;
 import java.util.Date;
 
-import android.util.Log;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -51,8 +49,8 @@ public class JsonDateDeserializer implements JsonDeserializer<Date> {
 			l = Long.parseLong(s);
 		}
 		catch(NumberFormatException e){
-			Log.e("Exception", e.toString());
-			Log.e("JSON", "Parsing JSON DateTime to Java Date failed: " + original);
+			MyLog.e("Exception", e.toString());
+			MyLog.e("JSON", "Parsing JSON DateTime to Java Date failed: " + original);
 		}
 		
 		if(l > 0){

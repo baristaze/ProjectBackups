@@ -6,6 +6,7 @@ import net.pic4pic.ginger.tasks.FaceDetectionTask;
 import net.pic4pic.ginger.tasks.ImageUploadTask;
 import net.pic4pic.ginger.utils.DrawView;
 import net.pic4pic.ginger.utils.ImageStorageHelper;
+import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.PageAdvancer;
 
 import android.app.AlertDialog;
@@ -16,7 +17,6 @@ import android.graphics.Bitmap;
 import android.media.FaceDetector;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +69,7 @@ public class FaceDetectionFragment extends Fragment
 		String fileName = this.getString(R.string.lastCapturedPhoto_filename_key);
 		bitmap = ImageStorageHelper.readBitmapForFaceDetection(this.getActivity(), fileName, false);		
 		if(bitmap != null){
-			Log.v("Bitmap", "Bitmap WxH = " + bitmap.getWidth() + "x" + bitmap.getHeight());
+			MyLog.v("Bitmap", "Bitmap WxH = " + bitmap.getWidth() + "x" + bitmap.getHeight());
 			ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
 			imageView.setImageBitmap(bitmap);
 		}
@@ -101,7 +101,7 @@ public class FaceDetectionFragment extends Fragment
 			}
 		}
 		else{
-			Log.e("FaceDetectionFragment", "applyData() has been called before onCreateView() of FaceDetectionFragment");
+			MyLog.e("FaceDetectionFragment", "applyData() has been called before onCreateView() of FaceDetectionFragment");
 		}	
 	}
 	
@@ -115,7 +115,7 @@ public class FaceDetectionFragment extends Fragment
 		feedbackTextView.setVisibility(View.INVISIBLE);
 		
 		if(detectedFaces.length == 0){
-			Log.v("FaceDetection", "Face couldn't be detected");			
+			MyLog.v("FaceDetection", "Face couldn't be detected");			
 			new AlertDialog.Builder(new ContextThemeWrapper(this.getActivity(), android.R.style.Theme_Holo_Dialog))
 		    .setTitle(this.getString(R.string.general_error_title))
 		    .setMessage(this.getString(R.string.err_no_face_detected))		    
@@ -128,7 +128,7 @@ public class FaceDetectionFragment extends Fragment
 		    .show();
 		}
 		else{
-			Log.v("Detection", "Detected Face Count: " + detectedFaces.length);
+			MyLog.v("Detection", "Detected Face Count: " + detectedFaces.length);
 			drawGreenStrokesOnCanvas(bitmap, detectedFaces);	
 			showUploadControls();
 		}
@@ -185,8 +185,8 @@ public class FaceDetectionFragment extends Fragment
 					" & CreateTime: " + response.getFullImage().getCreateTimeUTC()
 					);*/
 			
-			Log.v("FaceDetectionFragment", "Full Image Url = " + response.getImages().getFullSizeClear().getCloudUrl());
-			Log.v("FaceDetectionFragment", "Thumbnail Image Url = " + response.getImages().getThumbnailClear().getCloudUrl());
+			MyLog.v("FaceDetectionFragment", "Full Image Url = " + response.getImages().getFullSizeClear().getCloudUrl());
+			MyLog.v("FaceDetectionFragment", "Thumbnail Image Url = " + response.getImages().getThumbnailClear().getCloudUrl());
 			
 			SharedPreferences prefs = this.getActivity().getSharedPreferences(
 					getString(R.string.pref_filename_key), Context.MODE_PRIVATE);

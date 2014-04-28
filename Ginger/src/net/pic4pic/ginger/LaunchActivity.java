@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.View;
@@ -20,6 +19,7 @@ import net.pic4pic.ginger.entities.UserCredentials;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.service.Service;
 import net.pic4pic.ginger.tasks.SigninTask;
+import net.pic4pic.ginger.utils.MyLog;
 
 public class LaunchActivity extends Activity {
 
@@ -30,7 +30,7 @@ public class LaunchActivity extends Activity {
 		
 		UUID clientId = Service.getInstance().init(this);
 		if(clientId != null){
-			Log.i("ClientId", "ClientId = " + clientId.toString());
+			MyLog.i("ClientId", "ClientId = " + clientId.toString());
 		}
 		
 		this.signinOrSignup();
@@ -85,7 +85,7 @@ public class LaunchActivity extends Activity {
 		}
 		else{
 			
-			Log.e("Signin", response.getErrorMessage());
+			MyLog.e("Signin", response.getErrorMessage());
 			
 			final ProgressBar spinnerProgressBar = (ProgressBar)this.findViewById(R.id.spinnerProgressBar);
 			spinnerProgressBar.setVisibility(View.INVISIBLE);

@@ -13,7 +13,6 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.media.FaceDetector;
-import android.util.Log;
 
 public class BitmapHelpers {
 	
@@ -196,7 +195,7 @@ public class BitmapHelpers {
 		int width = (bitmap.getWidth() % 2) == 0 ? bitmap.getWidth() : bitmap.getWidth()-1;
 		int height = (bitmap.getHeight() % 2) == 0 ? bitmap.getHeight() : bitmap.getHeight()-1;
 		if(width != bitmap.getWidth() || height != bitmap.getHeight()){
-			Log.v("FaceDetection", "Cropping the image by 1 pixel since it must be even for face detection.");
+			MyLog.v("FaceDetection", "Cropping the image by 1 pixel since it must be even for face detection.");
 			Bitmap temp = Bitmap.createBitmap(bitmap, 0, 0, width, height, null, true);			
 			bitmap = temp;			
 		}
@@ -213,8 +212,8 @@ public class BitmapHelpers {
 			exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 		} 
 		catch (IOException e) {
-			Log.e("Rotation", "Rotation information couldn't be retrieved");
-			Log.e("Rotation", e.toString());
+			MyLog.e("Rotation", "Rotation information couldn't be retrieved");
+			MyLog.e("Rotation", e.toString());
 			throw e;
 		}
 		
@@ -233,7 +232,7 @@ public class BitmapHelpers {
 		       break;
 		}
 	
-		Log.v("BitmapHelpers", "Rotation of the image = " + rotate + ". Image = " + absoluteFilePath);
+		MyLog.v("BitmapHelpers", "Rotation of the image = " + rotate + ". Image = " + absoluteFilePath);
 		return rotate;
 	}
 	

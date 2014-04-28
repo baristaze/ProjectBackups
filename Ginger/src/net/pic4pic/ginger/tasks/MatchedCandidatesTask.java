@@ -2,12 +2,12 @@ package net.pic4pic.ginger.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.service.Service;
+import net.pic4pic.ginger.utils.MyLog;
 
 public class MatchedCandidatesTask extends AsyncTask<String, Void, MatchedCandidateListResponse> {
 
@@ -31,7 +31,7 @@ public class MatchedCandidatesTask extends AsyncTask<String, Void, MatchedCandid
 		} 
     	catch (GingerException e) {
     		
-    		Log.e("TodaysMatches", e.toString());
+    		MyLog.e("TodaysMatches", e.toString());
     		
     		MatchedCandidateListResponse response = new MatchedCandidateListResponse();
 			response.setErrorCode(1);
@@ -40,7 +40,7 @@ public class MatchedCandidatesTask extends AsyncTask<String, Void, MatchedCandid
 		}
     	catch(Exception e){
     		
-    		Log.e("Signin", e.toString());
+    		MyLog.e("Signin", e.toString());
     		
     		MatchedCandidateListResponse response = new MatchedCandidateListResponse();
 			response.setErrorCode(1);

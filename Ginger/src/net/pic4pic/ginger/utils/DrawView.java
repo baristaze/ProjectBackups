@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.media.FaceDetector;
-import android.util.Log;
 import android.view.View;
 
 public class DrawView extends View {
@@ -23,9 +22,9 @@ public class DrawView extends View {
 
 	@Override
 	public void onDraw(Canvas canvas) {
-		Log.v("Ginger", "CustomDraw: onDraw is invoked");
-		Log.v("Ginger", "CustomDraw: onDraw WxH = " + this.getWidth() + "x" + this.getHeight());
-		Log.v("Ginger", "CustomDraw: onDraw WxH of Canvas = " + canvas.getWidth() + "x" + canvas.getHeight()); // same with parent
+		MyLog.v("Ginger", "CustomDraw: onDraw is invoked");
+		MyLog.v("Ginger", "CustomDraw: onDraw WxH = " + this.getWidth() + "x" + this.getHeight());
+		MyLog.v("Ginger", "CustomDraw: onDraw WxH of Canvas = " + canvas.getWidth() + "x" + canvas.getHeight()); // same with parent
 
 		if (this.bitmap != null) {
 			Bitmap scaledBitmap = BitmapHelpers.scaleCenterCrop(this.bitmap,

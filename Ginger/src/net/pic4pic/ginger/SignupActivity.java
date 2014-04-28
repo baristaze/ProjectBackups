@@ -6,6 +6,7 @@ import net.pic4pic.ginger.MainActivity.DummySectionFragment;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.ImageActivity;
 import net.pic4pic.ginger.utils.ImageStorageHelper;
+import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.NonSwipeableViewPager;
 import net.pic4pic.ginger.utils.PageAdvancer;
 
@@ -16,7 +17,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 
@@ -136,7 +136,7 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 		if(result.getBitmap() != null){
 			String fileName = this.getString(R.string.lastCapturedPhoto_filename_key);
 			if(ImageStorageHelper.saveToInternalStorage(this, result.getBitmap(), fileName, true)){
-				Log.v("Storage", "Bitmap has been saved to the internal storage");
+				MyLog.v("Storage", "Bitmap has been saved to the internal storage");
 				int currentFragment = this.fragmentPager.getCurrentItem();
 				this.fragmentPager.setCurrentItem(currentFragment+1);				
 				FaceDetectionFragment theFrag = (FaceDetectionFragment)this.getFragment(FRAG_INDEX_FACE_DETECT);
@@ -156,11 +156,11 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == SignupActivity.CaptureCameraCode) {
-			Log.v("ActivityResult", "CaptureCameraActivity has returned");
+			MyLog.v("ActivityResult", "CaptureCameraActivity has returned");
 			this.processPhotoActivityResult(resultCode, data);
 	    }
 		else if (requestCode == SignupActivity.PickFromGalleryCode) {
-			Log.v("ActivityResult", "PickFromGalleryActivity has returned");
+			MyLog.v("ActivityResult", "PickFromGalleryActivity has returned");
 			this.processPhotoActivityResult(resultCode, data);
 		}
 		else{

@@ -1,13 +1,13 @@
 package net.pic4pic.ginger.tasks;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import net.pic4pic.ginger.LaunchActivity;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.UserCredentials;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.service.Service;
+import net.pic4pic.ginger.utils.MyLog;
 
 public class SigninTask extends AsyncTask<String, Void, UserResponse> {
 	
@@ -28,7 +28,7 @@ public class SigninTask extends AsyncTask<String, Void, UserResponse> {
 		} 
     	catch (GingerException e) {
     		
-    		Log.e("Signin", e.toString());
+    		MyLog.e("Signin", e.toString());
     		
 			UserResponse response = new UserResponse();
 			response.setErrorCode(1);
@@ -37,7 +37,7 @@ public class SigninTask extends AsyncTask<String, Void, UserResponse> {
 		}
     	catch(Exception e){
     		
-    		Log.e("Signin", e.toString());
+    		MyLog.e("Signin", e.toString());
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);

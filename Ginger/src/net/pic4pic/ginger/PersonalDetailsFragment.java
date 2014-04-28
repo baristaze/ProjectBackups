@@ -17,7 +17,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +34,7 @@ import net.pic4pic.ginger.entities.VerifyBioRequest;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 import net.pic4pic.ginger.tasks.VerifyBioTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
+import net.pic4pic.ginger.utils.MyLog;
 
 @SuppressLint("ResourceAsColor")
 public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.VerifyBioListener{
@@ -127,7 +127,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 			_applyData(rootView);
 		}	
 		else{
-			Log.e("PersonalDetailsFragment", "applyData() has been called before onCreateView() of PersonalDetailsFragment");
+			MyLog.e("PersonalDetailsFragment", "applyData() has been called before onCreateView() of PersonalDetailsFragment");
 		}
 	}
 	
@@ -156,7 +156,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 				}
 			}
 			catch(Exception ex){
-				Log.e("PersonalDetailsFragment", ex.toString());
+				MyLog.e("PersonalDetailsFragment", ex.toString());
 			}
 		}
 		
@@ -196,7 +196,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 			this.setActiveColor(educationLevelText);
 		}
 		
-		Log.v("PersonalDetailsFragment", "Thumbnail Url = " + thumbnailUrl);
+		MyLog.v("PersonalDetailsFragment", "Thumbnail Url = " + thumbnailUrl);
 		
 		if(thumbnailUrl != null && !thumbnailUrl.isEmpty()){
 			ImageView imageView = (ImageView)(rootView.findViewById(R.id.thumbnailImage));
@@ -267,7 +267,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 		
 		if(response.getErrorCode() != 0){
 			//  "We couldn't verify your data with Facebook"
-			Log.e("PersonalDetailsFragment", response.getErrorMessage());
+			MyLog.e("PersonalDetailsFragment", response.getErrorMessage());
 			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
 		}
 		else{

@@ -1,7 +1,7 @@
 package net.pic4pic.ginger.tasks;
 
+import net.pic4pic.ginger.utils.MyLog;
 import android.os.AsyncTask;
-import android.util.Log;
 
 // usage:
 // NonBlockedTask.Run(new ITask(){ Service.getInstance().blah(); });
@@ -19,7 +19,7 @@ public class NonBlockedTask {
 				}
 				catch(Exception e)
 				{
-					Log.e("BackgroundTask", "Background task failed: " + e.getMessage());
+					MyLog.e("BackgroundTask", "Background task failed: " + e.getMessage());
 				}
 				
 				return null;

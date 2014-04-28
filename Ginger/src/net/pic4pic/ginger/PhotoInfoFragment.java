@@ -1,12 +1,12 @@
 package net.pic4pic.ginger;
 
+import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.PageAdvancer;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +59,7 @@ public class PhotoInfoFragment extends Fragment {
 			this._applyData(rootView);
 		}
 		else{
-			Log.e("PhotoInfoFragment", "applyData() has been called before onCreateView() of PhotoInfoFragment");
+			MyLog.e("PhotoInfoFragment", "applyData() has been called before onCreateView() of PhotoInfoFragment");
 		}
 	}
 	

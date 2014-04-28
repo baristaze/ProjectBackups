@@ -1,12 +1,12 @@
 package net.pic4pic.ginger.tasks;
 
 import android.content.Context;
-import android.util.Log;
 
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
 import net.pic4pic.ginger.service.Service;
+import net.pic4pic.ginger.utils.MyLog;
 
 public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadResponse> {
 
@@ -28,7 +28,7 @@ public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadRespon
 		} 
 		catch (GingerException e) {
 			
-			Log.e("ImageUploadTask", e.toString());
+			MyLog.e("ImageUploadTask", e.toString());
 			
 			ImageUploadResponse response = new ImageUploadResponse();
 			response.setErrorCode(1);
@@ -37,7 +37,7 @@ public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadRespon
 		}
 		catch(Exception e){
 			
-			Log.e("ImageUploadTask", e.toString());
+			MyLog.e("ImageUploadTask", e.toString());
 			
 			ImageUploadResponse response = new ImageUploadResponse();
 			response.setErrorCode(1);

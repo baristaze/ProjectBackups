@@ -1,13 +1,13 @@
 package net.pic4pic.ginger.tasks;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Button;
 
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.entities.VerifyBioRequest;
 import net.pic4pic.ginger.service.Service;
+import net.pic4pic.ginger.utils.MyLog;
 
 public class VerifyBioTask extends BlockedTask<String, Void, UserResponse> {
 	
@@ -29,7 +29,7 @@ public class VerifyBioTask extends BlockedTask<String, Void, UserResponse> {
 		} 
     	catch (GingerException e) {
     		
-    		Log.e("VerifyBio", e.toString());
+    		MyLog.e("VerifyBio", e.toString());
     		
 			UserResponse response = new UserResponse();
 			response.setErrorCode(1);
@@ -38,7 +38,7 @@ public class VerifyBioTask extends BlockedTask<String, Void, UserResponse> {
 		}
     	catch(Exception e){
     		
-    		Log.e("VerifyBio", e.toString());
+    		MyLog.e("VerifyBio", e.toString());
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);

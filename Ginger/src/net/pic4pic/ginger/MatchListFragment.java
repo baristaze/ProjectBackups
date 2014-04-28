@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import net.pic4pic.ginger.entities.MatchedCandidate;
+import net.pic4pic.ginger.utils.MyLog;
 
 public class MatchListFragment extends Fragment {
 	
@@ -38,7 +38,7 @@ public class MatchListFragment extends Fragment {
 		if(activity.isNeedOfRequestingMatches()){		
 			
 			// log
-			Log.i("MatchListFragment", "Starting to retrieve matches");
+			MyLog.i("MatchListFragment", "Starting to retrieve matches");
 			
 			// below asynchronous process will call our 'onMatchComplete' method
 			activity.startRetrievingMatches();
@@ -46,7 +46,7 @@ public class MatchListFragment extends Fragment {
 		else {
 			
 			// log
-			Log.i("MatchListFragment", "Caches matches is being used");
+			MyLog.i("MatchListFragment", "Caches matches is being used");
 			
 			// get matches
 			ArrayList<MatchedCandidate> candidates = activity.getMatchedCandidates();
@@ -60,7 +60,7 @@ public class MatchListFragment extends Fragment {
 	
 	public void onMatchComplete(ArrayList<MatchedCandidate> matches){
 		
-		Log.i("MatchListFragment", "onMatchComplete signal retrieved");
+		MyLog.i("MatchListFragment", "onMatchComplete signal retrieved");
 		
 		// update UI
 		View rootView = this.getView();
@@ -68,13 +68,13 @@ public class MatchListFragment extends Fragment {
 			this.updateUI(this.getView(), matches);
 		}
 		else{
-			Log.e("MatchListFragment", "Something is too fast: Retrieved matches before rendering the root view");
+			MyLog.e("MatchListFragment", "Something is too fast: Retrieved matches before rendering the root view");
 		}
 	}
 	
 	private void updateUI(View rootView, ArrayList<MatchedCandidate> candidates){
 		
-		Log.i("MatchListFragment", "Updating UI based on matched candidates...");
+		MyLog.i("MatchListFragment", "Updating UI based on matched candidates...");
 		
 		// remove spinner block
 		this.removeTheFrontestView(rootView);
@@ -109,7 +109,7 @@ public class MatchListFragment extends Fragment {
 			return true;
 		}
 		else{
-			Log.e("MatchListFragment", "We cannot remove the latest view since we have only 1");
+			MyLog.e("MatchListFragment", "We cannot remove the latest view since we have only 1");
 			return false;
 		}
 	}

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,7 +106,7 @@ public class ImageGalleryView {
 		Point size = new Point();
 		display.getSize(size);
 		
-		Log.v("Screen Size", "Screen Size in DPI: " + size.x + " x " + size.y);
+		MyLog.v("Screen Size", "Screen Size in DPI: " + size.x + " x " + size.y);
 		
 		int width = size.x - this.marginOuter.left - this.marginOuter.right;
 		width -= this.gapBetweenImages * (stackFactor-1);
