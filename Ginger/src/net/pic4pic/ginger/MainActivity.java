@@ -46,7 +46,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
+		MyLog.v("MainActivity", "onCreate");
+		
 		super.onCreate(savedInstanceState);
+		this.recreatePropertiesFromSavedBundle(savedInstanceState);
+		
 		setContentView(R.layout.activity_main);
 		
 		Intent intent = getIntent();
@@ -86,10 +91,62 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					.setTabListener(this));
 		}
 	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		
+		MyLog.v("MainActivity", "onSaveInstanceState");
+		super.onSaveInstanceState(outState);
 
+		if(outState == null){
+			return;
+		}
+
+		if(this.me != null){
+			outState.putSerializable("me", this.me);
+		}
+
+		if(this.lastMatchRetrieveTime != null){
+			outState.putSerializable("lastMatchRetrieveTime", this.lastMatchRetrieveTime);
+		}
+	   
+		if(this.matches != null){
+			outState.putSerializable("matches", this.matches);
+		}
+	}
+	
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		MyLog.v("MainActivity", "onRestoreInstanceState");
+		super.onRestoreInstanceState(savedInstanceState);
+		this.recreatePropertiesFromSavedBundle(savedInstanceState);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void recreatePropertiesFromSavedBundle(Bundle state){
+		
+		if(state == null){
+			return;
+		}
+		
+		if(state.containsKey("me")){
+			this.me = (UserResponse)state.getSerializable("me");
+		}
+		
+		if(state.containsKey("lastMatchRetrieveTime")){
+			this.lastMatchRetrieveTime = (Date)state.getSerializable("lastMatchRetrieveTime");
+		}
+		
+		if(state.containsKey("matches")){
+			this.matches = (ArrayList<MatchedCandidate>)state.getSerializable("matches");
+		}
+	}
+	
 	public boolean isNeedOfRequestingMatches(){
 		
 		if(this.lastMatchRetrieveTime == null){
+			
+			MyLog.v("MainActivity", "Last match retrieve time is null. We need to request matches again");
 			return true;
 		}
 		
@@ -97,10 +154,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		long diffAsMilliSeconds = now.getTime() - this.lastMatchRetrieveTime.getTime();
 		long diffAsMinutes = diffAsMilliSeconds / 60000;
 		if(diffAsMinutes > 30){
+			MyLog.v("MainActivity", "Last match retrieve time was 30 minutes ago. We need to request matches again");
 			return true;
 		}
 		
 		if(matches.size() == 0){
+			MyLog.v("MainActivity", "Ciew doesn't have any match on it. We need to request matches again");
 			return true;
 		}
 		
