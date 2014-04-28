@@ -40,7 +40,7 @@ public class MatchedCandidatesTask extends AsyncTask<String, Void, MatchedCandid
 		}
     	catch(Exception e){
     		
-    		Log.e("TodaysMatches", e.toString());
+    		Log.e("Signin", e.toString());
     		
     		MatchedCandidateListResponse response = new MatchedCandidateListResponse();
 			response.setErrorCode(1);

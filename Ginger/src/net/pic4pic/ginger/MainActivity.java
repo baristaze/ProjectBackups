@@ -121,6 +121,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		
 		if(response.getErrorCode() == 0){
 			
+			this.lastMatchRetrieveTime = new Date();
+			
 			// update cache
 			ArrayList<MatchedCandidate> candidates = response.getItems();
 			if(candidates != null && candidates.size() > 0){

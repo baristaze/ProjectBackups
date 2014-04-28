@@ -117,7 +117,7 @@ public class GingerNetUtils {
 			json.append("\n");
 		}
 		
-		android.util.Log.d("JSON", json.toString());
+		// android.util.Log.d("JSON", json.toString());
 		
 		Gson gson = createGson();
 		return gson.fromJson(json.toString(), theClass);
