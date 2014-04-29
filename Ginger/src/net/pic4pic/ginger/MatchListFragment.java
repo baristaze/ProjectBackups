@@ -21,8 +21,6 @@ import net.pic4pic.ginger.utils.MyLog;
 
 public class MatchListFragment extends Fragment {
 	
-	private LayoutInflater inflater;
-	
 	// a public empty constructor is a must in fragment. 
 	// Do not add any parameter to this constructor.
 	public MatchListFragment(/*no parameter here please*/) {
@@ -31,7 +29,6 @@ public class MatchListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		this.inflater = inflater;
 		View rootView = inflater.inflate(R.layout.match_listview, container, false);
 		
 		MainActivity activity = (MainActivity)this.getActivity();
@@ -82,11 +79,16 @@ public class MatchListFragment extends Fragment {
 		// update UI
 		if(candidates != null && candidates.size() > 0){
 		
-			// fill up list view
-			this.populateListView(rootView, candidates);
+			// get list view
+			ListView listview = (ListView) rootView.findViewById(R.id.matchList);
 			
-			// add 'show more' button
-			this.bindShowMoreSectionToListView(rootView);
+			// bind 'show more' button
+			// NOTE: This needs to be called before populateListView();
+			// Main reason is that .setFooter() needs to be called before .setAdapter();
+			this.bindShowMoreSectionToListView(listview);
+			
+			// fill up list view
+			this.populateListView(listview, candidates);
 						
 			// remove info-for-empty-content block 
 			this.removeTheFrontestView(rootView);
@@ -114,10 +116,9 @@ public class MatchListFragment extends Fragment {
 		}
 	}
 	
-	private void populateListView(View rootView, ArrayList<MatchedCandidate> matches){
+	private ListView populateListView(ListView listview, ArrayList<MatchedCandidate> matches){
 		
-		// fill up list view
-		ListView listview = (ListView) rootView.findViewById(R.id.matchList);
+		// fill up list view		
 		MatchListItemAdapter adapter = new MatchListItemAdapter(this.getActivity(), matches);
 		listview.setAdapter(adapter);
 		
@@ -128,17 +129,23 @@ public class MatchListFragment extends Fragment {
 				MatchedCandidate item = (MatchedCandidate) parent.getItemAtPosition(position);
 				onShowPersonDetails(item, view);
 			}
-		});		
+		});	
+		
+		return listview;
 	}
 	
-	private void bindShowMoreSectionToListView(View rootView){
+	private Button bindShowMoreSectionToListView(ListView listview){
 		
-		ListView listview = (ListView) rootView.findViewById(R.id.matchList);		
-		View footer = this.inflater.inflate(R.layout.show_more_btn, null);		
+		MyLog.i("MatchListFragment", "Adding ShowMore button");
+		
+		LayoutInflater inflater = LayoutInflater.from(this.getActivity());
+		View footer = inflater.inflate(R.layout.show_more_btn, null);	
 		float height = this.getActivity().getResources().getDimension(R.dimen.person_li_footer_height);
 		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, (int) height);		
 		footer.setLayoutParams(lp);
-		listview.addFooterView(footer);
+		
+		// NOTE: Footer needs to be set before calling listView.setAdapter(...); // !!!
+		listview.addFooterView(footer);		
 		//listview.addFooterView(footer, null, false);
 		//listview.setDivider(null);
 		//listview.setDividerHeight(0);
@@ -149,7 +156,9 @@ public class MatchListFragment extends Fragment {
 		    public void onClick(View v) {
 		    	onShowMoreMatches(v);
 		    }
-		 });	
+		 });
+		
+		return showMoreButton;
 	}
 	
 	public void onShowMoreMatches(View v){
