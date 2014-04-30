@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.pic4pic.ginger.entities.EducationLevel;
+import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.MaritalStatus;
 import net.pic4pic.ginger.entities.UserProfile;
 import net.pic4pic.ginger.entities.UserResponse;
@@ -137,7 +138,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 				getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
 		
 		String username = prefs.getString(this.getString(R.string.pref_username_key), "");	
-		String thumbnailUrl = prefs.getString(this.getString(R.string.pref_user_thumbnail_blurred_key), "");
+		//String thumbnailUrl = prefs.getString(this.getString(R.string.pref_user_thumbnail_blurred_key), "");
 		String gender = prefs.getString(this.getString(R.string.pref_user_gender_key), "Unspecified");
 		String homeTownCity = prefs.getString(this.getString(R.string.pref_user_hometown_city_key), "required");
 		String relationStatus = prefs.getString(this.getString(R.string.pref_user_relation_status), "optional");
@@ -196,13 +197,26 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 			this.setActiveColor(educationLevelText);
 		}
 		
-		MyLog.v("PersonalDetailsFragment", "Thumbnail Url = " + thumbnailUrl);
-		
+		// override thumbnailUrl
+		if(this.userInfo != null){
+			ImageFile imageToDownload = this.userInfo.getProfilePictures().getThumbnailBlurred();
+			ImageView imageView = (ImageView)(rootView.findViewById(R.id.thumbnailImage));
+			ImageDownloadTask asyncTask = new ImageDownloadTask(imageToDownload.getId(), imageView);
+			
+			MyLog.v("PersonalDetailsFragment", "Thumbnail Url = " + imageToDownload.getCloudUrl());
+			asyncTask.execute(imageToDownload.getCloudUrl());
+		}
+		else{
+			MyLog.v("PersonalDetailsFragment", "No Thumbnail Url since there is no UserInfo yet.");
+		}
+			
+		/*
 		if(thumbnailUrl != null && !thumbnailUrl.isEmpty()){
 			ImageView imageView = (ImageView)(rootView.findViewById(R.id.thumbnailImage));
 			ImageDownloadTask asyncTask = new ImageDownloadTask(imageView);
 			asyncTask.execute(thumbnailUrl);
-		}		
+		}
+		*/		
 	}
 	
 	private boolean isRealValue(String val){

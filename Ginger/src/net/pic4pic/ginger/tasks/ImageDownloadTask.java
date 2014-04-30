@@ -1,7 +1,9 @@
 package net.pic4pic.ginger.tasks;
 
 import java.io.InputStream;
+import java.util.UUID;
 
+import net.pic4pic.ginger.utils.ImageCacher;
 import net.pic4pic.ginger.utils.MyLog;
 
 import android.graphics.Bitmap;
@@ -11,24 +13,35 @@ import android.widget.ImageView;
 
 public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 	
+	private UUID imageId;
 	private ImageView imageView;
 	private boolean clickableAfterDownload;
 	
-	public ImageDownloadTask(ImageView imageView){
-		this(imageView, false);
+	public ImageDownloadTask(UUID imageId, ImageView imageView){
+		this(imageId, imageView, false);
 	}
-	
-    public ImageDownloadTask(ImageView imageView, boolean clickableAfterDownload) {
-        this.imageView = imageView;
+		
+    public ImageDownloadTask(UUID imageId, ImageView imageView, boolean clickableAfterDownload) {
+        this.imageId = imageId;
+    	this.imageView = imageView;
         this.clickableAfterDownload = clickableAfterDownload;
     }
 
     @Override
-    protected Bitmap doInBackground(String... urls) {    	
+    protected Bitmap doInBackground(String... urls) {   
+    	
+    	// check cache first
+    	if(ImageCacher.Instance().exists(this.imageId)){
+    		MyLog.i("ImageDownloadTask", "Cached image is used: " + this.imageId.toString());
+    		return ImageCacher.Instance().get(this.imageId); 
+    	}
+    	
+    	// else... download it
     	Bitmap bitmap = null;    	
     	if(urls != null && urls.length > 0){
 	        String urldisplay = urls[0];	        
 	        try {
+	        	MyLog.v("ImageDownloadTask", "Downloading Image... " + this.imageId.toString());
 	            InputStream in = new java.net.URL(urldisplay).openStream();
 	            bitmap = BitmapFactory.decodeStream(in);
 	        } 
@@ -42,9 +55,16 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     	}
         return bitmap;
     }
-
+    
+    @Override
     protected void onPostExecute(Bitmap result) {
-    	if(result != null){
+    	
+    	if(result != null){    		
+    		
+    		// set it to the cache
+    		ImageCacher.Instance().put(this.imageId, result);
+    		
+    		// update resources
     		this.imageView.setImageBitmap(result);
     		if(this.clickableAfterDownload){
     			this.imageView.setClickable(true);

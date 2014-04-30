@@ -194,6 +194,7 @@ public class FaceDetectionFragment extends Fragment
 			SharedPreferences.Editor editor = prefs.edit();
 			editor.putString(this.getString(R.string.pref_user_bighoto_plain_key), response.getImages().getFullSizeClear().getCloudUrl());
 			editor.putString(this.getString(R.string.pref_user_thumbnail_plain_key), response.getImages().getThumbnailClear().getCloudUrl());
+			editor.putString(this.getString(R.string.pref_user_thumbnail_plain_id_key), response.getImages().getThumbnailClear().getId().toString());
 			editor.putString(this.getString(R.string.pref_user_bighoto_blurred_key), response.getImages().getFullSizeBlurred().getCloudUrl());
 			editor.putString(this.getString(R.string.pref_user_thumbnail_blurred_key), response.getImages().getThumbnailBlurred().getCloudUrl());
 			editor.putString(this.getString(R.string.pref_user_uploadreference_key), response.getUploadReference());						

@@ -86,7 +86,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		meAvatarView.setImageResource(android.R.drawable.ic_menu_gallery);
 		
 		// set the real image with an asynchronous download operation
-		ImageDownloadTask downloadTask = new ImageDownloadTask(meAvatarView);
+		ImageDownloadTask downloadTask = new ImageDownloadTask(me.getProfilePictures().getThumbnailBlurred().getId(), meAvatarView);
 		downloadTask.execute(me.getProfilePictures().getThumbnailBlurred().getCloudUrl());
 		
 		// set the default image for mainPhoto
@@ -94,7 +94,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		meMainPhotoView.setOnClickListener(new ImageClickListener(this.getActivity(), meMainPhotoView));
 		
 		// set the real image with an asynchronous download operation
-		ImageDownloadTask downloadTask2 = new ImageDownloadTask(meMainPhotoView);
+		ImageDownloadTask downloadTask2 = new ImageDownloadTask(me.getProfilePictures().getFullSizeClear().getId(), meMainPhotoView);
 		downloadTask2.execute(me.getProfilePictures().getFullSizeClear().getCloudUrl());
 		
 		LinearLayout photoGalleryParent = (LinearLayout)rootView.findViewById(R.id.thumbnailPlaceholder);

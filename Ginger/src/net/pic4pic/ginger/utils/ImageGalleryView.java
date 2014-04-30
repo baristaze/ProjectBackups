@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import net.pic4pic.ginger.MainActivity;
 import net.pic4pic.ginger.R;
+import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.PicturePair;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 
@@ -173,9 +174,10 @@ public class ImageGalleryView {
 	}
 	
 	protected void assignImageToView(ImageView imgView){
+		ImageFile imageToDownload = images.get(this.populatedImageCount).getThumbnail();
 		imgView.setOnClickListener(new ImageClickListener(this.activity, imgView));
-		ImageDownloadTask photoDownloadTask = new ImageDownloadTask(imgView, this.enableImageClick);
-		photoDownloadTask.execute(images.get(this.populatedImageCount).getThumbnail().getCloudUrl());	
+		ImageDownloadTask photoDownloadTask = new ImageDownloadTask(imageToDownload.getId(), imgView, this.enableImageClick);
+		photoDownloadTask.execute(imageToDownload.getCloudUrl());	
 	}
 	
 	protected void assignCameraIconToView(ImageView imgView){

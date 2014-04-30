@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -70,6 +71,7 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 
 		String username = prefs.getString(this.getString(R.string.pref_username_key), "");
 		String thumbnailUrl = prefs.getString(this.getString(R.string.pref_user_thumbnail_plain_key), "");
+		String thumbnailIdAsText = prefs.getString(this.getString(R.string.pref_user_thumbnail_plain_id_key), "");
 		String header = String.format(this.getHeader(), username);
 		String info = String.format(this.getInfo(), username);
 
@@ -80,9 +82,10 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 		infoTextView.setText(Html.fromHtml(info));
 
 		MyLog.v("FacebookInfoFragment", "Thumbnail Url = " + thumbnailUrl);
-		if (thumbnailUrl != null && !thumbnailUrl.isEmpty()){
+		if (thumbnailUrl != null && !thumbnailUrl.isEmpty() && thumbnailIdAsText != null && !thumbnailIdAsText.isEmpty()){
+			UUID thumbnailId = UUID.fromString(thumbnailIdAsText);
 			ImageView imageView = (ImageView)(rootView.findViewById(R.id.thumbnailImage));
-			ImageDownloadTask asyncTask = new ImageDownloadTask(imageView);
+			ImageDownloadTask asyncTask = new ImageDownloadTask(thumbnailId, imageView);
 			asyncTask.execute(thumbnailUrl);
 		}
 	}

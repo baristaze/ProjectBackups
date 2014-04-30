@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.Notification;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 
@@ -105,8 +106,9 @@ public class NotificationListItemAdapter extends BaseExpandableListAdapter {
 		imageView.setImageResource(android.R.drawable.ic_menu_gallery);
 		
 		// set the real image with an asynchronous download operation
-		ImageDownloadTask asyncTask = new ImageDownloadTask(imageView);
-		asyncTask.execute(group.getSender().getProfilePics().getThumbnail().getCloudUrl());
+		ImageFile imageToDownload = group.getSender().getProfilePics().getThumbnail();
+		ImageDownloadTask asyncTask = new ImageDownloadTask(imageToDownload.getId(), imageView);
+		asyncTask.execute(imageToDownload.getCloudUrl());
 		
 		String actionName = Notification.GetActionText(this.activity, group.getRecommendedAction());
 		Button actionButton = ((Button)convertView.findViewById(R.id.notifActionButton));

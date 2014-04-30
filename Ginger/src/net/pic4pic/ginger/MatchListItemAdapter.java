@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 
@@ -55,8 +56,9 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		cachedView.avatarImageView.setImageResource(android.R.drawable.ic_menu_gallery);
 		
 		// set the real image with an asynchronous download operation
-		ImageDownloadTask asyncTask = new ImageDownloadTask(cachedView.avatarImageView);
-		asyncTask.execute(person.getProfilePics().getThumbnail().getCloudUrl());
+		ImageFile imageToDownload = person.getProfilePics().getThumbnail();
+		ImageDownloadTask asyncTask = new ImageDownloadTask(imageToDownload.getId(), cachedView.avatarImageView);
+		asyncTask.execute(imageToDownload.getCloudUrl());
 		
 		return rowView;
 	}
