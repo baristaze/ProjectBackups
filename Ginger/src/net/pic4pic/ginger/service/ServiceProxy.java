@@ -12,6 +12,8 @@ import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
+import net.pic4pic.ginger.entities.NotificationListResponse;
+import net.pic4pic.ginger.entities.NotificationRequest;
 import net.pic4pic.ginger.entities.SignupRequest;
 import net.pic4pic.ginger.entities.SimpleResponseGuid;
 import net.pic4pic.ginger.entities.StartingPic4PicRequest;
@@ -192,4 +194,19 @@ public class ServiceProxy extends ServiceBase implements IService {
 				super.getAuthToken(context), 
 				"/svc/rest/acceptP4P").getData();	
     }
+	
+	@Override
+	public NotificationListResponse getNotifications(Context context, NotificationRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				NotificationListResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/notifications").getData();
+	}
 }

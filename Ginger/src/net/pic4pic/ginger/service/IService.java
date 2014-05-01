@@ -10,6 +10,8 @@ import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
+import net.pic4pic.ginger.entities.NotificationListResponse;
+import net.pic4pic.ginger.entities.NotificationRequest;
 import net.pic4pic.ginger.entities.SimpleResponseGuid;
 import net.pic4pic.ginger.entities.StartingPic4PicRequest;
 import net.pic4pic.ginger.entities.UserResponse;
@@ -46,4 +48,6 @@ public interface IService {
     public SimpleResponseGuid requestPic4Pic(Context context, StartingPic4PicRequest request) throws GingerException;
     
     public SimpleResponseGuid acceptPic4Pic(Context context, AcceptingPic4PicRequest request) throws GingerException;
+    
+    public NotificationListResponse getNotifications(Context context, NotificationRequest request) throws GingerException;
 }

@@ -2,6 +2,7 @@ package net.pic4pic.ginger;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -21,13 +22,18 @@ import android.widget.TextView;
 import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
+import net.pic4pic.ginger.entities.Notification;
+import net.pic4pic.ginger.entities.NotificationListResponse;
+import net.pic4pic.ginger.entities.NotificationRequest;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.tasks.MatchedCandidatesTask;
 import net.pic4pic.ginger.tasks.MatchedCandidatesTask.MatchedCandidatesListener;
+import net.pic4pic.ginger.tasks.NotificationsTask;
+import net.pic4pic.ginger.tasks.NotificationsTask.NotificationsListener;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.MyLog;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, MatchedCandidatesListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListener {
 
 	public static final String AuthenticatedUserBundleType = "net.pic4pic.ginger.AuthenticatedUser"; 
 	public static final int CaptureCameraCode = 102;
@@ -39,7 +45,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	}
 	
 	private Date lastMatchRetrieveTime = null;
+	private Date lastNotificationRetrieveTime = null;
 	private ArrayList<MatchedCandidate> matches = new ArrayList<MatchedCandidate>();
+	private ArrayList<Notification> notifications = new ArrayList<Notification>();
 	
 	private SectionsPagerAdapter mSectionsPagerAdapter;	
 	private ViewPager mViewPager;
@@ -109,9 +117,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		if(this.lastMatchRetrieveTime != null){
 			outState.putSerializable("lastMatchRetrieveTime", this.lastMatchRetrieveTime);
 		}
+		
+		if(this.lastNotificationRetrieveTime != null){
+			outState.putSerializable("lastNotificationRetrieveTime", this.lastNotificationRetrieveTime);
+		}
 	   
 		if(this.matches != null){
 			outState.putSerializable("matches", this.matches);
+		}
+		
+		if(this.notifications != null){
+			outState.putSerializable("notifications", this.notifications);
 		}
 	}
 	
@@ -137,9 +153,25 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			this.lastMatchRetrieveTime = (Date)state.getSerializable("lastMatchRetrieveTime");
 		}
 		
+		if(state.containsKey("lastNotificationRetrieveTime")){
+			this.lastNotificationRetrieveTime = (Date)state.getSerializable("lastNotificationRetrieveTime");
+		}
+		
 		if(state.containsKey("matches")){
 			this.matches = (ArrayList<MatchedCandidate>)state.getSerializable("matches");
 		}
+		
+		if(state.containsKey("notifications")){
+			this.notifications = (ArrayList<Notification>)state.getSerializable("notifications");
+		}
+	}
+	
+	public ArrayList<MatchedCandidate> getMatchedCandidates(){
+		return this.matches;
+	}
+	
+	public ArrayList<Notification> getNotifications(){
+		return this.notifications;
 	}
 	
 	public boolean isNeedOfRequestingMatches(){
@@ -158,16 +190,36 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			return true;
 		}
 		
-		if(matches.size() == 0){
-			MyLog.v("MainActivity", "Ciew doesn't have any match on it. We need to request matches again");
+		if(this.matches.size() == 0){
+			MyLog.v("MainActivity", "View doesn't have any match on it. We need to request matches again");
 			return true;
 		}
 		
 		return false;
 	}
 	
-	public ArrayList<MatchedCandidate> getMatchedCandidates(){
-		return this.matches;
+	public boolean isNeedOfRequestingNotifications(){
+		
+		if(this.lastNotificationRetrieveTime == null){
+			
+			MyLog.v("MainActivity", "Last notification retrieve time is null. We need to request notifications again");
+			return true;
+		}
+		
+		Date now = new Date();
+		long diffAsMilliSeconds = now.getTime() - this.lastNotificationRetrieveTime.getTime();
+		long diffAsMinutes = diffAsMilliSeconds / 60000;
+		if(diffAsMinutes > 30){
+			MyLog.v("MainActivity", "Last notification retrieve time was 30 minutes ago. We need to request notifications again");
+			return true;
+		}
+		
+		if(this.notifications.size() == 0){
+			MyLog.v("MainActivity", "View doesn't have any notification on it. We need to request notifications again");
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public void startRetrievingMatches(){
@@ -176,6 +228,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		task.execute();
 	}
 	
+	public void startRetrievingNotifications(){		
+		NotificationRequest request = new NotificationRequest();
+		request.setLastNotificationId(new UUID(0,0));
+		/*
+		if(this.notifications.size() > 0){
+			request.setLastNotificationId(this.notifications.get(0).getId());
+		}
+		*/
+		NotificationsTask task = new NotificationsTask(this, this, request);
+		task.execute();
+	}
+	
+	@Override
 	public void onMatchComplete(MatchedCandidateListResponse response, BaseRequest request){
 		
 		if(response.getErrorCode() == 0){
@@ -185,6 +250,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			// update cache
 			ArrayList<MatchedCandidate> candidates = response.getItems();
 			if(candidates != null && candidates.size() > 0){
+				this.matches.clear();
 				this.matches.addAll(candidates);
 			}
 			
@@ -197,6 +263,32 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			
 			// update UI
 			this.mSectionsPagerAdapter.getMatchListFragment().onMatchComplete(this.matches);
+		}	
+	}
+	
+	@Override
+	public void onNotificationsComplete(NotificationListResponse response, NotificationRequest request){
+		
+		if(response.getErrorCode() == 0){
+			
+			this.lastNotificationRetrieveTime = new Date();
+			
+			// update cache
+			ArrayList<Notification> notifs = response.getItems();
+			if(notifs != null && notifs.size() > 0){
+				this.notifications.clear();
+				this.notifications.addAll(notifs);
+			}
+			
+			// update UI
+			this.mSectionsPagerAdapter.getNotificationListFragment().onNotificationsComplete(this.notifications);			
+		}
+		else{
+			// show error
+			GingerHelpers.showErrorMessage(this, response.getErrorMessage());
+			
+			// update UI
+			this.mSectionsPagerAdapter.getNotificationListFragment().onNotificationsComplete(this.notifications);
 		}	
 	}
 	

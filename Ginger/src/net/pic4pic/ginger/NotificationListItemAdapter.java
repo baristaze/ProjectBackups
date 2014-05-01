@@ -22,11 +22,22 @@ public class NotificationListItemAdapter extends BaseExpandableListAdapter {
 
 	private Activity activity;
 	private ArrayList<Notification> notifications;
-	private LayoutInflater inflater;
+	
+	private class GroupViewCache {		
+		public TextView usernameTextView;
+		public TextView titleTextView;
+		public TextView timeTextView;		
+		public ImageView avatarImageView;	    
+	    public Button actionButton;
+	}
+	
+	private class ChildViewCache {		
+		public TextView shortBioTextView;
+		public TextView descriptionTextView;
+	}
 	
 	public NotificationListItemAdapter(Activity activity, List<Notification> notifications){
 		this.activity = activity;
-		this.inflater = activity.getLayoutInflater();
 	    this.notifications = new ArrayList<Notification>(notifications);
 	}
 	
@@ -44,12 +55,24 @@ public class NotificationListItemAdapter extends BaseExpandableListAdapter {
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 		
 		if(convertView == null){
+			LayoutInflater inflater = LayoutInflater.from(this.activity);
 			convertView = inflater.inflate(R.layout.notif_list_item_detail, null);
+			
+			ChildViewCache viewCache = new ChildViewCache();
+			viewCache.shortBioTextView = (TextView) convertView.findViewById(R.id.senderShortBio);
+			viewCache.descriptionTextView = (TextView) convertView.findViewById(R.id.senderDescription);
+			convertView.setTag(viewCache);
 		}
 		
 		Notification group = (Notification) getGroup(groupPosition);
-		((TextView) convertView.findViewById(R.id.senderShortBio)).setText(group.getSender().getCandidateProfile().getShortBio());
-		((TextView) convertView.findViewById(R.id.senderDescription)).setText(group.getSender().getCandidateProfile().getDescription());
+		ChildViewCache viewCache = (ChildViewCache)convertView.getTag();
+		
+		// set short biography
+		viewCache.shortBioTextView.setText(group.getSender().getCandidateProfile().getShortBio());
+				
+		// set description
+		viewCache.descriptionTextView.setText(group.getSender().getCandidateProfile().getDescription());
+		
 		return convertView;
 	}
 
@@ -87,34 +110,43 @@ public class NotificationListItemAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		
 		if (convertView == null) {
+			LayoutInflater inflater = LayoutInflater.from(this.activity);
 			convertView = inflater.inflate(R.layout.notif_list_item, null);
+			
+			GroupViewCache cachedView = new GroupViewCache();
+			cachedView.usernameTextView = (TextView)convertView.findViewById(R.id.senderUsername);
+			cachedView.titleTextView = (TextView)convertView.findViewById(R.id.notifTitle);
+			cachedView.timeTextView = (TextView)convertView.findViewById(R.id.sentTime);
+			cachedView.avatarImageView = (ImageView) convertView.findViewById(R.id.senderAvatar);
+			cachedView.actionButton = ((Button)convertView.findViewById(R.id.notifActionButton));			
+			convertView.setTag(cachedView);
 		}
 		
 		final Notification group = (Notification) getGroup(groupPosition);
+		GroupViewCache cachedView = (GroupViewCache) convertView.getTag();
 		
-		TextView usernameText = (TextView)convertView.findViewById(R.id.senderUsername);
-		usernameText.setText(group.getSender().getCandidateProfile().getUsername());
+		// set user name
+		cachedView.usernameTextView.setText(group.getSender().getCandidateProfile().getUsername());
 		
-		TextView titleText = (TextView)convertView.findViewById(R.id.notifTitle); 
-		titleText.setText(group.getTitle());
+		// set title
+		cachedView.titleTextView.setText(group.getTitle());
 		
-		TextView timeText = (TextView)convertView.findViewById(R.id.sentTime); 
-		timeText.setText(group.getSentTime());
+		// set time info
+		cachedView.timeTextView.setText(group.getSentTime());
 		
-		// set the default image
-		ImageView imageView = (ImageView) convertView.findViewById(R.id.senderAvatar);
-		imageView.setImageResource(android.R.drawable.ic_menu_gallery);
+		// set dummy image first...
+		cachedView.avatarImageView.setImageResource(android.R.drawable.ic_menu_gallery);
 		
-		// set the real image with an asynchronous download operation
+		// now set the real image with an asynchronous download operation
 		ImageFile imageToDownload = group.getSender().getProfilePics().getThumbnail();
-		ImageDownloadTask asyncTask = new ImageDownloadTask(imageToDownload.getId(), imageView);
+		ImageDownloadTask asyncTask = new ImageDownloadTask(imageToDownload.getId(), cachedView.avatarImageView);
 		asyncTask.execute(imageToDownload.getCloudUrl());
 		
-		String actionName = Notification.GetActionText(this.activity, group.getRecommendedAction());
-		Button actionButton = ((Button)convertView.findViewById(R.id.notifActionButton));
-		actionButton.setText(actionName);		
-		actionButton.setFocusable(false);
-		actionButton.setOnClickListener(new OnClickListener() {
+		// set button
+		String actionName = Notification.GetActionText(this.activity, group.getRecommendedAction());		
+		cachedView.actionButton.setText(actionName);		
+		cachedView.actionButton.setFocusable(false);
+		cachedView.actionButton.setOnClickListener(new OnClickListener() {
 			@Override
 		    public void onClick(View v) {
 		    	onNotificationAction(v, group);

@@ -105,4 +105,7 @@
     <string name="match_list_retrieving">Retrieving Matches&#8230;</string>
     <string name="match_list_empty_info">Sorry, no match at this time.\nTap and pull down to refresh!</string>
     
+    <string name="notif_list_retrieving">Retrieving Notifications&#8230;</string>
+    <string name="notif_list_empty_info">Sorry, no notification at this time.\nTap and pull down to refresh!</string>
+    
 </resources>

@@ -43,7 +43,7 @@ public class MatchListFragment extends Fragment {
 		else {
 			
 			// log
-			MyLog.i("MatchListFragment", "Caches matches is being used");
+			MyLog.i("MatchListFragment", "Cached matches are being used");
 			
 			// get matches
 			ArrayList<MatchedCandidate> candidates = activity.getMatchedCandidates();
