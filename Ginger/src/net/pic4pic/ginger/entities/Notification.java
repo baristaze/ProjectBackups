@@ -1,6 +1,7 @@
 package net.pic4pic.ginger.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
 
 import com.google.gson.annotations.SerializedName;
@@ -25,7 +26,7 @@ public class Notification implements Serializable {
 	protected String title;
 		
 	@SerializedName("ActionTimeUTC")
-	protected String sentTime;
+	protected Date sentTimeUTC;
 		
 	@SerializedName("StartedBy")
 	protected MatchedCandidate sender;
@@ -65,12 +66,12 @@ public class Notification implements Serializable {
 		this.title = title;
 	}
 	
-	public String getSentTime(){
-		return this.sentTime;
+	public Date getSentTimeUTC(){
+		return this.sentTimeUTC;
 	}
-	
-	public void setSentTime(String sentTime){
-		this.sentTime = sentTime;
+		
+	public void setSentTimeUTC(Date sentTime){
+		this.sentTimeUTC = sentTime;
 	}
 	
 	public MatchedCandidate getSender(){

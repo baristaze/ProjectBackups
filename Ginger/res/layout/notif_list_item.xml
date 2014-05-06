@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="wrap_content"
     android:padding="@dimen/notif_li_padding"
     android:orientation="horizontal" >
     
@@ -41,6 +41,7 @@
 	        android:id="@+id/sentTime"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"        
+	        android:layout_marginTop="@dimen/notif_li_time_layout_margin_top"
 	        android:singleLine="true"
 	        android:textSize="@dimen/notif_li_time_textSize"
 	        android:textColor="@android:color/darker_gray" />

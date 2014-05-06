@@ -17,6 +17,7 @@ import android.widget.TextView;
 import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.Notification;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
+import net.pic4pic.ginger.utils.GingerHelpers;
 
 public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 
@@ -63,7 +64,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		cachedView.titleTextView.setText(notification.getTitle());
 		
 		// set time info
-		cachedView.timeTextView.setText(notification.getSentTime());
+		cachedView.timeTextView.setText(GingerHelpers.getTimeDiffHumanReadable(notification.getSentTimeUTC()));
 		
 		// set dummy image first...
 		cachedView.avatarImageView.setImageResource(android.R.drawable.ic_menu_gallery);

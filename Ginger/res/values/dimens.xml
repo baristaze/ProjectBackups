@@ -21,9 +21,10 @@
     <dimen name="notif_li_button_layout_width">90dp</dimen>
     <dimen name="notif_li_button_layout_height">60dp</dimen>
     <dimen name="notif_li_button_layout_marginLeft">6dp</dimen>
-    <dimen name="notif_li_sender_username_textSize">16sp</dimen>
+    <dimen name="notif_li_sender_username_textSize">18sp</dimen>
     <dimen name="notif_li_title_textSize">14sp</dimen>
-    <dimen name="notif_li_time_textSize">11sp</dimen>
+    <dimen name="notif_li_time_layout_margin_top">1dp</dimen>
+    <dimen name="notif_li_time_textSize">12sp</dimen>
     <dimen name="notif_li_sender_shortBio_textSize">14sp</dimen>
     <dimen name="notif_li_sender_descr_textSize">12sp</dimen>
     <dimen name="notif_li_sender_descr_marginTop">6dp</dimen>  
