@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,12 +18,12 @@ import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.Notification;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 
-public class NotificationListItemAdapter extends BaseExpandableListAdapter {
+public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 
 	private Activity activity;
 	private ArrayList<Notification> notifications;
 	
-	private class GroupViewCache {		
+	private class ViewCache {		
 		public TextView usernameTextView;
 		public TextView titleTextView;
 		public TextView timeTextView;		
@@ -31,89 +31,20 @@ public class NotificationListItemAdapter extends BaseExpandableListAdapter {
 	    public Button actionButton;
 	}
 	
-	private class ChildViewCache {		
-		public TextView shortBioTextView;
-		public TextView descriptionTextView;
-	}
-	
 	public NotificationListItemAdapter(Activity activity, List<Notification> notifications){
+		super(activity, R.layout.notif_list_item, notifications);
 		this.activity = activity;
 	    this.notifications = new ArrayList<Notification>(notifications);
 	}
-	
-	@Override
-	public Object getChild(int groupPosition, int childPosition) {
-		return this.notifications.get(groupPosition).getSender();
-	}
 
 	@Override
-	public long getChildId(int groupPosition, int childPosition) {
-		return 0;
-	}
-
-	@Override
-	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-		
-		if(convertView == null){
-			LayoutInflater inflater = LayoutInflater.from(this.activity);
-			convertView = inflater.inflate(R.layout.notif_list_item_detail, null);
-			
-			ChildViewCache viewCache = new ChildViewCache();
-			viewCache.shortBioTextView = (TextView) convertView.findViewById(R.id.senderShortBio);
-			viewCache.descriptionTextView = (TextView) convertView.findViewById(R.id.senderDescription);
-			convertView.setTag(viewCache);
-		}
-		
-		Notification group = (Notification) getGroup(groupPosition);
-		ChildViewCache viewCache = (ChildViewCache)convertView.getTag();
-		
-		// set short biography
-		viewCache.shortBioTextView.setText(group.getSender().getCandidateProfile().getShortBio());
-				
-		// set description
-		viewCache.descriptionTextView.setText(group.getSender().getCandidateProfile().getDescription());
-		
-		return convertView;
-	}
-
-	@Override
-	public int getChildrenCount(int groupPosition) {
-		/*
-		NotificationListItem group = (NotificationListItem) getGroup(groupPosition);
-		NotificationType type = group.getType(); 
-		if(type == NotificationType.LikedBio || 
-		   type == NotificationType.ViewedProfile || 
-		   type == NotificationType.RequestingP4P){
-			return 1;
-		}
-		
-		return 0;*/
-		return 1;
-	}
-
-	@Override
-	public Object getGroup(int groupPosition) {
-		return this.notifications.get(groupPosition);
-	}
-
-	@Override
-	public int getGroupCount() {
-		return this.notifications.size();
-	}
-
-	@Override
-	public long getGroupId(int groupPosition) {
-		return 0;
-	}
-
-	@Override
-	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		if (convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(this.activity);
 			convertView = inflater.inflate(R.layout.notif_list_item, null);
 			
-			GroupViewCache cachedView = new GroupViewCache();
+			ViewCache cachedView = new ViewCache();
 			cachedView.usernameTextView = (TextView)convertView.findViewById(R.id.senderUsername);
 			cachedView.titleTextView = (TextView)convertView.findViewById(R.id.notifTitle);
 			cachedView.timeTextView = (TextView)convertView.findViewById(R.id.sentTime);
@@ -122,48 +53,38 @@ public class NotificationListItemAdapter extends BaseExpandableListAdapter {
 			convertView.setTag(cachedView);
 		}
 		
-		final Notification group = (Notification) getGroup(groupPosition);
-		GroupViewCache cachedView = (GroupViewCache) convertView.getTag();
+		final Notification notification = (Notification) this.notifications.get(position);
+		ViewCache cachedView = (ViewCache) convertView.getTag();
 		
 		// set user name
-		cachedView.usernameTextView.setText(group.getSender().getCandidateProfile().getUsername());
+		cachedView.usernameTextView.setText(notification.getSender().getCandidateProfile().getUsername());
 		
 		// set title
-		cachedView.titleTextView.setText(group.getTitle());
+		cachedView.titleTextView.setText(notification.getTitle());
 		
 		// set time info
-		cachedView.timeTextView.setText(group.getSentTime());
+		cachedView.timeTextView.setText(notification.getSentTime());
 		
 		// set dummy image first...
 		cachedView.avatarImageView.setImageResource(android.R.drawable.ic_menu_gallery);
 		
 		// now set the real image with an asynchronous download operation
-		ImageFile imageToDownload = group.getSender().getProfilePics().getThumbnail();
+		ImageFile imageToDownload = notification.getSender().getProfilePics().getThumbnail();
 		ImageDownloadTask asyncTask = new ImageDownloadTask(imageToDownload.getId(), cachedView.avatarImageView);
 		asyncTask.execute(imageToDownload.getCloudUrl());
 		
 		// set button
-		String actionName = Notification.GetActionText(this.activity, group.getRecommendedAction());		
+		String actionName = Notification.GetActionText(this.activity, notification.getRecommendedAction());		
 		cachedView.actionButton.setText(actionName);		
 		cachedView.actionButton.setFocusable(false);
 		cachedView.actionButton.setOnClickListener(new OnClickListener() {
 			@Override
 		    public void onClick(View v) {
-		    	onNotificationAction(v, group);
+		    	onNotificationAction(v, notification);
 		    }
 		 });
 		
 		return convertView;
-	}
-
-	@Override
-	public boolean hasStableIds() {
-		return false;
-	}
-
-	@Override
-	public boolean isChildSelectable(int groupPosition, int childPosition) {
-		return false;
 	}
 	
 	public void onNotificationAction(View v, Notification group){

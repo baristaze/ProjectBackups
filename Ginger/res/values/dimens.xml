@@ -17,7 +17,6 @@
     <dimen name="notif_li_padding">6dp</dimen>
     <dimen name="notif_li_avatar_layout_width">60dp</dimen>
     <dimen name="notif_li_avatar_layout_height">60dp</dimen>
-    <dimen name="notif_li_avatar_layout_marginLeft">32dp</dimen>
     <dimen name="notif_li_avatar_layout_marginRight">6dp</dimen>
     <dimen name="notif_li_button_layout_width">90dp</dimen>
     <dimen name="notif_li_button_layout_height">60dp</dimen>
@@ -27,8 +26,6 @@
     <dimen name="notif_li_time_textSize">11sp</dimen>
     <dimen name="notif_li_sender_shortBio_textSize">14sp</dimen>
     <dimen name="notif_li_sender_descr_textSize">12sp</dimen>
-    <dimen name="notif_li_details_padding_left">40dp</dimen>
-    <dimen name="notif_li_details_padding">10dp</dimen>
     <dimen name="notif_li_sender_descr_marginTop">6dp</dimen>  
     
     <dimen name="general_margin">6dp</dimen>

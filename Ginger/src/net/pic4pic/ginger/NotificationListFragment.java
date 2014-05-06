@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
@@ -25,9 +24,7 @@ public class NotificationListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View rootView = inflater.inflate(R.layout.notif_listview, container, false);		
-		final ExpandableListView listview = (ExpandableListView) rootView.findViewById(R.id.notifList);		
-		listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		
+				
 		MainActivity activity = (MainActivity)this.getActivity();
 		if(activity.isNeedOfRequestingNotifications()){		
 			
@@ -77,7 +74,7 @@ public class NotificationListFragment extends Fragment {
 		if(notifications != null && notifications.size() > 0){
 		
 			// fill up list view
-			ExpandableListView listview = (ExpandableListView) rootView.findViewById(R.id.notifList);
+			ListView listview = (ListView) rootView.findViewById(R.id.notifList);
 			NotificationListItemAdapter adapter = new NotificationListItemAdapter(this.getActivity(), notifications);
 			listview.setAdapter(adapter);
 						
