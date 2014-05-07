@@ -37,6 +37,9 @@
     <string name="candidate_sendP4P">Send a pic4pic request</string>
     <string name="candidate_message">Send a message</string>
     <string name="candidate_sendMoreP4P">Ask more pic4pic</string>
+    <string name="candidate_acceptP4P">Accept pic4pic request</string>
+    <string name="candidate_acceptP4P_he">Accept his pic4pic</string>
+    <string name="candidate_acceptP4P_she">Accept her pic4pic</string>
     <string name="candidate_ready_for_p4p">This guy is ready\nfor photo exchange</string>
     <string name="candidate_ready_for_p4p_he">He is ready for\nphoto exchange</string>
     <string name="candidate_ready_for_p4p_she">She is ready for\nphoto exchange</string>

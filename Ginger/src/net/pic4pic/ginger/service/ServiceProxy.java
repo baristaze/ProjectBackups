@@ -14,6 +14,8 @@ import net.pic4pic.ginger.entities.ImageUploadResponse;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
+import net.pic4pic.ginger.entities.Pic4PicHistory;
+import net.pic4pic.ginger.entities.Pic4PicHistoryRequest;
 import net.pic4pic.ginger.entities.SignupRequest;
 import net.pic4pic.ginger.entities.SimpleResponseGuid;
 import net.pic4pic.ginger.entities.StartingPic4PicRequest;
@@ -177,7 +179,7 @@ public class ServiceProxy extends ServiceBase implements IService {
 				SimpleResponseGuid.class, 
 				ServiceEndpoint.MainService, 
 				super.getAuthToken(context), 
-				"/svc/rest/requestP4P").getData();
+				"/svc/rest/p4p/request").getData();
 	}
     
 	@Override
@@ -192,8 +194,23 @@ public class ServiceProxy extends ServiceBase implements IService {
 				SimpleResponseGuid.class, 
 				ServiceEndpoint.MainService, 
 				super.getAuthToken(context), 
-				"/svc/rest/acceptP4P").getData();	
+				"/svc/rest/p4p/accept").getData();	
     }
+	
+	@Override
+	public Pic4PicHistory getPic4PicHistory(Context context, Pic4PicHistoryRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				Pic4PicHistory.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/p4p/history").getData();	
+	}
 	
 	@Override
 	public NotificationListResponse getNotifications(Context context, NotificationRequest request) throws GingerException{
