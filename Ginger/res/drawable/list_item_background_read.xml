@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!--
+    This should be the default drawable for list items. 
+    -->
+         
+    <item android:drawable="@android:color/transparent" />
+    
+</selector>

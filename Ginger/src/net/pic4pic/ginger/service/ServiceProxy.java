@@ -11,6 +11,7 @@ import net.pic4pic.ginger.entities.FacebookRequest;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
+import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
@@ -225,5 +226,20 @@ public class ServiceProxy extends ServiceBase implements IService {
 				ServiceEndpoint.MainService, 
 				super.getAuthToken(context), 
 				"/svc/rest/notifications").getData();
+	}
+	
+	@Override
+	public BaseResponse mark(Context context, MarkingRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				BaseResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/mark").getData();	
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +15,55 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.pic4pic.ginger.entities.BaseResponse;
+import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageFile;
+import net.pic4pic.ginger.entities.MarkingRequest;
+import net.pic4pic.ginger.entities.MarkingType;
 import net.pic4pic.ginger.entities.Notification;
+import net.pic4pic.ginger.entities.ObjectType;
+import net.pic4pic.ginger.service.Service;
+import net.pic4pic.ginger.tasks.ITask;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
+import net.pic4pic.ginger.tasks.NonBlockedTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
+import net.pic4pic.ginger.utils.MyLog;
 
 public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 
 	private Activity activity;
 	private ArrayList<Notification> notifications;
+	
+	private static Drawable unreadBackground;
+	private static Drawable readBackground;
+	private static Object lockR = new Object();
+	private static Object lockUR = new Object();
+	
+	private Drawable getBackgroundDrawable(boolean isRead){
+		
+		if(isRead){			
+			if(readBackground == null){
+				synchronized(lockR){
+					if(readBackground == null){
+						readBackground = this.activity.getResources().getDrawable(R.drawable.list_item_background_read);
+					}
+				}
+			}
+			
+			return readBackground;
+		}
+		else{
+			if(unreadBackground == null){
+				synchronized(lockUR){
+					if(unreadBackground == null){
+						unreadBackground = this.activity.getResources().getDrawable(R.drawable.list_item_background_unread);
+					}
+				}
+			}			
+			return unreadBackground;	
+		}
+	}
+	
 	
 	private class ViewCache {		
 		public TextView usernameTextView;
@@ -59,7 +100,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		
 		// set user name
 		cachedView.usernameTextView.setText(notification.getSender().getCandidateProfile().getUsername());
-		
+				
 		// set title
 		cachedView.titleTextView.setText(notification.getTitle());
 		
@@ -85,16 +126,62 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		    }
 		 });
 		
+		// set background color.
+		convertView.setBackground(getBackgroundDrawable(notification.isRead()));
+		
+		// return
 		return convertView;
 	}
 	
-	public void onNotificationAction(View v, Notification group){
-		// Toast.makeText(this.activity, "Action", Toast.LENGTH_LONG).show();		
+	public void onNotificationAction(final View v, final Notification notification){
+		
+		// android.widget.Toast.makeText(this.activity, "Action", android.widget.Toast.LENGTH_LONG).show();		
+		
 		Intent intent = new Intent(this.activity, PersonActivity.class);
-		intent.putExtra(PersonActivity.PersonType, group.getSender());
+		intent.putExtra(PersonActivity.PersonType, notification.getSender());
 
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed. 
 		this.activity.startActivityForResult(intent, PersonActivity.PersonActivityCode);
+
+		// mark as read
+		if(!notification.isRead()){
+			
+			// prepare request
+			final MarkingRequest marking = new MarkingRequest();
+			marking.setObjectType(ObjectType.Notification);
+			marking.setMarkingType(MarkingType.Viewed);
+			marking.setObjectId(notification.getId());
+			
+			NonBlockedTask.SafeRun(new ITask(){
+				@Override
+				public void perform() {
+					
+					BaseResponse response = null;
+					try{
+						MyLog.i("NotificationListItemAdapter", "Marking notification as read: " + notification.getId());
+						response = Service.getInstance().mark(activity, marking);
+						MyLog.i("NotificationListItemAdapter", "Notification has been marked as read: " + notification.getId());
+					}
+					catch(GingerException ge){
+						MyLog.e("NotificationListItemAdapter", "Marking notification failed: " + ge.getMessage());
+					}
+					catch(Exception e){
+						MyLog.e("NotificationListItemAdapter", "Marking notification as read failed: " + e.toString());
+					}					
+					
+					// update UI
+					if(response != null && response.getErrorCode() == 0){
+						// Only the original thread that created a view hierarchy can touch its views.
+						activity.runOnUiThread(new Runnable() {
+						     @Override
+						     public void run() {
+						    	 v.setBackground(getBackgroundDrawable(true));
+						    }
+						});
+					}
+				}
+			});
+		}		
 	}
 }

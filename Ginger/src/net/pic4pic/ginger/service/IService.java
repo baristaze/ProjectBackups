@@ -9,6 +9,7 @@ import net.pic4pic.ginger.entities.FacebookRequest;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
+import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
@@ -54,4 +55,6 @@ public interface IService {
     public Pic4PicHistory getPic4PicHistory(Context context, Pic4PicHistoryRequest request) throws GingerException;
     
     public NotificationListResponse getNotifications(Context context, NotificationRequest request) throws GingerException;
+    
+    public BaseResponse mark(Context context, MarkingRequest request) throws GingerException;
 }

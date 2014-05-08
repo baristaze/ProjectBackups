@@ -32,7 +32,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     	
     	// check cache first
     	if(ImageCacher.Instance().exists(this.imageId)){
-    		MyLog.i("ImageDownloadTask", "Cached image is used: " + this.imageId.toString());
+    		// MyLog.i("ImageDownloadTask", "Cached image is used: " + this.imageId.toString());
     		return ImageCacher.Instance().get(this.imageId); 
     	}
     	

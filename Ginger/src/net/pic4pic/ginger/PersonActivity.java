@@ -150,11 +150,17 @@ public class PersonActivity extends Activity {
 			public void perform() {
 				try
 				{
-					Pic4PicHistory response = Service.getInstance().getPic4PicHistory(PersonActivity.this, request);
+					final Pic4PicHistory response = Service.getInstance().getPic4PicHistory(PersonActivity.this, request);
 					if(response.getErrorCode() == 0){
 						MyLog.i("PersonActivity", "Pic4PicHistory retrieved");
-						onPic4PicHistorySuccessfullyRetrieved(response);							
 						
+						// Only the original thread that created a view hierarchy can touch its views.
+						runOnUiThread(new Runnable() {
+						     @Override
+						     public void run() {
+						    	 onPic4PicHistorySuccessfullyRetrieved(response);
+						    }
+						});
 					}
 					else {
 						MyLog.e("PersonActivity", "Pic4PicHistory request failed: " + response.getErrorMessage());

@@ -26,8 +26,10 @@ import net.pic4pic.ginger.entities.Familiarity;
 import net.pic4pic.ginger.entities.Gender;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.MaritalStatus;
+import net.pic4pic.ginger.entities.MarkingType;
 import net.pic4pic.ginger.entities.NotificationAction;
 import net.pic4pic.ginger.entities.NotificationType;
+import net.pic4pic.ginger.entities.ObjectType;
 
 public class GingerNetUtils {
 
@@ -174,6 +176,8 @@ public class GingerNetUtils {
 		builder.registerTypeAdapter(MaritalStatus.class, new JsonEnumDeserializer<MaritalStatus>());
 		builder.registerTypeAdapter(NotificationAction.class, new JsonEnumDeserializer<NotificationAction>());
 		builder.registerTypeAdapter(NotificationType.class, new JsonEnumDeserializer<NotificationType>());
+		builder.registerTypeAdapter(ObjectType.class, new JsonEnumDeserializer<ObjectType>());
+		builder.registerTypeAdapter(MarkingType.class, new JsonEnumDeserializer<MarkingType>());		
 
 		// create
 		return builder.create();

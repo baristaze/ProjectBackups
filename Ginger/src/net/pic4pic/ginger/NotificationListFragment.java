@@ -2,14 +2,17 @@ package net.pic4pic.ginger;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
+import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.Notification;
 import net.pic4pic.ginger.utils.MyLog;
 
@@ -77,6 +80,15 @@ public class NotificationListFragment extends Fragment {
 			ListView listview = (ListView) rootView.findViewById(R.id.notifList);
 			NotificationListItemAdapter adapter = new NotificationListItemAdapter(this.getActivity(), notifications);
 			listview.setAdapter(adapter);
+			
+			// bind click actions
+			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+					Notification item = (Notification) parent.getItemAtPosition(position);
+					onShowPersonDetails(item.getSender(), view);
+				}
+			});	
 						
 			// remove info-for-empty-content block 
 			this.removeTheFrontestView(rootView);
@@ -102,5 +114,15 @@ public class NotificationListFragment extends Fragment {
 			MyLog.e("NotificationListFragment", "We cannot remove the latest view since we have only 1");
 			return false;
 		}
+	}
+	
+	public void onShowPersonDetails(MatchedCandidate person, View v){
+		// Toast.makeText(this.getActivity(), "Showing " + person, Toast.LENGTH_LONG).show();
+		Intent intent = new Intent(this.getActivity(), PersonActivity.class);
+		intent.putExtra(PersonActivity.PersonType, person);
+
+		// calling a child activity for a result keeps the parent activity alive.
+		// by that way, we don't have to keep track of active tab when child activity is closed.
+		startActivityForResult(intent, PersonActivity.PersonActivityCode);
 	}
 }
