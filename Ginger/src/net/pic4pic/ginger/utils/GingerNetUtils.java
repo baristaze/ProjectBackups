@@ -119,7 +119,7 @@ public class GingerNetUtils {
 			json.append("\n");
 		}
 		
-		// android.util.Log.d("JSON", json.toString());
+		// MyLog.d("JSON", json.toString());
 		
 		Gson gson = createGson();
 		return gson.fromJson(json.toString(), theClass);
@@ -129,6 +129,7 @@ public class GingerNetUtils {
 		
 		// convert object to JSON string
 		String json = convertToJsonString(input);
+		// MyLog.d("JSON", json);
 		
 		// convert JSON string to HttpEntity
 		StringEntity httpEntity = null;

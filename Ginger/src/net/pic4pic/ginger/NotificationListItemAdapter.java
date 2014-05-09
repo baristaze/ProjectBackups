@@ -133,7 +133,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		return convertView;
 	}
 	
-	public void onNotificationAction(final View v, final Notification notification){
+	public void onNotificationAction(final View actionButton, final Notification notification){
 		
 		// android.widget.Toast.makeText(this.activity, "Action", android.widget.Toast.LENGTH_LONG).show();		
 		
@@ -159,9 +159,8 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 					
 					BaseResponse response = null;
 					try{
-						MyLog.i("NotificationListItemAdapter", "Marking notification as read: " + notification.getId());
 						response = Service.getInstance().mark(activity, marking);
-						MyLog.i("NotificationListItemAdapter", "Notification has been marked as read: " + notification.getId());
+						MyLog.v("NotificationListItemAdapter", "Notification has been marked as read: " + notification.getId());
 					}
 					catch(GingerException ge){
 						MyLog.e("NotificationListItemAdapter", "Marking notification failed: " + ge.getMessage());
@@ -176,7 +175,9 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 						activity.runOnUiThread(new Runnable() {
 						     @Override
 						     public void run() {
-						    	 v.setBackground(getBackgroundDrawable(true));
+						    	 View listItemView = (View)actionButton.getParent();
+						    	 listItemView.setBackground(getBackgroundDrawable(true));
+						    	 // listItemView.refreshDrawableState();
 						    }
 						});
 					}
