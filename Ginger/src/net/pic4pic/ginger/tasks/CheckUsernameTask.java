@@ -42,7 +42,7 @@ public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);
-			response.setErrorMessage("Unexpected error when checking username");
+			response.setErrorMessage("Connection to server failed when checking username");
 			return response; 	
     	}
     }

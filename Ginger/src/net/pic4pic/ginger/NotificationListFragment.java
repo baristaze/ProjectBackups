@@ -54,7 +54,8 @@ public class NotificationListFragment extends Fragment {
 	
 	public void onNotificationsComplete(ArrayList<Notification> notifications){
 
-		MyLog.i("NotificationListFragment", "onNotificationsComplete signal retrieved");
+		int notificationCount = (notifications == null ? 0 : notifications.size());
+		MyLog.i("NotificationListFragment", "onNotificationsComplete signal retrieved. Notification Count: " + notificationCount);
 		
 		// update UI
 		View rootView = this.getView();
@@ -62,7 +63,7 @@ public class NotificationListFragment extends Fragment {
 			this.updateUI(this.getView(), notifications);
 		}
 		else{
-			MyLog.e("NotificationListFragment", "Something is too fast: Retrieved notifications before rendering the root view");
+			MyLog.e("NotificationListFragment", "Retrieved notifications before rendering the root view.");
 		}	
 	}
 	
@@ -117,12 +118,16 @@ public class NotificationListFragment extends Fragment {
 	}
 	
 	public void onShowPersonDetails(MatchedCandidate person, View v){
+		
 		// Toast.makeText(this.getActivity(), "Showing " + person, Toast.LENGTH_LONG).show();
 		Intent intent = new Intent(this.getActivity(), PersonActivity.class);
 		intent.putExtra(PersonActivity.PersonType, person);
 
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed.
-		startActivityForResult(intent, PersonActivity.PersonActivityCode);
+		this.getActivity().startActivityForResult(intent, PersonActivity.PersonActivityCode);
+		
+		// update the core data
+		// person.setLastViewTimeUTC(new Date());
 	}
 }

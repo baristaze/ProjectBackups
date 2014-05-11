@@ -34,37 +34,6 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 	private Activity activity;
 	private ArrayList<Notification> notifications;
 	
-	private static Drawable unreadBackground;
-	private static Drawable readBackground;
-	private static Object lockR = new Object();
-	private static Object lockUR = new Object();
-	
-	private Drawable getBackgroundDrawable(boolean isRead){
-		
-		if(isRead){			
-			if(readBackground == null){
-				synchronized(lockR){
-					if(readBackground == null){
-						readBackground = this.activity.getResources().getDrawable(R.drawable.list_item_background_read);
-					}
-				}
-			}
-			
-			return readBackground;
-		}
-		else{
-			if(unreadBackground == null){
-				synchronized(lockUR){
-					if(unreadBackground == null){
-						unreadBackground = this.activity.getResources().getDrawable(R.drawable.list_item_background_unread);
-					}
-				}
-			}			
-			return unreadBackground;	
-		}
-	}
-	
-	
 	private class ViewCache {		
 		public TextView usernameTextView;
 		public TextView titleTextView;
@@ -110,6 +79,22 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		// set dummy image first...
 		cachedView.avatarImageView.setImageResource(android.R.drawable.ic_menu_gallery);
 		
+		// set type face: bold vs. regular
+		/*
+		if(notification.isRead()){
+			cachedView.usernameTextView.setTypeface(null, Typeface.NORMAL);
+			cachedView.titleTextView.setTypeface(null, Typeface.NORMAL);
+			cachedView.timeTextView.setTypeface(null, Typeface.NORMAL);
+		}
+		else{
+			cachedView.usernameTextView.setTypeface(null, Typeface.BOLD);
+			cachedView.titleTextView.setTypeface(null, Typeface.BOLD);
+			cachedView.timeTextView.setTypeface(null, Typeface.BOLD);
+		}
+		*/
+		// set background color.
+		convertView.setBackground(getBackgroundDrawable(notification.isRead()));
+		
 		// now set the real image with an asynchronous download operation
 		ImageFile imageToDownload = notification.getSender().getProfilePics().getThumbnail();
 		ImageDownloadTask asyncTask = new ImageDownloadTask(imageToDownload.getId(), cachedView.avatarImageView);
@@ -125,9 +110,6 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		    	onNotificationAction(v, notification);
 		    }
 		 });
-		
-		// set background color.
-		convertView.setBackground(getBackgroundDrawable(notification.isRead()));
 		
 		// return
 		return convertView;
@@ -185,4 +167,35 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 			});
 		}		
 	}
+	
+	
+	private static Drawable unreadBackground;
+	private static Drawable readBackground;
+	private static Object lockR = new Object();
+	private static Object lockUR = new Object();
+	
+	private Drawable getBackgroundDrawable(boolean isRead){
+		
+		if(isRead){			
+			if(readBackground == null){
+				synchronized(lockR){
+					if(readBackground == null){
+						readBackground = this.activity.getResources().getDrawable(R.drawable.list_item_background_read);
+					}
+				}
+			}
+			
+			return readBackground;
+		}
+		else{
+			if(unreadBackground == null){
+				synchronized(lockUR){
+					if(unreadBackground == null){
+						unreadBackground = this.activity.getResources().getDrawable(R.drawable.list_item_background_unread);
+					}
+				}
+			}			
+			return unreadBackground;	
+		}
+	}	
 }

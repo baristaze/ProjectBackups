@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +36,8 @@ import net.pic4pic.ginger.utils.MyLog;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListener {
 
-	public static final String AuthenticatedUserBundleType = "net.pic4pic.ginger.AuthenticatedUser"; 
+	public static final String AuthenticatedUserBundleType = "net.pic4pic.ginger.AuthenticatedUser";
+	public static final String UpdatedMatchCandidate = "net.pic4pic.ginger.UpdatedMatchCandidate";
 	public static final int CaptureCameraCode = 102;
 	public static final int PickFromGalleryCode = 103;
 	
@@ -58,7 +60,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		MyLog.v("MainActivity", "onCreate");
 		
 		super.onCreate(savedInstanceState);
-		this.recreatePropertiesFromSavedBundle(savedInstanceState);
+		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
+			MyLog.i("MainActivity", "At least one property is restored successfully");
+		}
 		
 		setContentView(R.layout.activity_main);
 		
@@ -103,13 +107,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		
-		MyLog.v("MainActivity", "onSaveInstanceState");
 		super.onSaveInstanceState(outState);
 
 		if(outState == null){
 			return;
 		}
-
+		
+		MyLog.v("MainActivity", "onSaveInstanceState");
+		
 		if(this.me != null){
 			outState.putSerializable("me", this.me);
 		}
@@ -133,37 +138,49 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		MyLog.v("MainActivity", "onRestoreInstanceState");
+		
 		super.onRestoreInstanceState(savedInstanceState);
-		this.recreatePropertiesFromSavedBundle(savedInstanceState);
+		
+		MyLog.v("MainActivity", "onRestoreInstanceState");
+		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
+			MyLog.i("MainActivity", "At least one property is restored successfully");
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void recreatePropertiesFromSavedBundle(Bundle state){
+	private boolean recreatePropertiesFromSavedBundle(Bundle state){
 		
 		if(state == null){
-			return;
+			return false;
 		}
 		
+		boolean restored = false;
 		if(state.containsKey("me")){
 			this.me = (UserResponse)state.getSerializable("me");
+			restored = true;
 		}
 		
 		if(state.containsKey("lastMatchRetrieveTime")){
 			this.lastMatchRetrieveTime = (Date)state.getSerializable("lastMatchRetrieveTime");
+			restored = true;
 		}
 		
 		if(state.containsKey("lastNotificationRetrieveTime")){
 			this.lastNotificationRetrieveTime = (Date)state.getSerializable("lastNotificationRetrieveTime");
+			restored = true;
 		}
 		
 		if(state.containsKey("matches")){
 			this.matches = (ArrayList<MatchedCandidate>)state.getSerializable("matches");
+			restored = true;
 		}
 		
 		if(state.containsKey("notifications")){
 			this.notifications = (ArrayList<Notification>)state.getSerializable("notifications");
+			restored = true;
 		}
+		
+		return restored;
 	}
 	
 	public ArrayList<MatchedCandidate> getMatchedCandidates(){
@@ -316,20 +333,44 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
 		if (requestCode == MainActivity.CaptureCameraCode) {
-			MyLog.v("ActivityResult", "CaptureCameraActivity has returned");
+			MyLog.v("MainActivity", "CaptureCameraActivity has returned");
 			this.mSectionsPagerAdapter.getProfileFragment().processCameraActivityResult(resultCode, data);			
 	    }
 		else if (requestCode == MainActivity.PickFromGalleryCode) {
-			MyLog.v("ActivityResult", "PickFromGalleryActivity has returned");
+			MyLog.v("MainActivity", "PickFromGalleryActivity has returned");
 			this.mSectionsPagerAdapter.getProfileFragment().processGalleryActivityResult(resultCode, data);
 		}
 		else if (requestCode == TextInputActivity.TextInputCode) {
-			MyLog.v("ActivityResult", "TextInputActivity has returned");
+			MyLog.v("MainActivity", "TextInputActivity has returned");
 			this.mSectionsPagerAdapter.getProfileFragment().processTextInputActivityResult(resultCode, data);
-		}		
+		}
+		else if(requestCode == PersonActivity.PersonActivityCode){
+			MyLog.v("MainActivity", "PersonActivity has returned");			
+			if(resultCode == Activity.RESULT_OK && data != null){				
+				MatchedCandidate candidate = (MatchedCandidate)data.getExtras().getSerializable(MainActivity.UpdatedMatchCandidate);				
+				this.updateCandidate(candidate);
+			}
+		}
 		else{
-			MyLog.v("ActivityResult", "Unknown Activity  has been received by MainActivity: " + requestCode);
+			MyLog.v("MainActivity", "Unknown Activity  has been received by MainActivity: " + requestCode);
+		}
+	}
+	
+	public void updateCandidate(MatchedCandidate candidate){
+		
+		if(candidate == null){
+			return;
+		}
+		
+		for(int x=0; x<this.matches.size(); x++){
+			UUID userId1 = this.matches.get(x).getCandidateProfile().getUserId();
+			UUID userId2 = candidate.getCandidateProfile().getUserId();
+			if(userId1.equals(userId2)){
+				this.matches.set(x, candidate);
+				break;
+			}
 		}
 	}
 	

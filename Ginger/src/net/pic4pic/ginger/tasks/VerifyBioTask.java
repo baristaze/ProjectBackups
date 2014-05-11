@@ -42,7 +42,7 @@ public class VerifyBioTask extends BlockedTask<String, Void, UserResponse> {
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);
-			response.setErrorMessage("Unexpected error when verifying your bio");
+			response.setErrorMessage("Connection to server failed when verifying your bio");
 			return response; 	
     	}
     }

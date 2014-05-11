@@ -57,15 +57,16 @@ public class MatchListFragment extends Fragment {
 	
 	public void onMatchComplete(ArrayList<MatchedCandidate> matches){
 		
-		MyLog.i("MatchListFragment", "onMatchComplete signal retrieved");
+		int matchCount = (matches == null ? 0 : matches.size());
+		MyLog.i("MatchListFragment", "onMatchComplete signal retrieved. Match count: " + matchCount);
 		
 		// update UI
 		View rootView = this.getView();
 		if(rootView != null){
 			this.updateUI(this.getView(), matches);
 		}
-		else{
-			MyLog.e("MatchListFragment", "Something is too fast: Retrieved matches before rendering the root view");
+		else{			
+			MyLog.e("MatchListFragment", "Retrieved matches before rendering the root.");
 		}
 	}
 	
@@ -165,13 +166,17 @@ public class MatchListFragment extends Fragment {
 		Toast.makeText(this.getActivity(), "Please purchase some credit", Toast.LENGTH_LONG).show();
 	}
 	
-	public void onShowPersonDetails(MatchedCandidate person, View v){
+	public void onShowPersonDetails(MatchedCandidate person, View listViewItem){
+		
 		// Toast.makeText(this.getActivity(), "Showing " + person, Toast.LENGTH_LONG).show();
 		Intent intent = new Intent(this.getActivity(), PersonActivity.class);
 		intent.putExtra(PersonActivity.PersonType, person);
 
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed.
-		startActivityForResult(intent, PersonActivity.PersonActivityCode);
+		this.getActivity().startActivityForResult(intent, PersonActivity.PersonActivityCode);
+		
+		// update the core data
+		// person.setLastViewTimeUTC(new Date());
 	}
 }

@@ -41,7 +41,7 @@ public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadRespon
 			
 			ImageUploadResponse response = new ImageUploadResponse();
 			response.setErrorCode(1);
-			response.setErrorMessage("Unexpected error. Please try again!");
+			response.setErrorMessage("Connection to server failed when uploading picture. Please try again!");
 			return response;	
 		}
 	}

@@ -44,7 +44,7 @@ public class MatchedCandidatesTask extends AsyncTask<String, Void, MatchedCandid
     		
     		MatchedCandidateListResponse response = new MatchedCandidateListResponse();
 			response.setErrorCode(1);
-			response.setErrorMessage("Unexpected error when retrieving matches");
+			response.setErrorMessage("Connection to server failed when retrieving matches");
 			return response; 	
     	}
     }

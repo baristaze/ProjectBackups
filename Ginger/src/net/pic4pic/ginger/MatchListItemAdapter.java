@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,21 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		cachedView.usernameTextView.setText(person.getCandidateProfile().getUsername());
 		cachedView.shortBioTextView.setText(person.getCandidateProfile().getShortBio());
 		
+		// set type face: bold vs. regular
+		/*
+		if(person.isViewed()){
+			cachedView.usernameTextView.setTypeface(null, Typeface.NORMAL);
+			cachedView.shortBioTextView.setTypeface(null, Typeface.NORMAL);
+		}
+		else{
+			cachedView.usernameTextView.setTypeface(null, Typeface.BOLD);
+			cachedView.shortBioTextView.setTypeface(null, Typeface.BOLD);
+		}
+		*/
+		
+		// set background color.
+		rowView.setBackground(getBackgroundDrawable(person.isViewed()));
+		
 		// set the default image
 		cachedView.avatarImageView.setImageResource(android.R.drawable.ic_menu_gallery);
 		
@@ -61,5 +77,35 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		asyncTask.execute(imageToDownload.getCloudUrl());
 		
 		return rowView;
+	}
+		
+	private static Drawable unreadBackground;
+	private static Drawable readBackground;
+	private static Object lockR = new Object();
+	private static Object lockUR = new Object();
+	
+	private Drawable getBackgroundDrawable(boolean isRead){
+		
+		if(isRead){			
+			if(readBackground == null){
+				synchronized(lockR){
+					if(readBackground == null){
+						readBackground = this.context.getResources().getDrawable(R.drawable.list_item_background_read);
+					}
+				}
+			}
+			
+			return readBackground;
+		}
+		else{
+			if(unreadBackground == null){
+				synchronized(lockUR){
+					if(unreadBackground == null){
+						unreadBackground = this.context.getResources().getDrawable(R.drawable.list_item_background_unread);
+					}
+				}
+			}			
+			return unreadBackground;	
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package net.pic4pic.ginger;
 
 import java.util.Date;
+import java.util.UUID;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -18,9 +19,13 @@ import net.pic4pic.ginger.entities.Familiarity;
 import net.pic4pic.ginger.entities.Gender;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageFile;
+import net.pic4pic.ginger.entities.MarkingRequest;
+import net.pic4pic.ginger.entities.MarkingType;
 import net.pic4pic.ginger.entities.MatchedCandidate;
+import net.pic4pic.ginger.entities.ObjectType;
 import net.pic4pic.ginger.entities.Pic4PicHistory;
 import net.pic4pic.ginger.entities.Pic4PicHistoryRequest;
+import net.pic4pic.ginger.entities.PicForPic;
 import net.pic4pic.ginger.service.Service;
 import net.pic4pic.ginger.tasks.ITask;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
@@ -43,6 +48,10 @@ public class PersonActivity extends Activity {
 		
 		MyLog.v("PersonActivity", "onCreate");
 		super.onCreate(savedInstanceState);
+		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
+			MyLog.i("PersonActivity", "At least one property is restored successfully");
+		}
+		
 		setContentView(R.layout.activity_person);
 		
 		Intent intent = getIntent();
@@ -78,18 +87,22 @@ public class PersonActivity extends Activity {
 			// get pic4picHistory again
 			this.startRetrievingPic4PicHistory();
 		}
+		
+		// mark as read
+		this.markAsViewed();
 	}
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		
-		MyLog.v("PersonActivity", "onSaveInstanceState");
 		super.onSaveInstanceState(outState);
 
 		if(outState == null){
 			return;
 		}
 
+		MyLog.v("PersonActivity", "onSaveInstanceState");
+		
 		if(this.pic4picHistory != null){
 			outState.putSerializable("pic4picHistory", this.pic4picHistory);
 		}
@@ -103,22 +116,29 @@ public class PersonActivity extends Activity {
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		MyLog.v("PersonActivity", "onRestoreInstanceState");
 		super.onRestoreInstanceState(savedInstanceState);
-		this.recreatePropertiesFromSavedBundle(savedInstanceState);
+		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
+			MyLog.i("PersonActivity", "At least one property is restored successfully");
+		}
 	}
 	
-	private void recreatePropertiesFromSavedBundle(Bundle state){
+	private boolean recreatePropertiesFromSavedBundle(Bundle state){
 		
 		if(state == null){
-			return;
+			return false;
 		}
 		
+		boolean restored = false;
 		if(state.containsKey("pic4picHistory")){
 			this.pic4picHistory = (Pic4PicHistory)state.getSerializable("pic4picHistory");
+			restored = true;
 		}
 		
 		if(state.containsKey("lastHistoryRetrieveTime")){
 			this.lastHistoryRetrieveTime = (Date)state.getSerializable("lastHistoryRetrieveTime");
+			restored = true;
 		}
+		
+		return restored;
 	}
 	
 	public boolean isNeedOfRequestingPic4PicHistory(){
@@ -179,6 +199,11 @@ public class PersonActivity extends Activity {
 		this.pic4picHistory = response;
 		this.lastHistoryRetrieveTime = new Date();
 		this.person.getCandidateProfile().setFamiliarity(this.pic4picHistory.getFamiliarity());
+		
+		PicForPic lastPendingPic4Pic = this.pic4picHistory.getLastPendingPic4PicRequest(); 
+		if(lastPendingPic4Pic != null){
+			this.person.setLastPendingPic4PicId(lastPendingPic4Pic.getId());
+		}
 		
 		this.adjustActionButtons();	
 	}
@@ -246,7 +271,10 @@ public class PersonActivity extends Activity {
 			acceptText = this.getString(R.string.candidate_acceptP4P);
 		}
 		
-		if(this.pic4picHistory != null && this.pic4picHistory.getLastPendingPic4PicRequest() != null){
+		if(this.person.hasPic4PicPending()){
+			pic4picButton.setText(acceptText);
+		}
+		else if(this.pic4picHistory != null && this.pic4picHistory.getLastPendingPic4PicRequest() != null){
 			
 			pic4picButton.setText(acceptText);
 		}
@@ -294,10 +322,62 @@ public class PersonActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			//NavUtils.navigateUpFromSameTask(this);
+			//NavUtils.navigateUpFromSameTask(this);	
+			this.setResultIntent();
 			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void markAsViewed(){		
+		// mark as read
+		if(!person.isViewed()){			
+			// prepare request
+			final UUID candidateId = person.getCandidateProfile().getUserId();
+			final MarkingRequest marking = new MarkingRequest();
+			marking.setObjectType(ObjectType.Profile);
+			marking.setMarkingType(MarkingType.Viewed);
+			marking.setObjectId(candidateId);
+			
+			NonBlockedTask.SafeRun(new ITask(){
+				@Override
+				public void perform() {					
+					try{
+						Service.getInstance().mark(PersonActivity.this, marking);
+						person.setLastViewTimeUTC(new Date());
+						MyLog.v("PersonActivity", "Candidate has been marked as viewed: " + candidateId);
+					}
+					catch(GingerException ge){
+						MyLog.e("PersonActivity", "Marking candidate as viewed failed: " + ge.getMessage());
+					}
+					catch(Exception e){
+						MyLog.e("PersonActivity", "Marking candidate as viewed failed: " + e.toString());
+					}
+				}
+			});
+		}
+	}
+		
+	@Override
+	public void onBackPressed() {
+		this.setResultIntent();
+		super.onBackPressed();
+	}
+
+	private void setResultIntent(){
+		
+		MyLog.v("PersonActivity", "Setting result intent");
+		
+		Intent resultIntent = new Intent();
+		resultIntent.putExtra(MainActivity.UpdatedMatchCandidate, this.person);
+		this.setResult(Activity.RESULT_OK, resultIntent);
+		/*
+		if (this.getParent() == null) {
+		    this.setResult(Activity.RESULT_OK, resultIntent);
+		} 
+		else {
+			this.getParent().setResult(Activity.RESULT_OK, resultIntent);
+		}*/	
 	}
 }

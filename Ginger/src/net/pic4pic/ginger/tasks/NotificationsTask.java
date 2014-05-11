@@ -43,7 +43,7 @@ public class NotificationsTask extends AsyncTask<String, Void, NotificationListR
     		
     		NotificationListResponse response = new NotificationListResponse();
 			response.setErrorCode(1);
-			response.setErrorMessage("Unexpected error when retrieving notifications");
+			response.setErrorMessage("Connection to server failed when retrieving notifications");
 			return response; 	
     	}
     }

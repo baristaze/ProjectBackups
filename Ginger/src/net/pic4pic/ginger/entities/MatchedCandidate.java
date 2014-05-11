@@ -2,6 +2,8 @@ package net.pic4pic.ginger.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -15,9 +17,15 @@ public class MatchedCandidate implements Serializable {
 	@SerializedName("ProfilePics")
     protected PicturePair profilePics;
 
+	@SerializedName("LastViewTimeUTC")
+	protected Date lastViewTimeUTC;
+
+	@SerializedName("LastPendingPic4PicId")
+	protected UUID lastPendingPic4PicId;
+	
 	@SerializedName("OtherPictures")
     protected ArrayList<PicturePair> otherPictures = new ArrayList<PicturePair>();
-    
+	
 	/**
 	 * @return the candidateProfile
 	 */
@@ -44,6 +52,64 @@ public class MatchedCandidate implements Serializable {
 	 */
 	public void setProfilePics(PicturePair profilePics) {
 		this.profilePics = profilePics;
+	}
+
+	/**
+	 * @return the lastViewTimeUTC
+	 */
+	public Date getLastViewTimeUTC() {
+		return lastViewTimeUTC;
+	}
+
+	/**
+	 * @param lastViewTimeUTC the lastViewTimeUTC to set
+	 */
+	public void setLastViewTimeUTC(Date lastViewTimeUTC) {
+		this.lastViewTimeUTC = lastViewTimeUTC;
+	}
+	
+	/**
+	 * Have I viewed this profile already?
+	 * @return
+	 */
+	public boolean isViewed(){
+		
+		if(this.lastViewTimeUTC == null || this.lastViewTimeUTC.equals(new Date(0))){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @return the lastPendingPic4PicId
+	 */
+	public UUID getLastPendingPic4PicId() {
+		return lastPendingPic4PicId;
+	}
+
+	/**
+	 * Returns true if lastPendingPic4PicId has a valid value
+	 * @return
+	 */
+	public boolean hasPic4PicPending(){
+		
+		if(this.lastPendingPic4PicId == null){
+			return false;
+		}
+		
+		if(this.lastPendingPic4PicId.equals(new UUID(0,0))){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @param lastPendingPic4PicId the lastPendingPic4PicId to set
+	 */
+	public void setLastPendingPic4PicId(UUID lastPendingPic4PicId) {
+		this.lastPendingPic4PicId = lastPendingPic4PicId;
 	}
 	
 	/**

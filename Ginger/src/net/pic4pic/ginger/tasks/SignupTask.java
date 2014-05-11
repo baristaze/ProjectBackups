@@ -42,7 +42,7 @@ public class SignupTask extends BlockedTask<String, Void, UserResponse> {
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);
-			response.setErrorMessage("Unexpected error when signing up");
+			response.setErrorMessage("Connection to server failed when signing up");
 			return response; 	
     	}
     }
