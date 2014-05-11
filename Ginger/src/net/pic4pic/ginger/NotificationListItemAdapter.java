@@ -168,34 +168,13 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		}		
 	}
 	
-	
-	private static Drawable unreadBackground;
-	private static Drawable readBackground;
-	private static Object lockR = new Object();
-	private static Object lockUR = new Object();
-	
 	private Drawable getBackgroundDrawable(boolean isRead){
 		
-		if(isRead){			
-			if(readBackground == null){
-				synchronized(lockR){
-					if(readBackground == null){
-						readBackground = this.activity.getResources().getDrawable(R.drawable.list_item_background_read);
-					}
-				}
-			}
-			
-			return readBackground;
+		if(isRead){
+			return this.activity.getResources().getDrawable(R.drawable.list_item_background_read);
 		}
-		else{
-			if(unreadBackground == null){
-				synchronized(lockUR){
-					if(unreadBackground == null){
-						unreadBackground = this.activity.getResources().getDrawable(R.drawable.list_item_background_unread);
-					}
-				}
-			}			
-			return unreadBackground;	
+		else{				
+			return this.activity.getResources().getDrawable(R.drawable.list_item_background_unread);	
 		}
 	}	
 }
