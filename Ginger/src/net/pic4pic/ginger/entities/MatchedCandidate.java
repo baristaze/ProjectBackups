@@ -27,6 +27,14 @@ public class MatchedCandidate implements Serializable {
     protected ArrayList<PicturePair> otherPictures = new ArrayList<PicturePair>();
 	
 	/**
+	 * shortcut to getCandidateProfile().getUserId()
+	 * @return
+	 */
+	public UUID getUserId()	{
+		return this.getCandidateProfile().getUserId();
+	}
+	
+	/**
 	 * @return the candidateProfile
 	 */
 	public FriendProfile getCandidateProfile() {

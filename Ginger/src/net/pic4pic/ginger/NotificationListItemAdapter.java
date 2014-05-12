@@ -1,11 +1,9 @@
 package net.pic4pic.ginger;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,10 +40,10 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 	    public Button actionButton;
 	}
 	
-	public NotificationListItemAdapter(Activity activity, List<Notification> notifications){
+	public NotificationListItemAdapter(Activity activity, ArrayList<Notification> notifications){
 		super(activity, R.layout.notif_list_item, notifications);
 		this.activity = activity;
-	    this.notifications = new ArrayList<Notification>(notifications);
+	    this.notifications = notifications;
 	}
 
 	@Override
@@ -93,7 +91,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		}
 		*/
 		// set background color.
-		convertView.setBackground(getBackgroundDrawable(notification.isRead()));
+		convertView.setBackground(GingerHelpers.getListItemBackgroundDrawable(activity, notification.isRead()));
 		
 		// now set the real image with an asynchronous download operation
 		ImageFile imageToDownload = notification.getSender().getProfilePics().getThumbnail();
@@ -158,7 +156,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 						     @Override
 						     public void run() {
 						    	 View listItemView = (View)actionButton.getParent();
-						    	 listItemView.setBackground(getBackgroundDrawable(true));
+						    	 listItemView.setBackground(GingerHelpers.getListItemBackgroundDrawable(activity, true));
 						    	 // listItemView.refreshDrawableState();
 						    }
 						});
@@ -167,14 +165,4 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 			});
 		}		
 	}
-	
-	private Drawable getBackgroundDrawable(boolean isRead){
-		
-		if(isRead){
-			return this.activity.getResources().getDrawable(R.drawable.list_item_background_read);
-		}
-		else{				
-			return this.activity.getResources().getDrawable(R.drawable.list_item_background_unread);	
-		}
-	}	
 }

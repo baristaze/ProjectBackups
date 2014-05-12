@@ -3,6 +3,7 @@ package net.pic4pic.ginger;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,10 +14,14 @@ import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import net.pic4pic.ginger.entities.MatchedCandidate;
+import net.pic4pic.ginger.tasks.ITask;
+import net.pic4pic.ginger.tasks.NonBlockedTask;
+import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.MyLog;
 
 public class MatchListFragment extends Fragment {
@@ -178,5 +183,48 @@ public class MatchListFragment extends Fragment {
 		
 		// update the core data
 		// person.setLastViewTimeUTC(new Date());
+	}
+	
+	public void updateCandidateView(MatchedCandidate person){
+		
+		View rootView = this.getView(); 
+		if(rootView == null){
+			MyLog.w("MatchListFragment", "Root view is null? Hah!");
+			return;
+		}
+		
+		ListView listView = (ListView)rootView.findViewById(R.id.matchList);
+		
+		// we have this wrapper adapter since we are using a footer.
+		HeaderViewListAdapter wrapperAdapter = (HeaderViewListAdapter)listView.getAdapter();
+		MatchListItemAdapter adapter = (MatchListItemAdapter)wrapperAdapter.getWrappedAdapter();
+
+		// below iteration goes through only VISIBLE elements
+		int found = 0;
+		for (int i = 0; i < listView.getChildCount(); i++)
+		{
+		    final View listItemView = listView.getChildAt(i);
+		    if(adapter.isMatch(listItemView, person.getUserId())){
+		    	final Drawable background = GingerHelpers.getListItemBackgroundDrawable(this.getActivity(), person.isViewed());
+		    	
+		    	NonBlockedTask.SafeSleepAndRunOnUI(400, new ITask(){
+					@Override
+					public void perform() {						
+						// change background...
+						listItemView.setBackground(background);
+					    //listItemView.refreshDrawableState(); // useless
+					}
+				});
+		    	
+		    	MyLog.v("MatchListFragment", "ListItemView is found(" + (found+1) + "). Background will be changed shortly for: " + person.getUserId());
+		    	
+		    	found++;
+		    	break;
+		    }
+		}
+		
+		if(found <= 0){
+			MyLog.w("MatchListFragment", "ListItemView seems invisible?");
+		}
 	}
 }

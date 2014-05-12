@@ -5,6 +5,7 @@ import java.util.Date;
 import net.pic4pic.ginger.R;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -29,6 +30,16 @@ public class GingerHelpers {
 	public static void toast(Context context, String message){
 		Toast t = Toast.makeText(context, message, Toast.LENGTH_LONG);
 		t.show();
+	}
+	
+	public static Drawable getListItemBackgroundDrawable(Context context, boolean isRead){
+		
+		if(isRead){
+			return context.getResources().getDrawable(R.drawable.list_item_background_read);			
+		}
+		else{
+			return context.getResources().getDrawable(R.drawable.list_item_background_unread);			
+		}
 	}
 	
 	public static String getTimeDiffHumanReadable(Date timeUTC){

@@ -163,7 +163,7 @@ public class PersonActivity extends Activity {
 	public void startRetrievingPic4PicHistory(){
 		
 		final Pic4PicHistoryRequest request = new Pic4PicHistoryRequest();
-		request.setUserIdToInteract(this.person.getCandidateProfile().getUserId());
+		request.setUserIdToInteract(this.person.getUserId());
 		
 		NonBlockedTask.SafeRun(new ITask(){
 			@Override
@@ -334,7 +334,7 @@ public class PersonActivity extends Activity {
 		// mark as read
 		if(!person.isViewed()){			
 			// prepare request
-			final UUID candidateId = person.getCandidateProfile().getUserId();
+			final UUID candidateId = person.getUserId();
 			final MarkingRequest marking = new MarkingRequest();
 			marking.setObjectType(ObjectType.Profile);
 			marking.setMarkingType(MarkingType.Viewed);

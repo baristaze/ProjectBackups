@@ -1,10 +1,9 @@
 package net.pic4pic.ginger;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,8 @@ import android.widget.TextView;
 import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
+import net.pic4pic.ginger.utils.GingerHelpers;
+import net.pic4pic.ginger.utils.MyLog;
 
 public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 	
@@ -22,15 +23,16 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 	private ArrayList<MatchedCandidate> people;
 	
 	private class ViewCache{
+		public UUID userId;
 		public ImageView avatarImageView;
 	    public TextView usernameTextView;
 	    public TextView shortBioTextView;
 	}
 	
-	public MatchListItemAdapter(Context context, List<MatchedCandidate> values) {	
+	public MatchListItemAdapter(Context context, ArrayList<MatchedCandidate> values) {	
 	    super(context, R.layout.match_list_item, values);
 	    this.context = context;
-	    this.people = new ArrayList<MatchedCandidate>(values);
+	    this.people = values;
 	}
 
 	@Override
@@ -50,6 +52,10 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		ViewCache cachedView = (ViewCache) rowView.getTag();
 		
 		MatchedCandidate person = this.people.get(position);
+		
+		MyLog.v("MatchListItemAdapter", "Person: " + person.getUserId() + " isViewed: " + person.isViewed());
+		
+		cachedView.userId = person.getUserId();
 		cachedView.usernameTextView.setText(person.getCandidateProfile().getUsername());
 		cachedView.shortBioTextView.setText(person.getCandidateProfile().getShortBio());
 		
@@ -66,7 +72,7 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		*/
 		
 		// set background color.
-		rowView.setBackground(getBackgroundDrawable(person.isViewed()));
+		rowView.setBackground(GingerHelpers.getListItemBackgroundDrawable(this.context, person.isViewed()));
 		
 		// set the default image
 		cachedView.avatarImageView.setImageResource(android.R.drawable.ic_menu_gallery);
@@ -79,13 +85,9 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		return rowView;
 	}	
 	
-	private Drawable getBackgroundDrawable(boolean isRead){
+	public boolean isMatch(View listItemView, UUID userId){
 		
-		if(isRead){
-			return this.context.getResources().getDrawable(R.drawable.list_item_background_read);			
-		}
-		else{
-			return this.context.getResources().getDrawable(R.drawable.list_item_background_unread);			
-		}
+		ViewCache cachedView = (ViewCache) listItemView.getTag();
+		return cachedView.userId.equals(userId);
 	}
 }

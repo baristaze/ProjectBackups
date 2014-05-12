@@ -349,7 +349,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		else if(requestCode == PersonActivity.PersonActivityCode){
 			MyLog.v("MainActivity", "PersonActivity has returned");			
 			if(resultCode == Activity.RESULT_OK && data != null){				
-				MatchedCandidate candidate = (MatchedCandidate)data.getExtras().getSerializable(MainActivity.UpdatedMatchCandidate);				
+				MatchedCandidate candidate = (MatchedCandidate)data.getExtras().getSerializable(MainActivity.UpdatedMatchCandidate);
+				MyLog.i("MainActivity", "Candidate: " + candidate.getUserId() + " viewed: " + candidate.isViewed());				
 				this.updateCandidate(candidate);
 			}
 		}
@@ -365,10 +366,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 		
 		for(int x=0; x<this.matches.size(); x++){
-			UUID userId1 = this.matches.get(x).getCandidateProfile().getUserId();
-			UUID userId2 = candidate.getCandidateProfile().getUserId();
+			UUID userId1 = this.matches.get(x).getUserId();
+			UUID userId2 = candidate.getUserId();
 			if(userId1.equals(userId2)){
 				this.matches.set(x, candidate);
+				this.mSectionsPagerAdapter.getMatchListFragment().updateCandidateView(candidate);
 				break;
 			}
 		}
