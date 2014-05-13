@@ -1,5 +1,6 @@
 package net.pic4pic.ginger.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -62,6 +63,7 @@ public class ImageGalleryView {
 	private int gapBetweenImages;
 	private boolean insertAddImgIcon;
 	private int populatedImageCount;
+	private int initialChildCount;
 	
 	public ImageGalleryView(Activity activity, LinearLayout parentView, List<PicturePair> images){
 		this(activity, parentView, images, true, null, 6, false);
@@ -78,7 +80,13 @@ public class ImageGalleryView {
 		
 		this.activity = activity;
 		this.parentView = parentView;
+
+		if(images == null){
+			images = new ArrayList<PicturePair>();
+		}
+		
 		this.images = images;
+
 		this.enableImageClick = enableImageClick;
 		this.marginOuter = marginOuter;
 		this.gapBetweenImages = gapBetweenImages;
@@ -88,6 +96,8 @@ public class ImageGalleryView {
 		if(this.marginOuter == null){
 			this.marginOuter = new Margin(12, 12, 0, 6);
 		}
+		
+		this.initialChildCount = this.parentView.getChildCount();
 	}
 	
 	protected int getMaxImageCountPerLine(){
@@ -209,7 +219,20 @@ public class ImageGalleryView {
 		});
 	}
 	
+	public void fillPhotos(List<PicturePair> images){
+	
+		if(images == null){
+			images = new ArrayList<PicturePair>();
+		}
+		
+		this.images = images;
+		
+		this.fillPhotos();
+	}
+	
 	public void fillPhotos(){  
+		
+		this.clearFilledPhotos();
 		
 		this.populatedImageCount = 0;
 		int stackFactor = this.calculateStackFactor();	
@@ -242,8 +265,15 @@ public class ImageGalleryView {
 		}	
 	}
 	
-	public void addNewImage(Bitmap bitmap, String persistedPath){
-		this.parentView.removeAllViews();
+	protected void clearFilledPhotos(){
+		while(this.parentView.getChildCount() > this.initialChildCount){
+			this.parentView.removeViewAt(this.parentView.getChildCount()-1);
+		}
+	} 
+	
+ 	public void addNewImage(Bitmap bitmap, String persistedPath){
+		// this.parentView.removeAllViews();
+ 		this.clearFilledPhotos();
 		this.fillPhotos();
 	}
 	

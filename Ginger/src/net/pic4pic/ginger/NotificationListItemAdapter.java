@@ -118,6 +118,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		// android.widget.Toast.makeText(this.activity, "Action", android.widget.Toast.LENGTH_LONG).show();		
 		
 		Intent intent = new Intent(this.activity, PersonActivity.class);
+		intent.putExtra(MainActivity.AuthenticatedUserBundleType, ((MainActivity)this.activity).getCurrentUser());
 		intent.putExtra(PersonActivity.PersonType, notification.getSender());
 
 		// calling a child activity for a result keeps the parent activity alive.

@@ -7,16 +7,17 @@ import android.content.Context;
 import net.pic4pic.ginger.entities.AcceptingPic4PicRequest;
 import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.BaseResponse;
+import net.pic4pic.ginger.entities.CandidateDetailsRequest;
+import net.pic4pic.ginger.entities.CandidateDetailsResponse;
 import net.pic4pic.ginger.entities.FacebookRequest;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
 import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
+import net.pic4pic.ginger.entities.MatchedCandidateResponse;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
-import net.pic4pic.ginger.entities.Pic4PicHistory;
-import net.pic4pic.ginger.entities.Pic4PicHistoryRequest;
 import net.pic4pic.ginger.entities.SignupRequest;
 import net.pic4pic.ginger.entities.SimpleResponseGuid;
 import net.pic4pic.ginger.entities.StartingPic4PicRequest;
@@ -184,7 +185,7 @@ public class ServiceProxy extends ServiceBase implements IService {
 	}
     
 	@Override
-    public SimpleResponseGuid acceptPic4Pic(Context context, AcceptingPic4PicRequest request) throws GingerException{
+    public MatchedCandidateResponse acceptPic4Pic(Context context, AcceptingPic4PicRequest request) throws GingerException{
 		
 		if(request.getClientId() == null){
 			request.setClientId(super.getClientId(context));
@@ -192,14 +193,14 @@ public class ServiceProxy extends ServiceBase implements IService {
 		
 		return super.post(
 				request, 
-				SimpleResponseGuid.class, 
+				MatchedCandidateResponse.class, 
 				ServiceEndpoint.MainService, 
 				super.getAuthToken(context), 
 				"/svc/rest/p4p/accept").getData();	
     }
 	
 	@Override
-	public Pic4PicHistory getPic4PicHistory(Context context, Pic4PicHistoryRequest request) throws GingerException{
+	public CandidateDetailsResponse getCandidateDetails(Context context, CandidateDetailsRequest request) throws GingerException{
 		
 		if(request.getClientId() == null){
 			request.setClientId(super.getClientId(context));
@@ -207,10 +208,10 @@ public class ServiceProxy extends ServiceBase implements IService {
 		
 		return super.post(
 				request, 
-				Pic4PicHistory.class, 
+				CandidateDetailsResponse.class, 
 				ServiceEndpoint.MainService, 
 				super.getAuthToken(context), 
-				"/svc/rest/p4p/history").getData();	
+				"/svc/rest/candidate/details").getData();	
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package net.pic4pic.ginger.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -20,6 +21,14 @@ public class UserResponse extends BaseResponse implements Serializable {
 
 	@SerializedName("OtherPictures")
     protected ArrayList<PicturePair> otherPictures = new ArrayList<PicturePair>();
+	
+	/**
+	 * Shortcut getter
+	 * @return userId of the profile
+	 */
+	public UUID getUserId(){
+		return this.getUserProfile().getUserId();
+	}
 	
 	/**
 	 * @return the authToken

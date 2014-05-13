@@ -5,16 +5,17 @@ import java.util.UUID;
 import net.pic4pic.ginger.entities.AcceptingPic4PicRequest;
 import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.BaseResponse;
+import net.pic4pic.ginger.entities.CandidateDetailsRequest;
+import net.pic4pic.ginger.entities.CandidateDetailsResponse;
 import net.pic4pic.ginger.entities.FacebookRequest;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
 import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
+import net.pic4pic.ginger.entities.MatchedCandidateResponse;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
-import net.pic4pic.ginger.entities.Pic4PicHistory;
-import net.pic4pic.ginger.entities.Pic4PicHistoryRequest;
 import net.pic4pic.ginger.entities.SimpleResponseGuid;
 import net.pic4pic.ginger.entities.StartingPic4PicRequest;
 import net.pic4pic.ginger.entities.UserResponse;
@@ -50,9 +51,9 @@ public interface IService {
     
     public SimpleResponseGuid requestPic4Pic(Context context, StartingPic4PicRequest request) throws GingerException;
     
-    public SimpleResponseGuid acceptPic4Pic(Context context, AcceptingPic4PicRequest request) throws GingerException;
+    public MatchedCandidateResponse acceptPic4Pic(Context context, AcceptingPic4PicRequest request) throws GingerException;
     
-    public Pic4PicHistory getPic4PicHistory(Context context, Pic4PicHistoryRequest request) throws GingerException;
+    public CandidateDetailsResponse getCandidateDetails(Context context, CandidateDetailsRequest request) throws GingerException;
     
     public NotificationListResponse getNotifications(Context context, NotificationRequest request) throws GingerException;
     

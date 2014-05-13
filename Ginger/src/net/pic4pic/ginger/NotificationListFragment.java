@@ -121,6 +121,7 @@ public class NotificationListFragment extends Fragment {
 		
 		// Toast.makeText(this.getActivity(), "Showing " + person, Toast.LENGTH_LONG).show();
 		Intent intent = new Intent(this.getActivity(), PersonActivity.class);
+		intent.putExtra(MainActivity.AuthenticatedUserBundleType, ((MainActivity)this.getActivity()).getCurrentUser());
 		intent.putExtra(PersonActivity.PersonType, person);
 
 		// calling a child activity for a result keeps the parent activity alive.
