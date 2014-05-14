@@ -177,6 +177,7 @@ public class MatchListFragment extends Fragment {
 		Intent intent = new Intent(this.getActivity(), PersonActivity.class);
 		intent.putExtra(MainActivity.AuthenticatedUserBundleType, ((MainActivity)this.getActivity()).getCurrentUser());
 		intent.putExtra(PersonActivity.PersonType, person);
+		intent.putExtra(PersonActivity.ParentCallerClassName, this.getClass().getName());
 
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed.
@@ -186,7 +187,7 @@ public class MatchListFragment extends Fragment {
 		// person.setLastViewTimeUTC(new Date());
 	}
 	
-	public void updateCandidateView(MatchedCandidate person){
+	public void updateCandidateView(final MatchedCandidate person, final String initialCallerClass, final boolean hasFamiliarityChanged){
 		
 		View rootView = this.getView(); 
 		if(rootView == null){
@@ -194,11 +195,11 @@ public class MatchListFragment extends Fragment {
 			return;
 		}
 		
-		ListView listView = (ListView)rootView.findViewById(R.id.matchList);
+		final ListView listView = (ListView)rootView.findViewById(R.id.matchList);
 		
 		// we have this wrapper adapter since we are using a footer.
-		HeaderViewListAdapter wrapperAdapter = (HeaderViewListAdapter)listView.getAdapter();
-		MatchListItemAdapter adapter = (MatchListItemAdapter)wrapperAdapter.getWrappedAdapter();
+		final HeaderViewListAdapter wrapperAdapter = (HeaderViewListAdapter)listView.getAdapter();
+		final MatchListItemAdapter adapter = (MatchListItemAdapter)wrapperAdapter.getWrappedAdapter();
 
 		// below iteration goes through only VISIBLE elements
 		int found = 0;
@@ -207,10 +208,22 @@ public class MatchListFragment extends Fragment {
 		    final View listItemView = listView.getChildAt(i);
 		    if(adapter.isMatch(listItemView, person.getUserId())){
 		    	final Drawable background = GingerHelpers.getListItemBackgroundDrawable(this.getActivity(), person.isViewed());
-		    	
+		    	final int position = i;
 		    	NonBlockedTask.SafeSleepAndRunOnUI(400, new ITask(){
 					@Override
 					public void perform() {						
+						
+						// change thumb-nail if necessary
+						if(hasFamiliarityChanged){
+							// refresh whole row (list item view)
+							// ...
+							// getting view for the target child refreshes it automatically
+							adapter.getView(position, listItemView, listView);
+							
+							// log
+							MyLog.i("MatchListFragment", "Refreshing avatar image for user: " + person.getUserId());
+						}
+						
 						// change background...
 						listItemView.setBackground(background);
 					    //listItemView.refreshDrawableState(); // useless

@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.pic4pic.ginger.entities.BaseRequest;
+import net.pic4pic.ginger.entities.Familiarity;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.Notification;
@@ -349,9 +350,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		else if(requestCode == PersonActivity.PersonActivityCode){
 			MyLog.v("MainActivity", "PersonActivity has returned");			
 			if(resultCode == Activity.RESULT_OK && data != null){				
-				MatchedCandidate candidate = (MatchedCandidate)data.getExtras().getSerializable(MainActivity.UpdatedMatchCandidate);
+				Bundle bundle = data.getExtras();
+				MatchedCandidate candidate = (MatchedCandidate)bundle.getSerializable(MainActivity.UpdatedMatchCandidate);
+				String initialCallerClass = bundle.getString(PersonActivity.ParentCallerClassName);
 				MyLog.i("MainActivity", "Candidate: " + candidate.getUserId() + " viewed: " + candidate.isViewed());				
-				this.updateCandidate(candidate);
+				this.updateCandidate(candidate, initialCallerClass);				
+				this.updateNotification(candidate, initialCallerClass);
 			}
 		}
 		else{
@@ -359,21 +363,66 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 	}
 	
-	public void updateCandidate(MatchedCandidate candidate){
+	public void updateCandidate(MatchedCandidate candidate, String initialCallerClass){
 		
 		if(candidate == null){
 			return;
 		}
 		
 		for(int x=0; x<this.matches.size(); x++){
-			UUID userId1 = this.matches.get(x).getUserId();
+			MatchedCandidate initial = this.matches.get(x);
+			UUID userId1 = initial.getUserId();
 			UUID userId2 = candidate.getUserId();
 			if(userId1.equals(userId2)){
+				
+				// prepare flag
+				Familiarity f1 = initial.getCandidateProfile().getFamiliarity();
+				Familiarity f2 = candidate.getCandidateProfile().getFamiliarity();
+				boolean hasFamiliarityChanged = (f1.getIntValue() != f2.getIntValue());
+				
+				// update person
 				this.matches.set(x, candidate);
-				this.mSectionsPagerAdapter.getMatchListFragment().updateCandidateView(candidate);
+				
+				// update view... having this within the for loop is OK.
+				this.mSectionsPagerAdapter.getMatchListFragment().updateCandidateView(candidate, initialCallerClass, hasFamiliarityChanged);
+				
+				// break is fine here.
 				break;
 			}
 		}
+	}
+	
+	public void updateNotification(MatchedCandidate candidate, String initialCallerClass){
+		
+		if(candidate == null){
+			return;
+		}
+		
+		boolean hasFamiliarityChanged = false;
+		for(int x=0; x<this.notifications.size(); x++){
+			MatchedCandidate initial = this.notifications.get(x).getSender();
+			UUID userId1 = initial.getUserId();
+			UUID userId2 = candidate.getUserId();
+			if(userId1.equals(userId2)){
+				
+				// prepare flag
+				Familiarity f1 = initial.getCandidateProfile().getFamiliarity();
+				Familiarity f2 = candidate.getCandidateProfile().getFamiliarity();
+				if(f1.getIntValue() != f2.getIntValue()){
+					hasFamiliarityChanged = true;
+				}
+				
+				// set
+				this.notifications.get(x).setSender(candidate);
+				
+				// don't break since we might have multiple notifications from a candidate
+				// break;
+			}
+		}
+		
+		// keep this outside of for loop
+		// below method updates the avatar only
+		this.mSectionsPagerAdapter.getNotificationListFragment().updateCandidateView(candidate, initialCallerClass, hasFamiliarityChanged);
 	}
 	
 	/**

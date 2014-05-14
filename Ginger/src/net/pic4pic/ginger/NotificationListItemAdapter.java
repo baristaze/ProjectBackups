@@ -1,6 +1,7 @@
 package net.pic4pic.ginger;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -32,7 +33,8 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 	private Activity activity;
 	private ArrayList<Notification> notifications;
 	
-	private class ViewCache {		
+	private class ViewCache {
+		public UUID senderUserId;
 		public TextView usernameTextView;
 		public TextView titleTextView;
 		public TextView timeTextView;		
@@ -64,6 +66,9 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		
 		final Notification notification = (Notification) this.notifications.get(position);
 		ViewCache cachedView = (ViewCache) convertView.getTag();
+		
+		// set sender user id
+		cachedView.senderUserId = notification.getSender().getUserId();
 		
 		// set user name
 		cachedView.usernameTextView.setText(notification.getSender().getCandidateProfile().getUsername());
@@ -113,18 +118,25 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		return convertView;
 	}
 	
-	public void onNotificationAction(final View actionButton, final Notification notification){
+	private void onNotificationAction(final View actionButton, final Notification notification){
 		
 		// android.widget.Toast.makeText(this.activity, "Action", android.widget.Toast.LENGTH_LONG).show();		
 		
 		Intent intent = new Intent(this.activity, PersonActivity.class);
 		intent.putExtra(MainActivity.AuthenticatedUserBundleType, ((MainActivity)this.activity).getCurrentUser());
 		intent.putExtra(PersonActivity.PersonType, notification.getSender());
+		intent.putExtra(PersonActivity.ParentCallerClassName, this.getClass().getName());
 
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed. 
 		this.activity.startActivityForResult(intent, PersonActivity.PersonActivityCode);
 
+		// mark notification as read
+		this.markNotificationAsRead(actionButton, notification);
+	}
+	
+	private void markNotificationAsRead(final View actionButton, final Notification notification){
+		
 		// mark as read
 		if(!notification.isRead()){
 			
@@ -141,7 +153,14 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 					BaseResponse response = null;
 					try{
 						response = Service.getInstance().mark(activity, marking);
-						MyLog.v("NotificationListItemAdapter", "Notification has been marked as read: " + notification.getId());
+						
+						if(response.getErrorCode() == 0){
+							notification.setRead(true);
+							MyLog.v("NotificationListItemAdapter", "Notification has been marked as read: " + notification.getId());
+						}
+						else{
+							MyLog.e("NotificationListItemAdapter", "Marking notification failed: " + response.getErrorMessage());
+						}
 					}
 					catch(GingerException ge){
 						MyLog.e("NotificationListItemAdapter", "Marking notification failed: " + ge.getMessage());
@@ -164,6 +183,12 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 					}
 				}
 			});
-		}		
+		}			
+	}
+	
+	public boolean isMatch(final View listItemView, UUID senderUserId){
+		
+		ViewCache cachedView = (ViewCache) listItemView.getTag();
+		return cachedView.senderUserId.equals(senderUserId);
 	}
 }

@@ -85,6 +85,8 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		return rowView;
 	}	
 	
+	// public void refreshViewAt(int position)
+	
 	public boolean isMatch(View listItemView, UUID userId){
 		
 		ViewCache cachedView = (ViewCache) listItemView.getTag();

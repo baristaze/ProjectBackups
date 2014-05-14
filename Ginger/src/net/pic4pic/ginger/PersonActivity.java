@@ -46,11 +46,14 @@ import net.pic4pic.ginger.utils.MyLog;
 public class PersonActivity extends Activity implements AcceptPic4PicListener {
 
 	public static final String PersonType = "net.pic4pic.ginger.Person"; 
+	public static final String ParentCallerClassName = "net.pic4pic.ginger.ParentCallerClassName";
+	
 	public static final int PersonActivityCode = 201;
 	
 	private UserResponse me;
 	private MatchedCandidate person;
 	private Date lastDetailsRetrieveTime = null;
+	private String parentCallerClassName;
 	
 	private ImageGalleryView galleryView;
 	
@@ -67,7 +70,9 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener {
 		
 		Intent intent = getIntent();
 		this.me = (UserResponse)intent.getSerializableExtra(MainActivity.AuthenticatedUserBundleType);
-		this.person = (MatchedCandidate)intent.getSerializableExtra(PersonType);		
+		this.person = (MatchedCandidate)intent.getSerializableExtra(PersonType);	
+		this.parentCallerClassName = intent.getStringExtra(ParentCallerClassName);
+				
 		this.setTitle(this.person.getCandidateProfile().getUsername());
 		
 		// Show the Up button in the action bar.
@@ -145,7 +150,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener {
 		
 		// initiate a refresh from server
 		if(this.isNeedOfRequestingMoreDetails()){
-			// get pic4picHistory again
+			// get candidate details again
 			this.startRetrievingMoreDetails();
 		}
 	}
@@ -466,6 +471,8 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener {
 		
 		Intent resultIntent = new Intent();
 		resultIntent.putExtra(MainActivity.UpdatedMatchCandidate, this.person);
+		resultIntent.putExtra(ParentCallerClassName, this.parentCallerClassName);
+		
 		this.setResult(Activity.RESULT_OK, resultIntent);
 		/*
 		if (this.getParent() == null) {
@@ -725,13 +732,20 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener {
 				public void perform() {					
 					try{
 						// mark as viewed
-						Service.getInstance().mark(PersonActivity.this, marking);
-						
-						// set the view time to avoid excessive posts to service
-						person.setLastViewTimeUTC(new Date());
-						
-						// log
-						MyLog.v("PersonActivity", "Candidate has been marked as viewed: " + candidateId);
+						BaseResponse response = Service.getInstance().mark(PersonActivity.this, marking);
+						if(response.getErrorCode() == 0){
+							
+							// set the view time to avoid excessive posts to service
+							person.setLastViewTimeUTC(new Date());
+							
+							// log
+							MyLog.v("PersonActivity", "Candidate has been marked as viewed: " + candidateId);
+						}
+						else{
+							
+							// log error
+							MyLog.e("PersonActivity", "Marking candidate as viewed failed: " + response.getErrorMessage());
+						}
 					}
 					catch(GingerException ge){
 						
