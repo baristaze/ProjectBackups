@@ -229,13 +229,13 @@ public class NotificationListFragment extends Fragment {
 
 		// below iteration goes through only VISIBLE elements
 		int found = 0;
-		for (int i = 0; i < listView.getChildCount(); i++)
-		{
-		    final View listItemView = listView.getChildAt(i);
-		    final int position = i;
-		    if(adapter.isMatch(listItemView, person.getUserId())){
-		    	
-		    	NonBlockedTask.SafeSleepAndRunOnUI(400, new ITask(){
+		int start = listView.getFirstVisiblePosition();
+		for (int i = start; i < listView.getLastVisiblePosition(); i++) {
+			Notification temp = (Notification)listView.getItemAtPosition(i);
+			if(person.getUserId().equals(temp.getSender().getUserId())){
+				final View listItemView = listView.getChildAt(i-start);
+				final int position = i;
+				NonBlockedTask.SafeSleepAndRunOnUI(400, new ITask(){
 					@Override
 					public void perform() {
 						
@@ -258,7 +258,7 @@ public class NotificationListFragment extends Fragment {
 		    	
 		    	// DO NOT break since we might have received multiple notification from a candidate
 		    	// break;
-		    }
+			}
 		}
 	}
 }

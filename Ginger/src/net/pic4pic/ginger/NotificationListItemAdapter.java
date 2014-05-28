@@ -1,7 +1,6 @@
 package net.pic4pic.ginger;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -34,7 +33,6 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 	private ArrayList<Notification> notifications;
 	
 	private class ViewCache {
-		public UUID senderUserId;
 		public TextView usernameTextView;
 		public TextView titleTextView;
 		public TextView timeTextView;		
@@ -66,9 +64,6 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 		
 		final Notification notification = (Notification) this.notifications.get(position);
 		ViewCache cachedView = (ViewCache) convertView.getTag();
-		
-		// set sender user id
-		cachedView.senderUserId = notification.getSender().getUserId();
 		
 		// set user name
 		cachedView.usernameTextView.setText(notification.getSender().getCandidateProfile().getUsername());
@@ -184,11 +179,5 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> {
 				}
 			});
 		}			
-	}
-	
-	public boolean isMatch(final View listItemView, UUID senderUserId){
-		
-		ViewCache cachedView = (ViewCache) listItemView.getTag();
-		return cachedView.senderUserId.equals(senderUserId);
 	}
 }

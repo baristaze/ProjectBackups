@@ -203,11 +203,12 @@ public class MatchListFragment extends Fragment {
 
 		// below iteration goes through only VISIBLE elements
 		int found = 0;
-		for (int i = 0; i < listView.getChildCount(); i++)
-		{
-		    final View listItemView = listView.getChildAt(i);
-		    if(adapter.isMatch(listItemView, person.getUserId())){
-		    	final Drawable background = GingerHelpers.getListItemBackgroundDrawable(this.getActivity(), person.isViewed());
+		int start = listView.getFirstVisiblePosition();
+		for (int i = start; i < listView.getLastVisiblePosition(); i++) {
+			MatchedCandidate temp = (MatchedCandidate)listView.getItemAtPosition(i);
+			if(person.getUserId().equals(temp.getUserId())) {				
+				final View listItemView = listView.getChildAt(i-start);				
+				final Drawable background = GingerHelpers.getListItemBackgroundDrawable(this.getActivity(), person.isViewed());
 		    	final int position = i;
 		    	NonBlockedTask.SafeSleepAndRunOnUI(400, new ITask(){
 					@Override
@@ -234,7 +235,7 @@ public class MatchListFragment extends Fragment {
 		    	
 		    	found++;
 		    	break;
-		    }
+			}
 		}
 		
 		if(found <= 0){

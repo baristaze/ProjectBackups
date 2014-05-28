@@ -1,7 +1,6 @@
 package net.pic4pic.ginger;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -23,7 +22,6 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 	private ArrayList<MatchedCandidate> people;
 	
 	private class ViewCache{
-		public UUID userId;
 		public ImageView avatarImageView;
 	    public TextView usernameTextView;
 	    public TextView shortBioTextView;
@@ -55,7 +53,6 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		
 		MyLog.v("MatchListItemAdapter", "Person: " + person.getUserId() + " isViewed: " + person.isViewed());
 		
-		cachedView.userId = person.getUserId();
 		cachedView.usernameTextView.setText(person.getCandidateProfile().getUsername());
 		cachedView.shortBioTextView.setText(person.getCandidateProfile().getShortBio());
 		
@@ -84,12 +81,4 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		
 		return rowView;
 	}	
-	
-	// public void refreshViewAt(int position)
-	
-	public boolean isMatch(View listItemView, UUID userId){
-		
-		ViewCache cachedView = (ViewCache) listItemView.getTag();
-		return cachedView.userId.equals(userId);
-	}
 }

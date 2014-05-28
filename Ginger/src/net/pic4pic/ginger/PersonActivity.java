@@ -381,6 +381,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener {
 			acceptText = this.getString(R.string.candidate_acceptP4P);
 		}
 		
+		MyLog.v("PersonActivity", "Last Pending p4p ID: " + this.person.getLastPendingPic4PicId());
 		if(this.person.hasPic4PicPending()){
 			pic4picButton.setText(acceptText);
 		}
