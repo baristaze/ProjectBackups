@@ -88,7 +88,7 @@ public class NotificationListFragment extends Fragment {
 		
 			// fill up list view
 			ListView listview = (ListView) rootView.findViewById(R.id.notifList);
-			NotificationListItemAdapter adapter = new NotificationListItemAdapter(this.getActivity(), notifications);
+			NotificationListItemAdapter adapter = new NotificationListItemAdapter((MainActivity)this.getActivity(), notifications);
 			listview.setAdapter(adapter);
 			
 			// bind click actions

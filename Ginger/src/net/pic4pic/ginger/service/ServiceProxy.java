@@ -19,7 +19,6 @@ import net.pic4pic.ginger.entities.MatchedCandidateResponse;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
 import net.pic4pic.ginger.entities.SignupRequest;
-import net.pic4pic.ginger.entities.SimpleResponseGuid;
 import net.pic4pic.ginger.entities.StartingPic4PicRequest;
 import net.pic4pic.ginger.entities.UserCredentials;
 import net.pic4pic.ginger.entities.UserResponse;
@@ -170,7 +169,7 @@ public class ServiceProxy extends ServiceBase implements IService {
 	}
 	
 	@Override
-	public SimpleResponseGuid requestPic4Pic(Context context, StartingPic4PicRequest request) throws GingerException{
+	public MatchedCandidateResponse requestPic4Pic(Context context, StartingPic4PicRequest request) throws GingerException{
 		
 		if(request.getClientId() == null){
 			request.setClientId(super.getClientId(context));
@@ -178,7 +177,7 @@ public class ServiceProxy extends ServiceBase implements IService {
 		
 		return super.post(
 				request, 
-				SimpleResponseGuid.class, 
+				MatchedCandidateResponse.class, 
 				ServiceEndpoint.MainService, 
 				super.getAuthToken(context), 
 				"/svc/rest/p4p/request").getData();

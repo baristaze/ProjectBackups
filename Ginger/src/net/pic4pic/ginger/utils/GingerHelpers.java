@@ -32,6 +32,11 @@ public class GingerHelpers {
 		t.show();
 	}
 	
+	public static void toastShort(Context context, String message){
+		Toast t = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+		t.show();
+	}
+	
 	public static Drawable getListItemBackgroundDrawable(Context context, boolean isRead){
 		
 		if(isRead){

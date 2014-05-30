@@ -16,7 +16,6 @@ import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.MatchedCandidateResponse;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
-import net.pic4pic.ginger.entities.SimpleResponseGuid;
 import net.pic4pic.ginger.entities.StartingPic4PicRequest;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.entities.UserCredentials;
@@ -49,7 +48,7 @@ public interface IService {
     
     public MatchedCandidateListResponse getTodaysMatches(Context context, BaseRequest request) throws GingerException;
     
-    public SimpleResponseGuid requestPic4Pic(Context context, StartingPic4PicRequest request) throws GingerException;
+    public MatchedCandidateResponse requestPic4Pic(Context context, StartingPic4PicRequest request) throws GingerException;
     
     public MatchedCandidateResponse acceptPic4Pic(Context context, AcceptingPic4PicRequest request) throws GingerException;
     
