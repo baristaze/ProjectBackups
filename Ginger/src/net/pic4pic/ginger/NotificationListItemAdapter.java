@@ -121,8 +121,9 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		 });
 		
 		// enable/disable -or- show-hide button
-		cachedView.actionButton.setEnabled(true);
-		//cachedView.actionButton.setVisibility(View.VISIBLE);
+		//cachedView.actionButton.setEnabled(true);
+		cachedView.actionButton.setVisibility(View.INVISIBLE);
+		/*
 		if(notification.getRecommendedAction() == NotificationAction.AcceptP4P){
 			UUID lastPendingPic4PicId = notification.getSender().getLastPendingPic4PicId(); 
 			if(lastPendingPic4PicId == null || lastPendingPic4PicId.equals(new UUID(0,0))){
@@ -141,7 +142,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 				//cachedView.actionButton.setVisibility(View.INVISIBLE);
 			}
 		}
-		
+		*/
 		// return
 		return convertView;
 	}
