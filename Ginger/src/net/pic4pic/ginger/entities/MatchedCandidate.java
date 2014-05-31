@@ -19,6 +19,9 @@ public class MatchedCandidate implements Serializable {
 
 	@SerializedName("LastViewTimeUTC")
 	protected Date lastViewTimeUTC;
+	
+	@SerializedName("LastLikeTimeUTC")
+	protected Date lastLikeTimeUTC;
 
 	@SerializedName("LastPendingPic4PicId")
 	protected UUID lastPendingPic4PicId;
@@ -83,6 +86,33 @@ public class MatchedCandidate implements Serializable {
 	public boolean isViewed(){
 		
 		if(this.lastViewTimeUTC == null || this.lastViewTimeUTC.equals(new Date(0))){
+			return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * @return the lastLikeTimeUTC
+	 */
+	public Date getLastLikeTimeUTC() {
+		return lastLikeTimeUTC;
+	}
+
+	/**
+	 * @param lastLikeTimeUTC the lastLikeTimeUTC to set
+	 */
+	public void setLastLikeTimeUTC(Date lastLikeTimeUTC) {
+		this.lastLikeTimeUTC = lastLikeTimeUTC;
+	}
+	
+	/**
+	 * Have I liked this profile already?
+	 * @return
+	 */
+	public boolean isLiked(){
+		
+		if(this.lastLikeTimeUTC == null || this.lastLikeTimeUTC.equals(new Date(0))){
 			return false;
 		}
 		

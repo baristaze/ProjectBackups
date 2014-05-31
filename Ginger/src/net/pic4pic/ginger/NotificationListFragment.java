@@ -42,6 +42,8 @@ public class NotificationListFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState){
 		
+		super.onViewCreated(view, savedInstanceState);
+		
 		MainActivity activity = (MainActivity)this.getActivity();
 		if(activity.isNeedOfRequestingNotifications()){		
 			

@@ -380,6 +380,16 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			
 			pic4picButton = (Button)this.findViewById(R.id.candidateSendP4PButton);
 			acceptText = this.getString(R.string.candidate_acceptP4P);
+			
+			Button likeButton = (Button)this.findViewById(R.id.candidateLikeButton);
+			if(this.person.isLiked()) {
+				String newText = this.getString(R.string.candidate_liked);					
+				likeButton.setText(newText);
+			}
+			else{
+				String newText = this.getString(R.string.candidate_like);					
+				likeButton.setText(newText);
+			}
 		}
 		
 		MyLog.v("PersonActivity", "Last Pending p4p ID: " + this.person.getLastPendingPic4PicId());
@@ -636,6 +646,11 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	
 	private void sendLikeAction(final Button candidateLikeButton){
 	
+		if(this.person.isLiked()){
+			GingerHelpers.showErrorMessage(this, "You have already liked this person recently");
+			return;	
+		}
+		
 		// mark as liked
 		// prepare request
 		final UUID candidateId = person.getUserId();
@@ -669,6 +684,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 					
 						// we have viewed this profile if we have liked it
 						person.setLastViewTimeUTC(new Date());
+						person.setLastLikeTimeUTC(new Date());
 						
 						// change the button text
 						PersonActivity.this.runOnUiThread(new Runnable(){
@@ -677,12 +693,8 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 								
 								// change text
 								String newText = PersonActivity.this.getString(R.string.candidate_liked);					
-								candidateLikeButton.setText(newText);
-								
-								// enable for better UI but remove listener
-								candidateLikeButton.setEnabled(true);
-								candidateLikeButton.setOnClickListener(null);
-								
+								candidateLikeButton.setText(newText);								
+								candidateLikeButton.setEnabled(true);								
 								// toast
 								GingerHelpers.toastShort(PersonActivity.this, "Liked successfully \u2713");
 							}
