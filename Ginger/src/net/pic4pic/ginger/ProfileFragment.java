@@ -1,6 +1,7 @@
 package net.pic4pic.ginger;
 
 import java.util.Random;
+import java.util.UUID;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -188,11 +189,18 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 			}
 			
 			ImageFile imgFile = new ImageFile();
+			imgFile.setId(UUID.randomUUID());
 			imgFile.setCloudUrl(uri);
 			imgFile.setThumbnailed(true);
 			
+			ImageFile imgFile2 = new ImageFile();
+			imgFile2.setId(UUID.randomUUID());
+			imgFile2.setCloudUrl(uri);
+			imgFile2.setThumbnailed(false);
+			
 			PicturePair info = new PicturePair();
 			info.setThumbnail(imgFile);
+			info.setFullSize(imgFile2);
 			
 			this.addNewImage(info, bitmapPhoto);
 			
@@ -248,11 +256,18 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 							}
 							
 							ImageFile imgFile = new ImageFile();
+							imgFile.setId(UUID.randomUUID());
 							imgFile.setCloudUrl(uri);
 							imgFile.setThumbnailed(true);
 							
+							ImageFile imgFile2 = new ImageFile();
+							imgFile2.setId(UUID.randomUUID());
+							imgFile2.setCloudUrl(uri);
+							imgFile2.setThumbnailed(false);
+							
 							PicturePair info = new PicturePair();
 							info.setThumbnail(imgFile);
+							info.setFullSize(imgFile2);
 							
 							this.addNewImage(info, bitmapPhoto);
 							

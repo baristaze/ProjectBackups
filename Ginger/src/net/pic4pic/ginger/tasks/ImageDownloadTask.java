@@ -25,6 +25,11 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
         this.imageId = imageId;
     	this.imageView = imageView;
         this.clickableAfterDownload = clickableAfterDownload;
+        
+        if(this.imageId == null){
+        	this.imageId = new UUID(0, 0);
+        	MyLog.w("ImageDownloadTask", "Image ID hasn't been defined: " + this.imageId );
+        }
     }
 
     @Override
@@ -46,7 +51,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 	            bitmap = BitmapFactory.decodeStream(in);
 	        } 
 	        catch (Exception e) {
-	            MyLog.e("Error", e.getMessage());
+	            MyLog.e("Error", "Image download failed with error: " + e.getMessage());
 	            e.printStackTrace();
 	        }
     	}
