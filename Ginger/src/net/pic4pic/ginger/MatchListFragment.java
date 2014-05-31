@@ -35,6 +35,13 @@ public class MatchListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View rootView = inflater.inflate(R.layout.match_listview, container, false);
+		return rootView;
+	}
+	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState){
+		
+		super.onViewCreated(view, savedInstanceState);
 		
 		MainActivity activity = (MainActivity)this.getActivity();
 		if(activity.isNeedOfRequestingMatches()){		
@@ -54,10 +61,8 @@ public class MatchListFragment extends Fragment {
 			ArrayList<MatchedCandidate> candidates = activity.getMatchedCandidates();
 						
 			// update UI
-			this.updateUI(rootView, candidates);
-		}
-		
-		return rootView;
+			this.updateUI(view, candidates);
+		}	
 	}
 	
 	public void onMatchComplete(ArrayList<MatchedCandidate> matches){

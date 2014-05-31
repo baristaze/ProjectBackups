@@ -36,7 +36,12 @@ public class NotificationListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View rootView = inflater.inflate(R.layout.notif_listview, container, false);		
-				
+		return rootView;
+	}
+	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState){
+		
 		MainActivity activity = (MainActivity)this.getActivity();
 		if(activity.isNeedOfRequestingNotifications()){		
 			
@@ -55,10 +60,8 @@ public class NotificationListFragment extends Fragment {
 			ArrayList<Notification> notifications = activity.getNotifications();
 						
 			// update UI
-			this.updateUI(rootView, notifications);
+			this.updateUI(view, notifications);
 		}
-		
-		return rootView;
 	}
 	
 	public void onNotificationsComplete(ArrayList<Notification> notifications){

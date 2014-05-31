@@ -14,7 +14,6 @@ import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
-import net.pic4pic.ginger.utils.MyLog;
 
 public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 	
@@ -50,8 +49,6 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		ViewCache cachedView = (ViewCache) rowView.getTag();
 		
 		MatchedCandidate person = this.people.get(position);
-		
-		MyLog.v("MatchListItemAdapter", "Person: " + person.getUserId() + " isViewed: " + person.isViewed());
 		
 		cachedView.usernameTextView.setText(person.getCandidateProfile().getUsername());
 		cachedView.shortBioTextView.setText(person.getCandidateProfile().getShortBio());
