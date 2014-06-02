@@ -50,9 +50,6 @@ public class ConversationActivity extends Activity implements ConversationListen
 		MyLog.v("ConversationActivity", "Candidate is: " + this.person.getCandidateProfile().getUsername());
 		
 		this.onConversationReceived(this.messageThread);
-		
-		this.conversationPoller = Executors.newScheduledThreadPool(1);
-		this.conversationRetriever = new ConversationRetriever(this, this);
 	}
 	
 	@Override
@@ -131,6 +128,10 @@ public class ConversationActivity extends Activity implements ConversationListen
 	protected void onResume() {
 		MyLog.v("ConversationActivity", "onResume...");
 		super.onResume();
+		
+		// always create from scratch otherwise it won't restart.
+		this.conversationPoller = Executors.newScheduledThreadPool(1);
+		this.conversationRetriever = new ConversationRetriever(this, this);
 		this.conversationPoller.scheduleWithFixedDelay(this.conversationRetriever, 0, 1000, TimeUnit.MILLISECONDS);
 	}
 	

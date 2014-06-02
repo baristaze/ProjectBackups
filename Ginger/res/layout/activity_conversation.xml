@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
 	    android:layout_height="0dp"
 	    android:layout_weight="1"
-	    android:background="@drawable/tile"
-	    android:tileMode="repeat">	    
+	    android:background="@drawable/tile_background">	    
 	   	
 	   	<LinearLayout 
 	   	    android:id="@+id/messageThread"
