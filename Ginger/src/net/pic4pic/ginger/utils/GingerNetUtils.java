@@ -118,6 +118,7 @@ public class GingerNetUtils {
 			json.append(scanner.nextLine());
 			json.append("\n");
 		}
+		scanner.close();
 		
 		// MyLog.d("JSON", json.toString());
 		
