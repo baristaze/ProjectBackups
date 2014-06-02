@@ -69,7 +69,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		
 		Intent intent = getIntent();
 		this.me = (UserResponse)intent.getSerializableExtra(AuthenticatedUserBundleType);
-		MyLog.v("CurrentUser", "current user is: " + this.me.getUserProfile().getUsername());
+		MyLog.v("MainActivity", "Current user is: " + this.me.getUserProfile().getUsername());
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();

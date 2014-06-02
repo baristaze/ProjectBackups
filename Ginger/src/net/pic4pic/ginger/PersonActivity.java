@@ -640,8 +640,14 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	}
 	
 	private void openMessageThread(){
-	
-		GingerHelpers.toast(PersonActivity.this, "Coming soon!..");
+		
+		Intent intent = new Intent(this, ConversationActivity.class);
+		intent.putExtra(MainActivity.AuthenticatedUserBundleType, this.me);
+		intent.putExtra(PersonActivity.PersonType, this.person);
+
+		// calling a child activity for a result keeps the parent activity alive.
+		// by that way, we don't have to keep track of active tab when child activity is closed.
+		this.startActivityForResult(intent, ConversationActivity.ConversationActivityCode);
 	}
 	
 	private void sendLikeAction(final Button candidateLikeButton){

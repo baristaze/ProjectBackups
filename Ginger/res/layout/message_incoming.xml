@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/general_padding"
+    android:layout_marginLeft="@dimen/general_margin_big"
+    android:layout_marginTop="@dimen/general_margin_big"
+    android:layout_marginRight="@dimen/conversation_message_thread_margin_right"
+    android:background="@drawable/message_background_incoming"
+    android:textSize="@dimen/conversation_message_text_size">
+</TextView>

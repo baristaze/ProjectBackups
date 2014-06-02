@@ -33,6 +33,17 @@
             </intent-filter>
             -->
         </activity>
+        
+       <activity
+            android:name="net.pic4pic.ginger.ConversationActivity"
+            android:label="@string/title_conversation_activity"
+            android:parentActivityName="net.pic4pic.ginger.PersonActivity"
+            android:windowSoftInputMode="adjustResize" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.pic4pic.ginger.PersonActivity" />
+        </activity>
+        
         <activity
             android:name="net.pic4pic.ginger.PersonActivity"
             android:label="@string/title_activity_person"

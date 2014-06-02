@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="list_item_background_unread">#ffffee</color>    
+	<color name="list_item_background_unread">#ffffee</color>
+	<color name="conversation_message_border">#cccccc</color>
+	<color name="conversation_message_bkg_incoming">#e8e177</color>
+	<color name="conversation_message_bkg_outgoing">#8ec3e2</color>
 </resources>

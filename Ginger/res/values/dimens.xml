@@ -74,4 +74,11 @@
 	<dimen name="watermark_padding">20dp</dimen>
 	
 	<dimen name="general_margin_fragment_vertical_centralizer">80dp</dimen>
+	
+	<dimen name="conversation_message_edit_text_height">45dp</dimen>
+	<dimen name="conversation_message_thread_margin_left">80dp</dimen>
+	<dimen name="conversation_message_thread_margin_right">80dp</dimen>
+	<dimen name="conversation_send_button_height">45dp</dimen>
+	<dimen name="conversation_message_corner">3dp</dimen>
+	<dimen name="conversation_message_text_size">14sp</dimen>
 </resources>

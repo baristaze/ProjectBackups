@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+   
+    <ScrollView
+        android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:background="@drawable/tile"
+	    android:tileMode="repeat">	    
+	   	
+	   	<LinearLayout 
+	   	    android:id="@+id/messageThread"
+	       	android:layout_width="match_parent"
+	       	android:layout_height="wrap_content"
+	       	android:orientation="vertical"
+	       	android:paddingBottom="@dimen/general_margin_big">    	   
+	       	
+	   	    <TextView 
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="@dimen/general_padding"
+			    android:layout_marginLeft="@dimen/general_margin_big"
+			    android:layout_marginTop="@dimen/general_margin_big"
+			    android:layout_marginRight="@dimen/conversation_message_thread_margin_right"
+			    android:background="@drawable/message_background_incoming"
+			    android:textSize="@dimen/conversation_message_text_size"
+			    android:text="Hello" >
+			</TextView>
+			
+	   	    <TextView
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="@dimen/general_padding"
+			    android:layout_marginRight="@dimen/general_margin_big"
+			    android:layout_marginTop="@dimen/general_margin_big"
+			    android:layout_marginLeft="@dimen/conversation_message_thread_margin_left"
+			    android:background="@drawable/message_background_outgoing"
+			    android:textSize="@dimen/conversation_message_text_size"
+			    android:text="Hi! How are you?">
+			</TextView>
+			
+	   	    <TextView 
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="@dimen/general_padding"
+			    android:layout_marginLeft="@dimen/general_margin_big"
+			    android:layout_marginTop="@dimen/general_margin_big"
+			    android:layout_marginRight="@dimen/conversation_message_thread_margin_right"
+			    android:background="@drawable/message_background_incoming"
+			    android:textSize="@dimen/conversation_message_text_size"
+			    android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum" >
+			</TextView>
+			
+	   	    <TextView
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="@dimen/general_padding"
+			    android:layout_marginRight="@dimen/general_margin_big"
+			    android:layout_marginTop="@dimen/general_margin_big"
+			    android:layout_marginLeft="@dimen/conversation_message_thread_margin_left"
+			    android:background="@drawable/message_background_outgoing"
+			    android:textSize="@dimen/conversation_message_text_size"
+			    android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum">
+			</TextView>
+			
+	   	    <TextView 
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="@dimen/general_padding"
+			    android:layout_marginLeft="@dimen/general_margin_big"
+			    android:layout_marginTop="@dimen/general_margin_big"
+			    android:layout_marginRight="@dimen/conversation_message_thread_margin_right"
+			    android:background="@drawable/message_background_incoming"
+			    android:textSize="@dimen/conversation_message_text_size"
+			    android:text="Lorem ipsum dolor sit amet, \nconsectetur adipisicing elit, \nsed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \nUt enim ad minim veniam, quis nostrud exercitation ullamco \nlaboris nisi ut aliquip ex ea commodo consequat. \nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \nExcepteur sint occaecat cupidatat non proident, \nsunt in culpa qui officia deserunt mollit anim id est laborum" >
+			</TextView>
+			
+	   	    <TextView
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="@dimen/general_padding"
+			    android:layout_marginRight="@dimen/general_margin_big"
+			    android:layout_marginTop="@dimen/general_margin_big"
+			    android:layout_marginLeft="@dimen/conversation_message_thread_margin_left"
+			    android:background="@drawable/message_background_outgoing"
+			    android:textSize="@dimen/conversation_message_text_size"
+			    android:text="Lorem ipsum dolor sit amet, \nconsectetur adipisicing elit, \nsed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \nUt enim ad minim veniam, quis nostrud exercitation ullamco \nlaboris nisi ut aliquip ex ea commodo consequat. \nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \nExcepteur sint occaecat cupidatat non proident, \nsunt in culpa qui officia deserunt mollit anim id est laborum" >
+			</TextView>
+	   	    
+	   	</LinearLayout>
+	   	     
+    </ScrollView>
+    
+    <LinearLayout
+        android:id="@+id/senderGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+	   	
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/conversation_message_edit_text_height"
+            android:layout_margin="@dimen/general_margin"
+            android:hint="@string/conversation_type_message_hint"
+            android:singleLine="false">
+            <requestFocus></requestFocus>
+        </EditText>
+        
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/conversation_send_button_height"
+            android:layout_marginTop="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"
+	        android:layout_marginBottom="@dimen/general_margin"
+            android:text="@string/conversation_send_button_text">            
+        </Button>
+        	   
+   	</LinearLayout>
+
+</LinearLayout>
