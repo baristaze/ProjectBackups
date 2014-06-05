@@ -7,10 +7,14 @@ import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.CandidateDetailsRequest;
 import net.pic4pic.ginger.entities.CandidateDetailsResponse;
+import net.pic4pic.ginger.entities.ConversationRequest;
+import net.pic4pic.ginger.entities.ConversationResponse;
+import net.pic4pic.ginger.entities.ConversationsSummaryResponse;
 import net.pic4pic.ginger.entities.FacebookRequest;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
+import net.pic4pic.ginger.entities.InstantMessageRequest;
 import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.MatchedCandidateResponse;
@@ -57,4 +61,10 @@ public interface IService {
     public NotificationListResponse getNotifications(Context context, NotificationRequest request) throws GingerException;
     
     public BaseResponse mark(Context context, MarkingRequest request) throws GingerException;
+    
+    public ConversationResponse SendInstantMessage(Context context, InstantMessageRequest request)  throws GingerException;
+    
+    public ConversationResponse GetConversation(Context context, ConversationRequest request) throws GingerException;
+    
+    public ConversationsSummaryResponse GetConversationSummary(Context context, BaseRequest request) throws GingerException;
 }

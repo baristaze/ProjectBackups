@@ -9,10 +9,14 @@ import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.CandidateDetailsRequest;
 import net.pic4pic.ginger.entities.CandidateDetailsResponse;
+import net.pic4pic.ginger.entities.ConversationRequest;
+import net.pic4pic.ginger.entities.ConversationResponse;
+import net.pic4pic.ginger.entities.ConversationsSummaryResponse;
 import net.pic4pic.ginger.entities.FacebookRequest;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
+import net.pic4pic.ginger.entities.InstantMessageRequest;
 import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.MatchedCandidateResponse;
@@ -241,5 +245,50 @@ public class ServiceProxy extends ServiceBase implements IService {
 				ServiceEndpoint.MainService, 
 				super.getAuthToken(context), 
 				"/svc/rest/mark").getData();	
+	}
+	
+	@Override
+    public ConversationResponse SendInstantMessage(Context context, InstantMessageRequest request)  throws GingerException{
+	
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				ConversationResponse.class, 
+				ServiceEndpoint.InstantMessageService, 
+				super.getAuthToken(context), 
+				"/svc/rest/im/send").getData();
+	}
+    
+	@Override
+    public ConversationResponse GetConversation(Context context, ConversationRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				ConversationResponse.class, 
+				ServiceEndpoint.InstantMessageService, 
+				super.getAuthToken(context), 
+				"/svc/rest/im/conversation").getData();	
+	}
+    
+	@Override
+    public ConversationsSummaryResponse GetConversationSummary(Context context, BaseRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				ConversationsSummaryResponse.class, 
+				ServiceEndpoint.InstantMessageService, 
+				super.getAuthToken(context), 
+				"/svc/rest/im/conversation/summary").getData();		
 	}
 }

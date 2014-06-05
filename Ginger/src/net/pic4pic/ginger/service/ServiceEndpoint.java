@@ -4,6 +4,7 @@ package net.pic4pic.ginger.service;
 	
 	/*package*/ static final ServiceEndpoint MainService = new ServiceEndpoint(false, "pic4pic-web-svc.cloudapp.net");
 	/*package*/ static final ServiceEndpoint ImageService = new ServiceEndpoint(false, "pic4pic-web-svc.cloudapp.net");
+	/*package*/ static final ServiceEndpoint InstantMessageService = new ServiceEndpoint(false, "pic4pic-web-svc.cloudapp.net");
 	/*package*/ static final ServiceEndpoint AnalyticService = new ServiceEndpoint(false, "pic4pic-web-svc.cloudapp.net");
 	/*package*/ static final ServiceEndpoint LogService = new ServiceEndpoint(false, "pic4pic-web-svc.cloudapp.net");
 	
