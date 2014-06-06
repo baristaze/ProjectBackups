@@ -113,7 +113,7 @@
     <string name="notif_list_empty_info">Sorry, no notification at this time.\nTap and pull down to refresh!</string>
     
     <string name="title_conversation_activity">Messages</string>
-    <string name="conversation_type_message_hint">start typing&#8230;</string>
+    <string name="conversation_type_message_hint">Write a message&#8230;</string>
     <string name="conversation_send_button_text">Send</string>
     
 </resources>

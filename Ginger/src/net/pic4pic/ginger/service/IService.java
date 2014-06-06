@@ -62,9 +62,9 @@ public interface IService {
     
     public BaseResponse mark(Context context, MarkingRequest request) throws GingerException;
     
-    public ConversationResponse SendInstantMessage(Context context, InstantMessageRequest request)  throws GingerException;
+    public ConversationResponse sendInstantMessage(Context context, InstantMessageRequest request)  throws GingerException;
     
-    public ConversationResponse GetConversation(Context context, ConversationRequest request) throws GingerException;
+    public ConversationResponse getConversation(Context context, ConversationRequest request) throws GingerException;
     
-    public ConversationsSummaryResponse GetConversationSummary(Context context, BaseRequest request) throws GingerException;
+    public ConversationsSummaryResponse getConversationSummary(Context context, BaseRequest request) throws GingerException;
 }

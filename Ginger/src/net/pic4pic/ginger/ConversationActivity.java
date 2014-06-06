@@ -1,6 +1,10 @@
 package net.pic4pic.ginger;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -10,14 +14,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import net.pic4pic.ginger.entities.ConversationRequest;
+import net.pic4pic.ginger.entities.ConversationResponse;
+import net.pic4pic.ginger.entities.GingerException;
+import net.pic4pic.ginger.entities.InstantMessage;
+import net.pic4pic.ginger.entities.InstantMessageRequest;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.UserResponse;
+import net.pic4pic.ginger.service.Service;
 import net.pic4pic.ginger.tasks.ConversationRetriever;
+import net.pic4pic.ginger.tasks.ITask;
+import net.pic4pic.ginger.tasks.NonBlockedTask;
 import net.pic4pic.ginger.tasks.ConversationRetriever.ConversationListener;
+import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.MyLog;
 
 public class ConversationActivity extends Activity implements ConversationListener {
@@ -26,15 +43,19 @@ public class ConversationActivity extends Activity implements ConversationListen
 	
 	private UserResponse me;
 	private MatchedCandidate person;
-	private ArrayList<String> messageThread = new ArrayList<String>();
 	private ConversationRetriever conversationRetriever;
 	private ScheduledExecutorService conversationPoller;
+	private UUID lastExchangedMessageId = new UUID(0, 0);
+	
+	private LinkedHashMap<UUID, InstantMessage> messageThread = 
+			(LinkedHashMap<UUID, InstantMessage>) Collections.synchronizedMap(new LinkedHashMap<UUID, InstantMessage>()); 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
-		MyLog.v("ConversationActivity", "onCreate");
+		Collections.synchronizedMap(messageThread);
 		
+		MyLog.v("ConversationActivity", "onCreate");
 		super.onCreate(savedInstanceState);
 		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
 			MyLog.i("ConversationActivity", "At least one property is restored successfully");
@@ -49,7 +70,14 @@ public class ConversationActivity extends Activity implements ConversationListen
 		this.person = (MatchedCandidate)intent.getSerializableExtra(PersonActivity.PersonType);
 		MyLog.v("ConversationActivity", "Candidate is: " + this.person.getCandidateProfile().getUsername());
 		
-		this.onConversationReceived(this.messageThread);
+		final Button sendButton = (Button)this.findViewById(R.id.sendButton);
+		sendButton.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {				
+				ConversationActivity.this.sendInstantMessage(sendButton);
+			}});
+				
+		this.renderMessages(this.messageThread.values().iterator(), false);
 	}
 	
 	@Override
@@ -71,8 +99,12 @@ public class ConversationActivity extends Activity implements ConversationListen
 			outState.putSerializable("person", this.person);
 		}
 		
-		if(this.messageThread != null){
-			outState.putSerializable("messageThread", this.messageThread);
+		if(this.lastExchangedMessageId != null){
+			outState.putSerializable("lastExchangedMessageId", this.lastExchangedMessageId);
+		}
+		
+		if(this.messageThread != null && this.messageThread.size() > 0){
+			outState.putSerializable("messageThread", this.messageThread.values().toArray());
 		}
 	}
 	
@@ -87,7 +119,6 @@ public class ConversationActivity extends Activity implements ConversationListen
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	private boolean recreatePropertiesFromSavedBundle(Bundle state){
 		
 		if(state == null){
@@ -105,8 +136,17 @@ public class ConversationActivity extends Activity implements ConversationListen
 			restored = true;
 		}
 		
+		if(state.containsKey("lastExchangedMessageId")){
+			this.lastExchangedMessageId = (UUID)state.getSerializable("lastExchangedMessageId");
+			restored = true;
+		}
+		
 		if(state.containsKey("messageThread")){
-			this.messageThread = (ArrayList<String>)state.getSerializable("messageThread");
+			Object[] items = (Object[]) state.getSerializable("messageThread");
+			for(Object o : items){
+				InstantMessage im = (InstantMessage)o;
+				this.messageThread.put(im.getId(), im);
+			}
 			restored = true;
 		}
 			
@@ -129,10 +169,14 @@ public class ConversationActivity extends Activity implements ConversationListen
 		MyLog.v("ConversationActivity", "onResume...");
 		super.onResume();
 		
-		// always create from scratch otherwise it won't restart.
+		// always create poller from scratch otherwise it won't restart.
+		ConversationRequest request = new ConversationRequest();
+		request.setUserIdToInteract(this.person.getUserId());
+		request.setLastExchangedMessageId(this.lastExchangedMessageId);
+		
 		this.conversationPoller = Executors.newScheduledThreadPool(1);
-		this.conversationRetriever = new ConversationRetriever(this, this);
-		this.conversationPoller.scheduleWithFixedDelay(this.conversationRetriever, 0, 1000, TimeUnit.MILLISECONDS);
+		this.conversationRetriever = new ConversationRetriever(this, this, request);
+		this.conversationPoller.scheduleWithFixedDelay(this.conversationRetriever, 0, 1500, TimeUnit.MILLISECONDS);
 	}
 	
 	@Override
@@ -165,9 +209,9 @@ public class ConversationActivity extends Activity implements ConversationListen
 		// parent onPause
 		super.onPause();
 	}
-
+	
 	@Override
-	public void onConversationReceived(ArrayList<String> messages) {
+	public void onConversationReceived(ArrayList<InstantMessage> messages) {
 		
 		if(messages == null || messages.size() == 0){
 			return;
@@ -175,22 +219,42 @@ public class ConversationActivity extends Activity implements ConversationListen
 		
 		MyLog.v("ConversationActivity", "Message thread is received. Updating view...");
 		
+		// update the last IM's id
+		this.lastExchangedMessageId = messages.get(0).getId();
+		
+		// reverse order
+		ArrayList<InstantMessage> temp = new ArrayList<InstantMessage>(); 	
+		Collections.reverse(messages);
+		for(InstantMessage m : messages){
+			if(!messageThread.containsKey(m.getId())){
+				messageThread.put(m.getId(), m);
+				temp.add(m);
+			}
+		}		
+		
+		this.renderMessages(temp.iterator(), false);
+	}
+	
+	private void renderMessages(Iterator<InstantMessage> messages, boolean shouldClearFirst){
+		
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ScrollView messageThreadScroll = (ScrollView)this.findViewById(R.id.messageThreadScroll);
 		final LinearLayout messageThreadView = (LinearLayout)this.findViewById(R.id.messageThread);
 		
-		this.messageThread.addAll(messages);
+		if(shouldClearFirst){
+			messageThreadView.removeAllViews();
+		}
 		
-		int x=0;
-		for(String message : messages){
+		while(messages.hasNext()){
+			InstantMessage im = messages.next();
 			TextView messageView = null;
-			if(((x++) % 2) == 0){
-				messageView = (TextView)inflater.inflate(R.layout.message_incoming, messageThreadView, false);
+			if(im.getUserId1().equals(this.me.getUserId())){
+				messageView = (TextView)inflater.inflate(R.layout.message_outgoing, messageThreadView, false);				
 			}
 			else{
-				messageView = (TextView)inflater.inflate(R.layout.message_outgoing, messageThreadView, false);
+				messageView = (TextView)inflater.inflate(R.layout.message_incoming, messageThreadView, false);
 			}
-			messageView.setText(message);			
+			messageView.setText(im.getContent());			
 			messageThreadView.addView(messageView);			
 			messageThreadScroll.post(new Runnable() {
 		        @Override
@@ -199,5 +263,88 @@ public class ConversationActivity extends Activity implements ConversationListen
 		        }
 		    });
 		}
+	}
+	
+	private void sendInstantMessage(final Button sendButton){
+		
+		// get input
+		final EditText contentView = (EditText)this.findViewById(R.id.messageEditText);
+		String content = contentView.getText().toString().trim();
+		if(content.length() <= 0){
+			GingerHelpers.showErrorMessage(this, "Please type a message");
+			return;
+		}
+		
+		// prepare request
+		final InstantMessageRequest imRequest = new InstantMessageRequest();
+		imRequest.setUserIdToInteract(this.person.getUserId());
+		imRequest.setContent(content);
+		
+		// disable button at the beginning
+		contentView.setEnabled(false);
+		sendButton.setEnabled(false);
+		
+		// send IM
+		NonBlockedTask.SafeRun(new ITask(){
+			
+			@Override
+			public void perform() {
+				
+				boolean success = false;
+				
+				try{
+					// mark as liked
+					final ConversationResponse response = Service.getInstance().sendInstantMessage(ConversationActivity.this, imRequest);
+					
+					// check result
+					if(response.getErrorCode() == 0){
+						
+						success = true;
+						
+						// log
+						MyLog.v("ConversationActivity", "Message Sent: " + imRequest.getContent());
+					
+						ConversationActivity.this.runOnUiThread(new Runnable(){
+							@Override
+							public void run() {
+								
+								contentView.setText("");
+								contentView.setEnabled(true);
+								sendButton.setEnabled(true);
+								ConversationActivity.this.onConversationReceived(response.getItems());
+							}
+						});
+					}
+					else{
+						// log error
+						MyLog.e("ConversationActivity", "Sending message failed with error: " + response.getErrorMessage());
+						GingerHelpers.toastShort(ConversationActivity.this, response.getErrorMessage());
+					}
+				}
+				catch(GingerException ge){
+					
+					// log error
+					MyLog.e("ConversationActivity", "Sending message failed with error: " + ge.toString());
+					GingerHelpers.toastShort(ConversationActivity.this, "Sending message failed. Please try again.");
+				}
+				catch(Exception e){
+					
+					// log error
+					MyLog.e("ConversationActivity", "Sending message failed with error: " + e.toString());
+					GingerHelpers.toastShort(ConversationActivity.this, "Sending message failed. Please try again.");
+				}
+				
+				if(!success){
+					ConversationActivity.this.runOnUiThread(new Runnable(){
+						@Override
+						public void run() {
+							// enable back since we failed
+							contentView.setEnabled(true);
+							sendButton.setEnabled(true);
+						}
+					});
+				}
+			}
+		});
 	}
 }
