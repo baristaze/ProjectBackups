@@ -137,7 +137,6 @@ public class NotificationListFragment extends Fragment {
 		Intent intent = new Intent(this.getActivity(), PersonActivity.class);
 		intent.putExtra(MainActivity.AuthenticatedUserBundleType, ((MainActivity)this.getActivity()).getCurrentUser());
 		intent.putExtra(PersonActivity.PersonType, notification.getSender());
-		intent.putExtra(PersonActivity.ParentCallerClassName, this.getClass().getName());
 
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed.
@@ -208,7 +207,7 @@ public class NotificationListFragment extends Fragment {
 	 * We wont mark any notification here... It is mostly about updating thumb-nail image.
 	 * @param person
 	 */
-	public void updateCandidateView(final MatchedCandidate person, String initialCallerClass, final boolean hasFamiliarityChanged){
+	public void updateCandidateView(final MatchedCandidate person, final boolean hasFamiliarityChanged){
 		
 		/*
 		 * This method has nothing to do with 'marking as read'... 

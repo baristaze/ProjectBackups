@@ -46,15 +46,12 @@ import net.pic4pic.ginger.utils.MyLog;
 
 public class PersonActivity extends Activity implements AcceptPic4PicListener, RequestPic4PicListener {
 
-	public static final String PersonType = "net.pic4pic.ginger.Person"; 
-	public static final String ParentCallerClassName = "net.pic4pic.ginger.ParentCallerClassName";
-	
+	public static final String PersonType = "net.pic4pic.ginger.Person";
 	public static final int PersonActivityCode = 201;
 	
 	private UserResponse me;
 	private MatchedCandidate person;
 	private Date lastDetailsRetrieveTime = null;
-	private String parentCallerClassName;
 	
 	private ImageGalleryView galleryView;
 	
@@ -70,9 +67,32 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		setContentView(R.layout.activity_person);
 		
 		Intent intent = getIntent();
-		this.me = (UserResponse)intent.getSerializableExtra(MainActivity.AuthenticatedUserBundleType);
-		this.person = (MatchedCandidate)intent.getSerializableExtra(PersonType);	
-		this.parentCallerClassName = intent.getStringExtra(ParentCallerClassName);
+		UserResponse meX = (UserResponse)intent.getSerializableExtra(MainActivity.AuthenticatedUserBundleType);
+		if(meX != null){
+			// we only set it if the data is valid
+			this.me = meX;
+		}
+		else {
+			if(this.me == null){
+				MyLog.e("PersonActivity", "'me' couldn't be retrieved from intent in onCreate(). It is null.");
+			}
+			else{
+				MyLog.i("PersonActivity", "'me' couldn't be retrieved from intent in onCreate()");
+			}			
+		}
+		
+		MatchedCandidate personX = (MatchedCandidate)intent.getSerializableExtra(PersonType);
+		if(personX != null){
+			this.person = personX;
+		}
+		else{
+			if(this.person == null){
+				MyLog.e("PersonActivity", "'person' couldn't be retrieved from intent in onCreate(). It is null.");
+			}
+			else{
+				MyLog.i("PersonActivity", "'person' couldn't be retrieved from intent in onCreate()");
+			}	
+		}	
 				
 		this.setTitle(this.person.getCandidateProfile().getUsername());
 		
@@ -167,6 +187,14 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 
 		MyLog.v("PersonActivity", "onSaveInstanceState");
 		
+		if(this.me != null){
+			outState.putSerializable("me", this.me);
+		}
+		
+		if(this.person != null){
+			outState.putSerializable("person", this.person);
+		}
+		
 		if(this.lastDetailsRetrieveTime != null){
 			outState.putSerializable("lastDetailsRetrieveTime", this.lastDetailsRetrieveTime);
 		}
@@ -174,8 +202,11 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		
 		MyLog.v("PersonActivity", "onRestoreInstanceState");
+		
 		super.onRestoreInstanceState(savedInstanceState);
+		
 		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
 			MyLog.i("PersonActivity", "At least one property is restored successfully");
 		}
@@ -188,7 +219,17 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		}
 		
 		boolean restored = false;
-				
+		
+		if(state.containsKey("me")){
+			this.me = (UserResponse)state.getSerializable("me");
+			restored = true;
+		}
+		
+		if(state.containsKey("person")){
+			this.person = (MatchedCandidate)state.getSerializable("person");
+			restored = true;
+		}
+		
 		if(state.containsKey("lastDetailsRetrieveTime")){
 			this.lastDetailsRetrieveTime = (Date)state.getSerializable("lastDetailsRetrieveTime");
 			restored = true;
@@ -497,9 +538,8 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		
 		Intent resultIntent = new Intent();
 		resultIntent.putExtra(MainActivity.UpdatedMatchCandidate, this.person);
-		resultIntent.putExtra(ParentCallerClassName, this.parentCallerClassName);
-		
 		this.setResult(Activity.RESULT_OK, resultIntent);
+		
 		/*
 		if (this.getParent() == null) {
 		    this.setResult(Activity.RESULT_OK, resultIntent);
@@ -648,6 +688,31 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed.
 		this.startActivityForResult(intent, ConversationActivity.ConversationActivityCode);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		MyLog.v("PersonActivity", "onActivityResult");
+		
+		if(requestCode == ConversationActivity.ConversationActivityCode){
+			MyLog.v("PersonActivity", "ConversationActivity has returned");			
+			if(resultCode == Activity.RESULT_OK && data != null){				
+				Bundle bundle = data.getExtras();
+				UserResponse meX = (UserResponse)bundle.getSerializable(MainActivity.AuthenticatedUserBundleType);
+				if(meX != null){
+					this.me = meX;
+				}
+				
+				MatchedCandidate personX = (MatchedCandidate)bundle.getSerializable(PersonActivity.PersonType);
+				if(personX != null){
+					this.person = personX;
+				}
+			}
+		}
+		else{
+			MyLog.v("PersonActivity", "Unknown Activity  has been received by PersonActivity: " + requestCode);
+		}
 	}
 	
 	private void sendLikeAction(final Button candidateLikeButton){

@@ -174,7 +174,6 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		Intent intent = new Intent(this.activity, PersonActivity.class);
 		intent.putExtra(MainActivity.AuthenticatedUserBundleType, ((MainActivity)this.activity).getCurrentUser());
 		intent.putExtra(PersonActivity.PersonType, notification.getSender());
-		intent.putExtra(PersonActivity.ParentCallerClassName, this.getClass().getName());
 
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed. 
@@ -208,8 +207,8 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 			// get recent version from response
 			MatchedCandidate candidate = response.getData();
 			
-			this.activity.updateCandidate(candidate, NotificationListItemAdapter.class.getName());				
-			this.activity.updateNotification(candidate, NotificationListItemAdapter.class.getName());
+			this.activity.updateCandidate(candidate);				
+			this.activity.updateNotification(candidate);
 			
 			GingerHelpers.toastShort(this.activity, "Accepted successfully \u2713");
 		}
@@ -254,8 +253,8 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		
 			// get recent version from response
 			MatchedCandidate candidate = response.getData();
-			this.activity.updateCandidate(candidate, NotificationListItemAdapter.class.getName());				
-			this.activity.updateNotification(candidate, NotificationListItemAdapter.class.getName());
+			this.activity.updateCandidate(candidate);				
+			this.activity.updateNotification(candidate);
 			
 			// toast
 			GingerHelpers.toastShort(this.activity, "Sent successfully \u2713");

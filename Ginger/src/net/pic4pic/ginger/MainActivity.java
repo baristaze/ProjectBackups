@@ -352,10 +352,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			if(resultCode == Activity.RESULT_OK && data != null){				
 				Bundle bundle = data.getExtras();
 				MatchedCandidate candidate = (MatchedCandidate)bundle.getSerializable(MainActivity.UpdatedMatchCandidate);
-				String initialCallerClass = bundle.getString(PersonActivity.ParentCallerClassName);
 				MyLog.i("MainActivity", "Candidate: " + candidate.getUserId() + " viewed: " + candidate.isViewed());				
-				this.updateCandidate(candidate, initialCallerClass);				
-				this.updateNotification(candidate, initialCallerClass);
+				this.updateCandidate(candidate);				
+				this.updateNotification(candidate);
 			}
 		}
 		else{
@@ -363,7 +362,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 	}
 	
-	public void updateCandidate(MatchedCandidate candidate, String initialCallerClass){
+	public void updateCandidate(MatchedCandidate candidate){
 		
 		if(candidate == null){
 			return;
@@ -384,7 +383,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				this.matches.set(x, candidate);
 				
 				// update view... having this within the for loop is OK.
-				this.mSectionsPagerAdapter.getMatchListFragment().updateCandidateView(candidate, initialCallerClass, hasFamiliarityChanged);
+				this.mSectionsPagerAdapter.getMatchListFragment().updateCandidateView(candidate, hasFamiliarityChanged);
 				
 				// break is fine here.
 				break;
@@ -392,7 +391,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 	}
 	
-	public void updateNotification(MatchedCandidate candidate, String initialCallerClass){
+	public void updateNotification(MatchedCandidate candidate){
 		
 		if(candidate == null){
 			return;
@@ -422,7 +421,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		
 		// keep this outside of for loop
 		// below method updates the avatar only
-		this.mSectionsPagerAdapter.getNotificationListFragment().updateCandidateView(candidate, initialCallerClass, hasFamiliarityChanged);
+		this.mSectionsPagerAdapter.getNotificationListFragment().updateCandidateView(candidate, hasFamiliarityChanged);
 	}
 	
 	/**

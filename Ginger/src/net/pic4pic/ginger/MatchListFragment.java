@@ -182,7 +182,6 @@ public class MatchListFragment extends Fragment {
 		Intent intent = new Intent(this.getActivity(), PersonActivity.class);
 		intent.putExtra(MainActivity.AuthenticatedUserBundleType, ((MainActivity)this.getActivity()).getCurrentUser());
 		intent.putExtra(PersonActivity.PersonType, person);
-		intent.putExtra(PersonActivity.ParentCallerClassName, this.getClass().getName());
 
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed.
@@ -192,7 +191,7 @@ public class MatchListFragment extends Fragment {
 		// person.setLastViewTimeUTC(new Date());
 	}
 	
-	public void updateCandidateView(final MatchedCandidate person, final String initialCallerClass, final boolean hasFamiliarityChanged){
+	public void updateCandidateView(final MatchedCandidate person, final boolean hasFamiliarityChanged){
 		
 		View rootView = this.getView(); 
 		if(rootView == null){

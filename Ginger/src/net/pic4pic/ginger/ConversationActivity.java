@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -47,13 +48,10 @@ public class ConversationActivity extends Activity implements ConversationListen
 	private ScheduledExecutorService conversationPoller;
 	private UUID lastExchangedMessageId = new UUID(0, 0);
 	
-	private LinkedHashMap<UUID, InstantMessage> messageThread = 
-			(LinkedHashMap<UUID, InstantMessage>) Collections.synchronizedMap(new LinkedHashMap<UUID, InstantMessage>()); 
+	private LinkedHashMap<UUID, InstantMessage> messageThread = new LinkedHashMap<UUID, InstantMessage>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
-		Collections.synchronizedMap(messageThread);
 		
 		MyLog.v("ConversationActivity", "onCreate");
 		super.onCreate(savedInstanceState);
@@ -153,13 +151,6 @@ public class ConversationActivity extends Activity implements ConversationListen
 		return restored;
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.conversation, menu);
-		return true;
-	}
-
 	/**
 	 * onCreate -> onStart -> onResume
 	 * Stopped -> onRestart -> onResume
@@ -263,6 +254,40 @@ public class ConversationActivity extends Activity implements ConversationListen
 		        }
 		    });
 		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.conversation, menu);
+		return true;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			//NavUtils.navigateUpFromSameTask(this);	
+			this.setResultIntent();
+			finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		this.setResultIntent();
+		super.onBackPressed();
+	}
+
+	private void setResultIntent(){
+		
+		MyLog.v("ConversationActivity", "Setting result intent");
+		
+		Intent resultIntent = new Intent();
+		resultIntent.putExtra(MainActivity.AuthenticatedUserBundleType, this.me);
+		resultIntent.putExtra(PersonActivity.PersonType, this.person);		
+		this.setResult(Activity.RESULT_OK, resultIntent);
 	}
 	
 	private void sendInstantMessage(final Button sendButton){
