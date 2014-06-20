@@ -35,7 +35,6 @@
             android:layout_margin="@dimen/general_margin"
             android:hint="@string/conversation_type_message_hint"
             android:singleLine="false">
-            <requestFocus></requestFocus>
         </EditText>
         
         <Button

@@ -18,6 +18,7 @@ import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MarkingType;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.Notification;
+import net.pic4pic.ginger.entities.NotificationType;
 import net.pic4pic.ginger.entities.ObjectType;
 import net.pic4pic.ginger.service.Service;
 import net.pic4pic.ginger.tasks.ITask;
@@ -137,6 +138,11 @@ public class NotificationListFragment extends Fragment {
 		Intent intent = new Intent(this.getActivity(), PersonActivity.class);
 		intent.putExtra(MainActivity.AuthenticatedUserBundleType, ((MainActivity)this.getActivity()).getCurrentUser());
 		intent.putExtra(PersonActivity.PersonType, notification.getSender());
+		
+		if(notification.getType().getIntValue() == NotificationType.SentText.getIntValue()){
+			MyLog.v("NotificationListFragment", "Launching conversation activity is desired as a forward action");
+			intent.putExtra(PersonActivity.ForwardActionType, PersonActivity.ForwardAction.ShowMessages.getIntValue());
+		}
 
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed.

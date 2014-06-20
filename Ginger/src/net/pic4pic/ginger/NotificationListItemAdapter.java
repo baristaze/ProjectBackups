@@ -24,6 +24,7 @@ import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.MatchedCandidateResponse;
 import net.pic4pic.ginger.entities.Notification;
 import net.pic4pic.ginger.entities.NotificationAction;
+import net.pic4pic.ginger.entities.NotificationType;
 import net.pic4pic.ginger.entities.ObjectType;
 import net.pic4pic.ginger.entities.StartingPic4PicRequest;
 import net.pic4pic.ginger.entities.UserResponse;
@@ -158,7 +159,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		else if(notification.getRecommendedAction() == NotificationAction.RequestP4P){
 			markAsRead = this.sendPic4PicRequest(actionButton, notification);
 		}
-		else{
+		else {
 			this.launchPersonActivity(notification);
 			markAsRead = false; // person activity will send it already.
 		}
@@ -174,6 +175,11 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		Intent intent = new Intent(this.activity, PersonActivity.class);
 		intent.putExtra(MainActivity.AuthenticatedUserBundleType, ((MainActivity)this.activity).getCurrentUser());
 		intent.putExtra(PersonActivity.PersonType, notification.getSender());
+		
+		if(notification.getType().getIntValue() == NotificationType.SentText.getIntValue()){
+			MyLog.v("NotificationListItemAdapter", "Launching conversation activity is desired as a forward action");
+			intent.putExtra(PersonActivity.ForwardActionType, PersonActivity.ForwardAction.ShowMessages.getIntValue());
+		}
 
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed. 

@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,6 +29,7 @@ import net.pic4pic.ginger.entities.ConversationResponse;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.InstantMessage;
 import net.pic4pic.ginger.entities.InstantMessageRequest;
+import net.pic4pic.ginger.entities.IntegerEnum;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.service.Service;
@@ -39,8 +41,24 @@ import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.MyLog;
 
 public class ConversationActivity extends Activity implements ConversationListener {
+	
+	public enum ConversationMode implements IntegerEnum {
+		StartTyping(0),
+		ReadFirst(1);
+		
+		private final int value;
+		
+		private ConversationMode(int value) {
+			this.value = value;
+		}
 
+		public int getIntValue() {
+			return this.value;
+		}
+	}
+	
 	public static final int ConversationActivityCode = 401;
+	public static final String ConversationModeType = "net.pic4pic.ginger.ConversationMode";
 	
 	private UserResponse me;
 	private MatchedCandidate person;
@@ -76,6 +94,17 @@ public class ConversationActivity extends Activity implements ConversationListen
 			}});
 				
 		this.renderMessages(this.messageThread.values().iterator(), false);
+		
+		int mode = intent.getIntExtra(ConversationActivity.ConversationModeType, 0);
+		if(mode != ConversationMode.ReadFirst.getIntValue()){
+			getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+			EditText messageEditText = (EditText)this.findViewById(R.id.messageEditText);			
+			messageEditText.requestFocus();
+			
+		}
+		else{
+			getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+		}
 	}
 	
 	@Override

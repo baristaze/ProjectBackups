@@ -24,6 +24,7 @@ import net.pic4pic.ginger.entities.Familiarity;
 import net.pic4pic.ginger.entities.Gender;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageFile;
+import net.pic4pic.ginger.entities.IntegerEnum;
 import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MarkingType;
 import net.pic4pic.ginger.entities.MatchedCandidate;
@@ -46,7 +47,23 @@ import net.pic4pic.ginger.utils.MyLog;
 
 public class PersonActivity extends Activity implements AcceptPic4PicListener, RequestPic4PicListener {
 
+	public enum ForwardAction implements IntegerEnum {
+		None(0),
+		ShowMessages(1);
+		
+		private final int value;
+		
+		private ForwardAction(int value) {
+			this.value = value;
+		}
+
+		public int getIntValue() {
+			return this.value;
+		}
+	}
+	
 	public static final String PersonType = "net.pic4pic.ginger.Person";
+	public static final String ForwardActionType = "net.pic4pic.ginger.ForwardAction";
 	public static final int PersonActivityCode = 201;
 	
 	private UserResponse me;
@@ -60,6 +77,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		
 		MyLog.v("PersonActivity", "onCreate");
 		super.onCreate(savedInstanceState);
+		
 		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
 			MyLog.i("PersonActivity", "At least one property is restored successfully");
 		}
@@ -93,8 +111,9 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 				MyLog.i("PersonActivity", "'person' couldn't be retrieved from intent in onCreate()");
 			}	
 		}	
-				
+		
 		this.setTitle(this.person.getCandidateProfile().getUsername());
+		//this.setTitle("pic4pic");
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
@@ -155,7 +174,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		candidateMessageButton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {				
-				PersonActivity.this.openMessageThread();
+				PersonActivity.this.openMessageThread(true);
 			}});
 		
 		// set like button candidateLikeButton
@@ -173,6 +192,12 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		if(this.isNeedOfRequestingMoreDetails()){
 			// get candidate details again
 			this.startRetrievingMoreDetails();
+		}
+		
+		int forwardAction = intent.getIntExtra(ForwardActionType, 0);
+		if(ForwardAction.ShowMessages.getIntValue() == forwardAction){
+			MyLog.v("PersonActivity", "Launching conversation thread");
+			this.openMessageThread(false);
 		}
 	}
 	
@@ -679,12 +704,19 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		}
 	}
 	
-	private void openMessageThread(){
+	private void openMessageThread(boolean startTyping){
 		
 		Intent intent = new Intent(this, ConversationActivity.class);
 		intent.putExtra(MainActivity.AuthenticatedUserBundleType, this.me);
 		intent.putExtra(PersonActivity.PersonType, this.person);
-
+		
+		if(startTyping){
+			intent.putExtra(ConversationActivity.ConversationModeType, ConversationActivity.ConversationMode.StartTyping.getIntValue());
+		}
+		else{
+			intent.putExtra(ConversationActivity.ConversationModeType, ConversationActivity.ConversationMode.ReadFirst.getIntValue());
+		}
+		
 		// calling a child activity for a result keeps the parent activity alive.
 		// by that way, we don't have to keep track of active tab when child activity is closed.
 		this.startActivityForResult(intent, ConversationActivity.ConversationActivityCode);
