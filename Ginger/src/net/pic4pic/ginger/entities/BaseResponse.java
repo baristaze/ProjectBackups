@@ -14,6 +14,9 @@ public class BaseResponse implements Serializable {
 	@SerializedName("ErrorMessage")
 	protected String errorMessage;
 	
+	@SerializedName("CurrentCredit")
+	protected int currentCredit;
+	
 	@SerializedName("NeedsRelogin")
 	protected boolean needsRelogin;
 	
@@ -23,6 +26,20 @@ public class BaseResponse implements Serializable {
 	
 	public String getErrorMessage(){
 		return this.errorMessage;
+	}
+	
+	/**
+	 * @return the currentCredit
+	 */
+	public int getCurrentCredit() {
+		return currentCredit;
+	}
+
+	/**
+	 * @param currentCredit the currentCredit to set
+	 */
+	public void setCurrentCredit(int currentCredit) {
+		this.currentCredit = currentCredit;
 	}
 	
 	public boolean isNeedRelogin(){

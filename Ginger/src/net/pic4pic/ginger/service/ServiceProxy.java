@@ -7,6 +7,7 @@ import android.content.Context;
 import net.pic4pic.ginger.entities.AcceptingPic4PicRequest;
 import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.BaseResponse;
+import net.pic4pic.ginger.entities.BuyingNewMatchRequest;
 import net.pic4pic.ginger.entities.CandidateDetailsRequest;
 import net.pic4pic.ginger.entities.CandidateDetailsResponse;
 import net.pic4pic.ginger.entities.ConversationRequest;
@@ -22,7 +23,10 @@ import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.MatchedCandidateResponse;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
+import net.pic4pic.ginger.entities.PurchaseOfferListResponse;
+import net.pic4pic.ginger.entities.PurchaseRecord;
 import net.pic4pic.ginger.entities.SignupRequest;
+import net.pic4pic.ginger.entities.SimpleRequest;
 import net.pic4pic.ginger.entities.StartingPic4PicRequest;
 import net.pic4pic.ginger.entities.UserCredentials;
 import net.pic4pic.ginger.entities.UserResponse;
@@ -173,6 +177,21 @@ public class ServiceProxy extends ServiceBase implements IService {
 	}
 	
 	@Override
+	public MatchedCandidateListResponse buyNewMatches(Context context, BuyingNewMatchRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				MatchedCandidateListResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/matches/buy").getData();	
+	}
+	
+	@Override
 	public MatchedCandidateResponse requestPic4Pic(Context context, StartingPic4PicRequest request) throws GingerException{
 		
 		if(request.getClientId() == null){
@@ -291,4 +310,48 @@ public class ServiceProxy extends ServiceBase implements IService {
 				super.getAuthToken(context), 
 				"/svc/rest/im/conversation/summary").getData();		
 	}
+	
+	@Override
+	public BaseResponse processPurchase(Context context, SimpleRequest<PurchaseRecord> request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				BaseResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/purchase").getData();	
+	}
+	
+	@Override
+	public BaseResponse getCurrentCredit(Context context, BaseRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				BaseResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/credit").getData();	
+	}
+	
+	public PurchaseOfferListResponse getOffers(Context context, BaseRequest request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				PurchaseOfferListResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/offers").getData();		
+	}	
 }

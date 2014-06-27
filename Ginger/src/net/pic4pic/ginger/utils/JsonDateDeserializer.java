@@ -7,6 +7,9 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 // Examples
 // 
@@ -20,7 +23,7 @@ import com.google.gson.JsonParseException;
 //			omit first 6 chars which are "\/Date("
 //			omit last 2 chars which are ")\/"
 // 			omit anything after + or -
-public class JsonDateDeserializer implements JsonDeserializer<Date> {
+public class JsonDateDeserializer implements JsonDeserializer<Date>, JsonSerializer<Date>{
 	
 	public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
@@ -60,4 +63,9 @@ public class JsonDateDeserializer implements JsonDeserializer<Date> {
 			return null;
 		}
 	} 
+	
+	@Override
+	public JsonElement serialize(Date date, Type typeOfDate, JsonSerializationContext context) {
+		return new JsonPrimitive("/Date(" + date.getTime() + ")/");
+	}
 }

@@ -1,6 +1,7 @@
 package net.pic4pic.ginger;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -18,7 +19,16 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import net.pic4pic.ginger.entities.AppStoreType;
+import net.pic4pic.ginger.entities.BaseResponse;
+import net.pic4pic.ginger.entities.BuyingNewMatchRequest;
+import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.MatchedCandidate;
+import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
+import net.pic4pic.ginger.entities.PurchaseOfferListResponse;
+import net.pic4pic.ginger.entities.PurchaseRecord;
+import net.pic4pic.ginger.entities.SimpleRequest;
+import net.pic4pic.ginger.service.Service;
 import net.pic4pic.ginger.tasks.ITask;
 import net.pic4pic.ginger.tasks.NonBlockedTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
@@ -173,7 +183,48 @@ public class MatchListFragment extends Fragment {
 	}
 	
 	public void onShowMoreMatches(View v){
-		Toast.makeText(this.getActivity(), "Please purchase some credit", Toast.LENGTH_LONG).show();
+		
+		PurchaseRecord purchaseRecord = new PurchaseRecord();
+		purchaseRecord.setAppStoreId(AppStoreType.GooglePlay);
+		purchaseRecord.setInternalOfferId(3);
+		purchaseRecord.setInternalPurchasePayLoad("test fake 2");
+		purchaseRecord.setPurchaseInstanceId("fake test 23");
+		purchaseRecord.setPurchaseReferenceToken("xyzw");
+		purchaseRecord.setPurchaseTimeUTC(new Date());
+		
+		final SimpleRequest<PurchaseRecord> request = new SimpleRequest<PurchaseRecord>();
+		request.setData(purchaseRecord);
+		
+		final BuyingNewMatchRequest buyNewRequest = new BuyingNewMatchRequest();
+		buyNewRequest.setMaxCount(5);
+		
+		NonBlockedTask.SafeRun(new ITask(){
+			@Override
+			public void perform() {
+				try {
+					final BaseResponse response = Service.getInstance().processPurchase(MatchListFragment.this.getActivity(), request);
+					//final BaseResponse response = Service.getInstance().getCurrentCredit(MatchListFragment.this.getActivity(), request);
+					//final PurchaseOfferListResponse response = Service.getInstance().getOffers(MatchListFragment.this.getActivity(), request);
+					//final MatchedCandidateListResponse response = Service.getInstance().buyNewMatches(MatchListFragment.this.getActivity(), buyNewRequest);
+					MatchListFragment.this.getActivity().runOnUiThread(new Runnable(){
+						@Override
+						public void run() {
+							Toast.makeText(MatchListFragment.this.getActivity(), "New credit: " + response.getCurrentCredit(), Toast.LENGTH_LONG).show();							
+							//Toast.makeText(MatchListFragment.this.getActivity(), "Offer Count: " + response.getItems().size(), Toast.LENGTH_LONG).show();
+							//Toast.makeText(MatchListFragment.this.getActivity(), "New Match Count: " + response.getItems().size(), Toast.LENGTH_LONG).show();
+						}						
+					});
+				} 
+				catch (final GingerException e) {				
+					MatchListFragment.this.getActivity().runOnUiThread(new Runnable(){
+						@Override
+						public void run() {
+							GingerHelpers.showErrorMessage(MatchListFragment.this.getActivity(), e.getMessage());							
+						}						
+					});	
+				}
+			}			
+		});		
 	}
 	
 	public void onShowPersonDetails(MatchedCandidate person, View listViewItem){

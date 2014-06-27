@@ -20,6 +20,7 @@ import org.apache.http.params.HttpParams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.pic4pic.ginger.entities.AppStoreType;
 import net.pic4pic.ginger.entities.AssetState;
 import net.pic4pic.ginger.entities.EducationLevel;
 import net.pic4pic.ginger.entities.Familiarity;
@@ -179,7 +180,8 @@ public class GingerNetUtils {
 		builder.registerTypeAdapter(NotificationAction.class, new JsonEnumDeserializer<NotificationAction>());
 		builder.registerTypeAdapter(NotificationType.class, new JsonEnumDeserializer<NotificationType>());
 		builder.registerTypeAdapter(ObjectType.class, new JsonEnumDeserializer<ObjectType>());
-		builder.registerTypeAdapter(MarkingType.class, new JsonEnumDeserializer<MarkingType>());		
+		builder.registerTypeAdapter(MarkingType.class, new JsonEnumDeserializer<MarkingType>());
+		builder.registerTypeAdapter(AppStoreType.class, new JsonEnumDeserializer<AppStoreType>());		
 
 		// create
 		return builder.create();
