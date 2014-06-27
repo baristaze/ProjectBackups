@@ -51,7 +51,7 @@ public class InAppPurchasingService {
 	/**
 	 * Creates service connection
 	 */
-	public void create(){
+	public void createConnection(){
 		
 		this.serviceConnection = new ServiceConnection() {
 			

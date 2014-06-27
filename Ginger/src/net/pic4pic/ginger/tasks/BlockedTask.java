@@ -13,6 +13,7 @@ public abstract class BlockedTask<ExecArgType, X, ResultType>
 	protected ProgressDialog progress; 
 	protected Button button;
 	protected boolean showProgressBar;
+	protected String progressMessage;
 	
 	protected BlockedTask(Context context){
 		this(context, null);
@@ -23,9 +24,14 @@ public abstract class BlockedTask<ExecArgType, X, ResultType>
 	}
 	
 	protected BlockedTask(Context context, Button button, boolean showProgressBar){
+		this(context, button, showProgressBar, null);
+	}
+	
+	protected BlockedTask(Context context, Button button, boolean showProgressBar, String progressMessage){
 		this.context = context;
 		this.button = button;
 		this.showProgressBar = showProgressBar;
+		this.progressMessage = progressMessage;
 	}
 	
 	@Override
@@ -33,7 +39,13 @@ public abstract class BlockedTask<ExecArgType, X, ResultType>
 		if(this.showProgressBar){
 			this.progress = new ProgressDialog(this.context);
 			this.progress.setTitle(this.context.getString(R.string.general_processing));
-			this.progress.setMessage(this.context.getString(R.string.general_please_wait));
+			if(this.progressMessage == null || this.progressMessage.trim().length() == 0){
+				this.progress.setMessage(this.context.getString(R.string.general_please_wait));
+			}
+			else{
+				this.progress.setMessage(this.progressMessage);
+			}
+			
 			this.progress.setCancelable(false);
 			this.progress.setIndeterminate(true);
 			this.progress.show();

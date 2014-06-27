@@ -14,6 +14,9 @@ public class PurchaseOffer implements Serializable {
 	@SerializedName("InternalItemId")
 	protected int internalItemId;
 	
+	/**
+	 * Product SKU name
+	 */
 	@SerializedName("AppStoreId")
 	protected AppStoreType appStoreId;
 	
@@ -76,7 +79,7 @@ public class PurchaseOffer implements Serializable {
 
 	public String getItemPrice(){
 		double money = (double)this.getItemPriceInCents() / (double)100.0;
-		return String.format("%.2f", money);
+		return String.format("%4.2f", money);
 	}
 	
 	/**
@@ -94,7 +97,7 @@ public class PurchaseOffer implements Serializable {
 	}
 
 	/**
-	 * @return the appStoreItemId
+	 * @return the Product SKU name
 	 */
 	public String getAppStoreItemId() {
 		return appStoreItemId;

@@ -116,4 +116,7 @@
     <string name="conversation_type_message_hint">Write a message&#8230;</string>
     <string name="conversation_send_button_text">Send</string>
     
+    <string name="credit_insufficient_title">Insufficient Credit</string>
+    <string name="credit_insufficient_descr">You don\'t have enough credit to perform this action. Please buy some credit.</string>
+    
 </resources>

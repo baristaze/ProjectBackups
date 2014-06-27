@@ -21,21 +21,33 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.pic4pic.ginger.entities.BaseRequest;
+import net.pic4pic.ginger.entities.BaseResponse;
+import net.pic4pic.ginger.entities.BuyingNewMatchRequest;
 import net.pic4pic.ginger.entities.Familiarity;
+import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.Notification;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
+import net.pic4pic.ginger.entities.PurchaseOffer;
+import net.pic4pic.ginger.entities.PurchaseRecord;
+import net.pic4pic.ginger.entities.SimpleRequest;
 import net.pic4pic.ginger.entities.UserResponse;
+import net.pic4pic.ginger.service.InAppPurchasingService;
+import net.pic4pic.ginger.tasks.BuyNewMatchTask.BuyNewMatchListener;
 import net.pic4pic.ginger.tasks.MatchedCandidatesTask;
 import net.pic4pic.ginger.tasks.MatchedCandidatesTask.MatchedCandidatesListener;
 import net.pic4pic.ginger.tasks.NotificationsTask;
 import net.pic4pic.ginger.tasks.NotificationsTask.NotificationsListener;
+import net.pic4pic.ginger.tasks.OfferRetrieverTask;
+import net.pic4pic.ginger.tasks.OfferRetrieverTask.OfferListener;
+import net.pic4pic.ginger.tasks.ProcessPurchaseTask.PurchaseProcessListener;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.MyLog;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListener {
+public class MainActivity extends FragmentActivity 
+implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListener, OfferListener, PurchaseProcessListener, BuyNewMatchListener {
 
 	public static final String AuthenticatedUserBundleType = "net.pic4pic.ginger.AuthenticatedUser";
 	public static final String UpdatedMatchCandidate = "net.pic4pic.ginger.UpdatedMatchCandidate";
@@ -51,9 +63,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private Date lastNotificationRetrieveTime = null;
 	private ArrayList<MatchedCandidate> matches = new ArrayList<MatchedCandidate>();
 	private ArrayList<Notification> notifications = new ArrayList<Notification>();
+	private ArrayList<PurchaseOffer> availableOffers = new ArrayList<PurchaseOffer>();
 	
 	private SectionsPagerAdapter mSectionsPagerAdapter;	
 	private ViewPager mViewPager;
+	
+	private InAppPurchasingService inappPurchasingSvc;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +118,41 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+		
+		// creating purchase service
+		if(this.inappPurchasingSvc == null){
+			this.inappPurchasingSvc = new InAppPurchasingService(this);
+			this.inappPurchasingSvc.createConnection();
+		}
+		
+		// connect to the purchasing service
+		try {
+			this.inappPurchasingSvc.connect();
+			MyLog.v("MainActivity", "Activity has been bound to InApp Purchasing Service");
+		} 
+		catch (GingerException e) {
+			MyLog.e("MainActivity", "Couldn't bind to InApp Purchasing Service: " + e.getMessage());
+		}
+	}
+		
+	@Override
+	protected void onDestroy(){
+		
+		// stopping purchase service
+		if(this.inappPurchasingSvc != null){
+			
+			try {
+				this.inappPurchasingSvc.disconnect();
+				MyLog.v("MainActivity", "Disconnected from InApp Purchasing Service");
+			} 
+			catch (GingerException e) {
+				MyLog.e("MainActivity", "Couldn't disconnect from InApp Purchasing Service: " + e.getMessage());
+			}
+			
+			this.inappPurchasingSvc = null;
+		}
+		
+		super.onDestroy();
 	}
 	
 	@Override
@@ -134,6 +184,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		
 		if(this.notifications != null){
 			outState.putSerializable("notifications", this.notifications);
+		}
+		
+		if(this.availableOffers != null){
+			outState.putSerializable("availableOffers", this.availableOffers);
 		}
 	}
 	
@@ -178,6 +232,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		
 		if(state.containsKey("notifications")){
 			this.notifications = (ArrayList<Notification>)state.getSerializable("notifications");
+			restored = true;
+		}
+		
+		if(state.containsKey("availableOffers")){
+			this.availableOffers = (ArrayList<PurchaseOffer>)state.getSerializable("availableOffers");
 			restored = true;
 		}
 		
@@ -240,6 +299,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		return false;
 	}
 	
+	public boolean isNeedOfRetrievingOffers(){
+
+		if(this.availableOffers == null || this.availableOffers.size() == 0){
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public void startRetrievingMatches(){
 		BaseRequest request = new BaseRequest();
 		MatchedCandidatesTask task = new MatchedCandidatesTask(this, this, request);
@@ -256,6 +324,70 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		*/
 		NotificationsTask task = new NotificationsTask(this, this, request);
 		task.execute();
+	}
+	
+	public InAppPurchasingService getPurchasingService(){
+		return this.inappPurchasingSvc;
+	}
+		
+	public ArrayList<PurchaseOffer> getAvailableOffers(){
+		return this.availableOffers;
+	}
+	
+	public void startRetrievingAvailableOffers(){
+		
+		MyLog.v("MainActivity", "Retrieving available offers...");
+		BaseRequest request = new BaseRequest();
+		OfferRetrieverTask task = new OfferRetrieverTask(this, this, request);
+		task.execute();
+	}
+	
+	@Override
+	public void onOffersRetrieved(ArrayList<PurchaseOffer> offers){
+		MyLog.v("MainActivity", "Available offers retrieved: " + offers.size());
+		this.availableOffers = offers;
+	}
+	
+	@Override
+	public void onPurchaseProcessed(BaseResponse response, SimpleRequest<PurchaseRecord> request){
+		
+		if(response.getErrorCode() == 0){
+			
+			// update credit
+			this.me.setCurrentCredit(response.getCurrentCredit());
+			
+			// consume
+			this.mSectionsPagerAdapter.getMatchListFragment().startConsumingPurchaseOnAppStore(request.getData());
+			
+			// buy new matches
+			this.mSectionsPagerAdapter.getMatchListFragment().startBuyingNewCandidates();
+		}
+		else {
+			GingerHelpers.showErrorMessage(this, response.getErrorMessage());
+		}
+	}
+	
+	@Override
+	public void onBuyNewMatchComplete(MatchedCandidateListResponse response, BuyingNewMatchRequest request){
+		
+		if(response.getErrorCode() == 0){
+			
+			// update credit
+			this.me.setCurrentCredit(response.getCurrentCredit());
+			
+			// update cache
+			ArrayList<MatchedCandidate> candidates = response.getItems();
+			if(candidates != null && candidates.size() > 0){
+				this.matches.addAll(0, candidates);
+			}
+			
+			// update UI
+			this.mSectionsPagerAdapter.getMatchListFragment().onMatchComplete(this.matches);			
+		}
+		else{
+			// show error
+			GingerHelpers.showErrorMessage(this, response.getErrorMessage());
+		}		
 	}
 	
 	@Override
@@ -356,6 +488,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				this.updateCandidate(candidate);				
 				this.updateNotification(candidate);
 			}
+		}
+		else if(requestCode == InAppPurchasingService.INAPP_PURCHASE_REQUEST_CODE){
+			MyLog.v("MainActivity", "InAppPurchasingService has returned");
+			this.mSectionsPagerAdapter.getMatchListFragment().onPurchaseCompleteOnAppStore(requestCode, resultCode, data);
 		}
 		else{
 			MyLog.v("MainActivity", "Unknown Activity  has been received by MainActivity: " + requestCode);
