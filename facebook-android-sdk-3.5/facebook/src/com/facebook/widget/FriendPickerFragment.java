@@ -59,7 +59,9 @@ public class FriendPickerFragment extends PickerFragment<GraphUser> {
      * Default constructor. Creates a Fragment with all default properties.
      */
     public FriendPickerFragment() {
-        this(null);
+        // this(null);
+    	super(GraphUser.class, R.layout.com_facebook_friendpickerfragment, null);
+        setFriendPickerSettingsFromBundle(null);
     }
 
     /**
@@ -67,12 +69,13 @@ public class FriendPickerFragment extends PickerFragment<GraphUser> {
      * @param args  a Bundle that optionally contains one or more values containing additional
      *              configuration information for the Fragment.
      */
+    /*
     @SuppressLint("ValidFragment")
     public FriendPickerFragment(Bundle args) {
         super(GraphUser.class, R.layout.com_facebook_friendpickerfragment, args);
         setFriendPickerSettingsFromBundle(args);
     }
-
+    */
     /**
      * Gets the ID of the user whose friends should be displayed. If null, the default is to
      * show the currently authenticated user's friends.

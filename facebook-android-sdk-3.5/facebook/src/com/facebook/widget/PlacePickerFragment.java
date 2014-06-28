@@ -99,7 +99,9 @@ public class PlacePickerFragment extends PickerFragment<GraphPlace> {
      * Default constructor. Creates a Fragment with all default properties.
      */
     public PlacePickerFragment() {
-        this(null);
+        // this(null);
+    	super(GraphPlace.class, R.layout.com_facebook_placepickerfragment, null);
+        setPlacePickerSettingsFromBundle(null);
     }
 
     /**
@@ -108,11 +110,13 @@ public class PlacePickerFragment extends PickerFragment<GraphPlace> {
      * @param args a Bundle that optionally contains one or more values containing additional
      *             configuration information for the Fragment.
      */
+    /*
     public PlacePickerFragment(Bundle args) {
         super(GraphPlace.class, R.layout.com_facebook_placepickerfragment, args);
         setPlacePickerSettingsFromBundle(args);
     }
-
+    */
+    
     /**
      * Gets the location to search around. Either the location or the search text (or both) must be specified.
      *

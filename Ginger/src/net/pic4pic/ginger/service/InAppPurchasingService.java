@@ -1,5 +1,10 @@
 package net.pic4pic.ginger.service;
 
+import java.util.ArrayList;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -63,6 +68,17 @@ public class InAppPurchasingService {
 			   @Override
 			   public void onServiceConnected(ComponentName name, IBinder service) {
 				   billingService = IInAppBillingService.Stub.asInterface(service);
+				   // test only
+				   /*
+				   try {
+					   MyLog.i("InAppPurchasingService", "Calling getAvailableProducts...");
+					   InAppPurchasingService.this.getAvailableProducts();
+				   } 
+				   catch (GingerException e) {
+					   e.printStackTrace();
+				   }
+				   */
+				   // end of test
 			   }
 			};
 	}
@@ -200,6 +216,73 @@ public class InAppPurchasingService {
 			MyLog.e("InAppPurchasingService", errMsg);
 			throw new GingerException(errMsg);	
 		}
+	}
+	
+	/**
+	 * This is for testing purposes only
+	 * @throws GingerException 
+	 */
+	public String getAvailableProducts() throws GingerException{
+		
+		if(!this.isConnected()){
+			throw new GingerException("Application hasn't connected to the Google Play Billing service yet.");
+		}
+		
+		ArrayList<String> skuList = new ArrayList<String> ();
+		skuList.add("buy_30_credit_test_version_01");
+		skuList.add("buy_50_credit_test_version_01");
+		skuList.add("buy_100_credit_test_version_01");
+		skuList.add("buy_200_credit_test_version_01");
+		skuList.add("buy_300_credit_test_version_01");
+		skuList.add("buy_500_credit_test_version_01");
+		skuList.add("buy_1000_credit_test_version_01");
+		
+		Bundle querySkus = new Bundle();
+		querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
+		
+		Bundle skuDetails = null;
+		try {
+			MyLog.i("InAppPurchasingService", "Getting available in-app SKUs");
+			skuDetails = this.billingService.getSkuDetails(
+					BILLING_API_VERSION,
+					this.parent.getPackageName(), 
+					INAPP_PURCHASE, 
+					querySkus);
+		} 
+		catch (RemoteException e) {
+			String errMsg = "Retrieving available products failed";
+			MyLog.e("InAppPurchasingService", errMsg + ": " + e.getMessage());
+			throw new GingerException(errMsg, e);
+		}
+		
+		int responseCode = skuDetails.getInt("RESPONSE_CODE", -1);
+		if(responseCode != BILLING_RESPONSE_RESULT_OK){
+			String errMsg = "Retrieving available products failed: " + getMessageForErrorCode(responseCode);
+			MyLog.e("InAppPurchasingService", errMsg);
+			throw new GingerException(errMsg);	
+		}
+		
+		String all = "";
+		ArrayList<String> products = new ArrayList<String>(); 
+		ArrayList<String> responseList = skuDetails.getStringArrayList("DETAILS_LIST");
+		MyLog.i("InAppPurchasingService", "ResponseList count: " + responseList.size());
+		for (String thisResponse : responseList) {
+			try {
+				JSONObject object = new JSONObject(thisResponse);
+				String sku = object.getString("productId");
+				String price = object.getString("price");
+				String pro = sku + " - " + price;
+				products.add(pro);
+				all += pro + ", ";
+				MyLog.i("InAppPurchasingService", pro);
+			} 
+			catch (JSONException e) {
+				e.printStackTrace();
+				MyLog.e("InAppPurchasingService", "JSONObject error: " + e.getMessage());
+			}
+		}
+		
+		return all;
 	}
 	
 	/**
