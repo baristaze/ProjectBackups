@@ -25,9 +25,14 @@ import net.pic4pic.ginger.utils.MyLog;
 
 public class InAppPurchasingService {
 	
+	public interface PurchasingServiceListener{
+		public void onPurchasingServiceConnected();
+	}
+	
 	private Activity parent;
 	private IInAppBillingService billingService;
 	private ServiceConnection serviceConnection;
+	private PurchasingServiceListener listener;
 	
 	public static final int INAPP_PURCHASE_REQUEST_CODE = 15001;
 	
@@ -45,8 +50,9 @@ public class InAppPurchasingService {
 	private static final int BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED = 7;	// Failure to purchase since item is already owned
 	private static final int BILLING_RESPONSE_RESULT_ITEM_NOT_OWNED = 8;		// Failure to consume since item is not owned
 	
-	public InAppPurchasingService(Activity parent){
+	public InAppPurchasingService(Activity parent, PurchasingServiceListener listener){
 		this.parent = parent;
+		this.listener = listener;
 	}
 	
 	public Activity getActivity(){
@@ -68,16 +74,15 @@ public class InAppPurchasingService {
 			   @Override
 			   public void onServiceConnected(ComponentName name, IBinder service) {
 				   billingService = IInAppBillingService.Stub.asInterface(service);
+				   InAppPurchasingService.this.listener.onPurchasingServiceConnected();
 				   // test only
-				   /*
 				   try {
-					   MyLog.i("InAppPurchasingService", "Calling getAvailableProducts...");
+					   MyLog.i("InAppPurchasingService", "Calling getAvailableProducts via GooglePlay...");
 					   InAppPurchasingService.this.getAvailableProducts();
 				   } 
 				   catch (GingerException e) {
 					   e.printStackTrace();
 				   }
-				   */
 				   // end of test
 			   }
 			};
@@ -160,6 +165,12 @@ public class InAppPurchasingService {
 			MyLog.i("InAppPurchasingService", "User cancelled in-app purchase.");
 			return false;
 		}
+		
+		/*
+		if(responseCode == BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED){
+			
+		}
+		*/
 		
 		if(responseCode != BILLING_RESPONSE_RESULT_OK){
 			String errMsg = "Purchasing credit failed: " + getMessageForErrorCode(responseCode);
@@ -299,20 +310,25 @@ public class InAppPurchasingService {
 	public InAppPurchaseResult processActivityResult(int requestCode, int resultCode, Intent data) throws GingerException{
 		
 		if(requestCode != INAPP_PURCHASE_REQUEST_CODE){
-			throw new GingerException("Unexpected failure when processing credit purchase (1)");
+			throw new GingerException("Unexpected failure when processing credit purchase. Request Code is wrong: " + requestCode);
 		}
 		
 		if (resultCode != Activity.RESULT_OK) {
-			throw new GingerException("Unexpected failure when processing credit purchase (2)");
+			throw new GingerException("Unexpected failure when processing credit purchase. Result Code is not a success: " + resultCode);
+		}
+		
+		if(data == null){
+			throw new GingerException("Unexpected failure when processing credit purchase. Returned intent data is null.");
 		}
 		
 		int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
 		if(responseCode != BILLING_RESPONSE_RESULT_OK){
-			throw new GingerException("Unexpected failure when processing credit purchase (3)");
+			throw new GingerException("Unexpected failure when processing credit purchase. Intent data has error code: " + responseCode);
 		}
 		
 		//String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
-		String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");		
+		String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");	
+		MyLog.i("InAppPurchasingService", "INAPP_PURCHASE_DATA: " + purchaseData);
 		InAppPurchaseResult purchaseResult = InAppPurchaseResult.createFromJsonString(purchaseData);		
 		if(purchaseResult.getPurchaseState().getIntValue() != InAppPurchaseState.Purchased.getIntValue()){
 			throw new GingerException("Unexpected purchase result state: " + purchaseResult.getPurchaseState().getIntValue());

@@ -17,7 +17,7 @@ public class ProcessPurchaseTask extends BlockedTask<String, Void, BaseResponse>
 	private PurchaseProcessListener listener;
 	
 	public ProcessPurchaseTask(Context activity, PurchaseProcessListener listener, SimpleRequest<PurchaseRecord> request, Button button){
-		super(activity, button, true, "Processing purchase...");
+		super(activity, button, true, "Saving purchase info...");
 		this.activity = activity;
 		this.request = request;
 		this.listener = listener;	
@@ -27,6 +27,7 @@ public class ProcessPurchaseTask extends BlockedTask<String, Void, BaseResponse>
 	protected BaseResponse doInBackground(String... params) {
 		
 		try {
+			MyLog.v("ProcessPurchaseTask", "Task is starting... Making a 'processPurchase' call..");
 			BaseResponse response = Service.getInstance().processPurchase(activity, request);
 			return response;
 		} 

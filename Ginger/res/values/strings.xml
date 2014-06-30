@@ -70,6 +70,10 @@
     <string name="pref_user_profession_key">saved_profession</string>
     <string name="pref_user_education_key">saved_education</string>
     
+    <string name="purchase_filename_key">net.pic4pic.ginger.PURCHASES_FILE</string>
+    <string name="purchase_file_unprocessed_purchases_key">unprocessed_purchases</string>
+    <string name="purchase_file_unconsumed_purchases_key">unconsumed_purchases</string>
+    
     <string name="launch_signin_error_msg">Login attempt has failed</string>
     <string name="title_activity_signup">Signup</string>
     <string name="signup_username_label">Choose a screen name (public)</string>

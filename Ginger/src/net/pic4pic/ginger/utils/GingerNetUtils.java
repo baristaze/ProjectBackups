@@ -149,6 +149,11 @@ public class GingerNetUtils {
 		return httpEntity;
 	}
 	
+	public static <T> T createFromJsonString(String json, Class<T> theClass){
+		Gson gson = createGson();
+		return gson.fromJson(json.toString(), theClass);
+	}
+	
 	public static String convertToJsonString(Object input) throws GingerException {
 		
 		// check input

@@ -51,6 +51,7 @@ public class BuyNewMatchTask extends BlockedTask<String, Void, MatchedCandidateL
     }
     
 	protected void onPostExecute(MatchedCandidateListResponse result) {
+		super.onPostExecute(result);
     	this.listener.onBuyNewMatchComplete(result, this.request);
     }
 	

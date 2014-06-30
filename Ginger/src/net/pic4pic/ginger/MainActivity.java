@@ -25,6 +25,7 @@ import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.BuyingNewMatchRequest;
 import net.pic4pic.ginger.entities.Familiarity;
 import net.pic4pic.ginger.entities.GingerException;
+import net.pic4pic.ginger.entities.InAppPurchaseResult;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.Notification;
@@ -35,19 +36,26 @@ import net.pic4pic.ginger.entities.PurchaseRecord;
 import net.pic4pic.ginger.entities.SimpleRequest;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.service.InAppPurchasingService;
+import net.pic4pic.ginger.service.InAppPurchasingService.PurchasingServiceListener;
 import net.pic4pic.ginger.tasks.BuyNewMatchTask.BuyNewMatchListener;
+import net.pic4pic.ginger.tasks.BuyNewMatchTask;
 import net.pic4pic.ginger.tasks.MatchedCandidatesTask;
+import net.pic4pic.ginger.tasks.ProcessPurchaseTask;
 import net.pic4pic.ginger.tasks.MatchedCandidatesTask.MatchedCandidatesListener;
 import net.pic4pic.ginger.tasks.NotificationsTask;
 import net.pic4pic.ginger.tasks.NotificationsTask.NotificationsListener;
 import net.pic4pic.ginger.tasks.OfferRetrieverTask;
 import net.pic4pic.ginger.tasks.OfferRetrieverTask.OfferListener;
 import net.pic4pic.ginger.tasks.ProcessPurchaseTask.PurchaseProcessListener;
+import net.pic4pic.ginger.tasks.PurchaseBackLogTask;
+import net.pic4pic.ginger.tasks.PurchaseBackLogTask.PurchaseBackLogListener;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.MyLog;
+import net.pic4pic.ginger.utils.PurchaseUtils;
 
 public class MainActivity extends FragmentActivity 
-implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListener, OfferListener, PurchaseProcessListener, BuyNewMatchListener {
+implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListener, OfferListener, 
+/*implements*/ PurchaseProcessListener, BuyNewMatchListener, PurchaseBackLogListener, PurchasingServiceListener {
 
 	public static final String AuthenticatedUserBundleType = "net.pic4pic.ginger.AuthenticatedUser";
 	public static final String UpdatedMatchCandidate = "net.pic4pic.ginger.UpdatedMatchCandidate";
@@ -121,7 +129,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		
 		// creating purchase service
 		if(this.inappPurchasingSvc == null){
-			this.inappPurchasingSvc = new InAppPurchasingService(this);
+			this.inappPurchasingSvc = new InAppPurchasingService(this, this);
 			this.inappPurchasingSvc.createConnection();
 		}
 		
@@ -349,22 +357,134 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	}
 	
 	@Override
+	public void onPurchasingServiceConnected(){
+		PurchaseBackLogTask task = new PurchaseBackLogTask(this, this, this.inappPurchasingSvc);
+		task.execute();
+	}
+
+	public void onBackLogProcessingComplete(int currentCredit){
+		
+		// update credit
+		if(currentCredit >= 0){
+			MyLog.i("MainActivity", "onBackLogProcessingComplete. New Credit: " + currentCredit);
+			this.me.setCurrentCredit(currentCredit);
+		}
+	}
+	
+	// this is called after an item is purchased on Google Play and our onActivityResult is invoked
+	public void onPurchaseCompleteOnAppStore(int requestCode, int resultCode, Intent data){
+		
+		if(resultCode != Activity.RESULT_OK){
+			MyLog.v("MainActivity", "onPurchaseCompletedOnAppStore cancelled or failed. resultCode = " + resultCode);
+			return;
+		}
+		
+		MyLog.v("MainActivity", "Purchase is completed on AppStore.");
+		
+		InAppPurchaseResult result = null;
+		try {
+			result = this.inappPurchasingSvc.processActivityResult(requestCode, resultCode, data);
+			MyLog.i("MainActivity", "InAppPurchaseResult has been retrieved properly.");
+		} 
+		catch (GingerException e) {
+			MyLog.e("MainActivity", e.getMessage());
+			GingerHelpers.showErrorMessage(this, e.getMessage());
+			return;
+		}
+		
+		PurchaseOffer selectedOffer = null;
+		ArrayList<PurchaseOffer> offers = this.getAvailableOffers();
+		for(PurchaseOffer offer : offers){
+			if(offer.getAppStoreItemId().equals(result.getProductItemSku())){
+				selectedOffer = offer;
+				break;
+			}
+		}
+		
+		if(selectedOffer == null){
+			String errorMessage = "The purchased item '" + result.getProductItemSku() + "' is not one of the avaialable offers.";
+			MyLog.e("MainActivity", errorMessage);
+			GingerHelpers.showErrorMessage(this, errorMessage);
+			return;	
+		}
+		
+		PurchaseRecord purchaseRecord = new PurchaseRecord();
+		purchaseRecord.setAppStoreId(selectedOffer.getAppStoreId());
+		purchaseRecord.setInternalOfferId(selectedOffer.getInternalItemId());
+		purchaseRecord.setInternalPurchasePayLoad(result.getDeveloperPayload());
+		purchaseRecord.setPurchaseInstanceId(result.getOrderId());
+		purchaseRecord.setPurchaseReferenceToken(result.getPurchaseToken());
+		purchaseRecord.setPurchaseTimeUTC(result.getPurchaseTimeUTC());
+		
+		// save to the file
+		try {
+			MyLog.v("MainActivity", "Saving the unprocessed purchase record to the file: " + purchaseRecord.getPurchaseReferenceToken());
+			PurchaseUtils.saveUnprocessedPurchaseToFile(this, purchaseRecord);
+		} 
+		catch (GingerException e) {
+			MyLog.e("MainActivity", "Saving the unprocessed purchase record to the file failed: " + e.toString());
+		}
+		
+		// save to the file 2
+		try {
+			MyLog.v("MainActivity", "Saving the unconsumed purchase record to the file: " + purchaseRecord.getPurchaseReferenceToken());
+			PurchaseUtils.saveUnconsumedPurchaseToFile(this, purchaseRecord);
+		} 
+		catch (GingerException e) {
+			MyLog.e("MainActivity", "Saving the unconsumed purchase record to the file failed: " + e.toString());
+		}
+		
+		SimpleRequest<PurchaseRecord> request = new SimpleRequest<PurchaseRecord>();
+		request.setData(purchaseRecord);
+		
+		// below task calls 'onPurchaseProcessed' method below when done
+		MyLog.v("MainActivity", "Sending the purchase record to the server...");
+		ProcessPurchaseTask task = new ProcessPurchaseTask(this, this, request, null);
+		task.execute();
+	}
+	
+	@Override
 	public void onPurchaseProcessed(BaseResponse response, SimpleRequest<PurchaseRecord> request){
 		
 		if(response.getErrorCode() == 0){
 			
+			// log
+			MyLog.v("MainActivity", "Service call 'processPurchase' has returned successfully.");
+			
 			// update credit
+			MyLog.i("MainActivity", "New Credit after purchase: " + response.getCurrentCredit());
 			this.me.setCurrentCredit(response.getCurrentCredit());
 			
-			// consume
-			this.mSectionsPagerAdapter.getMatchListFragment().startConsumingPurchaseOnAppStore(request.getData());
+			// update the file
+			try {
+				PurchaseRecord purchaseRecord = request.getData();
+				MyLog.v("MainActivity", "Removing the unpurchase purchase record from file: " + purchaseRecord.getPurchaseReferenceToken());
+				PurchaseUtils.removeUnprocessedPurchaseFromFile(this, purchaseRecord);
+			} 
+			catch (GingerException e) {
+				MyLog.e("MainActivity", "Removing the unpurchase purchase record from file failed: " + e.toString());
+			}
 			
-			// buy new matches
-			this.mSectionsPagerAdapter.getMatchListFragment().startBuyingNewCandidates();
+			// consume
+			MyLog.v("MainActivity", "Consuming the last purchase on Google Play to enable future purchases.");
+			PurchaseUtils.startConsumingPurchaseOnAppStoreAndClearLocal(this, this.inappPurchasingSvc, request.getData());
+			
+			// buy new MATCHES since we have more credits now... 
+			MyLog.v("MainActivity", "Requesting more PAID matches after credit purchase.");
+			this.startBuyingNewCandidates();
 		}
 		else {
 			GingerHelpers.showErrorMessage(this, response.getErrorMessage());
 		}
+	}
+	
+	public void startBuyingNewCandidates(){
+		
+		BuyingNewMatchRequest request = new BuyingNewMatchRequest();
+		request.setMaxCount(5);
+		
+		BuyNewMatchTask task = new BuyNewMatchTask(this, this, request, null);
+		task.execute();
 	}
 	
 	@Override
@@ -382,7 +502,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			}
 			
 			// update UI
-			this.mSectionsPagerAdapter.getMatchListFragment().onMatchComplete(this.matches);			
+			this.mSectionsPagerAdapter.getMatchListFragment().onMatchComplete(this.matches, true);			
 		}
 		else{
 			// show error
@@ -405,14 +525,14 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			}
 			
 			// update UI
-			this.mSectionsPagerAdapter.getMatchListFragment().onMatchComplete(this.matches);			
+			this.mSectionsPagerAdapter.getMatchListFragment().onMatchComplete(this.matches, false);			
 		}
 		else{
 			// show error
 			GingerHelpers.showErrorMessage(this, response.getErrorMessage());
 			
 			// update UI
-			this.mSectionsPagerAdapter.getMatchListFragment().onMatchComplete(this.matches);
+			this.mSectionsPagerAdapter.getMatchListFragment().onMatchComplete(this.matches, false);
 		}	
 	}
 	
@@ -491,7 +611,15 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		}
 		else if(requestCode == InAppPurchasingService.INAPP_PURCHASE_REQUEST_CODE){
 			MyLog.v("MainActivity", "InAppPurchasingService has returned");
-			this.mSectionsPagerAdapter.getMatchListFragment().onPurchaseCompleteOnAppStore(requestCode, resultCode, data);
+			if(resultCode != Activity.RESULT_OK){
+				MyLog.v("MainActivity", "onPurchaseCompletedOnAppStore cancelled or failed. resultCode = " + resultCode);
+			}
+			else if (data == null){
+				MyLog.e("MainActivity", "onPurchaseCompletedOnAppStore returned null intent although resultCode is OK.");
+			}
+			else{
+				this.onPurchaseCompleteOnAppStore(requestCode, resultCode, data);
+			}
 		}
 		else{
 			MyLog.v("MainActivity", "Unknown Activity  has been received by MainActivity: " + requestCode);

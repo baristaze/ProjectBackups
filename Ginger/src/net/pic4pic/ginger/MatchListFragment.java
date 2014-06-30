@@ -3,7 +3,6 @@ package net.pic4pic.ginger;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,18 +20,12 @@ import android.widget.FrameLayout;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
-import net.pic4pic.ginger.entities.BuyingNewMatchRequest;
 import net.pic4pic.ginger.entities.GingerException;
-import net.pic4pic.ginger.entities.InAppPurchaseResult;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.PurchaseOffer;
-import net.pic4pic.ginger.entities.PurchaseRecord;
-import net.pic4pic.ginger.entities.SimpleRequest;
 import net.pic4pic.ginger.service.InAppPurchasingService;
-import net.pic4pic.ginger.tasks.BuyNewMatchTask;
 import net.pic4pic.ginger.tasks.ITask;
 import net.pic4pic.ginger.tasks.NonBlockedTask;
-import net.pic4pic.ginger.tasks.ProcessPurchaseTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.MyLog;
 
@@ -73,7 +66,7 @@ public class MatchListFragment extends Fragment {
 			ArrayList<MatchedCandidate> candidates = activity.getMatchedCandidates();
 						
 			// update UI
-			this.updateUI(view, candidates);
+			this.updateUI(view, candidates, false);
 		}	
 		
 		// start retrieving available offers for this user
@@ -82,7 +75,7 @@ public class MatchListFragment extends Fragment {
 		}
 	}
 	
-	public void onMatchComplete(ArrayList<MatchedCandidate> matches){
+	public void onMatchComplete(ArrayList<MatchedCandidate> matches, boolean isAfterPurchase){
 		
 		int matchCount = (matches == null ? 0 : matches.size());
 		MyLog.i("MatchListFragment", "onMatchComplete signal retrieved. Match count: " + matchCount);
@@ -90,19 +83,19 @@ public class MatchListFragment extends Fragment {
 		// update UI
 		View rootView = this.getView();
 		if(rootView != null){
-			this.updateUI(this.getView(), matches);
+			this.updateUI(this.getView(), matches, isAfterPurchase);
 		}
 		else{			
 			MyLog.e("MatchListFragment", "Retrieved matches before rendering the root.");
 		}
 	}
 	
-	private void updateUI(View rootView, ArrayList<MatchedCandidate> candidates){
+	private void updateUI(View rootView, ArrayList<MatchedCandidate> candidates, boolean isAfterPurchase){
 		
 		MyLog.i("MatchListFragment", "Updating UI based on matched candidates...");
 		
 		// remove spinner block
-		this.removeTheFrontestView(rootView);
+		this.removeTheFrontestView(rootView, isAfterPurchase);
 		
 		// update UI
 		if(candidates != null && candidates.size() > 0){
@@ -113,13 +106,15 @@ public class MatchListFragment extends Fragment {
 			// bind 'show more' button
 			// NOTE: This needs to be called before populateListView();
 			// Main reason is that .setFooter() needs to be called before .setAdapter();
-			this.bindShowMoreSectionToListView(listview);
+			if(!isAfterPurchase){
+				this.bindShowMoreSectionToListView(listview);
+			}
 			
 			// fill up list view
 			this.populateListView(listview, candidates);
 						
 			// remove info-for-empty-content block 
-			this.removeTheFrontestView(rootView);
+			this.removeTheFrontestView(rootView, isAfterPurchase);
 		}
 		else{
 			// Sorry, no match at this time.
@@ -128,7 +123,7 @@ public class MatchListFragment extends Fragment {
 		}	
 	}
 	
-	private boolean removeTheFrontestView(View rootView){
+	private boolean removeTheFrontestView(View rootView, boolean isAfterPurchase){
 		
 		// get the frame view
 		FrameLayout frameLayout = (FrameLayout)rootView.findViewById(R.id.matchListParentFrame);
@@ -139,7 +134,9 @@ public class MatchListFragment extends Fragment {
 			return true;
 		}
 		else{
-			MyLog.e("MatchListFragment", "We cannot remove the latest view since we have only 1");
+			if(!isAfterPurchase){
+				MyLog.e("MatchListFragment", "We cannot remove the latest view since we have only 1");
+			}			
 			return false;
 		}
 	}
@@ -194,7 +191,7 @@ public class MatchListFragment extends Fragment {
 		MyLog.v("MatchListFragment", "Show More button is clicked");
 		final MainActivity mainActivity = (MainActivity)this.getActivity();
 		if(mainActivity.getCurrentUser().getCurrentCredit() >= 10){
-			this.startBuyingNewCandidates();
+			mainActivity.startBuyingNewCandidates();
 			return;
 		}
 		
@@ -299,87 +296,6 @@ public class MatchListFragment extends Fragment {
         
         AlertDialog purchasePlanDialog = builder.create();
         purchasePlanDialog.show();
-	}
-
-	public void onPurchaseCompleteOnAppStore(int requestCode, int resultCode, Intent data){
-		
-		if(resultCode != Activity.RESULT_OK){
-			MyLog.v("MatchListFragment", "onPurchaseCompletedOnAppStore cancelled or failed. resultCode = " + resultCode);
-			return;
-		}
-		
-		MyLog.v("MatchListFragment", "Purchase is completed on AppStore.");
-		final MainActivity mainActivity = (MainActivity)this.getActivity();
-		final InAppPurchasingService purchasingSvc = mainActivity.getPurchasingService();
-		
-		InAppPurchaseResult result = null;
-		try {
-			result = purchasingSvc.processActivityResult(requestCode, resultCode, data);
-			MyLog.i("MatchListFragment", "InAppPurchaseResult has been retrieved properly.");
-		} 
-		catch (GingerException e) {
-			MyLog.e("MatchListFragment", e.getMessage());
-			GingerHelpers.showErrorMessage(mainActivity, e.getMessage());
-			return;
-		}
-		
-		PurchaseOffer selectedOffer = null;
-		ArrayList<PurchaseOffer> offers = mainActivity.getAvailableOffers();
-		for(PurchaseOffer offer : offers){
-			if(offer.getAppStoreItemId().equals(result.getProductItemSku())){
-				selectedOffer = offer;
-				break;
-			}
-		}
-		
-		if(selectedOffer == null){
-			String errorMessage = "The purchased item '" + result.getProductItemSku() + "' is not one of the avaialable offers.";
-			MyLog.e("MatchListFragment", errorMessage);
-			GingerHelpers.showErrorMessage(mainActivity, errorMessage);
-			return;	
-		}
-		
-		PurchaseRecord purchaseRecord = new PurchaseRecord();
-		purchaseRecord.setAppStoreId(selectedOffer.getAppStoreId());
-		purchaseRecord.setInternalOfferId(selectedOffer.getInternalItemId());
-		purchaseRecord.setInternalPurchasePayLoad(result.getDeveloperPayload());
-		purchaseRecord.setPurchaseInstanceId(result.getOrderId());
-		purchaseRecord.setPurchaseReferenceToken(result.getPurchaseToken());
-		purchaseRecord.setPurchaseTimeUTC(result.getPurchaseTimeUTC());
-		
-		SimpleRequest<PurchaseRecord> request = new SimpleRequest<PurchaseRecord>();
-		request.setData(purchaseRecord);
-		
-		ProcessPurchaseTask task = new ProcessPurchaseTask(mainActivity, mainActivity, request, null);
-		task.execute();
-	}
-	
-	public void startConsumingPurchaseOnAppStore(final PurchaseRecord purchase){
-		
-		final MainActivity mainActivity = (MainActivity)this.getActivity();
-		final InAppPurchasingService purchasingSvc = mainActivity.getPurchasingService();
-		
-		NonBlockedTask.SafeRun(new ITask(){
-			@Override
-			public void perform() {
-				try {
-					purchasingSvc.consumePurchaseToEnableReBuy(purchase.getPurchaseReferenceToken());
-				} 
-				catch (GingerException e) {
-					MyLog.e("MatchListFragment", "Consuming purchase is failed for the purchase token: " + purchase.getPurchaseReferenceToken());
-				}
-			}
-		});
-	}
-	
-	public void startBuyingNewCandidates(){
-		
-		BuyingNewMatchRequest request = new BuyingNewMatchRequest();
-		request.setMaxCount(5);
-		
-		final MainActivity mainActivity = (MainActivity)this.getActivity();
-		BuyNewMatchTask task = new BuyNewMatchTask(mainActivity, mainActivity, request, null);
-		task.execute();
 	}
 	
 	public void onShowPersonDetails(MatchedCandidate person, View listViewItem){
