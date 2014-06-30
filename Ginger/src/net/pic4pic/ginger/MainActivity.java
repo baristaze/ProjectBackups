@@ -362,12 +362,25 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		task.execute();
 	}
 
-	public void onBackLogProcessingComplete(int currentCredit){
+	public void onBackLogProcessingComplete(int currentCredit, ArrayList<InAppPurchaseResult> ghostPurchases){
 		
 		// update credit
 		if(currentCredit >= 0){
 			MyLog.i("MainActivity", "onBackLogProcessingComplete. New Credit: " + currentCredit);
 			this.me.setCurrentCredit(currentCredit);
+		}
+		
+		if(ghostPurchases != null && ghostPurchases.size() > 0){
+			ArrayList<PurchaseOffer> offers = this.getAvailableOffers();
+			if(offers != null && offers.size() > 0){
+				for(InAppPurchaseResult ghostPurchase : ghostPurchases){
+					// saving purchase record to the file (unprocessed + non-consumed) will help it get re-processed at a later time.
+					PurchaseRecord ghost = this.findOfferAndSavePurchaseRecord(ghostPurchase, offers);
+					if(ghost != null){
+						MyLog.i("MainActivity", "onBackLogProcessingComplete. A ghost record is saved to a local file to be processed later: " + ghost.getPurchaseReferenceToken());
+					}
+				}
+			}
 		}
 	}
 	
@@ -391,9 +404,24 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			GingerHelpers.showErrorMessage(this, e.getMessage());
 			return;
 		}
+				
+		PurchaseRecord purchaseRecord = this.findOfferAndSavePurchaseRecord(result, this.getAvailableOffers());
+		if(purchaseRecord == null){
+			return;
+		}
+		
+		SimpleRequest<PurchaseRecord> request = new SimpleRequest<PurchaseRecord>();
+		request.setData(purchaseRecord);
+		
+		// below task calls 'onPurchaseProcessed' method below when done
+		MyLog.v("MainActivity", "Sending the purchase record to the server...");
+		ProcessPurchaseTask task = new ProcessPurchaseTask(this, this, request, null);
+		task.execute();
+	}
+	
+	private PurchaseRecord findOfferAndSavePurchaseRecord(InAppPurchaseResult result, ArrayList<PurchaseOffer> offers){
 		
 		PurchaseOffer selectedOffer = null;
-		ArrayList<PurchaseOffer> offers = this.getAvailableOffers();
 		for(PurchaseOffer offer : offers){
 			if(offer.getAppStoreItemId().equals(result.getProductItemSku())){
 				selectedOffer = offer;
@@ -405,7 +433,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			String errorMessage = "The purchased item '" + result.getProductItemSku() + "' is not one of the avaialable offers.";
 			MyLog.e("MainActivity", errorMessage);
 			GingerHelpers.showErrorMessage(this, errorMessage);
-			return;	
+			return null;	
 		}
 		
 		PurchaseRecord purchaseRecord = new PurchaseRecord();
@@ -436,13 +464,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			MyLog.e("MainActivity", "Saving the unconsumed purchase record to the file failed: " + e.toString());
 		}
 		
-		SimpleRequest<PurchaseRecord> request = new SimpleRequest<PurchaseRecord>();
-		request.setData(purchaseRecord);
-		
-		// below task calls 'onPurchaseProcessed' method below when done
-		MyLog.v("MainActivity", "Sending the purchase record to the server...");
-		ProcessPurchaseTask task = new ProcessPurchaseTask(this, this, request, null);
-		task.execute();
+		return purchaseRecord;
 	}
 	
 	@Override

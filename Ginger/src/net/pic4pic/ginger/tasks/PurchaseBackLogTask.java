@@ -1,10 +1,13 @@
 package net.pic4pic.ginger.tasks;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.os.AsyncTask;
 
 import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.GingerException;
+import net.pic4pic.ginger.entities.InAppPurchaseResult;
 import net.pic4pic.ginger.entities.PurchaseRecord;
 import net.pic4pic.ginger.entities.PurchaseRecordList;
 import net.pic4pic.ginger.entities.SimpleRequest;
@@ -18,6 +21,8 @@ public class PurchaseBackLogTask extends AsyncTask<String, Void, Integer> {
 	private Activity activity;
 	private PurchaseBackLogListener listener;
 	private InAppPurchasingService purchasingService;
+	
+	private ArrayList<InAppPurchaseResult> ghostPurchases = new ArrayList<InAppPurchaseResult>();
 	
 	public PurchaseBackLogTask(Activity activity, PurchaseBackLogListener listener, InAppPurchasingService purchasingService){
 		this.activity = activity;
@@ -57,14 +62,36 @@ public class PurchaseBackLogTask extends AsyncTask<String, Void, Integer> {
 		
 		MyLog.i("PurchaseBackLogTask", allSuccess + " of " + unconsumeds.size() + " unconsumed purchases are consumed successfully.");
 		
+		if(allSuccess == unconsumeds.size()){			
+			this.ghostPurchases = this.safeRetrieveGhostPurchases();
+		}		
+		
 		return currentCredit;
 	}
 	
 	@Override
     protected void onPostExecute(Integer currentCredit) {
-		if(currentCredit != Integer.MIN_VALUE){
-			this.listener.onBackLogProcessingComplete(currentCredit);
-		}		
+		this.listener.onBackLogProcessingComplete(currentCredit, this.ghostPurchases);		
+	}
+	
+	private ArrayList<InAppPurchaseResult> safeRetrieveGhostPurchases(){
+		
+		try {
+			MyLog.v("PurchaseBackLogTask", "Retrieving ghost purchases...");
+			ArrayList<InAppPurchaseResult> ownedItems = this.purchasingService.getPurchasedItems();
+			MyLog.i("PurchaseBackLogTask", "Owned Item Count: " + ownedItems.size());
+			return ownedItems;
+		} 
+		catch (GingerException e) {
+			e.printStackTrace();
+			MyLog.e("PurchaseBackLogTask", "Retrieving ghost purchases failed: " + e.getMessage());
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			MyLog.e("PurchaseBackLogTask", "Unexpected error when retrieving ghost purchases: " + e.getMessage());
+		}
+		
+		return new ArrayList<InAppPurchaseResult>();
 	}
 	
 	private int safeSendPurchaseRecord(PurchaseRecord purchase){
@@ -119,6 +146,6 @@ public class PurchaseBackLogTask extends AsyncTask<String, Void, Integer> {
 	}
 	
 	public interface PurchaseBackLogListener{
-		public void onBackLogProcessingComplete(int currentCredit);
+		public void onBackLogProcessingComplete(int currentCredit, ArrayList<InAppPurchaseResult> ghostPurchases);
 	}
 }

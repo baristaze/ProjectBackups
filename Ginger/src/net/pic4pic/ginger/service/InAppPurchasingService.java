@@ -326,7 +326,6 @@ public class InAppPurchasingService {
 			throw new GingerException("Unexpected failure when processing credit purchase. Intent data has error code: " + responseCode);
 		}
 		
-		//String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
 		String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
 		String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
 		
@@ -338,6 +337,62 @@ public class InAppPurchasingService {
 		}
 		
 		return purchaseResult;
+	}
+	
+	public ArrayList<InAppPurchaseResult> getPurchasedItems() throws GingerException {
+		
+		if(!this.isConnected()){
+			throw new GingerException("Application hasn't connected to the Google Play Billing service yet.");
+		}
+		
+		Bundle ownedItems = null;
+		try {
+			String continuationToken = null; // this is for paging support
+			ownedItems = this.billingService.getPurchases(BILLING_API_VERSION, this.parent.getPackageName(), INAPP_PURCHASE, continuationToken);
+		} 
+		catch (RemoteException e) {
+			String errMsg = "Retrieving owned products failed";
+			MyLog.e("InAppPurchasingService", errMsg + ": " + e.getMessage());
+			throw new GingerException(errMsg, e);
+		}
+		
+		int responseCode = ownedItems.getInt("RESPONSE_CODE", -1);
+		if(responseCode != BILLING_RESPONSE_RESULT_OK){
+			String errMsg = "Retrieving available products failed: " + getMessageForErrorCode(responseCode);
+			MyLog.e("InAppPurchasingService", errMsg);
+			throw new GingerException(errMsg);	
+		}
+		
+		// ArrayList<String> ownedSkus = ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+		ArrayList<String> purchaseDataList = ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
+		if(purchaseDataList == null || purchaseDataList.size() == 0){
+			return new ArrayList<InAppPurchaseResult>();
+		}	
+		
+		MyLog.i("InAppPurchasingService", "GooglePlay returned " + purchaseDataList.size() + " purchased item(s), which are ghosts.");
+		
+		ArrayList<String> signatureList = ownedItems.getStringArrayList("INAPP_DATA_SIGNATURE_LIST");
+		if(signatureList == null || signatureList.size() != purchaseDataList.size()){
+			int signCount = (signatureList == null) ? 0 : signatureList.size(); 
+			String errorMessage = "Something is wrong. Purchased item count (" + purchaseDataList.size() + ") != Signature Count(" + signCount + ")";
+			MyLog.e("InAppPurchasingService", errorMessage);
+			throw new GingerException(errorMessage);
+		}
+		
+		// paging support... non-null value means there are more than 700 purchases. See 'getPurchases' method above
+		//String continuationToken = ownedItems.getString("INAPP_CONTINUATION_TOKEN");
+			   
+		ArrayList<InAppPurchaseResult> purchases = new ArrayList<InAppPurchaseResult>();
+		for (int i = 0; i < purchaseDataList.size(); ++i) {
+			String purchaseData = purchaseDataList.get(i);
+			String signature = signatureList.get(i);
+			// String productSkuId = ownedSkus.get(i);
+			// MyLog.v("InAppPurchasingService", "Ghost product InApp Data: " + purchaseData);
+			InAppPurchaseResult purchase = InAppPurchaseResult.createFromJsonString(purchaseData, signature);	
+			purchases.add(purchase);
+		} 
+		   
+		return purchases;
 	}
 	
 	/**
