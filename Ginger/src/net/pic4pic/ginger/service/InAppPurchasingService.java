@@ -327,9 +327,12 @@ public class InAppPurchasingService {
 		}
 		
 		//String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
-		String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");	
+		String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+		String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
+		
 		MyLog.i("InAppPurchasingService", "INAPP_PURCHASE_DATA: " + purchaseData);
-		InAppPurchaseResult purchaseResult = InAppPurchaseResult.createFromJsonString(purchaseData);		
+		MyLog.v("InAppPurchasingService", "INAPP_DATA_SIGNATURE: " + dataSignature);
+		InAppPurchaseResult purchaseResult = InAppPurchaseResult.createFromJsonString(purchaseData, dataSignature);		
 		if(purchaseResult.getPurchaseState().getIntValue() != InAppPurchaseState.Purchased.getIntValue()){
 			throw new GingerException("Unexpected purchase result state: " + purchaseResult.getPurchaseState().getIntValue());
 		}

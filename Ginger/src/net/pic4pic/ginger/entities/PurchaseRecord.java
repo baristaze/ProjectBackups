@@ -42,6 +42,40 @@ public class PurchaseRecord implements Serializable {
 	@SerializedName("InternalPurchasePayLoad")
 	protected String internalPurchasePayLoad;
 
+	@SerializedName("OriginalData")
+	protected String originalData;
+	
+	@SerializedName("DataSignature")
+	protected String dataSignature;
+	
+	/**
+	 * @return the originalData
+	 */
+	public String getOriginalData() {
+		return originalData;
+	}
+
+	/**
+	 * @param originalData the originalData to set
+	 */
+	public void setOriginalData(String originalData) {
+		this.originalData = originalData;
+	}
+
+	/**
+	 * @return the dataSignature
+	 */
+	public String getDataSignature() {
+		return dataSignature;
+	}
+
+	/**
+	 * @param dataSignature the dataSignature to set
+	 */
+	public void setDataSignature(String dataSignature) {
+		this.dataSignature = dataSignature;
+	}
+
 	/**
 	 * @return the internalOfferId
 	 */

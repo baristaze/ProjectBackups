@@ -415,6 +415,8 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		purchaseRecord.setPurchaseInstanceId(result.getOrderId());
 		purchaseRecord.setPurchaseReferenceToken(result.getPurchaseToken());
 		purchaseRecord.setPurchaseTimeUTC(result.getPurchaseTimeUTC());
+		purchaseRecord.setOriginalData(result.getOriginalData());
+		purchaseRecord.setDataSignature(result.getDataSignature());
 		
 		// save to the file
 		try {

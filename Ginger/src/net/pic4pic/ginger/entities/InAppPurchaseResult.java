@@ -35,13 +35,20 @@ public class InAppPurchaseResult implements Serializable {
 	@SerializedName("purchaseToken")
 	protected String purchaseToken;
 	
-	public static InAppPurchaseResult createFromJsonString(String purchaseData) throws GingerException {
+	protected String originalData;
+	protected String dataSignature;
+	
+	public static InAppPurchaseResult createFromJsonString(String purchaseData, String dataSignature) throws GingerException {
 		
 		try 
 		{
 			JSONObject jo = new JSONObject(purchaseData);
 			
 			InAppPurchaseResult result = new InAppPurchaseResult();
+			
+			result.originalData = purchaseData;
+			result.dataSignature = dataSignature;
+			
 			result.orderId = jo.getString("orderId");
 			result.appPackageName = jo.getString("packageName");
 			result.productItemSku = jo.getString("productId");
@@ -155,5 +162,33 @@ public class InAppPurchaseResult implements Serializable {
 	 */
 	public void setPurchaseToken(String purchaseToken) {
 		this.purchaseToken = purchaseToken;
+	}
+	
+	/**
+	 * @return the originalData
+	 */
+	public String getOriginalData() {
+		return originalData;
+	}
+
+	/**
+	 * @param originalData the originalData to set
+	 */
+	public void setOriginalData(String originalData) {
+		this.originalData = originalData;
+	}
+
+	/**
+	 * @return the dataSignature
+	 */
+	public String getDataSignature() {
+		return dataSignature;
+	}
+
+	/**
+	 * @param dataSignature the dataSignature to set
+	 */
+	public void setDataSignature(String dataSignature) {
+		this.dataSignature = dataSignature;
 	}
 }
