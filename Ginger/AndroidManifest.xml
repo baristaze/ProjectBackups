@@ -8,16 +8,31 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="19" />
 
+    <!-- service communication -->
     <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- camera and local file -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-feature android:name="android.hardware.camera" />
+	
+	<!-- location -->
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	
+	<!-- in-app purchases -->
 	<uses-permission android:name="com.android.vending.BILLING" />
 	
-    <uses-feature android:name="android.hardware.camera" />
-
+	<!-- push notifications -->
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	
+	<!-- push notifications -->
+	<permission android:name="net.pic4pic.ginger.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+   	<uses-permission android:name="net.pic4pic.ginger.permission.C2D_MESSAGE" />
+	
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -85,8 +100,21 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         
-        
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
+        
+        
+        <!-- push notifications -->
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
+        <receiver
+            android:name="net.pic4pic.ginger.utils.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="net.pic4pic.ginger" />
+            </intent-filter>
+        </receiver>
+        
+        <service android:name="net.pic4pic.ginger.utils.GcmIntentService" />        
         
     </application>
 

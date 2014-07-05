@@ -21,6 +21,7 @@ import net.pic4pic.ginger.entities.InstantMessageRequest;
 import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.MatchedCandidateResponse;
+import net.pic4pic.ginger.entities.MobileDevice;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
 import net.pic4pic.ginger.entities.PurchaseOfferListResponse;
@@ -341,6 +342,7 @@ public class ServiceProxy extends ServiceBase implements IService {
 				"/svc/rest/credit").getData();	
 	}
 	
+	@Override
 	public PurchaseOfferListResponse getOffers(Context context, BaseRequest request) throws GingerException{
 		
 		if(request.getClientId() == null){
@@ -354,4 +356,19 @@ public class ServiceProxy extends ServiceBase implements IService {
 				super.getAuthToken(context), 
 				"/svc/rest/offers").getData();		
 	}	
+	
+	@Override
+	public BaseResponse trackDevice(Context context, MobileDevice request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				BaseResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context, false), // authentication is not required
+				"/svc/rest/device").getData();
+	}
 }

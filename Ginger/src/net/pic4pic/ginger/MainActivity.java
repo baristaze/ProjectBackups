@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -49,14 +51,16 @@ import net.pic4pic.ginger.tasks.OfferRetrieverTask.OfferListener;
 import net.pic4pic.ginger.tasks.ProcessPurchaseTask.PurchaseProcessListener;
 import net.pic4pic.ginger.tasks.PurchaseBackLogTask;
 import net.pic4pic.ginger.tasks.PurchaseBackLogTask.PurchaseBackLogListener;
+import net.pic4pic.ginger.tasks.PushNotificationRegisterTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.PurchaseUtils;
+import net.pic4pic.ginger.utils.PushNotificationHelpers;
 
 public class MainActivity extends FragmentActivity 
 implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListener, OfferListener, 
 /*implements*/ PurchaseProcessListener, BuyNewMatchListener, PurchaseBackLogListener, PurchasingServiceListener {
-
+	
 	public static final String AuthenticatedUserBundleType = "net.pic4pic.ginger.AuthenticatedUser";
 	public static final String UpdatedMatchCandidate = "net.pic4pic.ginger.UpdatedMatchCandidate";
 	public static final int CaptureCameraCode = 102;
@@ -76,7 +80,8 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	private SectionsPagerAdapter mSectionsPagerAdapter;	
 	private ViewPager mViewPager;
 	
-	private InAppPurchasingService inappPurchasingSvc;
+	private InAppPurchasingService inappPurchasingSvc = null;
+	private GoogleCloudMessaging pushNotificationSvc = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -141,8 +146,31 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		catch (GingerException e) {
 			MyLog.e("MainActivity", "Couldn't bind to InApp Purchasing Service: " + e.getMessage());
 		}
-	}
 		
+		// handle push notification registrations if it is not done yet
+		this.checkAndRegisterForPushNotifications();
+	}
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+
+	    // handle push notification registrations if it is not done yet
+	 	this.checkAndRegisterForPushNotifications();
+	}
+	
+	private void checkAndRegisterForPushNotifications(){
+		if(PushNotificationHelpers.checkPlayServices(this)){
+			this.pushNotificationSvc = GoogleCloudMessaging.getInstance(this);
+			String registrationId = PushNotificationHelpers.getRegistrationId(this);
+            if (registrationId == null || registrationId.isEmpty()) {
+            	PushNotificationRegisterTask task = new PushNotificationRegisterTask(
+            			this, this.pushNotificationSvc, PushNotificationHelpers.SENDER_ID);
+            	task.execute();
+            }
+		}	
+	}
+	
 	@Override
 	protected void onDestroy(){
 		

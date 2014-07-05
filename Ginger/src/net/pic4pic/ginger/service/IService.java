@@ -19,6 +19,7 @@ import net.pic4pic.ginger.entities.InstantMessageRequest;
 import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.MatchedCandidateResponse;
+import net.pic4pic.ginger.entities.MobileDevice;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
 import net.pic4pic.ginger.entities.PurchaseOfferListResponse;
@@ -79,4 +80,6 @@ public interface IService {
     public BaseResponse getCurrentCredit(Context context, BaseRequest request) throws GingerException;
     
     public PurchaseOfferListResponse getOffers(Context context, BaseRequest request) throws GingerException;
+    
+    public BaseResponse trackDevice(Context context, MobileDevice request) throws GingerException;
 }

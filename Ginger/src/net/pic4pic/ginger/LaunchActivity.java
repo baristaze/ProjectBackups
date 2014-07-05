@@ -19,12 +19,14 @@ import net.pic4pic.ginger.entities.UserCredentials;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.service.Service;
 import net.pic4pic.ginger.tasks.SigninTask;
+import net.pic4pic.ginger.tasks.TrackDeviceTask;
 import net.pic4pic.ginger.utils.MyLog;
 
 public class LaunchActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_launch);
 		
@@ -62,6 +64,12 @@ public class LaunchActivity extends Activity {
 	}
 	
 	private void startSignUp(){
+		
+		// track device...
+		TrackDeviceTask trackingTask = new TrackDeviceTask(this);
+		trackingTask.execute();
+		
+		// start sign-up
 		Intent intent = new Intent(this, SignupActivity.class);
 		this.startActivity(intent);
 		this.finish();
@@ -75,6 +83,10 @@ public class LaunchActivity extends Activity {
 	}
 	
 	public void onSignin(UserResponse response, final UserCredentials credentials){
+		
+		// track device...
+		TrackDeviceTask trackingTask = new TrackDeviceTask(this);
+		trackingTask.execute();
 		
 		if(response.getErrorCode() == 0){
 			// successfully signed in

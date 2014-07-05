@@ -123,4 +123,8 @@
     <string name="credit_insufficient_title">Insufficient Credit</string>
     <string name="credit_insufficient_descr">You don\'t have enough credit to perform this action. Please buy some credit.</string>
     
+    <string name="google_play_svc_not_available">Google Play Services is not available on your phone. You won\'t be able to receive push notifications.</string>
+    <string name="do_not_show_again">Don\'t show again</string>
+    <string name="pref_error_hide_google_play_not_available">error_hide_google_play_not_available</string>
+    
 </resources>
