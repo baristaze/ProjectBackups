@@ -66,6 +66,8 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	public static final int CaptureCameraCode = 102;
 	public static final int PickFromGalleryCode = 103;
 	
+	private int preSelectedTabIndexOnMainActivity = 0;
+	
 	private UserResponse me;
 	public UserResponse getCurrentUser(){
 		return this.me;
@@ -96,6 +98,13 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		setContentView(R.layout.activity_main);
 		
 		Intent intent = getIntent();
+		
+		this.preSelectedTabIndexOnMainActivity = intent.getIntExtra("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity);
+		if(this.preSelectedTabIndexOnMainActivity != 0)
+		{
+			MyLog.v("MainActivity", "Launched by a push notification");
+		}
+		
 		this.me = (UserResponse)intent.getSerializableExtra(AuthenticatedUserBundleType);
 		MyLog.v("MainActivity", "Current user is: " + this.me.getUserProfile().getUsername());
 		
@@ -110,7 +119,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
-
+		
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
@@ -131,6 +140,10 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+		
+		if(this.preSelectedTabIndexOnMainActivity != 0){
+			mViewPager.setCurrentItem(this.preSelectedTabIndexOnMainActivity);
+		}		
 		
 		// creating purchase service
 		if(this.inappPurchasingSvc == null){
@@ -202,6 +215,8 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		
 		MyLog.v("MainActivity", "onSaveInstanceState");
 		
+		outState.putInt("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity);
+		
 		if(this.me != null){
 			outState.putSerializable("me", this.me);
 		}
@@ -246,6 +261,12 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		}
 		
 		boolean restored = false;
+		
+		if(state.containsKey("PreSelectedTabIndexOnMainActivity")){
+			this.preSelectedTabIndexOnMainActivity = state.getInt("PreSelectedTabIndexOnMainActivity", 0);
+			restored = true;
+		}
+		
 		if(state.containsKey("me")){
 			this.me = (UserResponse)state.getSerializable("me");
 			restored = true;

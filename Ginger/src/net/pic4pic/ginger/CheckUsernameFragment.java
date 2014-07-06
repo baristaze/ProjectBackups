@@ -152,8 +152,10 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 			editor.commit();
 			
 			// launch the view for the signed-in use
-			Intent intent = new Intent(this.getActivity(), MainActivity.class);
+			SignupActivity activity = (SignupActivity)this.getActivity();
+			Intent intent = new Intent(activity, MainActivity.class);
 			intent.putExtra(MainActivity.AuthenticatedUserBundleType, response); 
+			intent.putExtra("PreSelectedTabIndexOnMainActivity", activity.getPreSelectedTabIndexOnMainActivity()); // pass through
 			this.startActivity(intent);
 			this.getActivity().finish();
 		}

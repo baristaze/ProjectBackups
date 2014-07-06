@@ -7,6 +7,7 @@ import net.pic4pic.ginger.entities.PushNotification;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -61,12 +62,7 @@ public class GcmIntentService extends IntentService {
     // a GCM message.
     private void sendNotification(Bundle extras) {
     	
-    	NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-        
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, LaunchActivity.class), 0);
-
-        PushNotification notification = PushNotification.createDefault();
-        		
+    	PushNotification notification = PushNotification.createDefault();        		
         String jsonData = extras.getString("Pic4PicJsonData", "");
         if(jsonData != null && !jsonData.isEmpty()){
         	try{
@@ -79,21 +75,35 @@ public class GcmIntentService extends IntentService {
         else{
         	MyLog.e("GcmIntentService", "Retrieved push notification data is null or empty: " + extras.toString());
         }
-        
-        
+    	
         int iconId = R.drawable.ic_stb_envelope;
         if(notification.getSmallIcon() == 2){
         	iconId = R.drawable.ic_stb_favourites;
         }
         
+        int selectedTabIndex = 1; // 2nd tab
+        if(notification.getActionType() == 88){
+        	selectedTabIndex = 0;
+        }
+        
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
         .setSmallIcon(iconId)
         .setContentTitle(notification.getTitle())
-        .setStyle(new NotificationCompat.BigTextStyle()
-        .bigText(notification.getMessage()))
-        .setContentText(notification.getMessage());
+        .setStyle(new NotificationCompat.BigTextStyle().bigText(notification.getMessage()))
+        .setContentText(notification.getMessage())
+        .setAutoCancel(true);
 
+        Intent coreIntent = new Intent(this, LaunchActivity.class);
+    	coreIntent.putExtra("PreSelectedTabIndexOnMainActivity", selectedTabIndex);    	
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, coreIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentIntent(contentIntent);
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        
+        Notification note = builder.build();
+        note.defaults |= Notification.DEFAULT_VIBRATE;
+        note.defaults |= Notification.DEFAULT_SOUND;
+        note.defaults |= Notification.DEFAULT_LIGHTS;
+        
+        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(NOTIFICATION_ID, note);
     }
 }

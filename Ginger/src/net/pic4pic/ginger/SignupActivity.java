@@ -35,14 +35,59 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 	private NonSwipeableViewPager fragmentPager;
 	private SignupPagerAdapter fragmentPagerAdapter;
 	
+	private int preSelectedTabIndexOnMainActivity = 0;	
+	public int getPreSelectedTabIndexOnMainActivity(){
+		return this.preSelectedTabIndexOnMainActivity;
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		
+		super.onCreate(savedInstanceState);		
+		this.recreatePropertiesFromSavedBundle(savedInstanceState);
+		
+		Intent intent = getIntent();
+		this.preSelectedTabIndexOnMainActivity = intent.getIntExtra("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity);
+		
 		setContentView(R.layout.activity_signup);
 		
 		this.fragmentPagerAdapter = new SignupPagerAdapter(this.getSupportFragmentManager());		
 		this.fragmentPager = (NonSwipeableViewPager) findViewById(R.id.fragmentPager);
 		this.fragmentPager.setAdapter(this.fragmentPagerAdapter);
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		
+		super.onSaveInstanceState(outState);
+
+		if(outState == null){
+			return;
+		}
+		
+		outState.putInt("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity);
+	}
+	
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		
+		super.onRestoreInstanceState(savedInstanceState);		
+		this.recreatePropertiesFromSavedBundle(savedInstanceState);
+	}
+	
+	private boolean recreatePropertiesFromSavedBundle(Bundle state){
+		
+		if(state == null){
+			return false;
+		}
+		
+		boolean restored = false;
+		if(state.containsKey("PreSelectedTabIndexOnMainActivity")){
+			this.preSelectedTabIndexOnMainActivity = state.getInt("PreSelectedTabIndexOnMainActivity", 0);
+			restored = true;
+		}
+		
+		return restored;
 	}
 	
 	@Override

@@ -24,10 +24,21 @@ import net.pic4pic.ginger.utils.MyLog;
 
 public class LaunchActivity extends Activity {
 
+	private int preSelectedTabIndexOnMainActivity = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
+		this.recreatePropertiesFromSavedBundle(savedInstanceState);
+		
+		Intent intent = getIntent();
+		this.preSelectedTabIndexOnMainActivity = intent.getIntExtra("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity);
+		if(this.preSelectedTabIndexOnMainActivity != 0)
+		{
+			MyLog.v("LaunchActivity", "Launched by a push notification");
+		}
+		
 		setContentView(R.layout.activity_launch);
 		
 		UUID clientId = Service.getInstance().init(this);
@@ -36,6 +47,40 @@ public class LaunchActivity extends Activity {
 		}
 		
 		this.signinOrSignup();
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		
+		super.onSaveInstanceState(outState);
+
+		if(outState == null){
+			return;
+		}
+		
+		outState.putInt("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity);
+	}
+	
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		
+		super.onRestoreInstanceState(savedInstanceState);		
+		this.recreatePropertiesFromSavedBundle(savedInstanceState);
+	}
+	
+	private boolean recreatePropertiesFromSavedBundle(Bundle state){
+		
+		if(state == null){
+			return false;
+		}
+		
+		boolean restored = false;
+		if(state.containsKey("PreSelectedTabIndexOnMainActivity")){
+			this.preSelectedTabIndexOnMainActivity = state.getInt("PreSelectedTabIndexOnMainActivity", 0);
+			restored = true;
+		}
+		
+		return restored;
 	}
 	
 	private void signinOrSignup(){
@@ -71,6 +116,7 @@ public class LaunchActivity extends Activity {
 		
 		// start sign-up
 		Intent intent = new Intent(this, SignupActivity.class);
+		intent.putExtra("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity); // pass through
 		this.startActivity(intent);
 		this.finish();
 	}
@@ -92,6 +138,7 @@ public class LaunchActivity extends Activity {
 			// successfully signed in
 			Intent intent = new Intent(this, MainActivity.class);
 			intent.putExtra(MainActivity.AuthenticatedUserBundleType, response); 
+			intent.putExtra("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity); // pass through
 			this.startActivity(intent);
 			this.finish();
 		}

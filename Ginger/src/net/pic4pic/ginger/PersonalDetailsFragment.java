@@ -111,9 +111,11 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 				editor.commit();
 				
 				// launch the main activity
-				Intent intent = new Intent(PersonalDetailsFragment.this.getActivity(), MainActivity.class);
+				SignupActivity activity = (SignupActivity)PersonalDetailsFragment.this.getActivity();
+				Intent intent = new Intent(activity, MainActivity.class);
 				// TODO: userInfo might get wiped out?
 				intent.putExtra(MainActivity.AuthenticatedUserBundleType, PersonalDetailsFragment.this.userInfo); 
+				intent.putExtra("PreSelectedTabIndexOnMainActivity", activity.getPreSelectedTabIndexOnMainActivity()); // pass through
 				PersonalDetailsFragment.this.startActivity(intent);
 				PersonalDetailsFragment.this.getActivity().finish();				
 			}});
