@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="list_item_background_unread">#ffffee</color>
+    <color name="list_item_background_unread">#ffffee</color>
 	<color name="conversation_message_border">#cccccc</color>
 	<color name="conversation_message_bkg_incoming">#e8e177</color>
 	<color name="conversation_message_bkg_outgoing">#8ec3e2</color>
+	<color name="action_bar_background">#ffffffff</color>
+	<color name="action_bar_title_color">#ff000000</color>
+	<color name="action_bar_tab_text_color">#ffffffff</color>
+	<color name="action_bar_tab_background">#00000000</color>
+	<color name="action_bar_tab_background_pressed">#ff333333</color>
+	<color name="action_bar_tab_indicator">#ef5d36</color> <!-- #d23f1d -->
 </resources>

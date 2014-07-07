@@ -318,13 +318,14 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		
 		Date now = new Date();
 		long diffAsMilliSeconds = now.getTime() - this.lastMatchRetrieveTime.getTime();
-		long diffAsMinutes = diffAsMilliSeconds / 60000;
+		long diffAsSeconds = diffAsMilliSeconds / 1000;
+		long diffAsMinutes = diffAsSeconds / 60;
 		if(diffAsMinutes > 30){
 			MyLog.v("MainActivity", "Last match retrieve time was 30 minutes ago. We need to request matches again");
 			return true;
 		}
 		
-		if(this.matches.size() == 0){
+		if(this.matches.size() == 0 && diffAsSeconds > 30){
 			MyLog.v("MainActivity", "View doesn't have any match on it. We need to request matches again");
 			return true;
 		}
@@ -342,13 +343,14 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		
 		Date now = new Date();
 		long diffAsMilliSeconds = now.getTime() - this.lastNotificationRetrieveTime.getTime();
-		long diffAsMinutes = diffAsMilliSeconds / 60000;
+		long diffAsSeconds = diffAsMilliSeconds / 1000;
+		long diffAsMinutes = diffAsSeconds / 60;
 		if(diffAsMinutes > 30){
 			MyLog.v("MainActivity", "Last notification retrieve time was 30 minutes ago. We need to request notifications again");
 			return true;
 		}
 		
-		if(this.notifications.size() == 0){
+		if(this.notifications.size() == 0 && diffAsSeconds > 30){
 			MyLog.v("MainActivity", "View doesn't have any notification on it. We need to request notifications again");
 			return true;
 		}
