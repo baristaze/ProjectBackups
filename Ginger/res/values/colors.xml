@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="logo_color_main">#f73831</color>
+    <color name="logo_color_bkg">#001d25</color>
+    <color name="splash_bkg">#001d25</color>
     <color name="list_item_background_unread">#ffffee</color>
 	<color name="conversation_message_border">#cccccc</color>
 	<color name="conversation_message_bkg_incoming">#e8e177</color>
 	<color name="conversation_message_bkg_outgoing">#8ec3e2</color>
-	<color name="action_bar_background">#ffffffff</color>
+	<color name="action_bar_background">#ffeeeeee</color>	<!-- ffffffff -->
+	<color name="action_bar_background2">#ff001d25</color>	
 	<color name="action_bar_title_color">#ff000000</color>
+	<color name="action_bar_title_color2">#ffffffff</color> <!-- ffffffff -->
 	<color name="action_bar_tab_text_color">#ffffffff</color>
-	<color name="action_bar_tab_background">#00000000</color>
+	<color name="action_bar_tab_background">#ff001d25</color> <!-- 00000000 -->
 	<color name="action_bar_tab_background_pressed">#ff333333</color>
-	<color name="action_bar_tab_indicator">#ef5d36</color> <!-- #d23f1d -->
+	<color name="action_bar_tab_indicator">#ef5d36</color> <!-- #d23f1d --> <!-- #bb4054 -->
+	<color name="match_list_nickname_color">#f73831</color> <!-- #FF4444 --> 
+	<color name="notif_list_nickname_color">#007AD2</color>
+	<color name="me_profile_nickname_color">#f73831</color>	<!-- #FF4444 -->
+	<color name="me_profile_subheader_color">@android:color/holo_blue_light</color>
+	<color name="me_profile_divider_color">@android:color/darker_gray</color>
+	<color name="me_profile_desc_text_color">@android:color/darker_gray</color>
 </resources>

@@ -23,7 +23,7 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/avatar"
         android:singleLine="true"
-        android:textColor="#FF4444"
+        android:textColor="@color/match_list_nickname_color"
         android:text="@string/username_descr"
         android:textSize="@dimen/person_li_username_textSize" />
 		

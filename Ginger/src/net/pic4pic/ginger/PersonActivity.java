@@ -112,8 +112,9 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			}	
 		}	
 		
-		this.setTitle(this.person.getCandidateProfile().getUsername());
-		//this.setTitle("pic4pic");
+		// this.setTitle(this.person.getCandidateProfile().getUsername());
+		// this.setTitle("pic4pic");
+		this.setTitle("match");
 		
 		// Show the Up button in the action bar.
 		setupActionBar();

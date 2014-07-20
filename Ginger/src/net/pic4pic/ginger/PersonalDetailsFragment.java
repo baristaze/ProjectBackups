@@ -143,9 +143,9 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 		//String thumbnailUrl = prefs.getString(this.getString(R.string.pref_user_thumbnail_blurred_key), "");
 		String gender = prefs.getString(this.getString(R.string.pref_user_gender_key), "Unspecified");
 		String homeTownCity = prefs.getString(this.getString(R.string.pref_user_hometown_city_key), "required");
-		String relationStatus = prefs.getString(this.getString(R.string.pref_user_relation_status), "optional");
-		String profession = prefs.getString(this.getString(R.string.pref_user_profession_key), "optional");
-		String educationLevel = prefs.getString(this.getString(R.string.pref_user_education_key), "optional");
+		String relationStatus = prefs.getString(this.getString(R.string.pref_user_relation_status), "required");
+		String profession = prefs.getString(this.getString(R.string.pref_user_profession_key), "required");
+		String educationLevel = prefs.getString(this.getString(R.string.pref_user_education_key), "required");
 		
 		String age = "required";
 		String birthday = prefs.getString(this.getString(R.string.pref_user_birthday_key), null); // "required"

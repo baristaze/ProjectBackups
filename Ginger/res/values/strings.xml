@@ -47,7 +47,7 @@
     <string name="profile_me_public">My Public Profile</string>
     <string name="profile_me_private">My Private Photos</string>
     <string name="title_activity_text_input">Enter Input</string>
-    <string name="splash_starting">Starting&#8230;</string>
+    <string name="splash_starting">pic4pic is starting&#8230;</string>
     <string name="pref_filename_key">net.pic4pic.ginger.PREFERENCE_FILE</string>
     <string name="pref_username_key">saved_username</string>
     <string name="pref_password_key">saved_password</string>

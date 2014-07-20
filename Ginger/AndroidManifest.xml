@@ -53,6 +53,7 @@
        <activity
             android:name="net.pic4pic.ginger.ConversationActivity"
             android:label="@string/title_conversation_activity"
+            android:theme="@style/AppTheme2"
             android:parentActivityName="net.pic4pic.ginger.PersonActivity"
             android:windowSoftInputMode="adjustResize" >
             <meta-data
@@ -63,6 +64,7 @@
         <activity
             android:name="net.pic4pic.ginger.PersonActivity"
             android:label="@string/title_activity_person"
+            android:theme="@style/AppTheme2"
             android:parentActivityName="net.pic4pic.ginger.MainActivity"
             android:windowSoftInputMode="adjustResize" >
             <meta-data
@@ -72,6 +74,7 @@
         <activity
             android:name="net.pic4pic.ginger.TextInputActivity"
             android:label="@string/title_activity_text_input"
+            android:theme="@style/AppTheme2"
             android:windowSoftInputMode="adjustResize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -91,6 +94,7 @@
         <activity
             android:name="net.pic4pic.ginger.SignupActivity"
             android:label="@string/title_activity_signup"
+            android:theme="@style/AppTheme2"
             android:screenOrientation="portrait" >            
         </activity>        
         

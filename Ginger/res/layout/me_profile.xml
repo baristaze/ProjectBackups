@@ -20,7 +20,7 @@
 	        android:layout_marginBottom="@dimen/general_margin_vertical"
 	        android:singleLine="true"
 	        android:text="@string/profile_me_public"
-	        android:textColor="@android:color/holo_blue_light"
+	        android:textColor="@color/me_profile_subheader_color"
 	        android:textSize="@dimen/header_textSize" />
 	    
 	    <!-- divider -->
@@ -28,7 +28,7 @@
 		    android:layout_width="match_parent"
 		    android:layout_height="1dp"
 		    android:layout_marginBottom="@dimen/general_margin_vertical"
-		    android:background="@android:color/darker_gray" />
+		    android:background="@color/me_profile_divider_color" />
 	    
 	    <!-- MY PUBLIC PROFILE -->
 		<LinearLayout
@@ -61,7 +61,7 @@
 			        android:layout_width="match_parent"
 			        android:layout_height="wrap_content"
 			        android:singleLine="true"
-			        android:textColor="#FF4444"
+			        android:textColor="@color/me_profile_nickname_color"
 			        android:textSize="@dimen/firstLine_textSize" />
 		        
 		        <!-- SHORT BIO -->
@@ -85,7 +85,7 @@
 	        android:layout_marginBottom="@dimen/general_margin_vertical"
 	        android:singleLine="false"
 	        android:textSize="@dimen/secondLine_textSize"
-	        android:textColor="@android:color/darker_gray" />
+	        android:textColor="@color/me_profile_desc_text_color" />
 		
 		<!-- HEADER of MY PRIVATE PHOTOS -->
 	    <TextView
@@ -95,7 +95,7 @@
 	        android:layout_marginBottom="@dimen/general_margin_vertical"
 	        android:singleLine="true"
 	        android:text="@string/profile_me_private"
-	        android:textColor="@android:color/holo_blue_light"
+	        android:textColor="@color/me_profile_subheader_color"
 	        android:textSize="@dimen/header_textSize" />
 	    
 	    <!-- divider -->
@@ -103,7 +103,7 @@
 		    android:layout_width="match_parent"
 		    android:layout_height="1dp"
 		    android:layout_marginBottom="@dimen/general_margin_vertical"
-		    android:background="@android:color/darker_gray" />
+		    android:background="@color/me_profile_divider_color" />
 	    
     	<ImageView
 	        android:id="@+id/meMainPhoto"

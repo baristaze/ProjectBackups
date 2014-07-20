@@ -14,15 +14,33 @@
         <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item>
     </style>
     
+   <style name="AppBaseTheme2" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- API 14 theme customizations can go here. -->
+        <!-- remove everything at this level and get original theme instead of customized one -->
+        <item name="android:actionBarStyle">@style/MyActionBar2</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_action_previous_item</item>
+        <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
+        <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item>
+    </style>
+    
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
          <item name="android:background">@color/action_bar_background</item>         
          <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
     </style>
     
+    <style name="MyActionBar2" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+         <item name="android:background">@color/action_bar_background2</item>         
+         <item name="android:titleTextStyle">@style/MyActionBarTitleText2</item>
+    </style>
+    
     <!-- ActionBar title text -->
     <style name="MyActionBarTitleText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/action_bar_title_color</item>
+    </style>
+    
+    <style name="MyActionBarTitleText2" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/action_bar_title_color2</item>
     </style>
     
     <!-- ActionBar tabs text styles -->

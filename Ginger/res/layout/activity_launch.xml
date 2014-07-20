@@ -2,8 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_radial_bkg"
     tools:context=".LaunchActivity" >
 
+    <!-- 
     <ImageView
         android:layout_width="match_parent"
     	android:layout_height="match_parent"
@@ -11,25 +13,38 @@
     	android:contentDescription="@string/photo_descr"
     	android:scaleType="centerCrop">     
     </ImageView>
+    -->
 
-    <ProgressBar
-        android:id="@+id/spinnerProgressBar"
-        style="?android:attr/progressBarStyleLarge"
+	<ImageView
+	    android:id="@+id/logoBig"
+	    android:src="@drawable/logo_trans_big"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:indeterminate="true" />
+    	android:layout_height="wrap_content"
+    	android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/splash_logo_top_margin"
+    	android:contentDescription="@string/photo_descr"
+    	android:scaleType="centerCrop">     
+    </ImageView>
 
-    <TextView
+	<TextView
         android:id="@+id/feedbackTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinnerProgressBar"
+        android:layout_below="@+id/logoBig"
         android:layout_centerHorizontal="true"
         android:text="@string/splash_starting"
-        android:layout_marginTop="@dimen/general_margin"
+        android:layout_marginTop="@dimen/general_margin_big"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/holo_blue_light" />
+	
+    <ProgressBar
+        android:id="@+id/spinnerProgressBar"
+        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"        
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/general_margin_xbig"
+        android:layout_below="@+id/feedbackTextView"
+        android:indeterminate="true" />
     
 </RelativeLayout>

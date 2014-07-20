@@ -283,7 +283,7 @@
 			        android:layout_marginRight="@dimen/general_margin"
 			        android:layout_gravity="center_vertical|left"
 			        android:gravity="center_vertical|left"
-			        android:text="@string/optional"
+			        android:text="@string/required"
 			        android:singleLine="true"
 		        	android:textColor="#888888"
 		        	android:textAppearance="?android:attr/textAppearanceMedium" />	
@@ -335,7 +335,7 @@
 			        android:layout_marginRight="@dimen/general_margin"
 			        android:layout_gravity="center_vertical|left"
 			        android:gravity="center_vertical|left"
-			        android:text="@string/optional"
+			        android:text="@string/required"
 			        android:singleLine="true"
 		        	android:textColor="#888888"
 		        	android:textAppearance="?android:attr/textAppearanceMedium" />	
@@ -387,7 +387,7 @@
 			        android:layout_marginRight="@dimen/general_margin"
 			        android:layout_gravity="center_vertical|left"
 			        android:gravity="center_vertical|left"
-			        android:text="@string/optional"
+			        android:text="@string/required"
 			        android:singleLine="true"
 		        	android:textColor="#888888"
 		        	android:textAppearance="?android:attr/textAppearanceMedium" />	
