@@ -1,5 +1,6 @@
 package net.pic4pic.ginger.utils;
 
+import net.pic4pic.ginger.entities.GingerException;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -26,11 +27,20 @@ public class DrawView extends View {
 		MyLog.v("Ginger", "CustomDraw: onDraw WxH = " + this.getWidth() + "x" + this.getHeight());
 		MyLog.v("Ginger", "CustomDraw: onDraw WxH of Canvas = " + canvas.getWidth() + "x" + canvas.getHeight()); // same with parent
 
-		if (this.bitmap != null) {
-			Bitmap scaledBitmap = BitmapHelpers.scaleCenterCrop(this.bitmap,
-					canvas.getWidth(), canvas.getHeight(), this.detectedFaces);
+		if (this.bitmap != null) {		
+			
+			Bitmap scaledBitmap = null;
+			try{
+				scaledBitmap = BitmapHelpers.scaleCenterCrop(this.bitmap,
+						canvas.getWidth(), canvas.getHeight(), this.detectedFaces);
+			}
+			catch(GingerException ex){
+				GingerHelpers.toast(this.getContext(), "Out of memory exception when drawing image");
+			}			
 
-			canvas.drawBitmap(scaledBitmap, 0, 0, null);
+			if(scaledBitmap != null){
+				canvas.drawBitmap(scaledBitmap, 0, 0, null);
+			}
 		}
 	}
 

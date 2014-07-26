@@ -197,6 +197,7 @@ public class ImageGalleryView {
 			public void onClick(View v) {
 				// start camera
 				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+				cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
 	            ImageGalleryView.this.activity.startActivityForResult(
 	            		cameraIntent, MainActivity.CaptureCameraCode);
 	        }

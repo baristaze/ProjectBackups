@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 
 import net.pic4pic.ginger.R;
+import net.pic4pic.ginger.entities.GingerException;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -53,7 +54,12 @@ public class ImageStorageHelper {
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
 		Bitmap bitmap = readFromInternalStorage(context,fileName, alertOnError, options);
 		if(bitmap != null){
-			bitmap = BitmapHelpers.trimOddDimensions(bitmap);
+			try {
+				bitmap = BitmapHelpers.trimOddDimensions(bitmap);
+			} 
+			catch (GingerException e) {
+				GingerHelpers.toast(context, "Out of memory exception when drawing image");
+			}
 		}
 		
 		return bitmap;
@@ -70,6 +76,7 @@ public class ImageStorageHelper {
 			String absolutePath = getAbsolutePath(context, fileName);
 			MyLog.v("Storage", "Absolute Path: " + absolutePath);
 			
+			System.gc();
 			Bitmap bitmap = null;
 			if(options == null){
 				bitmap = BitmapFactory.decodeFile(absolutePath);

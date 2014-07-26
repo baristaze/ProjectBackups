@@ -47,6 +47,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 	        String urldisplay = urls[0];	        
 	        try {
 	        	MyLog.v("ImageDownloadTask", "Downloading Image... " + this.imageId.toString());
+	        	System.gc();
 	            InputStream in = new java.net.URL(urldisplay).openStream();
 	            bitmap = BitmapFactory.decodeStream(in);
 	        } 

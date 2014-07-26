@@ -2,6 +2,7 @@ package net.pic4pic.ginger.utils;
 
 import java.io.IOException;
 
+import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.IntegerEnum;
 
 import android.graphics.Bitmap;
@@ -67,7 +68,7 @@ public class BitmapHelpers {
 	    return scale;
 	}
 	
-	public static Bitmap scale(Bitmap source, int newWidth, int newHeight, ScaleType scaleType){
+	public static Bitmap scale(Bitmap source, int newWidth, int newHeight, ScaleType scaleType) throws GingerException{
 	    // Compute the scaling factors to fit the new height and width, respectively.
 		int sourceWidth = source.getWidth();
 	    int sourceHeight = source.getHeight();
@@ -75,14 +76,25 @@ public class BitmapHelpers {
 	    float scaledWidth = scale * sourceWidth;
 	    float scaledHeight = scale * sourceHeight;
 	    
-	    Bitmap scaledImage = Bitmap.createBitmap((int)scaledWidth, (int)scaledHeight, source.getConfig());
+	    System.gc();
+	    Bitmap scaledImage = null;
+	    try{
+	    	scaledImage = Bitmap.createBitmap((int)scaledWidth, (int)scaledHeight, source.getConfig());
+	    }
+	    catch(OutOfMemoryError ex){
+	    	String sizeInfo = "Source size: " + source.getWidth() + "x" + source.getHeight() + ". Required byte: " + source.getByteCount();
+	    	MyLog.e("BitmapHelpers", "Out of memory exception when creating Bitmap in 'scale' method. " + sizeInfo);
+	    	
+	    	throw new GingerException("Image processing requires more memory than allocated");
+	    }
+	    
 		Canvas canvas = new Canvas(scaledImage); // rectangulatedImage is mutable... notice that it is empty
 		RectF targetRect = new RectF(0, 0, scaledWidth, scaledHeight);
 		canvas.drawBitmap(source, null, targetRect, null);
 	    return scaledImage;
 	}
 	
-	public static Bitmap scaleWithFaces(Bitmap source, int newWidth, int newHeight, FaceDetector.Face[] detectedFaces, ScaleType scaleType){
+	public static Bitmap scaleWithFaces(Bitmap source, int newWidth, int newHeight, FaceDetector.Face[] detectedFaces, ScaleType scaleType) throws GingerException {
 		// scale image
 		float scale = calculateScale(source.getWidth(), source.getHeight(), newWidth, newHeight, scaleType);	    
 		Bitmap scaledImage = scale(source, newWidth, newHeight, scaleType);
@@ -110,7 +122,7 @@ public class BitmapHelpers {
 	    return scaledImage;
 	}
 		
-	public static Bitmap crop(Bitmap source, int newWidth, int newHeight){
+	public static Bitmap crop(Bitmap source, int newWidth, int newHeight) throws GingerException {
 	    int sourceWidth = source.getWidth();
 	    int sourceHeight = source.getHeight();
 
@@ -124,18 +136,29 @@ public class BitmapHelpers {
 	    
 	    // Finally, we create a new bitmap of the specified size and draw our new,
 	    // scaled bitmap onto it.
-	    Bitmap croppedImage = Bitmap.createBitmap(newWidth, newHeight, source.getConfig());
+	    System.gc();
+	    Bitmap croppedImage = null;
+	    try{
+	    	croppedImage = Bitmap.createBitmap(newWidth, newHeight, source.getConfig());
+	    }
+	    catch(OutOfMemoryError ex){
+	    	String sizeInfo = "Source size: " + source.getWidth() + "x" + source.getHeight() + ". Required byte: " + source.getByteCount();
+	    	MyLog.e("BitmapHelpers", "Out of memory exception when creating Bitmap in 'crop' method. " + sizeInfo);
+	    	
+	    	throw new GingerException("Image processing requires more memory than allocated");
+	    }
+	    
 	    Canvas canvas = new Canvas(croppedImage); // croppedImage is mutable... notice that it is empty
 	    canvas.drawBitmap(source, null, targetRect, null);	    
 	    return croppedImage;
 	}
 	
-	public static Bitmap scaleAndCrop(Bitmap source, int newWidth, int newHeight, ScaleType scaleType){
+	public static Bitmap scaleAndCrop(Bitmap source, int newWidth, int newHeight, ScaleType scaleType) throws GingerException {
 	    Bitmap scaledImage = scale(source, newWidth, newHeight, scaleType);
 	    return crop(scaledImage, newWidth, newHeight);
 	}
 	
-	public static Bitmap scaleAndCropWithFaces(Bitmap source, int newWidth, int newHeight, FaceDetector.Face[] detectedFaces, ScaleType scaleType) {		
+	public static Bitmap scaleAndCropWithFaces(Bitmap source, int newWidth, int newHeight, FaceDetector.Face[] detectedFaces, ScaleType scaleType) throws GingerException {		
 		
 		// scale image with faces
 		Bitmap scaledImage = scaleWithFaces(source, newWidth, newHeight, detectedFaces, scaleType);
@@ -144,19 +167,19 @@ public class BitmapHelpers {
 	    return crop(scaledImage, newWidth, newHeight);
 	}
 	
-	public static Bitmap scaleCenterCrop(Bitmap source, int newWidth, int newHeight) {
+	public static Bitmap scaleCenterCrop(Bitmap source, int newWidth, int newHeight) throws GingerException {
 		return scaleAndCrop(source, newWidth, newHeight, ScaleType.CenterCrop);
 	}
 	
-	public static Bitmap scaleCenterFit(Bitmap source, int newWidth, int newHeight) {
+	public static Bitmap scaleCenterFit(Bitmap source, int newWidth, int newHeight) throws GingerException {
 		return scaleAndCrop(source, newWidth, newHeight, ScaleType.CenterFit);
 	}
 	
-	public static Bitmap scaleCenterCrop(Bitmap source, int newWidth, int newHeight, FaceDetector.Face[] detectedFaces) {
+	public static Bitmap scaleCenterCrop(Bitmap source, int newWidth, int newHeight, FaceDetector.Face[] detectedFaces) throws GingerException {
 		return scaleAndCropWithFaces(source, newWidth, newHeight, detectedFaces, ScaleType.CenterCrop);
 	}
 	
-	public static Bitmap scaleCenterFit(Bitmap source, int newWidth, int newHeight, FaceDetector.Face[] detectedFaces) {
+	public static Bitmap scaleCenterFit(Bitmap source, int newWidth, int newHeight, FaceDetector.Face[] detectedFaces) throws GingerException {
 		return scaleAndCropWithFaces(source, newWidth, newHeight, detectedFaces, ScaleType.CenterFit);
 	}
 	
@@ -191,12 +214,24 @@ public class BitmapHelpers {
 	}
 	*/
 	
-	public static Bitmap trimOddDimensions(Bitmap bitmap){
+	public static Bitmap trimOddDimensions(Bitmap bitmap)throws GingerException {
 		int width = (bitmap.getWidth() % 2) == 0 ? bitmap.getWidth() : bitmap.getWidth()-1;
 		int height = (bitmap.getHeight() % 2) == 0 ? bitmap.getHeight() : bitmap.getHeight()-1;
 		if(width != bitmap.getWidth() || height != bitmap.getHeight()){
 			MyLog.v("FaceDetection", "Cropping the image by 1 pixel since it must be even for face detection.");
-			Bitmap temp = Bitmap.createBitmap(bitmap, 0, 0, width, height, null, true);			
+			
+			System.gc();
+		    Bitmap temp = null;
+		    try{
+		    	temp = Bitmap.createBitmap(bitmap, 0, 0, width, height, null, true);
+		    }
+		    catch(OutOfMemoryError ex){
+		    	String sizeInfo = "Source size: " + bitmap.getWidth() + "x" + bitmap.getHeight() + ". Required byte: " + bitmap.getByteCount();
+		    	MyLog.e("BitmapHelpers", "Out of memory exception when creating Bitmap in 'crop' method. " + sizeInfo);
+		    	
+		    	throw new GingerException("Image processing requires more memory than allocated");
+		    }
+			
 			bitmap = temp;			
 		}
 		
@@ -236,7 +271,7 @@ public class BitmapHelpers {
 		return rotate;
 	}
 	
-	public static Bitmap rotateImage(Bitmap bitmap, int rotate){		
+	public static Bitmap rotateImage(Bitmap bitmap, int rotate) throws GingerException {		
 		
 		if(rotate == 0){
 			return bitmap;
@@ -250,6 +285,7 @@ public class BitmapHelpers {
 		matrix.preRotate(rotate);
 		
 		// Rotating Bitmap
+		System.gc();
 		bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
 		
 		return bitmap;

@@ -120,6 +120,7 @@ public class ImageActivity {
 	
 	public static void startCamera(Activity context, int requestCode){
 		Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra("android.intent.extras.CAMERA_FACING", 1);
 		//Uri fileUri = Uri.parse(targetFile);
 		//intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); 
 		context.startActivityForResult(intent, requestCode);
@@ -184,6 +185,7 @@ public class ImageActivity {
 			return result;
 		}
 		
+		System.gc();
 		Bitmap bitmap = null;
 		try{					
 			bitmap = BitmapFactory.decodeFile(imagePath);

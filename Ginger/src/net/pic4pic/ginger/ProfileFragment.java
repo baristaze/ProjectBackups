@@ -256,6 +256,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 					else{
 						Bitmap bitmapPhoto = null;						
 						try{					
+							System.gc();
 							bitmapPhoto = BitmapFactory.decodeFile(selectedImagePath);
 						}
 						catch(Exception ex){
