@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.pic4pic.ginger.entities.Gender;
 import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
@@ -69,7 +70,15 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		rowView.setBackground(GingerHelpers.getListItemBackgroundDrawable(this.context, person.isViewed()));
 		
 		// set the default image
-		cachedView.avatarImageView.setImageResource(android.R.drawable.ic_menu_gallery);
+		if(person.getCandidateProfile().getGender().getIntValue() == Gender.Male.getIntValue()){
+			cachedView.avatarImageView.setImageResource(R.drawable.man_downloading_small);
+		}
+		else if(person.getCandidateProfile().getGender().getIntValue() == Gender.Female.getIntValue()){
+			cachedView.avatarImageView.setImageResource(R.drawable.woman_downloading_small);
+		}
+		else{
+			cachedView.avatarImageView.setImageResource(android.R.drawable.ic_menu_gallery);
+		}
 		
 		// set the real image with an asynchronous download operation
 		ImageFile imageToDownload = person.getProfilePics().getThumbnail();

@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.pic4pic.ginger.entities.Gender;
 import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.PicturePair;
 import net.pic4pic.ginger.entities.UserResponse;
@@ -84,14 +85,31 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 			}});
 		
 		// set the default image for thumb-nail
-		meAvatarView.setImageResource(android.R.drawable.ic_menu_gallery);
+		if(this.getMe().getUserProfile().getGender().getIntValue() == Gender.Male.getIntValue()){
+			meAvatarView.setImageResource(R.drawable.man_downloading_small);
+		}
+		else if(this.getMe().getUserProfile().getGender().getIntValue() == Gender.Female.getIntValue()){
+			meAvatarView.setImageResource(R.drawable.woman_downloading_small);
+		}
+		else{
+			meAvatarView.setImageResource(android.R.drawable.ic_menu_gallery);
+		}
 		
 		// set the real image with an asynchronous download operation
 		ImageDownloadTask downloadTask = new ImageDownloadTask(me.getProfilePictures().getThumbnailBlurred().getId(), meAvatarView);
 		downloadTask.execute(me.getProfilePictures().getThumbnailBlurred().getCloudUrl());
 		
-		// set the default image for mainPhoto
-		meMainPhotoView.setImageResource(android.R.drawable.ic_menu_gallery);		
+		// set the default image for mainPhoto		
+		if(this.getMe().getUserProfile().getGender().getIntValue() == Gender.Male.getIntValue()){
+			meMainPhotoView.setImageResource(R.drawable.man_downloading_big);
+		}
+		else if(this.getMe().getUserProfile().getGender().getIntValue() == Gender.Female.getIntValue()){
+			meMainPhotoView.setImageResource(R.drawable.woman_downloading_big);
+		}
+		else{
+			meMainPhotoView.setImageResource(android.R.drawable.ic_menu_gallery);
+		}
+				
 		meMainPhotoView.setOnClickListener(new ImageClickListener(this.getActivity(), meMainPhotoView));
 		
 		// set the real image with an asynchronous download operation

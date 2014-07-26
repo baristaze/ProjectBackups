@@ -16,9 +16,9 @@
 	<color name="action_bar_tab_background_pressed">#ff333333</color>
 	<color name="action_bar_tab_indicator">#ef5d36</color> <!-- #d23f1d --> <!-- #bb4054 -->
 	<color name="match_list_nickname_color">#f73831</color> <!-- #FF4444 --> 
-	<color name="notif_list_nickname_color">#007AD2</color>
+	<color name="notif_list_nickname_color">#f73831</color> <!-- #007AD2 -->
 	<color name="me_profile_nickname_color">#f73831</color>	<!-- #FF4444 -->
-	<color name="me_profile_subheader_color">@android:color/holo_blue_light</color>
+	<color name="me_profile_subheader_color">#007AD2</color> <!-- @android:color/holo_blue_light -->
 	<color name="me_profile_divider_color">@android:color/darker_gray</color>
 	<color name="me_profile_desc_text_color">@android:color/darker_gray</color>
 </resources>
