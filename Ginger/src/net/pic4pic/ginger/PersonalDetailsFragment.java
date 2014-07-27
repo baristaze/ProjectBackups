@@ -57,10 +57,11 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 		View rootView = inflater.inflate(R.layout.fragment_personal_details, container, false);
 		this._applyData(rootView);
 		
-		ImageButton buttonAgeEdit = (ImageButton)(rootView.findViewById(R.id.buttonAgeEdit));
+		final ImageButton buttonAgeEdit = (ImageButton)(rootView.findViewById(R.id.buttonAgeEdit));
 		buttonAgeEdit.setOnClickListener(new OnClickListener(){
 			@Override
-			public void onClick(View v) {	
+			public void onClick(View v) {
+				
 				PersonalDetailsFragment.this.startFacebookGet(
 						"user_birthday", "birthday", R.string.pref_user_birthday_key, R.id.ageText);
 			}});

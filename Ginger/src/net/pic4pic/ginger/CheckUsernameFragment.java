@@ -3,6 +3,7 @@ package net.pic4pic.ginger;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import net.pic4pic.ginger.entities.UserCredentials;
 import net.pic4pic.ginger.entities.UserResponse;
@@ -33,6 +35,18 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 		
 		View rootView = inflater.inflate(R.layout.fragment_checkusername, container, false);
 		this._applyData(rootView);
+		
+		TextView termsLink = (TextView)rootView.findViewById(R.id.termsLink);
+		//termsLink.setMovementMethod (LinkMovementMethod.getInstance());
+		//String linkHtml = this.getResources().getString(R.string.terms);		
+		//termsLink.setText(Html.fromHtml(linkHtml));
+		
+		termsLink.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {				
+				Uri uri = Uri.parse( getResources().getString(R.string.termsUrl));
+				startActivity(new Intent(Intent.ACTION_VIEW, uri));
+			}});
 		
 		final EditText usernameEditText = (EditText)(rootView.findViewById(R.id.usernameEditText));
 		final EditText passwordEditText = (EditText)(rootView.findViewById(R.id.passwordEditText));

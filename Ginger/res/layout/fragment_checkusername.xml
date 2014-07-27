@@ -58,7 +58,21 @@
 	        android:ems="12"
 	        android:hint="@string/signup_password_hint"
 	        android:inputType="textPassword" />
-	
+
+	    <TextView
+			android:id="@+id/termsLink"
+			android:autoLink="web"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/general_margin_xbig"
+	        android:layout_marginLeft="@dimen/general_margin"
+	        android:layout_marginRight="@dimen/general_margin"
+	        android:layout_marginBottom="@dimen/general_margin_xbig"
+			android:textColor="@color/htmlLinkColor"
+	        android:textColorLink="@color/htmlLinkColor"
+	        android:linksClickable="true"	        
+			android:text="@string/terms"/>
+	    	
 	    <Button
 	        android:id="@+id/continueButton"
 	        android:layout_width="match_parent"
@@ -67,7 +81,7 @@
 	        android:layout_marginLeft="@dimen/general_margin"
 	        android:layout_marginRight="@dimen/general_margin"
 	        android:layout_marginBottom="@dimen/general_margin"
-	        android:text="@string/general_continue" />
+	        android:text="@string/accept_and_continue" />
 	    
 	</LinearLayout>
 	

@@ -9,6 +9,7 @@
     <string name="general_OK">OK</string>
     <string name="general_Cancel">Cancel</string>
     <string name="general_continue">Continue</string>
+    <string name="accept_and_continue">Accept Terms and Continue</string>
     <string name="general_upload">Upload</string>
     <string name="general_close">Close</string>
     <string name="general_retry">Retry</string>
@@ -105,7 +106,7 @@
     <string name="relation_status_label">relation status:</string>
     <string name="profession_label">profession:</string>
     <string name="education_level_label">education:</string>
-    <string name="finish">Finish</string>
+    <string name="finish">Finish Signup</string>
     <string name="required">required</string>
     <string name="optional">optional</string>
     <string name="edit_button_description">edit</string>
@@ -126,5 +127,8 @@
     <string name="google_play_svc_not_available">Google Play Services is not available on your phone. You won\'t be able to receive push notifications.</string>
     <string name="do_not_show_again">Don\'t show again</string>
     <string name="pref_error_hide_google_play_not_available">error_hide_google_play_not_available</string>
+    
+    <string name="terms">Terms and Conditions</string>
+    <string name="termsUrl">http://pic4pic.net/terms</string>
     
 </resources>

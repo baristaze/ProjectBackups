@@ -186,8 +186,8 @@
 		        
 		        <ImageButton
 		            android:id="@+id/buttonAgeEdit"
-		            android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+		            android:layout_width="@dimen/me_prop_edit_btn_width"
+					android:layout_height="@dimen/me_prop_edit_btn_height"
 					android:layout_gravity="center_vertical|right"
 					android:contentDescription="@string/edit_button_description"
 					android:src="@android:drawable/ic_menu_edit"/>
@@ -238,8 +238,8 @@
 		        
 		        <ImageButton
 		            android:id="@+id/buttonHomeTownEdit"
-		            android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+		            android:layout_width="@dimen/me_prop_edit_btn_width"
+					android:layout_height="@dimen/me_prop_edit_btn_height"
 					android:layout_gravity="center_vertical|right"
 					android:contentDescription="@string/edit_button_description"
 					android:src="@android:drawable/ic_menu_edit"/>
@@ -290,8 +290,8 @@
 		        
 		        <ImageButton
 		            android:id="@+id/buttonRelationStatusEdit"
-		            android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+		            android:layout_width="@dimen/me_prop_edit_btn_width"
+					android:layout_height="@dimen/me_prop_edit_btn_height"
 					android:layout_gravity="center_vertical|right"
 					android:contentDescription="@string/edit_button_description"
 					android:src="@android:drawable/ic_menu_edit"/>
@@ -342,8 +342,8 @@
 		        
 		        <ImageButton
 		            android:id="@+id/buttonProfessionEdit"
-		            android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+		            android:layout_width="@dimen/me_prop_edit_btn_width"
+					android:layout_height="@dimen/me_prop_edit_btn_height"
 					android:layout_gravity="center_vertical|right"
 					android:contentDescription="@string/edit_button_description"
 					android:src="@android:drawable/ic_menu_edit"/>
@@ -394,8 +394,8 @@
 		        
 		        <ImageButton
 		            android:id="@+id/buttonEducationLevelEdit"
-		            android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+		            android:layout_width="@dimen/me_prop_edit_btn_width"
+					android:layout_height="@dimen/me_prop_edit_btn_height"
 					android:layout_gravity="center_vertical|right" 
 					android:contentDescription="@string/edit_button_description"       
 			        android:src="@android:drawable/ic_menu_edit"/>
@@ -403,7 +403,7 @@
 		    </LinearLayout>
 		    
 		</LinearLayout>
-		
+	    
 	    <Button
 	        android:id="@+id/finishButton"
 	        android:layout_width="match_parent"

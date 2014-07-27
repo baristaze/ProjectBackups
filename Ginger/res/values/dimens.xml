@@ -33,7 +33,7 @@
     <dimen name="general_margin">6dp</dimen>
     <dimen name="general_margin_vertical">6dp</dimen>
     <dimen name="general_margin_horizontal">6dp</dimen>
-    
+    <dimen name="general_margin_small">4dp</dimen>
     <dimen name="general_margin_big">12dp</dimen>
     <dimen name="general_margin_big_vertical">12dp</dimen>
     <dimen name="general_margin_big_horizontal">12dp</dimen>
@@ -82,4 +82,8 @@
 	<dimen name="conversation_send_button_height">45dp</dimen>
 	<dimen name="conversation_message_corner">3dp</dimen>
 	<dimen name="conversation_message_text_size">14sp</dimen>
+	
+	<dimen name="me_prop_edit_btn_width">56dp</dimen>
+	<dimen name="me_prop_edit_btn_height">48dp</dimen>
+	
 </resources>

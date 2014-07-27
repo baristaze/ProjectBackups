@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="htmlLinkColor">#FF306EFF</color>
     <color name="logo_color_main">#f73831</color>
     <color name="logo_color_bkg">#001d25</color>
     <color name="splash_bkg">#001d25</color>
