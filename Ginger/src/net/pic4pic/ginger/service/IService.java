@@ -49,7 +49,9 @@ public interface IService {
     
     public UserResponse verifyBio(Context context, VerifyBioRequest request) throws GingerException;
     
-    public UserResponse signup(Context context, SignupRequest request) throws GingerException; 
+    public UserResponse signup(Context context, SignupRequest request) throws GingerException;
+    
+    public BaseResponse activateUser(Context context, BaseRequest request) throws GingerException;
     
     public BaseResponse downloadFriends(Context context, FacebookRequest request) throws GingerException;
     

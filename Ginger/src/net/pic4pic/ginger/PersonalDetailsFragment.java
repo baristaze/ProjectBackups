@@ -26,19 +26,24 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.pic4pic.ginger.entities.BaseRequest;
+import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.EducationLevel;
 import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.MaritalStatus;
 import net.pic4pic.ginger.entities.UserProfile;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.entities.VerifyBioRequest;
+import net.pic4pic.ginger.tasks.ActivateUserTask;
+import net.pic4pic.ginger.tasks.ActivateUserTask.ActivateUserListener;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 import net.pic4pic.ginger.tasks.VerifyBioTask;
+import net.pic4pic.ginger.tasks.VerifyBioTask.VerifyBioListener;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.MyLog;
 
 @SuppressLint("ResourceAsColor")
-public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.VerifyBioListener{
+public class PersonalDetailsFragment extends Fragment implements VerifyBioListener, ActivateUserListener{
 
 	private UserResponse userInfo = null;
 	private Button finishButton = null;
@@ -107,28 +112,45 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 					return;
 				}
 				
-				// flag that signup is done
-				SharedPreferences prefs = PersonalDetailsFragment.this.getActivity().getSharedPreferences(
-						getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
-					
-				SharedPreferences.Editor editor = prefs.edit();		
-				editor.putInt(PersonalDetailsFragment.this.getString(R.string.pref_signupComplete_key), 1);
-				editor.commit();
+				PersonalDetailsFragment.this.activateUser();
 				
-				// launch the main activity
-				SignupActivity activity = (SignupActivity)PersonalDetailsFragment.this.getActivity();
-				Intent intent = new Intent(activity, MainActivity.class);
-				// TODO: userInfo might get wiped out?
-				intent.putExtra(MainActivity.AuthenticatedUserBundleType, PersonalDetailsFragment.this.userInfo); 
-				intent.putExtra("PreSelectedTabIndexOnMainActivity", activity.getPreSelectedTabIndexOnMainActivity()); // pass through
-				PersonalDetailsFragment.this.startActivity(intent);
-				PersonalDetailsFragment.this.getActivity().finish();				
 			}});
 		
 		return rootView;
+	}	
+	
+	public void activateUser(){
+	
+		ActivateUserTask task = new ActivateUserTask(this, this.getActivity(), this.finishButton, new BaseRequest());
+		task.execute();
 	}
 	
-	public boolean checkRequiredFields(){
+	@Override
+	public void onUserActivated(BaseResponse response, BaseRequest request){
+		
+		if(response.getErrorCode() == 0){
+			// flag that signup is done
+			SharedPreferences prefs = this.getActivity().getSharedPreferences(
+					getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
+				
+			SharedPreferences.Editor editor = prefs.edit();		
+			editor.putInt(this.getString(R.string.pref_signupComplete_key), 1);
+			editor.commit();
+			
+			this.userInfo.getUserProfile().setActive(true);
+		}
+		
+		// launch the main activity
+		SignupActivity activity = (SignupActivity)this.getActivity();
+		Intent intent = new Intent(activity, MainActivity.class);
+		
+		intent.putExtra(MainActivity.AuthenticatedUserBundleType, this.userInfo); 
+		intent.putExtra("PreSelectedTabIndexOnMainActivity", activity.getPreSelectedTabIndexOnMainActivity()); // pass through
+		this.startActivity(intent);
+		this.getActivity().finish();			
+	}
+	
+	private boolean checkRequiredFields(){
 		
 		CharSequence text = "";
 		CharSequence required = "required"; 
@@ -390,7 +412,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 				
 				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				String data = format.format(user.getBirthDay());				
-				editor.putString(this.getString(R.string.pref_user_education_key), data);
+				editor.putString(this.getString(R.string.pref_user_birthday_key), data);
 				
 				int ageInt = this.calculateAge(user.getBirthDay());
 				if(ageInt > 0 && ageInt < 120){

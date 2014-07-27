@@ -12,6 +12,9 @@ public class UserProfile implements Serializable {
     @SerializedName("UserId")
     protected UUID userId;
     
+    @SerializedName("IsActive")
+    protected boolean isActive;
+    
     @SerializedName("Username")
     protected String username;
 
@@ -63,6 +66,20 @@ public class UserProfile implements Serializable {
 	 */
 	public void setUserId(UUID userId) {
 		this.userId = userId;
+	}
+	
+	/**
+	 * @return the isActive
+	 */
+	public boolean isActive() {
+		return isActive;
+	}
+
+	/**
+	 * @param isActive the isActive to set
+	 */
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	/**

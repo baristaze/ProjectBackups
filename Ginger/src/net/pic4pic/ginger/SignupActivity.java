@@ -3,6 +3,7 @@ package net.pic4pic.ginger;
 import com.facebook.Session;
 
 import net.pic4pic.ginger.MainActivity.DummySectionFragment;
+import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.ImageActivity;
 import net.pic4pic.ginger.utils.ImageStorageHelper;
@@ -35,6 +36,8 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 	private NonSwipeableViewPager fragmentPager;
 	private SignupPagerAdapter fragmentPagerAdapter;
 	
+	private boolean isBackEnabled = true;
+	
 	private int preSelectedTabIndexOnMainActivity = 0;	
 	public int getPreSelectedTabIndexOnMainActivity(){
 		return this.preSelectedTabIndexOnMainActivity;
@@ -65,6 +68,7 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 			return;
 		}
 		
+		outState.putBoolean("isBackEnabled", this.isBackEnabled);
 		outState.putInt("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity);
 	}
 	
@@ -82,6 +86,12 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 		}
 		
 		boolean restored = false;
+		
+		if(state.containsKey("isBackEnabled")){
+			this.isBackEnabled = state.getBoolean("isBackEnabled", true);
+			restored = true;
+		}
+		
 		if(state.containsKey("PreSelectedTabIndexOnMainActivity")){
 			this.preSelectedTabIndexOnMainActivity = state.getInt("PreSelectedTabIndexOnMainActivity", 0);
 			restored = true;
@@ -100,22 +110,42 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {		
 		if (keyCode == KeyEvent.KEYCODE_BACK){
+			
 			int currentFragment = this.fragmentPager.getCurrentItem();
-			/*if(currentFragment == FRAG_INDEX_FACE_DETECT){ // face-detection
-				this.startCamera();
-				return true;
+			
+			if(this.isBackEnabled){
+				/*if(currentFragment == FRAG_INDEX_FACE_DETECT){ // face-detection
+					this.startCamera();
+					return true;
+				}
+				else */if(currentFragment > 0){
+					this.fragmentPager.setCurrentItem(currentFragment-1, true);
+			        return true;
+				}
 			}
-			else */if(currentFragment > 0){
-				this.fragmentPager.setCurrentItem(currentFragment-1, true);
-		        return true;
+			else{
+				if(currentFragment > FRAG_INDEX_SIGN_UP){
+					this.fragmentPager.setCurrentItem(FRAG_INDEX_SIGN_UP); // go to beginning
+					return true;
+				}
 			}
 		}
 		
 		return super.onKeyDown(keyCode, event);
 	}
 	
+	@Override
 	public void moveToPreviousPage(){
+		
 		int currentFragment = this.fragmentPager.getCurrentItem();
+		
+		if(!this.isBackEnabled){
+			if(currentFragment > FRAG_INDEX_SIGN_UP){
+				this.fragmentPager.setCurrentItem(FRAG_INDEX_SIGN_UP); // go to beginning
+				return;
+			}
+		}
+		
 		if(currentFragment == FRAG_INDEX_FACE_DETECT){ // face-detect
 			this.fragmentPager.setCurrentItem(currentFragment-1);
 						
@@ -137,6 +167,7 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 		}*/
 	}
 	
+	@Override
 	public void moveToNextPage(int data){
 		/*
 		FRAG_INDEX_SIGN_UP = 0;
@@ -168,6 +199,15 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 			
 			this.fragmentPager.setCurrentItem(currentFragment+1);
 		}
+	}
+	
+	@Override
+	public void moveToLastPage(UserResponse response, boolean backEnabled){
+		this.isBackEnabled = backEnabled;
+		// next is personal details. it needs to refresh its UI since we have a 'username' and 'thumbnail' to show
+		this.fragmentPagerAdapter.getPersonalDetailsFragment().setUserResponse(response);
+		this.fragmentPagerAdapter.getPersonalDetailsFragment().applyData();	
+		this.fragmentPager.setCurrentItem(FRAG_INDEX_FBOOK_INFO + 1);
 	}
 	
 	public Fragment getFragment(int index) {		

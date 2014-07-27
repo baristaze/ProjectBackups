@@ -1,9 +1,5 @@
 package net.pic4pic.ginger;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import android.content.Context;
@@ -19,14 +15,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.*;
-import com.facebook.model.GraphUser;
-
 import net.pic4pic.ginger.entities.BaseResponse;
-import net.pic4pic.ginger.entities.EducationLevel;
 import net.pic4pic.ginger.entities.FacebookRequest;
 import net.pic4pic.ginger.entities.GingerException;
-import net.pic4pic.ginger.entities.MaritalStatus;
 import net.pic4pic.ginger.entities.SignupRequest;
 import net.pic4pic.ginger.entities.UserProfile;
 import net.pic4pic.ginger.entities.UserResponse;
@@ -35,11 +26,13 @@ import net.pic4pic.ginger.tasks.ITask;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
 import net.pic4pic.ginger.tasks.NonBlockedTask;
 import net.pic4pic.ginger.tasks.SignupTask;
+import net.pic4pic.ginger.utils.FacebookHelpers;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.PageAdvancer;
+import net.pic4pic.ginger.utils.UserHelpers;
 
-public class FacebookInfoFragment extends Fragment implements SignupTask.SignupListener {
+public class FacebookInfoFragment extends Fragment implements SignupTask.SignupListener, FacebookHelpers.FacebookLoginListener {
 
 	private Button continueButton;
 
@@ -58,7 +51,8 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 			@Override
 			public void onClick(View v) {
 				// ((PageAdvancer)FacebookInfoFragment.this.getActivity()).moveToNextPage(0);
-				FacebookInfoFragment.this.startFacebook();
+				FacebookHelpers helpers = new FacebookHelpers();
+				helpers.startFacebook(getActivity(), FacebookInfoFragment.this, null);
 			}});
 
 		return rootView;
@@ -134,111 +128,13 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 	 }
 	 */
 
-	private void startFacebook(){
-		// start Facebook Login
-		List<String> requiredPermissions = this.getRequiredFacebookPermissions(true);
-		Session.openActiveSession(this.getActivity(), true, requiredPermissions, new Session.StatusCallback() {
-			// callback when session changes state
-			@Override
-			public void call(Session session, SessionState state, Exception exception) {
-				// session is never null indeed...
-				if (session != null && session.isOpened()) {
-					if (!FacebookInfoFragment.this.hasRequiredPermissions(session, false)){
-						String errorMessage = "We cannot continue because you have opt'ed out some Facebook permissions.";
-						GingerHelpers.showErrorMessage(FacebookInfoFragment.this.getActivity(), errorMessage);
-						session.closeAndClearTokenInformation();
-					} 
-					else{
-						MyLog.v("FacebookInfoFragment","Facebook session with required permissions are ready.");
-						FacebookInfoFragment.this.onFacebookLoginWithPermissions(session);
-					}
-				}
-			}
-		});
-	}
-
-	private List<String> getRequiredFacebookPermissions(boolean includeOptionals) {
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("email");
-		/*
-		// gender doesn't require any permission
-		permissions.add("user_hometown"); // field = hometown
-		permissions.add("user_birthday"); // field = birthday
-		permissions.add("user_work_history"); // field = work
-		permissions.add("user_education_history"); // field = education
-		permissions.add("user_relationships"); // field = relationship_status
-		*/
-		// permissions.add("user_religion_politics"); // field =
-		// religion,political
-		return permissions;
-	}
-
-	/*
-	 * private void requestMorePermissions(Session session){ List<String>
-	 * permissions = this.getRequiredFacebookPermissions(true);
-	 * session.requestNewReadPermissions(new
-	 * Session.NewPermissionsRequest(this.getActivity(), permissions)); }
-	 */
-
-	private boolean hasRequiredPermissions(Session session, boolean checkOptionals) {
-		List<String> requiredPermissions = this.getRequiredFacebookPermissions(checkOptionals);
-		List<String> existingPermissions = session.getPermissions();
-		for (String reqPerm : requiredPermissions) {
-			if (!existingPermissions.contains(reqPerm)) {
-				MyLog.v("FacebookInfoFragment", reqPerm + " permission doesn't exist");
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	private void onFacebookLoginWithPermissions(final Session session) {
-
-		MyLog.v("FacebookInfoFragment", "Facebook token: " + session.getAccessToken());
-		// GingerHelpers.toast(FacebookInfoFragment.this.getActivity(),
-		// "Logged in to Facebook!");
-
-		// make request to the /me API
-		MyLog.v("FacebookInfoFragment", "Retrieving Facebook user info...");
-		Request request = Request.newMeRequest(session,
-			new Request.GraphUserCallback() {
-				// callback after Graph API response with user object
-				@Override
-				public void onCompleted(GraphUser user, Response response) {
-					if (response != null && response.getError() != null) {
-						GingerHelpers.showErrorMessage(FacebookInfoFragment.this.getActivity(), response.getError().getErrorMessage());
-					} 
-					else if (user == null) {
-						MyLog.e("FacebookInfoFragment", "Facebook user retrieved from 'Me' request is null");
-						GingerHelpers.showErrorMessage(FacebookInfoFragment.this.getActivity(), "We couldn't retrieve your data from Facebook");
-					} 
-					else {
-						MyLog.v("FacebookInfoFragment", "Facebook user: " + user.getName());
-						// GingerHelpers.toast(FacebookInfoFragment.this.getActivity(),
-						// "You are " + user.getName());
-						FacebookInfoFragment.this.onFacebookUserRetrieval(user, session.getAccessToken(),user.getId());
-					}
-				}
-			});
-
-		Request.executeBatchAsync(request);
-	}
-
-	private void onFacebookUserRetrieval(GraphUser user, String facebookAccessToken, String userIdAsText) {
-
-		long facebookUserId = Long.parseLong(userIdAsText);
+	@Override
+	public void onFacebookUserRetrieval(String facebookAccessToken, long facebookUserId, Object state) {
 
 		SharedPreferences prefs = this.getActivity().getSharedPreferences(getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
-
 		String username = prefs.getString(this.getString(R.string.pref_username_key), "");
 		String password = prefs.getString(this.getString(R.string.pref_password_key), "");
 		String photoUploadReference = prefs.getString(this.getString(R.string.pref_user_uploadreference_key), "");
-
-		SharedPreferences.Editor editor = prefs.edit();
-		editor.putString(this.getString(R.string.pref_user_facebookid_key), facebookAccessToken);
-		editor.putLong(this.getString(R.string.pref_user_facebooktoken_key), facebookUserId);
-		editor.commit();
 
 		// prepare sign up request
 		SignupRequest request = new SignupRequest();
@@ -264,36 +160,7 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 		else {
 
 			UserProfile user = response.getUserProfile();
-			
-			SharedPreferences prefs = this.getActivity().getSharedPreferences(getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
-
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putString(this.getString(R.string.pref_user_gender_key), user.getGender().toString());
-
-			if (user.getHometownCity() != null && user.getHometownCity().trim().length() > 0) {
-				editor.putString(this.getString(R.string.pref_user_hometown_city_key), user.getHometownCity().trim());
-			}
-
-			if (user.getMaritalStatus() != MaritalStatus.Unknown) {
-				editor.putString(this.getString(R.string.pref_user_relation_status), user.getMaritalStatus().toString());
-			}
-
-			if (user.getProfession() != null && user.getProfession().trim().length() > 0) {
-				editor.putString(this.getString(R.string.pref_user_profession_key), user.getProfession().trim());
-			}
-
-			if (user.getEducationLevel() != EducationLevel.Unknown) {
-				editor.putString(this.getString(R.string.pref_user_education_key), user.getEducationLevelAsString());
-			}
-
-			if (user.getBirthDay() != null) {
-
-				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				String birthDateAsText = format.format(user.getBirthDay());
-				editor.putString(this.getString(R.string.pref_user_birthday_key), birthDateAsText);
-			}
-
-			editor.commit();
+			UserHelpers.saveUserPropertiesToFile(this.getActivity(), user);
 			
 			// get facebook friends	in background	
 			final FacebookRequest friendsRequest = new FacebookRequest();

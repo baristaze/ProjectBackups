@@ -17,11 +17,14 @@ import android.widget.TextView;
 import net.pic4pic.ginger.entities.UserCredentials;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.tasks.CheckUsernameTask;
+import net.pic4pic.ginger.utils.FacebookHelpers;
+import net.pic4pic.ginger.utils.FacebookHelpers.FacebookLoginListener;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.PageAdvancer;
+import net.pic4pic.ginger.utils.UserHelpers;
 
-public class CheckUsernameFragment extends Fragment implements CheckUsernameTask.CheckUsernameListener {
+public class CheckUsernameFragment extends Fragment implements CheckUsernameTask.CheckUsernameListener, FacebookLoginListener {
 	
 	// constructor cannot have any parameters!!!
 	public CheckUsernameFragment(/*no parameter here please*/){
@@ -139,39 +142,60 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 			MyLog.i("CheckUserName", response.getErrorMessage());			
 			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
 		}
-		else if (response.getAuthToken() == null || response.getAuthToken().trim().length() == 0){
-			// ErrorCode == 0 & AuthToken == null => UserName is available
-			
-			SharedPreferences prefs = this.getActivity().getSharedPreferences(
-					getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
-			
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putString(this.getString(R.string.pref_username_key), credentials.getUsername());
-			editor.putString(this.getString(R.string.pref_password_key), credentials.getPassword());
-			editor.commit();
-			
-			((PageAdvancer)this.getActivity()).moveToNextPage(0);
-		}
 		else{
-			// ErrorCode == 0 & AuthToken != null => User is already signed up
 			
-			// flag that signup was done previously
-			SharedPreferences prefs = this.getActivity().getSharedPreferences(
-					getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
-				
-			SharedPreferences.Editor editor = prefs.edit();		
-			editor.putString(this.getString(R.string.pref_username_key), credentials.getUsername());
-			editor.putString(this.getString(R.string.pref_password_key), credentials.getPassword());
-			editor.putInt(this.getString(R.string.pref_signupComplete_key), 1);
-			editor.commit();
-			
-			// launch the view for the signed-in use
-			SignupActivity activity = (SignupActivity)this.getActivity();
-			Intent intent = new Intent(activity, MainActivity.class);
-			intent.putExtra(MainActivity.AuthenticatedUserBundleType, response); 
-			intent.putExtra("PreSelectedTabIndexOnMainActivity", activity.getPreSelectedTabIndexOnMainActivity()); // pass through
-			this.startActivity(intent);
-			this.getActivity().finish();
-		}
+			if (response.getAuthToken() == null || response.getAuthToken().trim().length() == 0){
+				// ErrorCode == 0 & AuthToken == null => UserName is available
+				UserHelpers.saveUserCredentialsToFile(this.getActivity(), credentials, false);
+				((PageAdvancer)this.getActivity()).moveToNextPage(0);
+			}
+			else {
+				// ErrorCode == 0 & AuthToken != null => User is already signed up (full or partial)
+				if(response.getUserProfile().isActive()){
+					
+					// flag that signup was done previously (full signup)
+					UserHelpers.saveUserCredentialsToFile(this.getActivity(), credentials, true);
+					
+					// launch the view for the signed-in use
+					this.startMainActivity(response);
+				}
+				else {
+					// user has already signed up but partially...
+					// we need to go to the last page but before that we need to make sure that there is a Facebook session
+					
+					FacebookHelpers helpers = new FacebookHelpers();
+					helpers.startFacebook(getActivity(), CheckUsernameFragment.this, new Object[]{credentials, response});
+					
+					/*
+					 * below code is postponed to 
+					UserHelpers.saveUserCredentialsToFile(this.getActivity(), credentials, prefs, false);
+					UserHelpers.saveUserPropertiesToFile(this.getActivity(), response.getUserProfile());
+					((PageAdvancer)this.getActivity()).moveToLastPage(response, false);
+					*/
+				}
+			}
+		} 
+	}
+	
+	@Override
+	public void onFacebookUserRetrieval(String facebookSessionToken, long facebookUserId, Object state) {
+		Object[] array = (Object[]) state;
+		 
+		UserCredentials credentials = (UserCredentials)array[0];
+		UserResponse response = (UserResponse)array[1];
+		
+		UserHelpers.saveUserCredentialsToFile(this.getActivity(), credentials, false);
+		UserHelpers.saveUserPropertiesToFile(this.getActivity(), response.getUserProfile());
+		((PageAdvancer)this.getActivity()).moveToLastPage(response, false);
+	}
+	
+	private void startMainActivity(UserResponse response){
+		// launch the view for the signed-in use
+		SignupActivity activity = (SignupActivity)this.getActivity();
+		Intent intent = new Intent(activity, MainActivity.class);
+		intent.putExtra(MainActivity.AuthenticatedUserBundleType, response); 
+		intent.putExtra("PreSelectedTabIndexOnMainActivity", activity.getPreSelectedTabIndexOnMainActivity()); // pass through
+		this.startActivity(intent);
+		this.getActivity().finish();
 	}
 }
