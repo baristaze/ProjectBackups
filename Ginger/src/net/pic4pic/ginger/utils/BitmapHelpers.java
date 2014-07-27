@@ -17,6 +17,8 @@ import android.media.FaceDetector;
 
 public class BitmapHelpers {
 	
+	public static final int MAX_SIZE = 2048;
+	
 	/*
 	private enum Orientation {
 		Unknown(0),

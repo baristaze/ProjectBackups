@@ -165,13 +165,6 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 					
 					FacebookHelpers helpers = new FacebookHelpers();
 					helpers.startFacebook(getActivity(), CheckUsernameFragment.this, new Object[]{credentials, response});
-					
-					/*
-					 * below code is postponed to 
-					UserHelpers.saveUserCredentialsToFile(this.getActivity(), credentials, prefs, false);
-					UserHelpers.saveUserPropertiesToFile(this.getActivity(), response.getUserProfile());
-					((PageAdvancer)this.getActivity()).moveToLastPage(response, false);
-					*/
 				}
 			}
 		} 
