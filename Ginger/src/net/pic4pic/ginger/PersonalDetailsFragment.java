@@ -103,6 +103,10 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 			@Override
 			public void onClick(View v) {
 				
+				if(!checkRequiredFields()){
+					return;
+				}
+				
 				// flag that signup is done
 				SharedPreferences prefs = PersonalDetailsFragment.this.getActivity().getSharedPreferences(
 						getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
@@ -122,6 +126,57 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 			}});
 		
 		return rootView;
+	}
+	
+	public boolean checkRequiredFields(){
+		
+		CharSequence text = "";
+		CharSequence required = "required"; 
+		View rootView = this.getView();
+		
+		TextView genderText = (TextView)(rootView.findViewById(R.id.genderText));
+		text = genderText.getText();
+		if(required.equals(text)){
+			GingerHelpers.showErrorMessage(getActivity(), "Your gender info is a must");
+			return false;
+		}
+		
+		TextView ageText = (TextView)(rootView.findViewById(R.id.ageText));
+		text = ageText.getText();
+		if(required.equals(text)){
+			GingerHelpers.showErrorMessage(getActivity(), "Your age info is a must");
+			return false;
+		}
+		
+		TextView homeTownText = (TextView)(rootView.findViewById(R.id.homeTownText));
+		text = homeTownText.getText();
+		if(required.equals(text)){
+			GingerHelpers.showErrorMessage(getActivity(), "Your hometown info is a must");
+			return false;
+		}		
+
+		TextView relationStatusText = (TextView)(rootView.findViewById(R.id.relationStatusText));
+		text = relationStatusText.getText();
+		if(required.equals(text)){
+			GingerHelpers.showErrorMessage(getActivity(), "Your marriage status is a must");
+			return false;
+		}
+		
+		TextView professionText = (TextView)(rootView.findViewById(R.id.professionText));
+		text = professionText.getText();
+		if(required.equals(text)){
+			GingerHelpers.showErrorMessage(getActivity(), "Your profession info is a must");
+			return false;
+		}
+		
+		TextView educationLevelText = (TextView)(rootView.findViewById(R.id.educationLevelText));
+		text = educationLevelText.getText();
+		if(required.equals(text)){
+			GingerHelpers.showErrorMessage(getActivity(), "Your education level is a must");
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public void applyData(){
@@ -145,8 +200,16 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 		String gender = prefs.getString(this.getString(R.string.pref_user_gender_key), "Unspecified");
 		String homeTownCity = prefs.getString(this.getString(R.string.pref_user_hometown_city_key), "required");
 		String relationStatus = prefs.getString(this.getString(R.string.pref_user_relation_status), "required");
-		String profession = prefs.getString(this.getString(R.string.pref_user_profession_key), "required");
-		String educationLevel = prefs.getString(this.getString(R.string.pref_user_education_key), "required");
+		
+		String professionRequired = "required";
+		String educationLevelRequired = "optional";
+		if(gender.toLowerCase().equals("female")){
+			professionRequired = "optional";
+			educationLevelRequired = "optional";
+		}
+		
+		String profession = prefs.getString(this.getString(R.string.pref_user_profession_key), professionRequired);		
+		String educationLevel = prefs.getString(this.getString(R.string.pref_user_education_key), educationLevelRequired);
 		
 		String age = "required";
 		String birthday = prefs.getString(this.getString(R.string.pref_user_birthday_key), null); // "required"
@@ -276,16 +339,17 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 		request.setUserFields(fieldName); // comma separated
 		
 		// start verifying... 
-		VerifyBioTask task = new VerifyBioTask(this, this.getActivity(), this.finishButton, request);
+		VerifyBioTask task = new VerifyBioTask(this, this.getActivity(), this.finishButton, request, matchingTextViewId);
 		task.execute();
 	}
 		
-	public void onVerifyBio(UserResponse response, VerifyBioRequest request){
+	public void onVerifyBio(UserResponse response, VerifyBioRequest request, int matchingTextViewId){
 		
 		if(response.getErrorCode() != 0){
 			//  "We couldn't verify your data with Facebook"
 			MyLog.e("PersonalDetailsFragment", response.getErrorMessage());
 			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
+			this.updatePageField("optional", matchingTextViewId, false);
 		}
 		else{
 			
@@ -340,10 +404,16 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioTask.V
 	}
 	
 	private void updatePageField(String userFriendlyValue, int matchingTextViewId){
+		this.updatePageField(userFriendlyValue, matchingTextViewId, true);
+	}
+	
+	private void updatePageField(String userFriendlyValue, int matchingTextViewId, boolean setActiveColor){
 		View rootView = this.getView();
 		TextView textView = (TextView)(rootView.findViewById(matchingTextViewId));
 		textView.setText(userFriendlyValue);
-		this.setActiveColor(textView);
+		if(setActiveColor){
+			this.setActiveColor(textView);
+		}
 	}
 	
 	private void setActiveColor(TextView textView){		

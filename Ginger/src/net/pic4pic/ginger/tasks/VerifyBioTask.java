@@ -13,11 +13,13 @@ public class VerifyBioTask extends BlockedTask<String, Void, UserResponse> {
 	
 	private VerifyBioListener listener;
 	private VerifyBioRequest request;
+	private int matchingTextViewId;
 	
-	public VerifyBioTask(VerifyBioListener listener, Context context, Button button, VerifyBioRequest request){			
+	public VerifyBioTask(VerifyBioListener listener, Context context, Button button, VerifyBioRequest request, int matchingTextViewId){			
 		super(context, button);		
 		this.listener = listener;
 		this.request = request;
+		this.matchingTextViewId = matchingTextViewId;
 	}
 		
     @Override
@@ -49,10 +51,10 @@ public class VerifyBioTask extends BlockedTask<String, Void, UserResponse> {
 
     protected void onPostExecute(UserResponse response) {    	
     	super.onPostExecute(response);    	
-    	this.listener.onVerifyBio(response, this.request);
+    	this.listener.onVerifyBio(response, this.request, this.matchingTextViewId);
     }
     
     public interface VerifyBioListener{
-    	public void onVerifyBio(UserResponse response, VerifyBioRequest request);
+    	public void onVerifyBio(UserResponse response, VerifyBioRequest request, int matchingTextViewId);
     }
 }
