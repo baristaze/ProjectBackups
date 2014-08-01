@@ -46,7 +46,7 @@
 		        android:scaleType="centerCrop"        
 		        android:layout_marginRight="@dimen/avatar_marginRight"
 		        android:contentDescription="@string/avatar_descr"
-		        android:src="@android:drawable/ic_menu_gallery" /> 
+		        android:src="@drawable/downloading_small" /> 
 		    
 		    <!-- USERNAME & SHORT BIO -->
 		    <LinearLayout 
@@ -113,7 +113,7 @@
 	        android:layout_marginBottom="@dimen/general_margin_vertical"
 	        android:scaleType="centerCrop"        
 	        android:contentDescription="@string/photo_descr"
-	        android:src="@android:drawable/ic_menu_gallery" />
+	        android:src="@drawable/downloading_big" />
     	
     	<LinearLayout
 		    android:id="@+id/thumbnailPlaceholder"

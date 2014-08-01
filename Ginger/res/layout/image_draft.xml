@@ -6,4 +6,4 @@
      android:scaleType="centerCrop"        
      android:layout_margin="@dimen/general_margin"
      android:contentDescription="@string/photo_descr"
-     android:src="@android:drawable/ic_menu_gallery" />
+     android:src="@drawable/downloading_big" />

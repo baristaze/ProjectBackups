@@ -30,10 +30,6 @@
 	    	    android:layout_weight="0.6"
 		    	android:layout_height="@dimen/btn_continue_height"		    	
 		    	android:text="@string/photo_gallery">
-		    	<!-- 
-		    	android:drawableStart="@android:drawable/ic_menu_gallery"
-		    	android:background="?android:attr/selectableItemBackground"
-		    	 -->	    
 	    	</Button>
 	    	
 	    	<!-- 
@@ -51,9 +47,6 @@
 	    	    android:layout_weight="0.4"
 		    	android:layout_height="@dimen/btn_continue_height"
 		    	android:text="@string/photo_camera" >
-		    	<!-- 
-		    	android:drawableStart="@android:drawable/ic_menu_camera" 
-		    	android:background="?android:attr/selectableItemBackground" -->    	    
 	    	</Button>
 	    	
 	    	

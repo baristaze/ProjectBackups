@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="@dimen/person_li_avatar_layout_marginRight"
         android:contentDescription="@string/avatar_descr"
-        android:src="@android:drawable/ic_menu_gallery" />    
+        android:src="@drawable/downloading_small" />    
 	
 	<TextView        
         android:id="@+id/username"

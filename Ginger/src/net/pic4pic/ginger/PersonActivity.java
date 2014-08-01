@@ -369,6 +369,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		if(initialCreate){
 			
 			// set the default image
+			/*
 			if(person.getCandidateProfile().getGender().getIntValue() == Gender.Male.getIntValue()){
 				avatarView.setImageResource(R.drawable.man_downloading_small);
 			}
@@ -378,6 +379,8 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			else{
 				avatarView.setImageResource(android.R.drawable.ic_menu_gallery);
 			}
+			*/
+			avatarView.setImageResource(R.drawable.downloading_small);
 		}
 		
 		// download thumb-nail photo and show
@@ -400,6 +403,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		// set something default
 		if(initialCreate){			
 			// set the default image
+			/*
 			if(person.getCandidateProfile().getGender().getIntValue() == Gender.Male.getIntValue()){
 				mainPhotoView.setImageResource(R.drawable.man_downloading_big);
 			}
@@ -409,6 +413,8 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			else{
 				mainPhotoView.setImageResource(android.R.drawable.ic_menu_gallery);
 			}
+			*/
+			mainPhotoView.setImageResource(R.drawable.downloading_big);
 		}
 		
 		// download full profile photo and show

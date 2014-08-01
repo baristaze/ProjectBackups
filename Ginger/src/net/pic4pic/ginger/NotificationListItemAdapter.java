@@ -16,7 +16,6 @@ import android.widget.TextView;
 import net.pic4pic.ginger.entities.AcceptingPic4PicRequest;
 import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.Familiarity;
-import net.pic4pic.ginger.entities.Gender;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.MarkingRequest;
@@ -88,6 +87,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		cachedView.timeTextView.setText(GingerHelpers.getTimeDiffHumanReadable(notification.getSentTimeUTC()));
 		
 		// set dummy image first...
+		/*
 		if(notification.getSender().getCandidateProfile().getGender().getIntValue() == Gender.Male.getIntValue()){
 			cachedView.avatarImageView.setImageResource(R.drawable.man_downloading_small);
 		}
@@ -97,6 +97,8 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		else{
 			cachedView.avatarImageView.setImageResource(android.R.drawable.ic_menu_gallery);
 		}
+		*/
+		cachedView.avatarImageView.setImageResource(R.drawable.downloading_small);
 		
 		// set type face: bold vs. regular
 		/*

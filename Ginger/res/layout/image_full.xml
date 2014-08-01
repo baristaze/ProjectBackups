@@ -10,6 +10,6 @@
         android:layout_height="match_parent"
         android:scaleType="fitCenter"        
         android:contentDescription="@string/photo_descr"
-        android:src="@android:drawable/ic_menu_gallery" />
+        android:src="@drawable/downloading_big" />
 	
 </LinearLayout>

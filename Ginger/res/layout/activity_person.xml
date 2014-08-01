@@ -25,7 +25,7 @@
 		        android:scaleType="centerCrop"        
 		        android:layout_marginRight="@dimen/candidate_avatar_layout_margin"
 		        android:contentDescription="@string/avatar_descr"
-		        android:src="@android:drawable/ic_menu_gallery" /> 
+		        android:src="@drawable/downloading_small" /> 
 		    
 		    <LinearLayout 
 			    android:layout_width="0dp"
@@ -67,7 +67,7 @@
 		        android:layout_height="match_parent"
 		        android:scaleType="centerCrop"        
 		        android:contentDescription="@string/photo_descr"
-		        android:src="@android:drawable/ic_menu_gallery" />
+		        android:src="@drawable/downloading_big" />
 					    
 		</FrameLayout>
 		

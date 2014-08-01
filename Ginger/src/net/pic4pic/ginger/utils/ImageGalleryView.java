@@ -191,7 +191,7 @@ public class ImageGalleryView {
 	}
 	
 	protected void assignCameraIconToView(ImageView imgView){
-		imgView.setImageResource(android.R.drawable.ic_menu_camera);
+		imgView.setImageResource(R.drawable.add_more_via_camera);
 		imgView.setOnClickListener(new View.OnClickListener() {						
 			@Override
 			public void onClick(View v) {
@@ -205,7 +205,7 @@ public class ImageGalleryView {
 	}
 	
 	protected void assignGalleryIconToView(ImageView imgView){
-		imgView.setImageResource(android.R.drawable.ic_menu_upload);
+		imgView.setImageResource(R.drawable.add_more_via_gallery);
 		imgView.setOnClickListener(new View.OnClickListener() {						
 			@Override
 			public void onClick(View v) {
