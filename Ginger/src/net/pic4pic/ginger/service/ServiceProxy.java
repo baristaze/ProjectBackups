@@ -18,6 +18,7 @@ import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
 import net.pic4pic.ginger.entities.InstantMessageRequest;
+import net.pic4pic.ginger.entities.Location;
 import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.MatchedCandidateResponse;
@@ -178,7 +179,7 @@ public class ServiceProxy extends ServiceBase implements IService {
 	}
 	
 	@Override
-	public MatchedCandidateListResponse getTodaysMatches(Context context, BaseRequest request) throws GingerException{
+	public MatchedCandidateListResponse getTodaysMatches(Context context, SimpleRequest<Location> request) throws GingerException{
 		
 		if(request.getClientId() == null){
 			request.setClientId(super.getClientId(context));
@@ -386,4 +387,32 @@ public class ServiceProxy extends ServiceBase implements IService {
 				super.getAuthToken(context, false), // authentication is not required
 				"/svc/rest/device").getData();
 	}
+	
+	public BaseResponse assureSupportAtLocation(Context context, SimpleRequest<Location> request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				BaseResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context, false), // authentication is not required
+				"/svc/rest/location/new").getData();
+	}
+    
+    public BaseResponse setCurrentLocation(Context context, SimpleRequest<Location> request) throws GingerException{
+    	
+    	if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				BaseResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context, true),
+				"/svc/rest/location/current").getData();
+    }
 }

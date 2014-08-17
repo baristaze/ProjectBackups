@@ -26,8 +26,11 @@ import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.BuyingNewMatchRequest;
 import net.pic4pic.ginger.entities.Familiarity;
+import net.pic4pic.ginger.entities.GeoLocation;
 import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.InAppPurchaseResult;
+import net.pic4pic.ginger.entities.Locality;
+import net.pic4pic.ginger.entities.Location;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.Notification;
@@ -53,13 +56,15 @@ import net.pic4pic.ginger.tasks.PurchaseBackLogTask;
 import net.pic4pic.ginger.tasks.PurchaseBackLogTask.PurchaseBackLogListener;
 import net.pic4pic.ginger.tasks.PushNotificationRegisterTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
+import net.pic4pic.ginger.utils.LocationManagerUtil;
+import net.pic4pic.ginger.utils.LocationManagerUtil.LocationListener;
 import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.PurchaseUtils;
 import net.pic4pic.ginger.utils.PushNotificationHelpers;
 
 public class MainActivity extends FragmentActivity 
 implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListener, OfferListener, 
-/*implements*/ PurchaseProcessListener, BuyNewMatchListener, PurchaseBackLogListener, PurchasingServiceListener {
+/*implements*/ PurchaseProcessListener, BuyNewMatchListener, PurchaseBackLogListener, PurchasingServiceListener, LocationListener {
 	
 	public static final String AuthenticatedUserBundleType = "net.pic4pic.ginger.AuthenticatedUser";
 	public static final String UpdatedMatchCandidate = "net.pic4pic.ginger.UpdatedMatchCandidate";
@@ -78,6 +83,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	private ArrayList<MatchedCandidate> matches = new ArrayList<MatchedCandidate>();
 	private ArrayList<Notification> notifications = new ArrayList<Notification>();
 	private ArrayList<PurchaseOffer> availableOffers = new ArrayList<PurchaseOffer>();
+	private Location lastLocationInfo = null;
 	
 	private SectionsPagerAdapter mSectionsPagerAdapter;	
 	private ViewPager mViewPager;
@@ -111,6 +117,12 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		
+		// start location manager
+		LocationManagerUtil locManager = new LocationManagerUtil(this, this);
+		if(!locManager.init()){
+			MyLog.e("MainActivity", "Location Manager couldn't be initialized.");
+		}
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the application.
@@ -240,6 +252,10 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		if(this.availableOffers != null){
 			outState.putSerializable("availableOffers", this.availableOffers);
 		}
+		
+		if(this.lastLocationInfo != null){
+			outState.putSerializable("lastLocationInfo", this.lastLocationInfo);
+		}
 	}
 	
 	@Override
@@ -297,6 +313,11 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			restored = true;
 		}
 		
+		if(state.containsKey("lastLocationInfo")){
+			this.lastLocationInfo = (Location)state.getSerializable("lastLocationInfo");
+			restored = true;
+		}
+		
 		return restored;
 	}
 	
@@ -306,6 +327,10 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	
 	public ArrayList<Notification> getNotifications(){
 		return this.notifications;
+	}
+	
+	public Location getLastLocation(){
+		return this.lastLocationInfo;
 	}
 	
 	public boolean isNeedOfRequestingMatches(){
@@ -368,8 +393,12 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	}
 	
 	public void startRetrievingMatches(){
-		BaseRequest request = new BaseRequest();
-		MatchedCandidatesTask task = new MatchedCandidatesTask(this, this, request);
+		
+		if(this.lastLocationInfo == null){
+			MyLog.w("MainActivity", "Current location is null. Match response might not be meaningful.");
+		}
+		
+		MatchedCandidatesTask task = new MatchedCandidatesTask(this, this, this.lastLocationInfo);
 		task.execute();
 	}
 	
@@ -555,8 +584,13 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	
 	public void startBuyingNewCandidates(){
 		
+		if(this.lastLocationInfo == null){
+			MyLog.w("MainActivity", "Current location is null. Match response after purchase might not be meaningful.");
+		}
+		
 		BuyingNewMatchRequest request = new BuyingNewMatchRequest();
 		request.setMaxCount(5);
+		request.setLocation(this.lastLocationInfo);
 		
 		BuyNewMatchTask task = new BuyNewMatchTask(this, this, request, null);
 		task.execute();
@@ -586,7 +620,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	}
 	
 	@Override
-	public void onMatchComplete(MatchedCandidateListResponse response, BaseRequest request){
+	public void onMatchComplete(MatchedCandidateListResponse response, Location location){
 		
 		if(response.getErrorCode() == 0){
 			
@@ -635,6 +669,33 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			// update UI
 			this.mSectionsPagerAdapter.getNotificationListFragment().onNotificationsComplete(this.notifications);
 		}	
+	}
+	
+	@Override
+	public void onLocationChanged(GeoLocation geoLocation, Locality locality) {
+		
+		// has locality changed dramatically?
+		boolean isCityChanged = false;
+		if(this.lastLocationInfo == null){
+			isCityChanged = true;
+		}
+		else{
+			if(!this.lastLocationInfo.getLocality().getCity().equalsIgnoreCase(locality.getCity())){
+				isCityChanged = true;
+			}
+		}
+		
+		// save current location
+		Location loc = new Location();
+		loc.setGeoLocation(geoLocation);
+		loc.setLocality(locality);
+		this.lastLocationInfo = loc;
+		MyLog.v("MainActivity", "Location Changed. Geo = [" + geoLocation.toString() + "], Locality = [" + locality.toString() + "]");
+		
+		if(isCityChanged){
+			this.lastMatchRetrieveTime = null;
+			MyLog.v("MainActivity", "Current location (city) has changed dramatically. Resetting flag to retrieve matches again.");
+		}
 	}
 	
 	@Override

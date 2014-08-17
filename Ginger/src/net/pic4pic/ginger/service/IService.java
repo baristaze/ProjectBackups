@@ -16,6 +16,7 @@ import net.pic4pic.ginger.entities.GingerException;
 import net.pic4pic.ginger.entities.ImageUploadRequest;
 import net.pic4pic.ginger.entities.ImageUploadResponse;
 import net.pic4pic.ginger.entities.InstantMessageRequest;
+import net.pic4pic.ginger.entities.Location;
 import net.pic4pic.ginger.entities.MarkingRequest;
 import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.MatchedCandidateResponse;
@@ -57,7 +58,7 @@ public interface IService {
     
     public ImageUploadResponse uploadProfileImage(Context context, ImageUploadRequest request) throws GingerException;
     
-    public MatchedCandidateListResponse getTodaysMatches(Context context, BaseRequest request) throws GingerException;
+    public MatchedCandidateListResponse getTodaysMatches(Context context, SimpleRequest<Location> request) throws GingerException;
     
     public MatchedCandidateListResponse buyNewMatches(Context context, BuyingNewMatchRequest request) throws GingerException;
     
@@ -84,4 +85,8 @@ public interface IService {
     public PurchaseOfferListResponse getOffers(Context context, BaseRequest request) throws GingerException;
     
     public BaseResponse trackDevice(Context context, MobileDevice request) throws GingerException;
+    
+    public BaseResponse assureSupportAtLocation(Context context, SimpleRequest<Location> request) throws GingerException;
+    
+    public BaseResponse setCurrentLocation(Context context, SimpleRequest<Location> request) throws GingerException;
 }

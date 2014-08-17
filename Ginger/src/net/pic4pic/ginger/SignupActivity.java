@@ -1,17 +1,5 @@
 package net.pic4pic.ginger;
 
-import com.facebook.Session;
-
-import net.pic4pic.ginger.MainActivity.DummySectionFragment;
-import net.pic4pic.ginger.entities.UserResponse;
-import net.pic4pic.ginger.utils.BitmapHelpers;
-import net.pic4pic.ginger.utils.GingerHelpers;
-import net.pic4pic.ginger.utils.ImageActivity;
-import net.pic4pic.ginger.utils.ImageStorageHelper;
-import net.pic4pic.ginger.utils.MyLog;
-import net.pic4pic.ginger.utils.NonSwipeableViewPager;
-import net.pic4pic.ginger.utils.PageAdvancer;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -22,7 +10,27 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.KeyEvent;
 import android.view.Menu;
 
-public class SignupActivity extends FragmentActivity implements PageAdvancer {
+import com.facebook.Session;
+
+import net.pic4pic.ginger.MainActivity.DummySectionFragment;
+import net.pic4pic.ginger.entities.GeoLocation;
+import net.pic4pic.ginger.entities.Locality;
+import net.pic4pic.ginger.entities.Location;
+import net.pic4pic.ginger.entities.UserResponse;
+import net.pic4pic.ginger.tasks.SendLocationTask;
+import net.pic4pic.ginger.tasks.SendLocationTask.LocationType;
+import net.pic4pic.ginger.tasks.SendLocationTask.SendLocationListener;
+import net.pic4pic.ginger.utils.BitmapHelpers;
+import net.pic4pic.ginger.utils.GingerHelpers;
+import net.pic4pic.ginger.utils.ImageActivity;
+import net.pic4pic.ginger.utils.ImageStorageHelper;
+import net.pic4pic.ginger.utils.LocationManagerUtil;
+import net.pic4pic.ginger.utils.LocationManagerUtil.LocationListener;
+import net.pic4pic.ginger.utils.MyLog;
+import net.pic4pic.ginger.utils.NonSwipeableViewPager;
+import net.pic4pic.ginger.utils.PageAdvancer;
+
+public class SignupActivity extends FragmentActivity implements PageAdvancer, LocationListener, SendLocationListener {
 	
 	public static final int CaptureCameraCode = 501;
 	public static final int PickFromGalleryCode = 502;
@@ -36,6 +44,10 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 	
 	private NonSwipeableViewPager fragmentPager;
 	private SignupPagerAdapter fragmentPagerAdapter;
+	
+	private LocationManagerUtil locationManager;
+	private GeoLocation lastGeoLocation;
+	private Locality lastLocality;
 	
 	private boolean isBackEnabled = true;
 	
@@ -58,6 +70,11 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 		this.fragmentPagerAdapter = new SignupPagerAdapter(this.getSupportFragmentManager());		
 		this.fragmentPager = (NonSwipeableViewPager) findViewById(R.id.fragmentPager);
 		this.fragmentPager.setAdapter(this.fragmentPagerAdapter);
+		
+		this.locationManager = new LocationManagerUtil(this, this);
+		if(!this.locationManager.init()){
+			MyLog.e("SignupActivity", "Location Manager couldn't be initialized.");
+		}
 	}
 	
 	@Override
@@ -71,6 +88,14 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 		
 		outState.putBoolean("isBackEnabled", this.isBackEnabled);
 		outState.putInt("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity);
+		
+		if(this.lastGeoLocation != null){
+			outState.putSerializable("lastGeoLocation", this.lastGeoLocation);
+		}
+		
+		if(this.lastLocality != null){
+			outState.putSerializable("lastLocality", this.lastLocality);
+		}
 	}
 	
 	@Override
@@ -95,6 +120,16 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 		
 		if(state.containsKey("PreSelectedTabIndexOnMainActivity")){
 			this.preSelectedTabIndexOnMainActivity = state.getInt("PreSelectedTabIndexOnMainActivity", 0);
+			restored = true;
+		}
+		
+		if(state.containsKey("lastGeoLocation")){
+			this.lastGeoLocation = (GeoLocation)state.getSerializable("lastGeoLocation");
+			restored = true;
+		}
+		
+		if(state.containsKey("lastLocality")){
+			this.lastLocality = (Locality)state.getSerializable("lastLocality");
 			restored = true;
 		}
 		
@@ -133,6 +168,37 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 		}
 		
 		return super.onKeyDown(keyCode, event);
+	}
+	
+	@Override
+	public void onLocationChanged(GeoLocation geoLocation, Locality locality) {
+		
+		boolean needsToSend = true;
+		if(this.lastLocality != null && this.lastLocality.getCity().equalsIgnoreCase(locality.getCity())){
+			needsToSend = false;
+		}
+		
+		this.lastGeoLocation = geoLocation;
+		this.lastLocality = locality;
+		
+		MyLog.v("SignupActivity", "Location Changed. Geo = [" + this.lastGeoLocation.toString() + "], Locality = [" + this.lastLocality.toString() + "]");
+		
+		Location location = new Location();
+		location.setGeoLocation(geoLocation);
+		location.setLocality(locality);
+		
+		if(needsToSend){
+			SendLocationTask task = new SendLocationTask(this, this, location, SendLocationTask.LocationType.HintForSupport);
+			task.execute();
+		}
+		else{
+			MyLog.v("SignupActivity", "No need to re-send location data");
+		}
+	}
+	
+	@Override
+	public void onLocationInfoSent(Location location, LocationType locationType) {
+		MyLog.v("SignupActivity", "Location info is sent to server.");
 	}
 	
 	@Override
@@ -376,5 +442,5 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer {
 		public int getCount() {
 			return FRAG_COUNT;
 		}
-	} 
+	}	 
 }

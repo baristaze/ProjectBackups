@@ -6,6 +6,9 @@ public class BuyingNewMatchRequest extends BaseRequest {
 
 	@SerializedName("MaxCount")
     protected int maxCount;
+	
+	@SerializedName("Location")
+    protected Location location;
 
 	/**
 	 * @return the maxCount
@@ -19,5 +22,19 @@ public class BuyingNewMatchRequest extends BaseRequest {
 	 */
 	public void setMaxCount(int maxCount) {
 		this.maxCount = maxCount;
+	}
+
+	/**
+	 * @return the location
+	 */
+	public Location getLocation() {
+		return location;
+	}
+
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 }
