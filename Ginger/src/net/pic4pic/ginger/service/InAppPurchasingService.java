@@ -77,7 +77,7 @@ public class InAppPurchasingService {
 				   InAppPurchasingService.this.listener.onPurchasingServiceConnected();
 				   // test only
 				   try {
-					   MyLog.i("InAppPurchasingService", "Calling getAvailableProducts via GooglePlay...");
+					   MyLog.bag().i("InAppPurchasingService", "Calling getAvailableProducts via GooglePlay...");
 					   InAppPurchasingService.this.getAvailableProducts();
 				   } 
 				   catch (GingerException e) {
@@ -156,13 +156,13 @@ public class InAppPurchasingService {
 		} 
 		catch (RemoteException e) {			
 			String errMsg = "Purchasing credit couldn't be placed";
-			MyLog.e("InAppPurchasingService", errMsg + ": " + e.getMessage());
+			MyLog.bag().e("InAppPurchasingService", errMsg + ": " + e.getMessage());
 			throw new GingerException(errMsg, e);
 		}
 		
 		int responseCode = buyIntentBundle.getInt("RESPONSE_CODE", -1);
 		if(responseCode == BILLING_RESPONSE_RESULT_USER_CANCELED){
-			MyLog.i("InAppPurchasingService", "User cancelled in-app purchase.");
+			MyLog.bag().i("InAppPurchasingService", "User cancelled in-app purchase.");
 			return false;
 		}
 		
@@ -174,7 +174,7 @@ public class InAppPurchasingService {
 		
 		if(responseCode != BILLING_RESPONSE_RESULT_OK){
 			String errMsg = "Purchasing credit failed: " + getMessageForErrorCode(responseCode);
-			MyLog.e("InAppPurchasingService", errMsg);
+			MyLog.bag().e("InAppPurchasingService", errMsg);
 			throw new GingerException(errMsg);	
 		}
 		
@@ -194,7 +194,7 @@ public class InAppPurchasingService {
 		} 
 		catch (SendIntentException e) {
 			String errMsg = "Purchasing credit couldn't be completed";
-			MyLog.e("InAppPurchasingService", errMsg + ": " + e.getMessage());
+			MyLog.bag().e("InAppPurchasingService", errMsg + ": " + e.getMessage());
 			throw new GingerException(errMsg, e);
 		}
 		
@@ -218,13 +218,13 @@ public class InAppPurchasingService {
 		} 
 		catch (RemoteException e) {
 			String errMsg = "Consuming purchase token failed";
-			MyLog.e("InAppPurchasingService", errMsg + ": " + e.getMessage());
+			MyLog.bag().e("InAppPurchasingService", errMsg + ": " + e.getMessage());
 			throw new GingerException(errMsg, e);
 		}
 		
 		if(responseCode != BILLING_RESPONSE_RESULT_OK){
 			String errMsg = "Consuming purchase token failed: " + getMessageForErrorCode(responseCode);
-			MyLog.e("InAppPurchasingService", errMsg);
+			MyLog.bag().e("InAppPurchasingService", errMsg);
 			throw new GingerException(errMsg);	
 		}
 	}
@@ -253,7 +253,7 @@ public class InAppPurchasingService {
 		
 		Bundle skuDetails = null;
 		try {
-			MyLog.i("InAppPurchasingService", "Getting available in-app SKUs");
+			MyLog.bag().i("InAppPurchasingService", "Getting available in-app SKUs");
 			skuDetails = this.billingService.getSkuDetails(
 					BILLING_API_VERSION,
 					this.parent.getPackageName(), 
@@ -262,21 +262,21 @@ public class InAppPurchasingService {
 		} 
 		catch (RemoteException e) {
 			String errMsg = "Retrieving available products failed";
-			MyLog.e("InAppPurchasingService", errMsg + ": " + e.getMessage());
+			MyLog.bag().e("InAppPurchasingService", errMsg + ": " + e.getMessage());
 			throw new GingerException(errMsg, e);
 		}
 		
 		int responseCode = skuDetails.getInt("RESPONSE_CODE", -1);
 		if(responseCode != BILLING_RESPONSE_RESULT_OK){
 			String errMsg = "Retrieving available products failed: " + getMessageForErrorCode(responseCode);
-			MyLog.e("InAppPurchasingService", errMsg);
+			MyLog.bag().e("InAppPurchasingService", errMsg);
 			throw new GingerException(errMsg);	
 		}
 		
 		String all = "";
 		ArrayList<String> products = new ArrayList<String>(); 
 		ArrayList<String> responseList = skuDetails.getStringArrayList("DETAILS_LIST");
-		MyLog.i("InAppPurchasingService", "ResponseList count: " + responseList.size());
+		MyLog.bag().i("InAppPurchasingService", "ResponseList count: " + responseList.size());
 		for (String thisResponse : responseList) {
 			try {
 				JSONObject object = new JSONObject(thisResponse);
@@ -285,11 +285,11 @@ public class InAppPurchasingService {
 				String pro = sku + " - " + price;
 				products.add(pro);
 				all += pro + ", ";
-				MyLog.i("InAppPurchasingService", pro);
+				MyLog.bag().i("InAppPurchasingService", pro);
 			} 
 			catch (JSONException e) {
 				e.printStackTrace();
-				MyLog.e("InAppPurchasingService", "JSONObject error: " + e.getMessage());
+				MyLog.bag().e("InAppPurchasingService", "JSONObject error: " + e.getMessage());
 			}
 		}
 		
@@ -329,8 +329,8 @@ public class InAppPurchasingService {
 		String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
 		String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
 		
-		MyLog.i("InAppPurchasingService", "INAPP_PURCHASE_DATA: " + purchaseData);
-		MyLog.v("InAppPurchasingService", "INAPP_DATA_SIGNATURE: " + dataSignature);
+		MyLog.bag().i("InAppPurchasingService", "INAPP_PURCHASE_DATA: " + purchaseData);
+		MyLog.bag().v("InAppPurchasingService", "INAPP_DATA_SIGNATURE: " + dataSignature);
 		InAppPurchaseResult purchaseResult = InAppPurchaseResult.createFromJsonString(purchaseData, dataSignature);		
 		if(purchaseResult.getPurchaseState().getIntValue() != InAppPurchaseState.Purchased.getIntValue()){
 			throw new GingerException("Unexpected purchase result state: " + purchaseResult.getPurchaseState().getIntValue());
@@ -352,14 +352,14 @@ public class InAppPurchasingService {
 		} 
 		catch (RemoteException e) {
 			String errMsg = "Retrieving owned products failed";
-			MyLog.e("InAppPurchasingService", errMsg + ": " + e.getMessage());
+			MyLog.bag().e("InAppPurchasingService", errMsg + ": " + e.getMessage());
 			throw new GingerException(errMsg, e);
 		}
 		
 		int responseCode = ownedItems.getInt("RESPONSE_CODE", -1);
 		if(responseCode != BILLING_RESPONSE_RESULT_OK){
 			String errMsg = "Retrieving available products failed: " + getMessageForErrorCode(responseCode);
-			MyLog.e("InAppPurchasingService", errMsg);
+			MyLog.bag().e("InAppPurchasingService", errMsg);
 			throw new GingerException(errMsg);	
 		}
 		
@@ -369,13 +369,13 @@ public class InAppPurchasingService {
 			return new ArrayList<InAppPurchaseResult>();
 		}	
 		
-		MyLog.i("InAppPurchasingService", "GooglePlay returned " + purchaseDataList.size() + " purchased item(s), which are ghosts.");
+		MyLog.bag().i("InAppPurchasingService", "GooglePlay returned " + purchaseDataList.size() + " purchased item(s), which are ghosts.");
 		
 		ArrayList<String> signatureList = ownedItems.getStringArrayList("INAPP_DATA_SIGNATURE_LIST");
 		if(signatureList == null || signatureList.size() != purchaseDataList.size()){
 			int signCount = (signatureList == null) ? 0 : signatureList.size(); 
 			String errorMessage = "Something is wrong. Purchased item count (" + purchaseDataList.size() + ") != Signature Count(" + signCount + ")";
-			MyLog.e("InAppPurchasingService", errorMessage);
+			MyLog.bag().e("InAppPurchasingService", errorMessage);
 			throw new GingerException(errorMessage);
 		}
 		
@@ -387,7 +387,7 @@ public class InAppPurchasingService {
 			String purchaseData = purchaseDataList.get(i);
 			String signature = signatureList.get(i);
 			// String productSkuId = ownedSkus.get(i);
-			// MyLog.v("InAppPurchasingService", "Ghost product InApp Data: " + purchaseData);
+			// MyLog.bag().v("InAppPurchasingService", "Ghost product InApp Data: " + purchaseData);
 			InAppPurchaseResult purchase = InAppPurchaseResult.createFromJsonString(purchaseData, signature);	
 			purchases.add(purchase);
 		} 

@@ -143,7 +143,7 @@ public class ImageActivity {
 	        return cursor.getString(column_index);
 		}
 		catch(Exception ex){
-			MyLog.e("Ginger", "ImageActivity: " + ex.toString());
+			MyLog.bag().e("Ginger", "ImageActivity: " + ex.toString());
 			return null;
 		}
     }
@@ -162,14 +162,14 @@ public class ImageActivity {
 			return result;
 		}
 		
-		MyLog.v("Ginger", "ImageActivity: URI from Gallery or Camera result = " + imageUri.toString());
+		MyLog.bag().v("ImageActivity: URI from Gallery or Camera result = " + imageUri.toString());
 		String imagePath = getAbsoluteImagePath(context, imageUri);
 		if(imagePath == null){
 			result.errorCode = ErrorCode.InvalidAbsolutePath;
 			return result;
 		}
 		
-		MyLog.v("Ginger", "ImageActivity: Absolute Path of Image = " + imagePath);
+		MyLog.bag().v("ImageActivity: Absolute Path of Image = " + imagePath);
 		if(imagePath.startsWith("http")){
 			result.errorCode = ErrorCode.StoredRemotely;
 			return result;
@@ -178,7 +178,7 @@ public class ImageActivity {
 		int rotate = 0;
 		try {
 			rotate = BitmapHelpers.getOrientationFromExif(imagePath);
-			MyLog.v("Ginger", "ImageActivity: Rotation of Image = " + rotate);
+			MyLog.bag().v("ImageActivity: Rotation of Image = " + rotate);
 		} 
 		catch (IOException e) {
 			result.errorCode = ErrorCode.OrientationFailure;
@@ -201,7 +201,7 @@ public class ImageActivity {
 		
 		if(rotate != 0){
 			try {
-				MyLog.v("Ginger", "ImageActivity: Fixing rotation of the image...");
+				MyLog.bag().v("Ginger", "ImageActivity: Fixing rotation of the image...");
 				bitmap = BitmapHelpers.rotateImage(bitmap, rotate);
 			}
 			catch(Exception ex){
@@ -216,7 +216,7 @@ public class ImageActivity {
 		}
 		
 		result.resultBitmap = bitmap;
-		MyLog.v("Ginger", "ImageActivity: Dimension of Image (WxH) = " + bitmap.getWidth() + "x" + bitmap.getHeight());
+		MyLog.bag().v("Ginger", "ImageActivity: Dimension of Image (WxH) = " + bitmap.getWidth() + "x" + bitmap.getHeight());
 		return result;	
 	}	
 }

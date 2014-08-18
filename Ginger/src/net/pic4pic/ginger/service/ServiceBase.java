@@ -310,7 +310,7 @@ public class ServiceBase {
 		
 		// create post request
 		String url = webSvc.getUrl(pathAndQuery);	
-		MyLog.d("ServiceCall", url);
+		MyLog.bag().v("ServiceCall", url);
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setEntity(inputEntity);
 		
@@ -363,7 +363,7 @@ public class ServiceBase {
 			throw new GingerException("Input image path is null or empty");
 		}
 		
-		MyLog.d("Service call", "File Path = " + localImageFullPath);
+		MyLog.bag().v("Service call", "File Path = " + localImageFullPath);
 		
 	    InputStreamEntity reqEntity = null;
 		try {
@@ -381,7 +381,7 @@ public class ServiceBase {
 	    
 	    String url = webSvc.getUrl(pathAndQuery);
 	    
-	    MyLog.d("Service call", "URL = " + url);
+	    MyLog.bag().v("Service call", "URL = " + url);
 	    
 	    HttpPost httpPost = new HttpPost(url);
 	    httpPost.setEntity(reqEntity);

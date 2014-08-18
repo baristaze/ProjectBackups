@@ -28,7 +28,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
         
         if(this.imageId == null){
         	this.imageId = new UUID(0, 0);
-        	MyLog.w("ImageDownloadTask", "Image ID hasn't been defined: " + this.imageId );
+        	MyLog.bag().w("Image ID hasn't been defined yet");
         }
     }
 
@@ -37,7 +37,6 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     	
     	// check cache first
     	if(ImageCacher.Instance().exists(this.imageId)){
-    		// MyLog.i("ImageDownloadTask", "Cached image is used: " + this.imageId.toString());
     		return ImageCacher.Instance().get(this.imageId); 
     	}
     	
@@ -46,18 +45,18 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     	if(urls != null && urls.length > 0){
 	        String urldisplay = urls[0];	        
 	        try {
-	        	MyLog.v("ImageDownloadTask", "Downloading Image... " + this.imageId.toString());
+	        	MyLog.bag().addObject("Image", this.imageId).v("Downloading Image... ");
 	        	System.gc();
 	            InputStream in = new java.net.URL(urldisplay).openStream();
 	            bitmap = BitmapFactory.decodeStream(in);
 	        } 
 	        catch (Exception e) {
-	            MyLog.e("Error", "Image download failed with error: " + e.getMessage());
+	            MyLog.bag().add(e).e("Image download failed with error");
 	            e.printStackTrace();
 	        }
     	}
     	else{
-    		MyLog.e("ImageDownloadTask", "ImageDownloadTask.execute() method should have a valid Url to download.");
+    		MyLog.bag().e("ImageDownloadTask", "ImageDownloadTask.execute() method should have a valid Url to download.");
     	}
         return bitmap;
     }
@@ -77,7 +76,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     		}
     	}
     	else{
-    		MyLog.e("ImageDownloadTask", "Image couldn't be downloaded? Result bitmap is null in onPostExecute()");
+    		MyLog.bag().e("ImageDownloadTask", "Image couldn't be downloaded? Result bitmap is null in onPostExecute()");
     	}
     }	
 }

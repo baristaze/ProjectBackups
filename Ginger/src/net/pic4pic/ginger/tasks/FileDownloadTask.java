@@ -29,12 +29,12 @@ public class FileDownloadTask extends AsyncTask<String, Integer, InputStream> {
 	        	file = new java.net.URL(urldisplay).openStream();
 	        } 
 	        catch (Exception e) {
-	            MyLog.e("Error", e.getMessage());
+	            MyLog.bag().e("Error", e.getMessage());
 	            e.printStackTrace();
 	        }
     	}
     	else{
-    		MyLog.e("FileDownloadTask", "FileDownloadTask.execute() method should have a valid Url to download.");
+    		MyLog.bag().e("FileDownloadTask", "FileDownloadTask.execute() method should have a valid Url to download.");
     	}
         return file;
     }

@@ -28,7 +28,7 @@ public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadRespon
 		} 
 		catch (GingerException e) {
 			
-			MyLog.e("ImageUploadTask", e.toString());
+			MyLog.bag().e("ImageUploadTask", e.toString());
 			
 			ImageUploadResponse response = new ImageUploadResponse();
 			response.setErrorCode(1);
@@ -37,7 +37,7 @@ public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadRespon
 		}
 		catch(Exception e){
 			
-			MyLog.e("ImageUploadTask", e.toString());
+			MyLog.bag().e("ImageUploadTask", e.toString());
 			
 			ImageUploadResponse response = new ImageUploadResponse();
 			response.setErrorCode(1);

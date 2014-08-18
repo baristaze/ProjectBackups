@@ -36,7 +36,7 @@ public class FacebookHelpers {
 						session.closeAndClearTokenInformation();
 					} 
 					else{
-						MyLog.v("FacebookHelpers","Facebook session with required permissions are ready.");
+						MyLog.bag().v("Facebook session with required permissions are ready.");
 						onFacebookLoginWithPermissions(activity, session, listener, callersState);
 					}
 				}
@@ -46,12 +46,12 @@ public class FacebookHelpers {
 	
 	private void onFacebookLoginWithPermissions(final Activity activity, final Session session, final FacebookLoginListener listener, final Object state) {
 
-		MyLog.v("FacebookHelpers", "Facebook token: " + session.getAccessToken());
+		MyLog.bag().add("FacebookSessionToken", session.getAccessToken()).v();
 		// GingerHelpers.toast(FacebookInfoFragment.this.getActivity(),
 		// "Logged in to Facebook!");
 
 		// make request to the /me API
-		MyLog.v("FacebookHelpers", "Retrieving Facebook user info...");
+		MyLog.bag().v("Retrieving Facebook user info...");
 		Request request = Request.newMeRequest(session,
 			new Request.GraphUserCallback() {
 				// callback after Graph API response with user object
@@ -61,11 +61,11 @@ public class FacebookHelpers {
 						GingerHelpers.showErrorMessage(activity, response.getError().getErrorMessage());
 					} 
 					else if (user == null) {
-						MyLog.e("FacebookHelpers", "Facebook user retrieved from 'Me' request is null");
+						MyLog.bag().e("Facebook user retrieved from 'Me' request is null");
 						GingerHelpers.showErrorMessage(activity, "We couldn't retrieve your data from Facebook");
 					} 
 					else {
-						MyLog.v("FacebookHelpers", "Facebook user: " + user.getName());
+						MyLog.bag().add("FacebookUserName", user.getName()).v("");
 						// GingerHelpers.toast(FacebookInfoFragment.this.getActivity(),
 						// "You are " + user.getName());
 						long facebookUserId = Long.parseLong(user.getId());
@@ -113,7 +113,7 @@ public class FacebookHelpers {
 		List<String> existingPermissions = session.getPermissions();
 		for (String reqPerm : requiredPermissions) {
 			if (!existingPermissions.contains(reqPerm)) {
-				MyLog.v("FacebookHelpers", reqPerm + " permission doesn't exist");
+				MyLog.bag().add("UnauthorizedFacebookPermissoon", reqPerm).v("Permission doesn't exist: " + reqPerm);
 				return false;
 			}
 		}

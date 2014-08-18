@@ -29,7 +29,7 @@ public class ActivateUserTask extends BlockedTask<String, Void, BaseResponse> {
 		} 
     	catch (GingerException e) {
     		
-    		MyLog.e("ActivateUser", e.toString());
+    		MyLog.bag().e("ActivateUser", e.toString());
     		
     		BaseResponse response = new BaseResponse();
 			response.setErrorCode(1);
@@ -38,7 +38,7 @@ public class ActivateUserTask extends BlockedTask<String, Void, BaseResponse> {
 		}
     	catch(Exception e){
     		
-    		MyLog.e("ActivateUser", e.toString());
+    		MyLog.bag().e("ActivateUser", e.toString());
     		
     		BaseResponse response = new BaseResponse();
 			response.setErrorCode(1);

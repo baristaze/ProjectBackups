@@ -43,7 +43,7 @@ public class ConversationRetriever implements Runnable {
 				}				
 			}
 			else{
-				MyLog.e("ConversationRetriever", "Conversation could not be retrieved. Error: " + result.getErrorMessage());
+				MyLog.bag().e("ConversationRetriever", "Conversation could not be retrieved. Error: " + result.getErrorMessage());
 			}
 		}
 		catch(Exception e){

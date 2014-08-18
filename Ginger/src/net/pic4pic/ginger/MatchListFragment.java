@@ -52,7 +52,7 @@ public class MatchListFragment extends Fragment {
 		if(activity.isNeedOfRequestingMatches()){		
 			
 			// log
-			MyLog.i("MatchListFragment", "Starting to retrieve matches");
+			MyLog.bag().i("MatchListFragment", "Starting to retrieve matches");
 			
 			// below asynchronous process will call our 'onMatchComplete' method
 			activity.startRetrievingMatches();
@@ -60,7 +60,7 @@ public class MatchListFragment extends Fragment {
 		else {
 			
 			// log
-			MyLog.i("MatchListFragment", "Cached matches are being used");
+			MyLog.bag().i("MatchListFragment", "Cached matches are being used");
 			
 			// get matches
 			ArrayList<MatchedCandidate> candidates = activity.getMatchedCandidates();
@@ -78,7 +78,7 @@ public class MatchListFragment extends Fragment {
 	public void onMatchComplete(ArrayList<MatchedCandidate> matches, boolean isAfterPurchase){
 		
 		int matchCount = (matches == null ? 0 : matches.size());
-		MyLog.i("MatchListFragment", "onMatchComplete signal retrieved. Match count: " + matchCount);
+		MyLog.bag().i("MatchListFragment", "onMatchComplete signal retrieved. Match count: " + matchCount);
 		
 		// update UI
 		View rootView = this.getView();
@@ -86,13 +86,13 @@ public class MatchListFragment extends Fragment {
 			this.updateUI(this.getView(), matches, isAfterPurchase);
 		}
 		else{			
-			MyLog.e("MatchListFragment", "Retrieved matches before rendering the root.");
+			MyLog.bag().e("MatchListFragment", "Retrieved matches before rendering the root.");
 		}
 	}
 	
 	private void updateUI(View rootView, ArrayList<MatchedCandidate> candidates, boolean isAfterPurchase){
 		
-		MyLog.i("MatchListFragment", "Updating UI based on matched candidates...");
+		MyLog.bag().i("MatchListFragment", "Updating UI based on matched candidates...");
 		
 		// remove spinner block
 		this.removeTheFrontestView(rootView, isAfterPurchase);
@@ -135,7 +135,7 @@ public class MatchListFragment extends Fragment {
 		}
 		else{
 			if(!isAfterPurchase){
-				MyLog.e("MatchListFragment", "We cannot remove the latest view since we have only 1");
+				MyLog.bag().e("MatchListFragment", "We cannot remove the latest view since we have only 1");
 			}			
 			return false;
 		}
@@ -161,7 +161,7 @@ public class MatchListFragment extends Fragment {
 	
 	private Button bindShowMoreSectionToListView(ListView listview){
 		
-		MyLog.i("MatchListFragment", "Adding ShowMore button");
+		MyLog.bag().i("MatchListFragment", "Adding ShowMore button");
 		
 		LayoutInflater inflater = LayoutInflater.from(this.getActivity());
 		View footer = inflater.inflate(R.layout.show_more_btn, null);	
@@ -188,7 +188,7 @@ public class MatchListFragment extends Fragment {
 	
 	public void onShowMoreMatches(View v){
 		
-		MyLog.v("MatchListFragment", "Show More button is clicked");
+		MyLog.bag().v("MatchListFragment", "Show More button is clicked");
 		final MainActivity mainActivity = (MainActivity)this.getActivity();
 		if(mainActivity.getCurrentUser().getCurrentCredit() >= 10){
 			mainActivity.startBuyingNewCandidates();
@@ -251,7 +251,7 @@ public class MatchListFragment extends Fragment {
         builder.setNegativeButton(R.string.general_Cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				MyLog.v("MatchListFragment", "Purchasing credit is cancelled");
+				MyLog.bag().v("MatchListFragment", "Purchasing credit is cancelled");
 				dialog.dismiss();
 			}
 		});        
@@ -264,17 +264,17 @@ public class MatchListFragment extends Fragment {
 				if(position >= 0 && position < offers.size()){
 					PurchaseOffer offer = offers.get(position);
 					final String sku = offer.getAppStoreItemId();
-					MyLog.i("MatchListFragment", "Purchasing credit is selected. OfferID = " + offer.getInternalItemId());
+					MyLog.bag().i("MatchListFragment", "Purchasing credit is selected. OfferID = " + offer.getInternalItemId());
 					NonBlockedTask.SafeRun(new ITask(){
 						@Override
 						public void perform() {
 							try {
 								// below process will return its result to the MainActivity.onActivityResult
-								MyLog.i("MatchListFragment", "Starting InApp Purchase. SKU = " + sku);
+								MyLog.bag().i("MatchListFragment", "Starting InApp Purchase. SKU = " + sku);
 								purchasingSvc.startBuyingItem(sku, UUID.randomUUID().toString());
 							} 
 							catch (final GingerException e) {
-								MyLog.e("MatchListFragment", "InApp Purchase couldn't be started for SKU '" + sku + "'. Error: " + e.getMessage());
+								MyLog.bag().e("MatchListFragment", "InApp Purchase couldn't be started for SKU '" + sku + "'. Error: " + e.getMessage());
 								mainActivity.runOnUiThread(new Runnable(){
 									@Override
 									public void run() {
@@ -288,7 +288,7 @@ public class MatchListFragment extends Fragment {
 					dialog.dismiss();
 				}
 				else{
-					// MyLog.e("MatchListFragment", "Invalid position is returned from AlertDialog: " + position);
+					// MyLog.bag().e("MatchListFragment", "Invalid position is returned from AlertDialog: " + position);
 					GingerHelpers.showErrorMessage(mainActivity, "Please select an item");
 				}
 			}
@@ -317,7 +317,7 @@ public class MatchListFragment extends Fragment {
 		
 		View rootView = this.getView(); 
 		if(rootView == null){
-			MyLog.w("MatchListFragment", "Root view is null? Hah!");
+			MyLog.bag().w("MatchListFragment", "Root view is null? Hah!");
 			return;
 		}
 		
@@ -348,7 +348,7 @@ public class MatchListFragment extends Fragment {
 							adapter.getView(position, listItemView, listView);
 							
 							// log
-							MyLog.i("MatchListFragment", "Refreshing avatar image for user: " + person.getUserId());
+							MyLog.bag().i("MatchListFragment", "Refreshing avatar image for user: " + person.getUserId());
 						}
 						
 						// change background...
@@ -357,7 +357,7 @@ public class MatchListFragment extends Fragment {
 					}
 				});
 		    	
-		    	MyLog.v("MatchListFragment", "ListItemView is found(" + (found+1) + "). Background will be changed shortly for: " + person.getUserId());
+		    	MyLog.bag().v("MatchListFragment", "ListItemView is found(" + (found+1) + "). Background will be changed shortly for: " + person.getUserId());
 		    	
 		    	found++;
 		    	break;
@@ -365,7 +365,7 @@ public class MatchListFragment extends Fragment {
 		}
 		
 		if(found <= 0){
-			MyLog.w("MatchListFragment", "ListItemView seems invisible?");
+			MyLog.bag().w("MatchListFragment", "ListItemView seems invisible?");
 		}
 	}
 }

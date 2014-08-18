@@ -117,7 +117,7 @@ public class ImageGalleryView {
 		Point size = new Point();
 		display.getSize(size);
 		
-		MyLog.v("Screen Size", "Screen Size in DPI: " + size.x + " x " + size.y);
+		MyLog.bag().v("Screen Size", "Screen Size in DPI: " + size.x + " x " + size.y);
 		
 		int width = size.x - this.marginOuter.left - this.marginOuter.right;
 		width -= this.gapBetweenImages * (stackFactor-1);

@@ -32,7 +32,7 @@ public class BuyNewMatchTask extends BlockedTask<String, Void, MatchedCandidateL
 		} 
     	catch (GingerException e) {
     		
-    		MyLog.e("BuyNewMatchTask", e.toString());
+    		MyLog.bag().e("BuyNewMatchTask", e.toString());
     		
     		MatchedCandidateListResponse response = new MatchedCandidateListResponse();
 			response.setErrorCode(1);
@@ -41,7 +41,7 @@ public class BuyNewMatchTask extends BlockedTask<String, Void, MatchedCandidateL
 		}
     	catch(Exception e){
     		
-    		MyLog.e("BuyNewMatchTask", e.toString());
+    		MyLog.bag().e("BuyNewMatchTask", e.toString());
     		
     		MatchedCandidateListResponse response = new MatchedCandidateListResponse();
 			response.setErrorCode(1);

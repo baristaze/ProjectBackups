@@ -73,7 +73,7 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer, Lo
 		
 		this.locationManager = new LocationManagerUtil(this, this);
 		if(!this.locationManager.init()){
-			MyLog.e("SignupActivity", "Location Manager couldn't be initialized.");
+			MyLog.bag().e("SignupActivity", "Location Manager couldn't be initialized.");
 		}
 	}
 	
@@ -181,7 +181,7 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer, Lo
 		this.lastGeoLocation = geoLocation;
 		this.lastLocality = locality;
 		
-		MyLog.v("SignupActivity", "Location Changed. Geo = [" + this.lastGeoLocation.toString() + "], Locality = [" + this.lastLocality.toString() + "]");
+		MyLog.bag().v("SignupActivity", "Location Changed. Geo = [" + this.lastGeoLocation.toString() + "], Locality = [" + this.lastLocality.toString() + "]");
 		
 		Location location = new Location();
 		location.setGeoLocation(geoLocation);
@@ -192,13 +192,13 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer, Lo
 			task.execute();
 		}
 		else{
-			MyLog.v("SignupActivity", "No need to re-send location data");
+			MyLog.bag().v("SignupActivity", "No need to re-send location data");
 		}
 	}
 	
 	@Override
 	public void onLocationInfoSent(Location location, LocationType locationType) {
-		MyLog.v("SignupActivity", "Location info is sent to server.");
+		MyLog.bag().v("SignupActivity", "Location info is sent to server.");
 	}
 	
 	@Override
@@ -305,18 +305,18 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer, Lo
 					String sizeInfoOld = "Old size: " + photo.getWidth() + "x" + photo.getHeight() + ". Required byte: " + photo.getByteCount();
 					photo = Bitmap.createScaledBitmap(photo, newWidth, newHeight, true);
 					String sizeInfoNew = "New size: " + photo.getWidth() + "x" + photo.getHeight() + ". Required byte: " + photo.getByteCount();
-					MyLog.i("SignupActivity", "Photo size has been reduced: " + sizeInfoOld + " => " + sizeInfoNew);
+					MyLog.bag().i("SignupActivity", "Photo size has been reduced: " + sizeInfoOld + " => " + sizeInfoNew);
 				}
 				catch(OutOfMemoryError exception){
 					String sizeInfo = "Source size: " + photo.getWidth() + "x" + photo.getHeight() + ". Required byte: " + photo.getByteCount();
-			    	MyLog.e("SignupActivity", "Out of memory exception when creating scaling Bitmap in 'processPhotoActivityResult' method. " + sizeInfo);
+			    	MyLog.bag().e("SignupActivity", "Out of memory exception when creating scaling Bitmap in 'processPhotoActivityResult' method. " + sizeInfo);
 			    	// no need to re-throw it here. just swallow.
 				}
 			}
 			
 			String fileName = this.getString(R.string.lastCapturedPhoto_filename_key);
 			if(ImageStorageHelper.saveToInternalStorage(this, photo, fileName, true)){
-				MyLog.v("Storage", "Bitmap has been saved to the internal storage");
+				MyLog.bag().v("Storage", "Bitmap has been saved to the internal storage");
 				int currentFragment = this.fragmentPager.getCurrentItem();
 				this.fragmentPager.setCurrentItem(currentFragment+1);				
 				FaceDetectionFragment theFrag = (FaceDetectionFragment)this.getFragment(FRAG_INDEX_FACE_DETECT);
@@ -336,11 +336,11 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer, Lo
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == SignupActivity.CaptureCameraCode) {
-			MyLog.v("ActivityResult", "CaptureCameraActivity has returned");
+			MyLog.bag().v("ActivityResult", "CaptureCameraActivity has returned");
 			this.processPhotoActivityResult(resultCode, data);
 	    }
 		else if (requestCode == SignupActivity.PickFromGalleryCode) {
-			MyLog.v("ActivityResult", "PickFromGalleryActivity has returned");
+			MyLog.bag().v("ActivityResult", "PickFromGalleryActivity has returned");
 			this.processPhotoActivityResult(resultCode, data);
 		}
 		else{

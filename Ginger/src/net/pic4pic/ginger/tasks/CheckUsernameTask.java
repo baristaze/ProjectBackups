@@ -29,7 +29,7 @@ public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
 		} 
     	catch (GingerException e) {
     		
-    		MyLog.e("CheckUsername", e.toString());
+    		MyLog.bag().e("CheckUsername", e.toString());
     		
 			UserResponse response = new UserResponse();
 			response.setErrorCode(1);
@@ -38,7 +38,7 @@ public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
 		}
     	catch(Exception e){
     		
-    		MyLog.e("CheckUsername", e.toString());
+    		MyLog.bag().e("CheckUsername", e.toString());
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);

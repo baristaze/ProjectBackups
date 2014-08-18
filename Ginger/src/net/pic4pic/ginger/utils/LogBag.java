@@ -90,35 +90,35 @@ public class LogBag {
 		return this.add(TagParam, (object == null ? null : object.toString()));
 	}
 	
-	public void e (){
+	public void e(){
 		this.e(null);
 	}
 	
-	public void e (String message){
+	public void e(String message){
 		this.log(Error, message);
 	}
 	
-	public void w (){
+	public void w(){
 		this.w(null);
 	}
 	
-	public void w (String message){		
+	public void w(String message){		
 		this.log(Warning, message);
 	}
 	
-	public void i (){
+	public void i(){
 		this.i(null);
 	}
 	
-	public void i (String message){
+	public void i(String message){
 		this.log(Info, message);
 	}
 	
-	public void v (){
+	public void v(){
 		this.v(null);
 	}
 	
-	public void v (String message){
+	public void v(String message){
 		this.log(Verbose, message);
 	}
 	
@@ -127,7 +127,27 @@ public class LogBag {
 	}
 	
 	public void d (String message){
-		this.log(Debug, message);
+		this.log(Verbose, message);
+	}
+	
+	public void e(String tagNotInUse, String message){
+		this.log(Error, message);
+	}
+	
+	public void w(String tagNotInUse, String message){
+		this.log(Warning, message);
+	}
+	
+	public void i(String tagNotInUse, String message){
+		this.log(Info, message);
+	}
+	
+	public void v(String tagNotInUse, String message){
+		this.log(Verbose, message);
+	}
+	
+	public void d (String tagNotInUse, String message){
+		this.log(Verbose, message);
 	}
 	
 	protected String getLevelAsText(int level){

@@ -23,7 +23,7 @@ public class NonBlockedTask {
 				}
 				catch(Exception e)
 				{
-					MyLog.e("BackgroundTask", "Background task failed: " + e.getMessage());
+					MyLog.bag().e("BackgroundTask", "Background task failed: " + e.getMessage());
 				}
 				
 				return null;
@@ -55,7 +55,7 @@ public class NonBlockedTask {
 				}
 				catch(InterruptedException e)
 				{
-					MyLog.e("BackgroundTask", "Sleep interrupted: " + e.getMessage());
+					MyLog.bag().e("BackgroundTask", "Sleep interrupted: " + e.getMessage());
 				}
 				
 				return null;

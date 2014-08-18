@@ -208,7 +208,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 			_applyData(rootView);
 		}	
 		else{
-			MyLog.e("PersonalDetailsFragment", "applyData() has been called before onCreateView() of PersonalDetailsFragment");
+			MyLog.bag().e("PersonalDetailsFragment", "applyData() has been called before onCreateView() of PersonalDetailsFragment");
 		}
 	}
 	
@@ -245,7 +245,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 				}
 			}
 			catch(Exception ex){
-				MyLog.e("PersonalDetailsFragment", ex.toString());
+				MyLog.bag().e("PersonalDetailsFragment", ex.toString());
 			}
 		}
 		
@@ -291,11 +291,11 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 			ImageView imageView = (ImageView)(rootView.findViewById(R.id.thumbnailImage));
 			ImageDownloadTask asyncTask = new ImageDownloadTask(imageToDownload.getId(), imageView);
 			
-			MyLog.v("PersonalDetailsFragment", "Thumbnail Url = " + imageToDownload.getCloudUrl());
+			MyLog.bag().v("PersonalDetailsFragment", "Thumbnail Url = " + imageToDownload.getCloudUrl());
 			asyncTask.execute(imageToDownload.getCloudUrl());
 		}
 		else{
-			MyLog.v("PersonalDetailsFragment", "No Thumbnail Url since there is no UserInfo yet.");
+			MyLog.bag().v("PersonalDetailsFragment", "No Thumbnail Url since there is no UserInfo yet.");
 		}
 			
 		/*
@@ -369,7 +369,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 		
 		if(response.getErrorCode() != 0){
 			//  "We couldn't verify your data with Facebook"
-			MyLog.e("PersonalDetailsFragment", response.getErrorMessage());
+			MyLog.bag().e("PersonalDetailsFragment", response.getErrorMessage());
 			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
 			this.updatePageField("optional", matchingTextViewId, false);
 		}

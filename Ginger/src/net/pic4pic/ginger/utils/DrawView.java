@@ -23,9 +23,9 @@ public class DrawView extends View {
 
 	@Override
 	public void onDraw(Canvas canvas) {
-		MyLog.v("Ginger", "CustomDraw: onDraw is invoked");
-		MyLog.v("Ginger", "CustomDraw: onDraw WxH = " + this.getWidth() + "x" + this.getHeight());
-		MyLog.v("Ginger", "CustomDraw: onDraw WxH of Canvas = " + canvas.getWidth() + "x" + canvas.getHeight()); // same with parent
+		MyLog.bag().v("Ginger", "CustomDraw: onDraw is invoked");
+		MyLog.bag().v("Ginger", "CustomDraw: onDraw WxH = " + this.getWidth() + "x" + this.getHeight());
+		MyLog.bag().v("Ginger", "CustomDraw: onDraw WxH of Canvas = " + canvas.getWidth() + "x" + canvas.getHeight()); // same with parent
 
 		if (this.bitmap != null) {		
 			

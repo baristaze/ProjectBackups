@@ -30,7 +30,7 @@ public class NotificationsTask extends AsyncTask<String, Void, NotificationListR
 		} 
     	catch (GingerException e) {
     		
-    		MyLog.e("Notifications", e.toString());
+    		MyLog.bag().e("Notifications", e.toString());
     		
     		NotificationListResponse response = new NotificationListResponse();
 			response.setErrorCode(1);
@@ -39,7 +39,7 @@ public class NotificationsTask extends AsyncTask<String, Void, NotificationListR
 		}
     	catch(Exception e){
     		
-    		MyLog.e("Notifications", e.toString());
+    		MyLog.bag().e("Notifications", e.toString());
     		
     		NotificationListResponse response = new NotificationListResponse();
 			response.setErrorCode(1);

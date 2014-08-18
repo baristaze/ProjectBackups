@@ -75,11 +75,11 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
-		MyLog.v("PersonActivity", "onCreate");
+		MyLog.bag().v("PersonActivity", "onCreate");
 		super.onCreate(savedInstanceState);
 		
 		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
-			MyLog.i("PersonActivity", "At least one property is restored successfully");
+			MyLog.bag().i("PersonActivity", "At least one property is restored successfully");
 		}
 		
 		setContentView(R.layout.activity_person);
@@ -92,10 +92,10 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		}
 		else {
 			if(this.me == null){
-				MyLog.e("PersonActivity", "'me' couldn't be retrieved from intent in onCreate(). It is null.");
+				MyLog.bag().e("PersonActivity", "'me' couldn't be retrieved from intent in onCreate(). It is null.");
 			}
 			else{
-				MyLog.i("PersonActivity", "'me' couldn't be retrieved from intent in onCreate()");
+				MyLog.bag().i("PersonActivity", "'me' couldn't be retrieved from intent in onCreate()");
 			}			
 		}
 		
@@ -105,10 +105,10 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		}
 		else{
 			if(this.person == null){
-				MyLog.e("PersonActivity", "'person' couldn't be retrieved from intent in onCreate(). It is null.");
+				MyLog.bag().e("PersonActivity", "'person' couldn't be retrieved from intent in onCreate(). It is null.");
 			}
 			else{
-				MyLog.i("PersonActivity", "'person' couldn't be retrieved from intent in onCreate()");
+				MyLog.bag().i("PersonActivity", "'person' couldn't be retrieved from intent in onCreate()");
 			}	
 		}	
 		
@@ -197,7 +197,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		
 		int forwardAction = intent.getIntExtra(ForwardActionType, 0);
 		if(ForwardAction.ShowMessages.getIntValue() == forwardAction){
-			MyLog.v("PersonActivity", "Launching conversation thread");
+			MyLog.bag().v("PersonActivity", "Launching conversation thread");
 			this.openMessageThread(false);
 		}
 	}
@@ -211,7 +211,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			return;
 		}
 
-		MyLog.v("PersonActivity", "onSaveInstanceState");
+		MyLog.bag().v("PersonActivity", "onSaveInstanceState");
 		
 		if(this.me != null){
 			outState.putSerializable("me", this.me);
@@ -229,12 +229,12 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		
-		MyLog.v("PersonActivity", "onRestoreInstanceState");
+		MyLog.bag().v("PersonActivity", "onRestoreInstanceState");
 		
 		super.onRestoreInstanceState(savedInstanceState);
 		
 		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
-			MyLog.i("PersonActivity", "At least one property is restored successfully");
+			MyLog.bag().i("PersonActivity", "At least one property is restored successfully");
 		}
 	}
 	
@@ -268,7 +268,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		
 		if(this.lastDetailsRetrieveTime == null){
 			
-			MyLog.v("PersonActivity", "Last details retrieve time is null. We need to request the details again");
+			MyLog.bag().v("PersonActivity", "Last details retrieve time is null. We need to request the details again");
 			return true;
 		}
 		
@@ -276,7 +276,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		long diffAsMilliSeconds = now.getTime() - this.lastDetailsRetrieveTime.getTime();
 		long diffAsSeconds = diffAsMilliSeconds / 60000;
 		if(diffAsSeconds > 60){
-			MyLog.v("PersonActivity", "Last history retrieve time was 60 seconds ago. We better request history again");
+			MyLog.bag().v("PersonActivity", "Last history retrieve time was 60 seconds ago. We better request history again");
 			return true;
 		}
 		
@@ -296,7 +296,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 					final CandidateDetailsResponse response = Service.getInstance().getCandidateDetails(PersonActivity.this, request);
 					if(response.getErrorCode() == 0){
 						
-						MyLog.i("PersonActivity", "CandidateDetails retrieved");
+						MyLog.bag().i("PersonActivity", "CandidateDetails retrieved");
 						
 						// Only the original thread that created a view hierarchy can touch its views.
 						runOnUiThread(new Runnable() {
@@ -307,12 +307,12 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 						});
 					}
 					else {
-						MyLog.e("PersonActivity", "CandidateDetails request failed: " + response.getErrorMessage());
+						MyLog.bag().e("PersonActivity", "CandidateDetails request failed: " + response.getErrorMessage());
 					}
 				}
 				catch(GingerException e) {
 					
-					MyLog.e("PersonActivity", "CandidateDetails request failed: " + e.getMessage());
+					MyLog.bag().e("PersonActivity", "CandidateDetails request failed: " + e.getMessage());
 				}
 			}
 		});
@@ -321,7 +321,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	protected void onCandidateDetailsSuccessfullyRetrieved(CandidateDetailsResponse response){
 		
 		// no error if we are here
-		MyLog.v("PersonActivity", "More details on candidate has been retrieved.");
+		MyLog.bag().v("PersonActivity", "More details on candidate has been retrieved.");
 		
 		this.lastDetailsRetrieveTime = new Date();
 		
@@ -334,20 +334,20 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		this.person = response.getCandidate();
 		
 		if(fam1.getIntValue() != fam2.getIntValue()){			
-			MyLog.i("PersonActivity", "Familiarity has changed.");
+			MyLog.bag().i("PersonActivity", "Familiarity has changed.");
 			this.adjustAll(false);
 		}
 		else if(!pending1.equals(pending2)){			
-			MyLog.i("PersonActivity", "Pending pic4pic ID has changed.");
+			MyLog.bag().i("PersonActivity", "Pending pic4pic ID has changed.");
 			this.adjustActionButtons(false);
 		}
 		else{
-			MyLog.v("PersonActivity", "Familiarity or Pending pic4pic IDs haven't changed.");
+			MyLog.bag().v("PersonActivity", "Familiarity or Pending pic4pic IDs haven't changed.");
 		}
 	}
 		
 	private void adjustAll(boolean initialCreate){
-		MyLog.v("PersonActivity", "Adjusting all...");
+		MyLog.bag().v("PersonActivity", "Adjusting all...");
 		this.adjustAvatarImage(initialCreate);		
 		this.adjustMainImage(initialCreate);		
 		this.adjustActionButtons(initialCreate);		
@@ -356,12 +356,12 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	
 	private void adjustAvatarImage(boolean initialCreate){
 		
-		MyLog.v("PersonActivity", "Adjusting avatar image...");
+		MyLog.bag().v("PersonActivity", "Adjusting avatar image...");
 		
 		// get image view
 		ImageView avatarView = (ImageView)this.findViewById(R.id.candidateAvatar);	
 		if(avatarView == null){
-			MyLog.e("PersonActivity", "The  avatar image view is null");
+			MyLog.bag().e("PersonActivity", "The  avatar image view is null");
 			return;	
 		}
 		
@@ -391,12 +391,12 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	
 	private void adjustMainImage(boolean initialCreate){
 		
-		MyLog.v("PersonActivity", "Adjusting main image...");
+		MyLog.bag().v("PersonActivity", "Adjusting main image...");
 		
 		// get image view
 		ImageView mainPhotoView = (ImageView)this.findViewById(R.id.candidateMainPhoto);
 		if(mainPhotoView == null){
-			MyLog.e("PersonActivity", "The  main image view is null");
+			MyLog.bag().e("PersonActivity", "The  main image view is null");
 			return;	
 		}
 		
@@ -443,7 +443,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	
 	private void adjustActionButtons(boolean initialCreate){
 		
-		MyLog.v("PersonActivity", "Adjusting action buttons...");
+		MyLog.bag().v("PersonActivity", "Adjusting action buttons...");
 		
 		Button pic4picButton = null;
 		String acceptText = "accept pic4pic";
@@ -484,7 +484,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			}
 		}
 		
-		MyLog.v("PersonActivity", "Last Pending p4p ID: " + this.person.getLastPendingPic4PicId());
+		MyLog.bag().v("PersonActivity", "Last Pending p4p ID: " + this.person.getLastPendingPic4PicId());
 		if(this.person.hasPic4PicPending()){
 			pic4picButton.setText(acceptText);
 		}
@@ -506,17 +506,17 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	
 	private void adjustPhotoGallery(boolean initialCreate){
 		
-		MyLog.v("PersonActivity", "Adjusting photo gallery...");
+		MyLog.bag().v("PersonActivity", "Adjusting photo gallery...");
 		this.galleryView.fillPhotos(this.person.getOtherPictures());	
 	}
 	
 	private void addWatermark(){
 		
-		MyLog.v("PersonActivity", "Adjusting water mark (add)...");
+		MyLog.bag().v("PersonActivity", "Adjusting water mark (add)...");
 		
 		FrameLayout imageContainer = (FrameLayout)this.findViewById(R.id.candidateMainPhotoContainer);
 		if(imageContainer == null){
-			MyLog.e("PersonActivity", "The view for MainPhotoContainer is null in addWatermark");
+			MyLog.bag().e("PersonActivity", "The view for MainPhotoContainer is null in addWatermark");
 			return;
 		}
 		
@@ -541,11 +541,11 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	
 	private void removeWatermark(){
 		
-		MyLog.v("PersonActivity", "Adjusting water mark (remove)...");
+		MyLog.bag().v("PersonActivity", "Adjusting water mark (remove)...");
 		
 		FrameLayout imageContainer = (FrameLayout)this.findViewById(R.id.candidateMainPhotoContainer);
 		if(imageContainer == null){
-			MyLog.e("PersonActivity", "The view for MainPhotoContainer is null in removeWatermark");
+			MyLog.bag().e("PersonActivity", "The view for MainPhotoContainer is null in removeWatermark");
 			return;
 		}
 		
@@ -585,7 +585,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 
 	private void setResultIntent(){
 		
-		MyLog.v("PersonActivity", "Setting result intent");
+		MyLog.bag().v("PersonActivity", "Setting result intent");
 		
 		Intent resultIntent = new Intent();
 		resultIntent.putExtra(MainActivity.UpdatedMatchCandidate, this.person);
@@ -620,7 +620,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		
 		if(response.getErrorCode() == 0){	
 			
-			MyLog.v("PersonActivity", "Accepting pic4pic call has returned.");
+			MyLog.bag().v("PersonActivity", "Accepting pic4pic call has returned.");
 			
 			MatchedCandidate candidate = response.getData();
 			
@@ -634,15 +634,15 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			this.person = candidate;
 			
 			if(fam1.getIntValue() != fam2.getIntValue()){			
-				MyLog.i("PersonActivity", "Familiarity has changed after accepting pic4pic.");
+				MyLog.bag().i("PersonActivity", "Familiarity has changed after accepting pic4pic.");
 				this.adjustAll(false);
 			}
 			else {
-				MyLog.i("PersonActivity", "Familiarity has not changed after accepting pic4pic. Adjusting image gallery.");
+				MyLog.bag().i("PersonActivity", "Familiarity has not changed after accepting pic4pic. Adjusting image gallery.");
 				this.adjustPhotoGallery(false);
 			
 				if(!pending1.equals(pending2)){			
-					MyLog.i("PersonActivity", "Pending pic4pic ID has changed after accepting pic4pic.");
+					MyLog.bag().i("PersonActivity", "Pending pic4pic ID has changed after accepting pic4pic.");
 					this.adjustActionButtons(false);
 				}
 			}
@@ -685,7 +685,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		if(response.getErrorCode() == 0){
 			
 			// log
-			MyLog.v("PersonActivity", "pic4pic request has been sent to: " + request.getUserIdToInteract());
+			MyLog.bag().v("PersonActivity", "pic4pic request has been sent to: " + request.getUserIdToInteract());
 		
 			MatchedCandidate candidate = response.getData();
 			
@@ -699,15 +699,15 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			this.person = candidate;
 			
 			if(fam1.getIntValue() != fam2.getIntValue()){			
-				MyLog.i("PersonActivity", "Familiarity has changed after sending pic4pic.");
+				MyLog.bag().i("PersonActivity", "Familiarity has changed after sending pic4pic.");
 				this.adjustAll(false);
 			}
 			else {
-				MyLog.i("PersonActivity", "Familiarity has not changed after sending pic4pic. Adjusting image gallery.");
+				MyLog.bag().i("PersonActivity", "Familiarity has not changed after sending pic4pic. Adjusting image gallery.");
 				this.adjustPhotoGallery(false);
 			
 				if(!pending1.equals(pending2)){			
-					MyLog.i("PersonActivity", "Pending pic4pic ID has changed after sending pic4pic.");
+					MyLog.bag().i("PersonActivity", "Pending pic4pic ID has changed after sending pic4pic.");
 					this.adjustActionButtons(false);
 				}
 			}
@@ -726,7 +726,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		else{
 			// log error
 			GingerHelpers.showErrorMessage(this, response.getErrorMessage());
-			MyLog.e("PersonActivity", "Requesting pic4pic from candidate(" + request.getUserIdToInteract() + ") failed: " + response.getErrorMessage());
+			MyLog.bag().e("PersonActivity", "Requesting pic4pic from candidate(" + request.getUserIdToInteract() + ") failed: " + response.getErrorMessage());
 		}
 	}
 	
@@ -751,10 +751,10 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		
-		MyLog.v("PersonActivity", "onActivityResult");
+		MyLog.bag().v("PersonActivity", "onActivityResult");
 		
 		if(requestCode == ConversationActivity.ConversationActivityCode){
-			MyLog.v("PersonActivity", "ConversationActivity has returned");			
+			MyLog.bag().v("PersonActivity", "ConversationActivity has returned");			
 			if(resultCode == Activity.RESULT_OK && data != null){				
 				Bundle bundle = data.getExtras();
 				UserResponse meX = (UserResponse)bundle.getSerializable(MainActivity.AuthenticatedUserBundleType);
@@ -769,7 +769,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			}
 		}
 		else{
-			MyLog.v("PersonActivity", "Unknown Activity  has been received by PersonActivity: " + requestCode);
+			MyLog.bag().v("PersonActivity", "Unknown Activity  has been received by PersonActivity: " + requestCode);
 		}
 	}
 	
@@ -809,7 +809,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 						success = true;
 						
 						// log
-						MyLog.v("PersonActivity", "Candidate has been marked as LIKED: " + candidateId);
+						MyLog.bag().v("PersonActivity", "Candidate has been marked as LIKED: " + candidateId);
 					
 						// we have viewed this profile if we have liked it
 						person.setLastViewTimeUTC(new Date());
@@ -831,18 +831,18 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 					}
 					else{
 						// log error
-						MyLog.e("PersonActivity", "Liking candidate(" + candidateId + ") failed: " + response.getErrorMessage());
+						MyLog.bag().e("PersonActivity", "Liking candidate(" + candidateId + ") failed: " + response.getErrorMessage());
 					}
 				}
 				catch(GingerException ge){
 					
 					// log error
-					MyLog.e("PersonActivity", "Liking candidate(" + candidateId + ") failed: " + ge.getMessage());
+					MyLog.bag().e("PersonActivity", "Liking candidate(" + candidateId + ") failed: " + ge.getMessage());
 				}
 				catch(Exception e){
 					
 					// log error
-					MyLog.e("PersonActivity", "Liking candidate(" + candidateId + ") failed: " + e.toString());
+					MyLog.bag().e("PersonActivity", "Liking candidate(" + candidateId + ") failed: " + e.toString());
 				}
 				
 				if(!success){
@@ -870,7 +870,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			marking.setMarkingType(MarkingType.Viewed);
 			marking.setObjectId(candidateId);
 			
-			MyLog.v("PersonActivity", "Marking as viewed: " + candidateId);
+			MyLog.bag().v("PersonActivity", "Marking as viewed: " + candidateId);
 			
 			NonBlockedTask.SafeRun(new ITask(){
 				@Override
@@ -884,23 +884,23 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 							person.setLastViewTimeUTC(new Date());
 							
 							// log
-							MyLog.v("PersonActivity", "Candidate has been marked as viewed: " + candidateId);
+							MyLog.bag().v("PersonActivity", "Candidate has been marked as viewed: " + candidateId);
 						}
 						else{
 							
 							// log error
-							MyLog.e("PersonActivity", "Marking candidate as viewed failed: " + response.getErrorMessage());
+							MyLog.bag().e("PersonActivity", "Marking candidate as viewed failed: " + response.getErrorMessage());
 						}
 					}
 					catch(GingerException ge){
 						
 						// log error
-						MyLog.e("PersonActivity", "Marking candidate as viewed failed: " + ge.getMessage());
+						MyLog.bag().e("PersonActivity", "Marking candidate as viewed failed: " + ge.getMessage());
 					}
 					catch(Exception e){
 						
 						// log error
-						MyLog.e("PersonActivity", "Marking candidate as viewed failed: " + e.toString());
+						MyLog.bag().e("PersonActivity", "Marking candidate as viewed failed: " + e.toString());
 					}
 				}
 			});

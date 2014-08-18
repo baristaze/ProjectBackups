@@ -52,7 +52,7 @@ public class LocationManagerUtil {
 		
 		LocationManager locationManager = (LocationManager) this.activity.getSystemService(Context.LOCATION_SERVICE);
 		if(locationManager == null){
-			MyLog.e("LocationManagerUtil", "LocationManager is null");
+			MyLog.bag().e("LocationManagerUtil", "LocationManager is null");
 			return false;
 		}
 		
@@ -60,11 +60,11 @@ public class LocationManagerUtil {
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
 		String locationProvider = locationManager.getBestProvider(criteria, true);
 		if(locationProvider == null || locationProvider.trim().length() <= 0){
-			MyLog.e("LocationManagerUtil", "LocationProvider is null");
+			MyLog.bag().e("LocationManagerUtil", "LocationProvider is null");
 			return false;
 		}
 		
-		MyLog.i("LocationManagerUtil", "LocationProvider=" + locationProvider);
+		MyLog.bag().i("LocationManagerUtil", "LocationProvider=" + locationProvider);
 		Location location = locationManager.getLastKnownLocation(locationProvider);
 		if(location != null){
 			location.getLatitude();
@@ -136,11 +136,11 @@ public class LocationManagerUtil {
             	return locality;
             }
             else {
-            	MyLog.e("LocationManagerUtil", "No Address info from GeoCode for lat = " + geoLocation.getLatitude() + ", long = " + geoLocation.getLongitude());	
+            	MyLog.bag().e("LocationManagerUtil", "No Address info from GeoCode for lat = " + geoLocation.getLatitude() + ", long = " + geoLocation.getLongitude());	
             }
         } 
 		catch (IOException e) {
-			MyLog.e("LocationManagerUtil", "Geocoder failed: " + e.getMessage());
+			MyLog.bag().e("LocationManagerUtil", "Geocoder failed: " + e.getMessage());
         }
 		
 		return null;

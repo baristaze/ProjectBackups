@@ -29,7 +29,7 @@ public class RequestPic4PicTask extends BlockedTask<String, Void, MatchedCandida
 		} 
     	catch (GingerException e) {
     		
-    		MyLog.e("RequestPic4PicTask", e.toString());
+    		MyLog.bag().e("RequestPic4PicTask", e.toString());
     		
     		MatchedCandidateResponse response = new MatchedCandidateResponse();
 			response.setErrorCode(1);
@@ -38,7 +38,7 @@ public class RequestPic4PicTask extends BlockedTask<String, Void, MatchedCandida
 		}
     	catch(Exception e){
     		
-    		MyLog.e("RequestPic4PicTask", e.toString());
+    		MyLog.bag().e("RequestPic4PicTask", e.toString());
     		
     		MatchedCandidateResponse response = new MatchedCandidateResponse();
 			response.setErrorCode(1);

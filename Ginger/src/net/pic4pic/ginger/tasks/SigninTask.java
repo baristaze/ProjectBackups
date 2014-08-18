@@ -28,7 +28,7 @@ public class SigninTask extends AsyncTask<String, Void, UserResponse> {
 		} 
     	catch (GingerException e) {
     		
-    		MyLog.e("Signin", e.toString());
+    		MyLog.bag().e("Signin", e.toString());
     		
 			UserResponse response = new UserResponse();
 			response.setErrorCode(1);
@@ -37,7 +37,7 @@ public class SigninTask extends AsyncTask<String, Void, UserResponse> {
 		}
     	catch(Exception e){
     		
-    		MyLog.e("Signin", e.toString());
+    		MyLog.bag().e("Signin", e.toString());
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);

@@ -27,14 +27,14 @@ public class ProcessPurchaseTask extends BlockedTask<String, Void, BaseResponse>
 	protected BaseResponse doInBackground(String... params) {
 		
 		try {
-			MyLog.v("ProcessPurchaseTask", "Task is starting... Making a 'processPurchase' call..");
+			MyLog.bag().v("ProcessPurchaseTask", "Task is starting... Making a 'processPurchase' call..");
 			BaseResponse response = Service.getInstance().processPurchase(activity, request);
 			return response;
 		} 
 		catch (GingerException e) {
 			
 			// log
-			MyLog.e("ProcessPurchaseTask", e.getMessage());
+			MyLog.bag().e("ProcessPurchaseTask", e.getMessage());
 			
 			// return
 			BaseResponse response = new BaseResponse();
@@ -46,7 +46,7 @@ public class ProcessPurchaseTask extends BlockedTask<String, Void, BaseResponse>
 			
 			// log
 			String errorMessage = "Unexpected error occurred while processing the purchase";
-			MyLog.e("ProcessPurchaseTask", errorMessage + ": " + e.getMessage());
+			MyLog.bag().e("ProcessPurchaseTask", errorMessage + ": " + e.getMessage());
 			
 			// return
 			BaseResponse response = new BaseResponse();

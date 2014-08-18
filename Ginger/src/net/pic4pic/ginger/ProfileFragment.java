@@ -181,11 +181,11 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		}
 		*/ 
 		if (requestCode == TextInputActivity.TextInputCode) {
-			MyLog.v("ActivityResult", "TextInputActivity has returned");
+			MyLog.bag().v("ActivityResult", "TextInputActivity has returned");
 			this.processTextInputActivityResult(resultCode, data);
 		}
 		else{
-			MyLog.v("ActivityResult", "Unknown Activity has returned: " + requestCode);
+			MyLog.bag().v("ActivityResult", "Unknown Activity has returned: " + requestCode);
 		}
 	}
 	
@@ -200,11 +200,11 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		
 		if(resultCode == Activity.RESULT_OK && data != null){
 			
-			MyLog.v("Camera", "Camera result seems OK");				
+			MyLog.bag().v("Camera", "Camera result seems OK");				
 			
 			Bitmap bitmapPhoto = (Bitmap) data.getExtras().get("data");
-			MyLog.v("Camera", "Photo width: " + bitmapPhoto.getWidth());
-			MyLog.v("Camera", "Photo height: " + bitmapPhoto.getHeight());
+			MyLog.bag().v("Camera", "Photo width: " + bitmapPhoto.getWidth());
+			MyLog.bag().v("Camera", "Photo height: " + bitmapPhoto.getHeight());
 			
 			String uri = "http://tvmedia.ign.com/tv/image/article/805/805797/bionic-woman-2007-20070717053021720.jpg";
 			if((new Random()).nextInt(2) % 2 == 0){
@@ -231,7 +231,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 			toast.show();
 		}
 		else{
-			MyLog.e("Camera", "Camera result is not ok");
+			MyLog.bag().e("Camera", "Camera result is not ok");
 			
 			Toast toast = Toast.makeText(this.getActivity(), "Capturing photo is unsuccessfull", Toast.LENGTH_LONG);
 			toast.show();
@@ -244,8 +244,8 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		if(resultCode == Activity.RESULT_OK && data != null){
 			Uri selectedImageUri = data.getData();
 			if(selectedImageUri != null){					
-				MyLog.v("Gallery", "Gallery result seems OK");
-				MyLog.v("Gallery", "Uri: " + selectedImageUri.toString());
+				MyLog.bag().v("Gallery", "Gallery result seems OK");
+				MyLog.bag().v("Gallery", "Uri: " + selectedImageUri.toString());
                 
 				String selectedImagePath = this.getImagePath(selectedImageUri);
 				if(selectedImagePath == null){
@@ -253,7 +253,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 				}
 				else
 				{
-					MyLog.v("Gallery", "Path: " + selectedImagePath);
+					MyLog.bag().v("Gallery", "Path: " + selectedImagePath);
 					
 					if(selectedImagePath.startsWith("http")){
 						errorMessage = "Selected image is not on this phone!";
@@ -266,13 +266,13 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 						}
 						catch(Exception ex){
 							errorMessage = "Selected image couldn't be decoded!";
-							MyLog.e("Gallery", ex.toString());
+							MyLog.bag().e("Gallery", ex.toString());
 						}
 						
 						if(bitmapPhoto != null){
 							
-							MyLog.v("Gallery", "Photo width: " + bitmapPhoto.getWidth());
-							MyLog.v("Gallery", "Photo height: " + bitmapPhoto.getHeight());
+							MyLog.bag().v("Gallery", "Photo width: " + bitmapPhoto.getWidth());
+							MyLog.bag().v("Gallery", "Photo height: " + bitmapPhoto.getHeight());
 							
 							String uri = "http://tvmedia.ign.com/tv/image/article/805/805797/bionic-woman-2007-20070717053021720.jpg";
 							if((new Random()).nextInt(2) % 2 == 0){
@@ -303,7 +303,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		}
 
 		if(!success){
-			MyLog.e("Gallery", "Gallery result is not ok");
+			MyLog.bag().e("Gallery", "Gallery result is not ok");
 			
 			Toast toast = Toast.makeText(this.getActivity(), errorMessage, Toast.LENGTH_LONG);
 			toast.show();
@@ -319,7 +319,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 	        return cursor.getString(column_index);
 		}
 		catch(Exception ex){
-			MyLog.e("Gallery", ex.toString());
+			MyLog.bag().e("Gallery", ex.toString());
 			return null;
 		}
     }
