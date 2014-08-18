@@ -71,20 +71,20 @@ public class ConversationActivity extends Activity implements ConversationListen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
-		MyLog.bag().v("ConversationActivity", "onCreate");
+		MyLog.bag().v("onCreate");
 		super.onCreate(savedInstanceState);
 		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
-			MyLog.bag().i("ConversationActivity", "At least one property is restored successfully");
+			MyLog.bag().i("At least one property is restored successfully");
 		}
 		
 		this.setContentView(R.layout.activity_conversation);
 		
 		Intent intent = getIntent();
 		this.me = (UserResponse)intent.getSerializableExtra(MainActivity.AuthenticatedUserBundleType);
-		MyLog.bag().v("ConversationActivity", "Current user is: " + this.me.getUserProfile().getUsername());
+		MyLog.bag().v("Current user is: " + this.me.getUserProfile().getUsername());
 		
 		this.person = (MatchedCandidate)intent.getSerializableExtra(PersonActivity.PersonType);
-		MyLog.bag().v("ConversationActivity", "Candidate is: " + this.person.getCandidateProfile().getUsername());
+		MyLog.bag().v("Candidate is: " + this.person.getCandidateProfile().getUsername());
 		
 		final Button sendButton = (Button)this.findViewById(R.id.sendButton);
 		sendButton.setOnClickListener(new OnClickListener(){
@@ -116,7 +116,7 @@ public class ConversationActivity extends Activity implements ConversationListen
 			return;
 		}
 		
-		MyLog.bag().v("ConversationActivity", "onSaveInstanceState");
+		MyLog.bag().v("onSaveInstanceState");
 		
 		if(this.me != null){
 			outState.putSerializable("me", this.me);
@@ -140,9 +140,9 @@ public class ConversationActivity extends Activity implements ConversationListen
 		
 		super.onRestoreInstanceState(savedInstanceState);
 		
-		MyLog.bag().v("ConversationActivity", "onRestoreInstanceState");
+		MyLog.bag().v("onRestoreInstanceState");
 		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
-			MyLog.bag().i("ConversationActivity", "At least one property is restored successfully");
+			MyLog.bag().i("At least one property is restored successfully");
 		}
 	}
 	
@@ -186,7 +186,7 @@ public class ConversationActivity extends Activity implements ConversationListen
 	 */
 	@Override
 	protected void onResume() {
-		MyLog.bag().v("ConversationActivity", "onResume...");
+		MyLog.bag().v("onResume...");
 		super.onResume();
 		
 		// always create poller from scratch otherwise it won't restart.
@@ -237,7 +237,7 @@ public class ConversationActivity extends Activity implements ConversationListen
 			return;
 		}
 		
-		MyLog.bag().v("ConversationActivity", "Message thread is received. Updating view...");
+		MyLog.bag().v("Message thread is received. Updating view...");
 		
 		// update the last IM's id
 		this.lastExchangedMessageId = messages.get(0).getId();
@@ -311,7 +311,7 @@ public class ConversationActivity extends Activity implements ConversationListen
 
 	private void setResultIntent(){
 		
-		MyLog.bag().v("ConversationActivity", "Setting result intent");
+		MyLog.bag().v("Setting result intent");
 		
 		Intent resultIntent = new Intent();
 		resultIntent.putExtra(MainActivity.AuthenticatedUserBundleType, this.me);
@@ -356,7 +356,7 @@ public class ConversationActivity extends Activity implements ConversationListen
 						success = true;
 						
 						// log
-						MyLog.bag().v("ConversationActivity", "Message Sent: " + imRequest.getContent());
+						MyLog.bag().v("Message Sent: " + imRequest.getContent());
 					
 						ConversationActivity.this.runOnUiThread(new Runnable(){
 							@Override
@@ -371,20 +371,20 @@ public class ConversationActivity extends Activity implements ConversationListen
 					}
 					else{
 						// log error
-						MyLog.bag().e("ConversationActivity", "Sending message failed with error: " + response.getErrorMessage());
+						MyLog.bag().e("Sending message failed with error: " + response.getErrorMessage());
 						GingerHelpers.toastShort(ConversationActivity.this, response.getErrorMessage());
 					}
 				}
 				catch(GingerException ge){
 					
 					// log error
-					MyLog.bag().e("ConversationActivity", "Sending message failed with error: " + ge.toString());
+					MyLog.bag().add(ge).e("Sending message failed");
 					GingerHelpers.toastShort(ConversationActivity.this, "Sending message failed. Please try again.");
 				}
 				catch(Exception e){
 					
 					// log error
-					MyLog.bag().e("ConversationActivity", "Sending message failed with error: " + e.toString());
+					MyLog.bag().add(e).e("Sending message failed");
 					GingerHelpers.toastShort(ConversationActivity.this, "Sending message failed. Please try again.");
 				}
 				

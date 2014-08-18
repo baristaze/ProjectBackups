@@ -69,7 +69,7 @@ public class FaceDetectionFragment extends Fragment
 		String fileName = this.getString(R.string.lastCapturedPhoto_filename_key);
 		bitmap = ImageStorageHelper.readBitmapForFaceDetection(this.getActivity(), fileName, false);		
 		if(bitmap != null){
-			MyLog.bag().v("Bitmap", "Bitmap WxH = " + bitmap.getWidth() + "x" + bitmap.getHeight());
+			MyLog.bag().v("Bitmap WxH = " + bitmap.getWidth() + "x" + bitmap.getHeight());
 			ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
 			imageView.setImageBitmap(bitmap);
 		}
@@ -101,7 +101,7 @@ public class FaceDetectionFragment extends Fragment
 			}
 		}
 		else{
-			MyLog.bag().e("FaceDetectionFragment", "applyData() has been called before onCreateView() of FaceDetectionFragment");
+			MyLog.bag().e("applyData() has been called before onCreateView() of FaceDetectionFragment");
 		}	
 	}
 	
@@ -115,7 +115,7 @@ public class FaceDetectionFragment extends Fragment
 		feedbackTextView.setVisibility(View.INVISIBLE);
 		
 		if(detectedFaces.length == 0){
-			MyLog.bag().v("FaceDetection", "Face couldn't be detected");			
+			MyLog.bag().v("Face couldn't be detected");			
 			new AlertDialog.Builder(new ContextThemeWrapper(this.getActivity(), android.R.style.Theme_Holo_Dialog))
 		    .setTitle(this.getString(R.string.general_error_title))
 		    .setMessage(this.getString(R.string.err_no_face_detected))		    
@@ -128,7 +128,7 @@ public class FaceDetectionFragment extends Fragment
 		    .show();
 		}
 		else{
-			MyLog.bag().v("Detection", "Detected Face Count: " + detectedFaces.length);
+			MyLog.bag().v("Detected Face Count: " + detectedFaces.length);
 			drawGreenStrokesOnCanvas(bitmap, detectedFaces);	
 			showUploadControls();
 		}

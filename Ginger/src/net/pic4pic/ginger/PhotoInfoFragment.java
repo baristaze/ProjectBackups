@@ -59,7 +59,7 @@ public class PhotoInfoFragment extends Fragment {
 			this._applyData(rootView);
 		}
 		else{
-			MyLog.bag().e("PhotoInfoFragment", "applyData() has been called before onCreateView() of PhotoInfoFragment");
+			MyLog.bag().e("applyData() has been called before onCreateView() of PhotoInfoFragment");
 		}
 	}
 	

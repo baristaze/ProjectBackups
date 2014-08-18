@@ -96,20 +96,20 @@ public class PurchaseUtils {
 		
 		String purchasesAsJsonText = purchasesFile.getString(key, "");
 		if(purchasesAsJsonText == null || purchasesAsJsonText.trim().length() == 0){
-			MyLog.bag().w("PurchaseUtils", "There is not any saved " + type + " purchase to remove.");
+			MyLog.bag().w("There is not any saved " + type + " purchase to remove.");
 			return new PurchaseRecordList();
 		}
 		
 		PurchaseRecordList purchases = GingerNetUtils.createFromJsonString(purchasesAsJsonText, PurchaseRecordList.class);
 		if(purchases == null || purchases.size() == 0){
-			MyLog.bag().w("PurchaseUtils", "There is not any saved " + type + " purchase to remove.");
+			MyLog.bag().w("There is not any saved " + type + " purchase to remove.");
 			return new PurchaseRecordList();
 		}
 		
 		boolean found = false;
 		for(PurchaseRecord existing : purchases){
 			if(existing.getPurchaseReferenceToken().equals(purchaseRecord.getPurchaseReferenceToken())){
-				MyLog.bag().i("PurchaseUtils", "The " + type + " purchase has been found and will be removed: " + purchaseRecord.getPurchaseReferenceToken());
+				MyLog.bag().i("The " + type + " purchase has been found and will be removed: " + purchaseRecord.getPurchaseReferenceToken());
 				purchases.remove(existing);
 				found = true;
 				break;
@@ -117,7 +117,7 @@ public class PurchaseUtils {
 		}
 		
 		if(!found){
-			MyLog.bag().w("PurchaseUtils", "The " + type + " purchase with token = " + purchaseRecord.getPurchaseReferenceToken() + " couldn't be found to remove");
+			MyLog.bag().w("The " + type + " purchase with token = " + purchaseRecord.getPurchaseReferenceToken() + " couldn't be found to remove");
 			return new PurchaseRecordList();
 		}
 		
@@ -147,18 +147,18 @@ public class PurchaseUtils {
 			consumed = true;
 		} 
 		catch (GingerException e) {
-			MyLog.bag().e("PurchaseUtils", "Consuming purchase is failed for the purchase token: " + purchase.getPurchaseReferenceToken());
+			MyLog.bag().add(e).e("Consuming purchase is failed for the purchase token: " + purchase.getPurchaseReferenceToken());
 		}
 		
 		// update the file
 		if(consumed) {
 			try {
-				MyLog.bag().v("PurchaseUtils", "Removing the unconsumed purchase record from file: " + purchase.getPurchaseReferenceToken());
+				MyLog.bag().v("Removing the unconsumed purchase record from file: " + purchase.getPurchaseReferenceToken());
 				PurchaseUtils.removeUnconsumedPurchaseFromFile(activity, purchase);
 				return 2;
 			} 
 			catch (GingerException e) {
-				MyLog.bag().e("PurchaseUtils", "Removing the unconsumed purchase record from file failed: " + e.toString());
+				MyLog.bag().add(e).e("Removing the unconsumed purchase record from file failed");
 				return 1;
 			}
 		}

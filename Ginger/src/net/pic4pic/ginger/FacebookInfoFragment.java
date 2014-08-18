@@ -91,7 +91,7 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 			_applyData(rootView);
 		} 
 		else{
-			MyLog.bag().e("FacebookInfoFragment", "applyData() has been called before onCreateView() of FacebookInfoFragment");
+			MyLog.bag().e("applyData() has been called before onCreateView() of FacebookInfoFragment");
 		}
 	}
 
@@ -154,7 +154,7 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 
 		if (response.getErrorCode() != 0) {
 			// "We couldn't verify your data with Facebook"
-			MyLog.bag().e("FacebookInfoFragment", response.getErrorMessage());
+			MyLog.bag().e(response.getErrorMessage());
 			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
 		} 
 		else {
@@ -174,15 +174,15 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 					{
 						BaseResponse response = Service.getInstance().downloadFriends(FacebookInfoFragment.this.getActivity(), friendsRequest);
 						if(response.getErrorCode() == 0){
-							MyLog.bag().i("FacebookInfoFragment", "Friends retrieved");
+							MyLog.bag().i("Friends retrieved");
 						}
 						else {
-							MyLog.bag().e("FacebookInfoFragment", "Friend request failed: " + response.getErrorMessage());
+							MyLog.bag().e("Friend request failed: " + response.getErrorMessage());
 						}
 					}
 					catch(GingerException e) {
 						
-						MyLog.bag().e("FacebookInfoFragment", "Friend request failed: " + e.getMessage());
+						MyLog.bag().add(e).e("Friend request failed");
 					}
 				}
 			});

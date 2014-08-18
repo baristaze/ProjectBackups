@@ -188,7 +188,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		intent.putExtra(PersonActivity.PersonType, notification.getSender());
 		
 		if(notification.getType().getIntValue() == NotificationType.SentText.getIntValue()){
-			MyLog.bag().v("NotificationListItemAdapter", "Launching conversation activity is desired as a forward action");
+			MyLog.bag().v("Launching conversation activity is desired as a forward action");
 			intent.putExtra(PersonActivity.ForwardActionType, PersonActivity.ForwardAction.ShowMessages.getIntValue());
 		}
 
@@ -219,7 +219,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		
 		if(response.getErrorCode() == 0){	
 			
-			MyLog.bag().v("NotificationListItemAdapter", "Accepting pic4pic call has returned.");			
+			MyLog.bag().v("Accepting pic4pic call has returned.");			
 			
 			// get recent version from response
 			MatchedCandidate candidate = response.getData();
@@ -266,7 +266,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		if(response.getErrorCode() == 0){
 			
 			// log
-			MyLog.bag().v("NotificationListItemAdapter", "pic4pic request has been sent to: " + request.getUserIdToInteract());
+			MyLog.bag().v("pic4pic request has been sent to: " + request.getUserIdToInteract());
 		
 			// get recent version from response
 			MatchedCandidate candidate = response.getData();
@@ -279,7 +279,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		else{
 			// log error
 			GingerHelpers.showErrorMessage(this.activity, response.getErrorMessage());
-			MyLog.bag().e("NotificationListItemAdapter", "Requesting pic4pic from candidate(" + request.getUserIdToInteract() + ") failed: " + response.getErrorMessage());
+			MyLog.bag().e("Requesting pic4pic from candidate(" + request.getUserIdToInteract() + ") failed: " + response.getErrorMessage());
 		}
 	}
 	
@@ -304,17 +304,17 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 						
 						if(response.getErrorCode() == 0){
 							notification.setRead(true);
-							MyLog.bag().v("NotificationListItemAdapter", "Notification has been marked as read: " + notification.getId());
+							MyLog.bag().v("Notification has been marked as read: " + notification.getId());
 						}
 						else{
-							MyLog.bag().e("NotificationListItemAdapter", "Marking notification failed: " + response.getErrorMessage());
+							MyLog.bag().e("Marking notification failed: " + response.getErrorMessage());
 						}
 					}
 					catch(GingerException ge){
-						MyLog.bag().e("NotificationListItemAdapter", "Marking notification failed: " + ge.getMessage());
+						MyLog.bag().add(ge).e("Marking notification failed");
 					}
 					catch(Exception e){
-						MyLog.bag().e("NotificationListItemAdapter", "Marking notification as read failed: " + e.toString());
+						MyLog.bag().add(e).e("Marking notification as read failed");
 					}					
 					
 					// update UI

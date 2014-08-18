@@ -28,17 +28,17 @@ public class PushNotificationHelpers {
 		
 	    int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity);
 	    if (resultCode == ConnectionResult.SUCCESS) {
-	    	MyLog.bag().v("PushNotificationHelpers", "Google Play Services is available.");
+	    	MyLog.bag().v("Google Play Services is available.");
 	    	return true;
 	    }
 	    
 	    if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-	    	MyLog.bag().i("PushNotificationHelpers", "Google Play Services is NOT available but error is recovarable.");
+	    	MyLog.bag().i("Google Play Services is NOT available but error is recovarable.");
             GooglePlayServicesUtil.getErrorDialog(resultCode, activity, PLAY_SERVICES_RESOLUTION_REQUEST).show();
         } 
         else {
         	
-        	MyLog.bag().e("PushNotificationHelpers", "This device does not support Google Play Services. Push Notifications won't be received.");
+        	MyLog.bag().e("This device does not support Google Play Services. Push Notifications won't be received.");
         	
         	GingerHelpers.showErrorMessageIfNotSupressed(
         			activity, 
@@ -63,7 +63,7 @@ public class PushNotificationHelpers {
 		
 	    int appVersion = MobileDevice.deriveAppVersion(activity);
 	    
-	    MyLog.bag().i("PushNotificationHelpers", "Saving push notification registrationId on app version " + appVersion);
+	    MyLog.bag().i("Saving push notification registrationId on app version " + appVersion);
 	    SharedPreferences.Editor editor = prefs.edit();
 	    editor.putString(PROPERTY_REG_ID, registrationId);
 	    editor.putInt(PROPERTY_APP_VERSION, appVersion);
@@ -85,7 +85,7 @@ public class PushNotificationHelpers {
 		
 	    String registrationId = prefs.getString(PROPERTY_REG_ID, "");
 	    if (registrationId.isEmpty()) {
-	        MyLog.bag().i("PushNotificationHelpers", "Push notification registration is not found.");
+	        MyLog.bag().i("Push notification registration is not found.");
 	        return "";
 	    }
 	    
@@ -94,7 +94,7 @@ public class PushNotificationHelpers {
 	    int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
 	    int currentVersion = MobileDevice.deriveAppVersion(activity);
 	    if (registeredVersion != currentVersion) {
-	        MyLog.bag().i("PushNotificationHelpers", "App version has changed. We need to refresh the push notification registration.");
+	        MyLog.bag().i("App version has changed. We need to refresh the push notification registration.");
 	        return "";
 	    }
 	    

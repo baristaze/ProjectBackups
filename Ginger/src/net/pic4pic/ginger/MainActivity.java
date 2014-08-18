@@ -94,11 +94,11 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
-		MyLog.bag().v("MainActivity", "onCreate");
+		MyLog.bag().v("onCreate");
 		
 		super.onCreate(savedInstanceState);
 		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
-			MyLog.bag().i("MainActivity", "At least one property is restored successfully");
+			MyLog.bag().i("At least one property is restored successfully");
 		}
 		
 		setContentView(R.layout.activity_main);
@@ -108,11 +108,11 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		this.preSelectedTabIndexOnMainActivity = intent.getIntExtra("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity);
 		if(this.preSelectedTabIndexOnMainActivity != 0)
 		{
-			MyLog.bag().v("MainActivity", "Launched by a push notification");
+			MyLog.bag().v("Launched by a push notification");
 		}
 		
 		this.me = (UserResponse)intent.getSerializableExtra(AuthenticatedUserBundleType);
-		MyLog.bag().v("MainActivity", "Current user is: " + this.me.getUserProfile().getUsername());
+		MyLog.bag().v("Current user is: " + this.me.getUserProfile().getUsername());
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -121,7 +121,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		// start location manager
 		LocationManagerUtil locManager = new LocationManagerUtil(this, this);
 		if(!locManager.init()){
-			MyLog.bag().e("MainActivity", "Location Manager couldn't be initialized.");
+			MyLog.bag().e("Location Manager couldn't be initialized.");
 		}
 
 		// Create the adapter that will return a fragment for each of the three
@@ -166,10 +166,10 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		// connect to the purchasing service
 		try {
 			this.inappPurchasingSvc.connect();
-			MyLog.bag().v("MainActivity", "Activity has been bound to InApp Purchasing Service");
+			MyLog.bag().v("Activity has been bound to InApp Purchasing Service");
 		} 
 		catch (GingerException e) {
-			MyLog.bag().e("MainActivity", "Couldn't bind to InApp Purchasing Service: " + e.getMessage());
+			MyLog.bag().add(e).e("Couldn't bind to InApp Purchasing Service");
 		}
 		
 		// handle push notification registrations if it is not done yet
@@ -204,10 +204,10 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			
 			try {
 				this.inappPurchasingSvc.disconnect();
-				MyLog.bag().v("MainActivity", "Disconnected from InApp Purchasing Service");
+				MyLog.bag().v("Disconnected from InApp Purchasing Service");
 			} 
 			catch (GingerException e) {
-				MyLog.bag().e("MainActivity", "Couldn't disconnect from InApp Purchasing Service: " + e.getMessage());
+				MyLog.bag().add(e).e("Couldn't disconnect from InApp Purchasing Service");
 			}
 			
 			this.inappPurchasingSvc = null;
@@ -225,7 +225,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			return;
 		}
 		
-		MyLog.bag().v("MainActivity", "onSaveInstanceState");
+		MyLog.bag().v("onSaveInstanceState");
 		
 		outState.putInt("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity);
 		
@@ -263,9 +263,9 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		
 		super.onRestoreInstanceState(savedInstanceState);
 		
-		MyLog.bag().v("MainActivity", "onRestoreInstanceState");
+		MyLog.bag().v("onRestoreInstanceState");
 		if(this.recreatePropertiesFromSavedBundle(savedInstanceState)){
-			MyLog.bag().i("MainActivity", "At least one property is restored successfully");
+			MyLog.bag().i("At least one property is restored successfully");
 		}
 	}
 	
@@ -337,7 +337,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		
 		if(this.lastMatchRetrieveTime == null){
 			
-			MyLog.bag().v("MainActivity", "Last match retrieve time is null. We need to request matches again");
+			MyLog.bag().v("Last match retrieve time is null. We need to request matches again");
 			return true;
 		}
 		
@@ -346,12 +346,12 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		long diffAsSeconds = diffAsMilliSeconds / 1000;
 		long diffAsMinutes = diffAsSeconds / 60;
 		if(diffAsMinutes > 30){
-			MyLog.bag().v("MainActivity", "Last match retrieve time was 30 minutes ago. We need to request matches again");
+			MyLog.bag().v("Last match retrieve time was 30 minutes ago. We need to request matches again");
 			return true;
 		}
 		
 		if(this.matches.size() == 0 && diffAsSeconds > 30){
-			MyLog.bag().v("MainActivity", "View doesn't have any match on it. We need to request matches again");
+			MyLog.bag().v("View doesn't have any match on it. We need to request matches again");
 			return true;
 		}
 		
@@ -362,7 +362,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		
 		if(this.lastNotificationRetrieveTime == null){
 			
-			MyLog.bag().v("MainActivity", "Last notification retrieve time is null. We need to request notifications again");
+			MyLog.bag().v("Last notification retrieve time is null. We need to request notifications again");
 			return true;
 		}
 		
@@ -371,12 +371,12 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		long diffAsSeconds = diffAsMilliSeconds / 1000;
 		long diffAsMinutes = diffAsSeconds / 60;
 		if(diffAsMinutes > 30){
-			MyLog.bag().v("MainActivity", "Last notification retrieve time was 30 minutes ago. We need to request notifications again");
+			MyLog.bag().v("Last notification retrieve time was 30 minutes ago. We need to request notifications again");
 			return true;
 		}
 		
 		if(this.notifications.size() == 0 && diffAsSeconds > 30){
-			MyLog.bag().v("MainActivity", "View doesn't have any notification on it. We need to request notifications again");
+			MyLog.bag().v("View doesn't have any notification on it. We need to request notifications again");
 			return true;
 		}
 		
@@ -395,7 +395,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	public void startRetrievingMatches(){
 		
 		if(this.lastLocationInfo == null){
-			MyLog.bag().w("MainActivity", "Current location is null. Match response might not be meaningful.");
+			MyLog.bag().w("Current location is null. Match response might not be meaningful.");
 		}
 		
 		MatchedCandidatesTask task = new MatchedCandidatesTask(this, this, this.lastLocationInfo);
@@ -424,7 +424,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	
 	public void startRetrievingAvailableOffers(){
 		
-		MyLog.bag().v("MainActivity", "Retrieving available offers...");
+		MyLog.bag().v("Retrieving available offers...");
 		BaseRequest request = new BaseRequest();
 		OfferRetrieverTask task = new OfferRetrieverTask(this, this, request);
 		task.execute();
@@ -432,7 +432,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	
 	@Override
 	public void onOffersRetrieved(ArrayList<PurchaseOffer> offers){
-		MyLog.bag().v("MainActivity", "Available offers retrieved: " + offers.size());
+		MyLog.bag().v("Available offers retrieved: " + offers.size());
 		this.availableOffers = offers;
 	}
 	
@@ -446,7 +446,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		
 		// update credit
 		if(currentCredit >= 0){
-			MyLog.bag().i("MainActivity", "onBackLogProcessingComplete. New Credit: " + currentCredit);
+			MyLog.bag().i("onBackLogProcessingComplete. New Credit: " + currentCredit);
 			this.me.setCurrentCredit(currentCredit);
 		}
 		
@@ -457,7 +457,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 					// saving purchase record to the file (unprocessed + non-consumed) will help it get re-processed at a later time.
 					PurchaseRecord ghost = this.findOfferAndSavePurchaseRecord(ghostPurchase, offers);
 					if(ghost != null){
-						MyLog.bag().i("MainActivity", "onBackLogProcessingComplete. A ghost record is saved to a local file to be processed later: " + ghost.getPurchaseReferenceToken());
+						MyLog.bag().i("onBackLogProcessingComplete. A ghost record is saved to a local file to be processed later: " + ghost.getPurchaseReferenceToken());
 					}
 				}
 			}
@@ -468,19 +468,19 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	public void onPurchaseCompleteOnAppStore(int requestCode, int resultCode, Intent data){
 		
 		if(resultCode != Activity.RESULT_OK){
-			MyLog.bag().v("MainActivity", "onPurchaseCompletedOnAppStore cancelled or failed. resultCode = " + resultCode);
+			MyLog.bag().v("onPurchaseCompletedOnAppStore cancelled or failed. resultCode = " + resultCode);
 			return;
 		}
 		
-		MyLog.bag().v("MainActivity", "Purchase is completed on AppStore.");
+		MyLog.bag().v("Purchase is completed on AppStore.");
 		
 		InAppPurchaseResult result = null;
 		try {
 			result = this.inappPurchasingSvc.processActivityResult(requestCode, resultCode, data);
-			MyLog.bag().i("MainActivity", "InAppPurchaseResult has been retrieved properly.");
+			MyLog.bag().i("InAppPurchaseResult has been retrieved properly.");
 		} 
 		catch (GingerException e) {
-			MyLog.bag().e("MainActivity", e.getMessage());
+			MyLog.bag().add(e).e();
 			GingerHelpers.showErrorMessage(this, e.getMessage());
 			return;
 		}
@@ -494,7 +494,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		request.setData(purchaseRecord);
 		
 		// below task calls 'onPurchaseProcessed' method below when done
-		MyLog.bag().v("MainActivity", "Sending the purchase record to the server...");
+		MyLog.bag().v("Sending the purchase record to the server...");
 		ProcessPurchaseTask task = new ProcessPurchaseTask(this, this, request, null);
 		task.execute();
 	}
@@ -511,7 +511,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		
 		if(selectedOffer == null){
 			String errorMessage = "The purchased item '" + result.getProductItemSku() + "' is not one of the avaialable offers.";
-			MyLog.bag().e("MainActivity", errorMessage);
+			MyLog.bag().e(errorMessage);
 			GingerHelpers.showErrorMessage(this, errorMessage);
 			return null;	
 		}
@@ -528,20 +528,20 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		
 		// save to the file
 		try {
-			MyLog.bag().v("MainActivity", "Saving the unprocessed purchase record to the file: " + purchaseRecord.getPurchaseReferenceToken());
+			MyLog.bag().v("Saving the unprocessed purchase record to the file: " + purchaseRecord.getPurchaseReferenceToken());
 			PurchaseUtils.saveUnprocessedPurchaseToFile(this, purchaseRecord);
 		} 
 		catch (GingerException e) {
-			MyLog.bag().e("MainActivity", "Saving the unprocessed purchase record to the file failed: " + e.toString());
+			MyLog.bag().add(e).e("Saving the unprocessed purchase record to the file failed");
 		}
 		
 		// save to the file 2
 		try {
-			MyLog.bag().v("MainActivity", "Saving the unconsumed purchase record to the file: " + purchaseRecord.getPurchaseReferenceToken());
+			MyLog.bag().v("Saving the unconsumed purchase record to the file: " + purchaseRecord.getPurchaseReferenceToken());
 			PurchaseUtils.saveUnconsumedPurchaseToFile(this, purchaseRecord);
 		} 
 		catch (GingerException e) {
-			MyLog.bag().e("MainActivity", "Saving the unconsumed purchase record to the file failed: " + e.toString());
+			MyLog.bag().add(e).e("Saving the unconsumed purchase record to the file failed");
 		}
 		
 		return purchaseRecord;
@@ -553,28 +553,28 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		if(response.getErrorCode() == 0){
 			
 			// log
-			MyLog.bag().v("MainActivity", "Service call 'processPurchase' has returned successfully.");
+			MyLog.bag().v("Service call 'processPurchase' has returned successfully.");
 			
 			// update credit
-			MyLog.bag().i("MainActivity", "New Credit after purchase: " + response.getCurrentCredit());
+			MyLog.bag().i("New Credit after purchase: " + response.getCurrentCredit());
 			this.me.setCurrentCredit(response.getCurrentCredit());
 			
 			// update the file
 			try {
 				PurchaseRecord purchaseRecord = request.getData();
-				MyLog.bag().v("MainActivity", "Removing the unpurchase purchase record from file: " + purchaseRecord.getPurchaseReferenceToken());
+				MyLog.bag().v("Removing the unpurchase purchase record from file: " + purchaseRecord.getPurchaseReferenceToken());
 				PurchaseUtils.removeUnprocessedPurchaseFromFile(this, purchaseRecord);
 			} 
 			catch (GingerException e) {
-				MyLog.bag().e("MainActivity", "Removing the unpurchase purchase record from file failed: " + e.toString());
+				MyLog.bag().add(e).e("Removing the unpurchase purchase record from file failed");
 			}
 			
 			// consume
-			MyLog.bag().v("MainActivity", "Consuming the last purchase on Google Play to enable future purchases.");
+			MyLog.bag().v("Consuming the last purchase on Google Play to enable future purchases.");
 			PurchaseUtils.startConsumingPurchaseOnAppStoreAndClearLocal(this, this.inappPurchasingSvc, request.getData());
 			
 			// buy new MATCHES since we have more credits now... 
-			MyLog.bag().v("MainActivity", "Requesting more PAID matches after credit purchase.");
+			MyLog.bag().v("Requesting more PAID matches after credit purchase.");
 			this.startBuyingNewCandidates();
 		}
 		else {
@@ -585,7 +585,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	public void startBuyingNewCandidates(){
 		
 		if(this.lastLocationInfo == null){
-			MyLog.bag().w("MainActivity", "Current location is null. Match response after purchase might not be meaningful.");
+			MyLog.bag().w("Current location is null. Match response after purchase might not be meaningful.");
 		}
 		
 		BuyingNewMatchRequest request = new BuyingNewMatchRequest();
@@ -690,11 +690,15 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		loc.setGeoLocation(geoLocation);
 		loc.setLocality(locality);
 		this.lastLocationInfo = loc;
-		MyLog.bag().v("MainActivity", "Location Changed. Geo = [" + geoLocation.toString() + "], Locality = [" + locality.toString() + "]");
+		
+		MyLog.bag()
+		.add("GeoLocation", geoLocation.toString())
+		.add("Locality",locality.toString())
+		.v("Location Changed");
 		
 		if(isCityChanged){
 			this.lastMatchRetrieveTime = null;
-			MyLog.bag().v("MainActivity", "Current location (city) has changed dramatically. Resetting flag to retrieve matches again.");
+			MyLog.bag().v("Current location (city) has changed dramatically. Resetting flag to retrieve matches again.");
 		}
 	}
 	
@@ -724,41 +728,41 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		
 		if (requestCode == MainActivity.CaptureCameraCode) {
-			MyLog.bag().v("MainActivity", "CaptureCameraActivity has returned");
+			MyLog.bag().v("CaptureCameraActivity has returned");
 			this.mSectionsPagerAdapter.getProfileFragment().processCameraActivityResult(resultCode, data);			
 	    }
 		else if (requestCode == MainActivity.PickFromGalleryCode) {
-			MyLog.bag().v("MainActivity", "PickFromGalleryActivity has returned");
+			MyLog.bag().v("PickFromGalleryActivity has returned");
 			this.mSectionsPagerAdapter.getProfileFragment().processGalleryActivityResult(resultCode, data);
 		}
 		else if (requestCode == TextInputActivity.TextInputCode) {
-			MyLog.bag().v("MainActivity", "TextInputActivity has returned");
+			MyLog.bag().v("TextInputActivity has returned");
 			this.mSectionsPagerAdapter.getProfileFragment().processTextInputActivityResult(resultCode, data);
 		}
 		else if(requestCode == PersonActivity.PersonActivityCode){
-			MyLog.bag().v("MainActivity", "PersonActivity has returned");			
+			MyLog.bag().v("PersonActivity has returned");			
 			if(resultCode == Activity.RESULT_OK && data != null){				
 				Bundle bundle = data.getExtras();
 				MatchedCandidate candidate = (MatchedCandidate)bundle.getSerializable(MainActivity.UpdatedMatchCandidate);
-				MyLog.bag().i("MainActivity", "Candidate: " + candidate.getUserId() + " viewed: " + candidate.isViewed());				
+				MyLog.bag().i("Candidate: " + candidate.getUserId() + " viewed: " + candidate.isViewed());				
 				this.updateCandidate(candidate);				
 				this.updateNotification(candidate);
 			}
 		}
 		else if(requestCode == InAppPurchasingService.INAPP_PURCHASE_REQUEST_CODE){
-			MyLog.bag().v("MainActivity", "InAppPurchasingService has returned");
+			MyLog.bag().v("InAppPurchasingService has returned");
 			if(resultCode != Activity.RESULT_OK){
-				MyLog.bag().v("MainActivity", "onPurchaseCompletedOnAppStore cancelled or failed. resultCode = " + resultCode);
+				MyLog.bag().v("onPurchaseCompletedOnAppStore cancelled or failed. resultCode = " + resultCode);
 			}
 			else if (data == null){
-				MyLog.bag().e("MainActivity", "onPurchaseCompletedOnAppStore returned null intent although resultCode is OK.");
+				MyLog.bag().e("onPurchaseCompletedOnAppStore returned null intent although resultCode is OK.");
 			}
 			else{
 				this.onPurchaseCompleteOnAppStore(requestCode, resultCode, data);
 			}
 		}
 		else{
-			MyLog.bag().v("MainActivity", "Unknown Activity  has been received by MainActivity: " + requestCode);
+			MyLog.bag().v("Unknown Activity  has been received by MainActivity: " + requestCode);
 		}
 	}
 	

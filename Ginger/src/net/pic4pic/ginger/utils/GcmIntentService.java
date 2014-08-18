@@ -41,14 +41,14 @@ public class GcmIntentService extends IntentService {
              * recognize.
              */
             if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
-            	MyLog.bag().e("GcmIntentService", "Send error: " + extras.toString());
+            	MyLog.bag().e("Send error: " + extras.toString());
             } 
             else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
-            	MyLog.bag().e("GcmIntentService", "Deleted messages on server: " + extras.toString());   
+            	MyLog.bag().e("Deleted messages on server: " + extras.toString());   
             } 
             else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // Post notification of received message.
-                MyLog.bag().i("GcmIntentService", "Received: " + extras.toString());
+                MyLog.bag().i("Received: " + extras.toString());
                 sendNotification(extras);
             }
         }
@@ -69,11 +69,11 @@ public class GcmIntentService extends IntentService {
         		notification = GingerNetUtils.createFromJsonString(jsonData, PushNotification.class);
         	}
         	catch(Exception e){
-        		MyLog.bag().e("GcmIntentService", "Notification data couldn't be converted to object: " + jsonData);
+        		MyLog.bag().e("Notification data couldn't be converted to object: " + jsonData);
         	}
         }
         else{
-        	MyLog.bag().e("GcmIntentService", "Retrieved push notification data is null or empty: " + extras.toString());
+        	MyLog.bag().e("Retrieved push notification data is null or empty: " + extras.toString());
         }
     	
         int iconId = R.drawable.ic_notif;

@@ -56,7 +56,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 	        }
     	}
     	else{
-    		MyLog.bag().e("ImageDownloadTask", "ImageDownloadTask.execute() method should have a valid Url to download.");
+    		MyLog.bag().e("ImageDownloadTask.execute() method should have a valid Url to download.");
     	}
         return bitmap;
     }
@@ -76,7 +76,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     		}
     	}
     	else{
-    		MyLog.bag().e("ImageDownloadTask", "Image couldn't be downloaded? Result bitmap is null in onPostExecute()");
+    		MyLog.bag().e("Image couldn't be downloaded? Result bitmap is null in onPostExecute()");
     	}
     }	
 }

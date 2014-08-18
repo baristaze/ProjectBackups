@@ -33,15 +33,15 @@ public class OfferRetrieverTask extends AsyncTask<String, Void, PurchaseOfferLis
 				return response;				
 			}
 			else{
-				MyLog.bag().e("OfferRetrieverTask", "Offers could not be retrieved. Error: " + response.getErrorMessage());
+				MyLog.bag().e("Offers could not be retrieved. Error: " + response.getErrorMessage());
 			}
 		}
 		catch(GingerException e){
-			MyLog.bag().e("OfferRetrieverTask", "Offers could not be retrieved. Error: " + e.getMessage());
+			MyLog.bag().add(e).e("Offers could not be retrieved.");
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			MyLog.bag().e("OfferRetrieverTask", "Unexpected error received while retrieving offers. Error: " + e.getMessage());
+			MyLog.bag().add(e).e( "Unexpected error received while retrieving offers.");
 		}
 		
 		return null;
@@ -59,7 +59,7 @@ public class OfferRetrieverTask extends AsyncTask<String, Void, PurchaseOfferLis
 			this.listener.onOffersRetrieved(offers);
 		}
 		else{
-			MyLog.bag().w("OfferRetrieverTask", "There is not any available offer.");
+			MyLog.bag().w("There is not any available offer.");
 		}
     }
 	

@@ -120,7 +120,7 @@ public class MobileDevice extends BaseRequest {
 	    } 
 	    catch (NameNotFoundException e) {
 	        // should never happen
-	    	MyLog.bag().e("PushNotificationHelpers", "Could not get package name: " + e);
+	    	MyLog.bag().add(e).e("Could not get package name");
 	    	return 0;
 	    }
 	}

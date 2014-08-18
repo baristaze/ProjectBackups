@@ -49,7 +49,7 @@ public class NotificationListFragment extends Fragment {
 		if(activity.isNeedOfRequestingNotifications()){		
 			
 			// log
-			MyLog.bag().i("NotificationListFragment", "Starting to retrieve notifications");
+			MyLog.bag().i("Starting to retrieve notifications");
 			
 			// below asynchronous process will call our 'onNotificationsComplete' method
 			activity.startRetrievingNotifications();
@@ -57,7 +57,7 @@ public class NotificationListFragment extends Fragment {
 		else {
 			
 			// log
-			MyLog.bag().i("NotificationListFragment", "Cached notifications are being used");
+			MyLog.bag().i("Cached notifications are being used");
 			
 			// get notifications
 			ArrayList<Notification> notifications = activity.getNotifications();
@@ -70,7 +70,7 @@ public class NotificationListFragment extends Fragment {
 	public void onNotificationsComplete(ArrayList<Notification> notifications){
 
 		int notificationCount = (notifications == null ? 0 : notifications.size());
-		MyLog.bag().i("NotificationListFragment", "onNotificationsComplete signal retrieved. Notification Count: " + notificationCount);
+		MyLog.bag().i("onNotificationsComplete signal retrieved. Notification Count: " + notificationCount);
 		
 		// update UI
 		View rootView = this.getView();
@@ -78,13 +78,13 @@ public class NotificationListFragment extends Fragment {
 			this.updateUI(this.getView(), notifications);
 		}
 		else{
-			MyLog.bag().e("NotificationListFragment", "Retrieved notifications before rendering the root view.");
+			MyLog.bag().e("Retrieved notifications before rendering the root view.");
 		}	
 	}
 	
 	private void updateUI(View rootView, ArrayList<Notification> notifications){
 		
-		MyLog.bag().i("NotificationListFragment", "Updating UI based on notifications...");
+		MyLog.bag().i("Updating UI based on notifications...");
 		
 		// remove spinner block
 		this.removeTheFrontestView(rootView);
@@ -127,7 +127,7 @@ public class NotificationListFragment extends Fragment {
 			return true;
 		}
 		else{
-			MyLog.bag().e("NotificationListFragment", "We cannot remove the latest view since we have only 1");
+			MyLog.bag().e("We cannot remove the latest view since we have only 1");
 			return false;
 		}
 	}
@@ -140,7 +140,7 @@ public class NotificationListFragment extends Fragment {
 		intent.putExtra(PersonActivity.PersonType, notification.getSender());
 		
 		if(notification.getType().getIntValue() == NotificationType.SentText.getIntValue()){
-			MyLog.bag().v("NotificationListFragment", "Launching conversation activity is desired as a forward action");
+			MyLog.bag().v("Launching conversation activity is desired as a forward action");
 			intent.putExtra(PersonActivity.ForwardActionType, PersonActivity.ForwardAction.ShowMessages.getIntValue());
 		}
 
@@ -178,17 +178,17 @@ public class NotificationListFragment extends Fragment {
 						response = Service.getInstance().mark(activity, marking);
 						if(response.getErrorCode() == 0){
 							notification.setRead(true);
-							MyLog.bag().v("NotificationListFragment", "Notification has been marked as read: " + notification.getId());
+							MyLog.bag().v("Notification has been marked as read: " + notification.getId());
 						}
 						else{
-							MyLog.bag().e("NotificationListFragment", "Marking notification failed: " + response.getErrorMessage());
+							MyLog.bag().e("Marking notification failed: " + response.getErrorMessage());
 						}
 					}
 					catch(GingerException ge){
-						MyLog.bag().e("NotificationListFragment", "Marking notification failed: " + ge.getMessage());
+						MyLog.bag().add(ge).e("Marking notification failed");
 					}
 					catch(Exception e){
-						MyLog.bag().e("NotificationListFragment", "Marking notification as read failed: " + e.toString());
+						MyLog.bag().add(e).e("Marking notification as read failed");
 					}					
 					
 					// update UI
@@ -228,7 +228,7 @@ public class NotificationListFragment extends Fragment {
 		
 		View rootView = this.getView(); 
 		if(rootView == null){
-			MyLog.bag().w("NotificationListFragment", "Root view is null? Hah!");
+			MyLog.bag().w("Root view is null? Hah!");
 			return;
 		}
 		
@@ -257,14 +257,14 @@ public class NotificationListFragment extends Fragment {
 							adapter.getView(position, listItemView, listView);
 							
 							// log
-							MyLog.bag().i("MatchListFragment", "Refreshing avatar image for user: " + person.getUserId());	
+							MyLog.bag().i("Refreshing avatar image for user: " + person.getUserId());	
 						}
 						
 						// do not 'mark as read'...
 					}
 				});
 		    	
-		    	MyLog.bag().v("NotificationListFragment", "ListItemView is found(" + (++found) + "). Avatar will be changed shortly for: " + person.getUserId());
+		    	MyLog.bag().v("ListItemView is found(" + (++found) + "). Avatar will be changed shortly for: " + person.getUserId());
 		    	
 		    	// DO NOT break since we might have received multiple notification from a candidate
 		    	// break;

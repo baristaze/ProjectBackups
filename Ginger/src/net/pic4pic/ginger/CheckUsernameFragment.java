@@ -87,7 +87,7 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 			_applyData(rootView);
 		}	
 		else{
-			MyLog.bag().e("CheckUsernameFragment", "applyData() has been called before onCreateView() of CheckUsernameFragment");
+			MyLog.bag().e("applyData() has been called before onCreateView() of CheckUsernameFragment");
 		}
 	}
 	
@@ -139,7 +139,7 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
          */
 		if(response.getErrorCode() != 0){
 			// ErrorCode != 0 : UserName is already in use
-			MyLog.bag().i("CheckUserName", response.getErrorMessage());			
+			MyLog.bag().i(response.getErrorMessage());			
 			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
 		}
 		else{

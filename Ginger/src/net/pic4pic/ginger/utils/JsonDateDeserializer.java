@@ -52,8 +52,7 @@ public class JsonDateDeserializer implements JsonDeserializer<Date>, JsonSeriali
 			l = Long.parseLong(s);
 		}
 		catch(NumberFormatException e){
-			MyLog.bag().e("Exception", e.toString());
-			MyLog.bag().e("JSON", "Parsing JSON DateTime to Java Date failed: " + original);
+			MyLog.bag().add(e).e("Parsing JSON DateTime to Java Date failed: " + original);
 		}
 		
 		if(l > 0){

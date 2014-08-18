@@ -35,11 +35,11 @@ public class PushNotificationRegisterTask extends AsyncTask<String, Void, String
 	        // register with Google Cloud Messaging Services
 	        registrationId = this.googleCloudMessaging.register(this.senderId);
 	        String logMessage = "Device is registered for push notifications with Google Play. Registration ID=" + registrationId;
-	        MyLog.bag().i("PushNotificationRegisterTask", logMessage);
+	        MyLog.bag().i(logMessage);
         } 
         catch (IOException e) {
         	e.printStackTrace();
-        	MyLog.bag().e("PushNotificationRegisterTask", "Registration to the push notification with Google Play failed: " + e);
+        	MyLog.bag().add(e).e("Registration to the push notification with Google Play failed");
         }
 		
 		if(registrationId == null || registrationId.isEmpty()){
@@ -48,20 +48,20 @@ public class PushNotificationRegisterTask extends AsyncTask<String, Void, String
 		 
 		boolean savedSuccessfully = false;
 		try {
-			MyLog.bag().i("PushNotificationRegisterTask", "Sending push notification registration ID to the server...");
+			MyLog.bag().i("Sending push notification registration ID to the server...");
 			MobileDevice mobileDevice = MobileDevice.getInstance(this.activity, registrationId);
 			BaseResponse response = Service.getInstance().trackDevice(this.activity, mobileDevice);
 			if(response.getErrorCode() == 0){
-				MyLog.bag().i("PushNotificationRegisterTask", "Push notification registration ID has been sent to the server: " + registrationId);
+				MyLog.bag().i("Push notification registration ID has been sent to the server: " + registrationId);
 				savedSuccessfully = true; 
 			}
 			else{
-				MyLog.bag().e("PushNotificationRegisterTask", "Push notification registration ID couldn't be sent to the server: " + response.getErrorMessage());
+				MyLog.bag().e("Push notification registration ID couldn't be sent to the server: " + response.getErrorMessage());
 			}			 
 		} 
 		catch (GingerException e) {
 			e.printStackTrace();
-			MyLog.bag().e("PushNotificationRegisterTask", "Push notification registration ID couldn't be sent to the server: " + e);
+			MyLog.bag().e("Push notification registration ID couldn't be sent to the server: " + e);
 		}
 
          // Persist the regID - no need to register again.

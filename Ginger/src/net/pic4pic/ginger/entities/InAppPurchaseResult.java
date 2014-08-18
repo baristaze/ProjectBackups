@@ -61,7 +61,7 @@ public class InAppPurchaseResult implements Serializable {
 		}
 		catch (JSONException e) {
 			String errMsg = "InApp purchase result has unexpected format";
-			MyLog.bag().e("InAppPurchaseResult", errMsg + ".\n" + purchaseData);
+			MyLog.bag().add("PurchaseData", purchaseData).e(errMsg);
 			throw new GingerException(errMsg, e);
 		}	
 	}

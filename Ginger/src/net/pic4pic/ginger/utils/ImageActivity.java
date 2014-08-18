@@ -143,7 +143,7 @@ public class ImageActivity {
 	        return cursor.getString(column_index);
 		}
 		catch(Exception ex){
-			MyLog.bag().e("Ginger", "ImageActivity: " + ex.toString());
+			MyLog.bag().e("ImageActivity: " + ex.toString());
 			return null;
 		}
     }
@@ -201,7 +201,7 @@ public class ImageActivity {
 		
 		if(rotate != 0){
 			try {
-				MyLog.bag().v("Ginger", "ImageActivity: Fixing rotation of the image...");
+				MyLog.bag().v("ImageActivity: Fixing rotation of the image...");
 				bitmap = BitmapHelpers.rotateImage(bitmap, rotate);
 			}
 			catch(Exception ex){
@@ -216,7 +216,7 @@ public class ImageActivity {
 		}
 		
 		result.resultBitmap = bitmap;
-		MyLog.bag().v("Ginger", "ImageActivity: Dimension of Image (WxH) = " + bitmap.getWidth() + "x" + bitmap.getHeight());
+		MyLog.bag().v("ImageActivity: Dimension of Image (WxH) = " + bitmap.getWidth() + "x" + bitmap.getHeight());
 		return result;	
 	}	
 }

@@ -130,6 +130,7 @@ public class LogBag {
 		this.log(Verbose, message);
 	}
 	
+	/*
 	public void e(String tagNotInUse, String message){
 		this.log(Error, message);
 	}
@@ -149,6 +150,7 @@ public class LogBag {
 	public void d (String tagNotInUse, String message){
 		this.log(Verbose, message);
 	}
+	*/
 	
 	protected String getLevelAsText(int level){
 		

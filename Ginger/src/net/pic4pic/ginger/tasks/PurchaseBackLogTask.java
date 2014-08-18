@@ -48,19 +48,19 @@ public class PurchaseBackLogTask extends AsyncTask<String, Void, Integer> {
 			}
 		}
 		
-		MyLog.bag().i("PurchaseBackLogTask", allSuccess + " of " + unprocesseds.size() + " unprocessed purchases are prosessed successfully.");
+		MyLog.bag().i(allSuccess + " of " + unprocesseds.size() + " unprocessed purchases are prosessed successfully.");
 		
 		allSuccess = 0;
 		PurchaseRecordList unconsumeds = PurchaseUtils.readUnconsumedPurchasesFromFile(this.activity);
 		for(PurchaseRecord purchase : unconsumeds){
-			MyLog.bag().v("PurchaseBackLogTask", "Consuming purchase: " + purchase.getPurchaseReferenceToken());
+			MyLog.bag().v("Consuming purchase: " + purchase.getPurchaseReferenceToken());
 			int temp = PurchaseUtils.consumePurchaseOnAppStoreAndClearLocal(this.activity, this.purchasingService, purchase);
 			if(temp == 2){
 				allSuccess++;
 			}
 		}
 		
-		MyLog.bag().i("PurchaseBackLogTask", allSuccess + " of " + unconsumeds.size() + " unconsumed purchases are consumed successfully.");
+		MyLog.bag().i(allSuccess + " of " + unconsumeds.size() + " unconsumed purchases are consumed successfully.");
 		
 		if(allSuccess == unconsumeds.size()){			
 			this.ghostPurchases = this.safeRetrieveGhostPurchases();
@@ -77,18 +77,18 @@ public class PurchaseBackLogTask extends AsyncTask<String, Void, Integer> {
 	private ArrayList<InAppPurchaseResult> safeRetrieveGhostPurchases(){
 		
 		try {
-			MyLog.bag().v("PurchaseBackLogTask", "Retrieving ghost purchases...");
+			MyLog.bag().v("Retrieving ghost purchases...");
 			ArrayList<InAppPurchaseResult> ownedItems = this.purchasingService.getPurchasedItems();
-			MyLog.bag().i("PurchaseBackLogTask", "Owned Item Count: " + ownedItems.size());
+			MyLog.bag().i("Owned Item Count: " + ownedItems.size());
 			return ownedItems;
 		} 
 		catch (GingerException e) {
 			e.printStackTrace();
-			MyLog.bag().e("PurchaseBackLogTask", "Retrieving ghost purchases failed: " + e.getMessage());
+			MyLog.bag().e("Retrieving ghost purchases failed: " + e.getMessage());
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			MyLog.bag().e("PurchaseBackLogTask", "Unexpected error when retrieving ghost purchases: " + e.getMessage());
+			MyLog.bag().e("Unexpected error when retrieving ghost purchases: " + e.getMessage());
 		}
 		
 		return new ArrayList<InAppPurchaseResult>();
@@ -104,23 +104,23 @@ public class PurchaseBackLogTask extends AsyncTask<String, Void, Integer> {
 			request.setData(purchase);
 			
 			// send request
-			MyLog.bag().v("PurchaseBackLogTask", "Sending purchase record to the server: " + token);
+			MyLog.bag().v("Sending purchase record to the server: " + token);
 			BaseResponse response = Service.getInstance().processPurchase(activity, request);
 			if(response.getErrorCode() == 0){
-				MyLog.bag().i("PurchaseBackLogTask", "Purchase record has been sent to the server successfully. Current Credit: " + response.getCurrentCredit());
+				MyLog.bag().i("Purchase record has been sent to the server successfully. Current Credit: " + response.getCurrentCredit());
 				return response.getCurrentCredit();
 			}
 			else{
-				MyLog.bag().e("PurchaseBackLogTask", "Sending purchase record (" + token + ") to the server failed: " + response.getErrorMessage());
+				MyLog.bag().e("Sending purchase record (" + token + ") to the server failed: " + response.getErrorMessage());
 				return Integer.MIN_VALUE;
 			}
 		} 
 		catch (GingerException e) {
-			MyLog.bag().e("PurchaseBackLogTask", "Sending purchase record (" + token + ") to the server failed: " + e.getMessage());
+			MyLog.bag().add(e).e("Sending purchase record (" + token + ") to the server failed");
 			return Integer.MIN_VALUE;
 		}
 		catch(Exception e){
-			MyLog.bag().e("PurchaseBackLogTask", "Unknown error when sending purchase record (" + token + ") to the server: " + e.getMessage());
+			MyLog.bag().add(e).e("Unknown error when sending purchase record (" + token + ") to the server");
 			return Integer.MIN_VALUE;
 		}	
 	}
@@ -130,16 +130,16 @@ public class PurchaseBackLogTask extends AsyncTask<String, Void, Integer> {
 		String token = purchase.getPurchaseReferenceToken();
 		
 		try {
-			MyLog.bag().v("PurchaseBackLogTask", "Removing unprocessed purchase (" + token + ") from local file: " + purchase.getPurchaseReferenceToken());
+			MyLog.bag().v("Removing unprocessed purchase (" + token + ") from local file: " + purchase.getPurchaseReferenceToken());
 			PurchaseUtils.removeUnprocessedPurchaseFromFile(this.activity, purchase);
-			MyLog.bag().i("PurchaseBackLogTask", "Removing unprocessed purchase (" + token + ") from local file is successfull: " + purchase.getPurchaseReferenceToken());
+			MyLog.bag().i("Removing unprocessed purchase (" + token + ") from local file is successfull: " + purchase.getPurchaseReferenceToken());
 			return true;
 		} 
 		catch (GingerException e) {
-			MyLog.bag().e("PurchaseBackLogTask", "Removing purchase record (" + token + ") from local file failed: " + e.getMessage());
+			MyLog.bag().add(e).e("Removing purchase record (" + token + ") from local file failed");
 		}
 		catch(Exception e){
-			MyLog.bag().e("PurchaseBackLogTask", "Unknown error when removing purchase record (" + token + ") from local file: " + e.getMessage());
+			MyLog.bag().add(e).e("Unknown error when removing purchase record (" + token + ") from local file");
 		}		
 		
 		return false;

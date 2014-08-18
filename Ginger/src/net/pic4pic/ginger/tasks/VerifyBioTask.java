@@ -31,7 +31,7 @@ public class VerifyBioTask extends BlockedTask<String, Void, UserResponse> {
 		} 
     	catch (GingerException e) {
     		
-    		MyLog.bag().e("VerifyBio", e.toString());
+    		MyLog.bag().add(e).e();
     		
 			UserResponse response = new UserResponse();
 			response.setErrorCode(1);
@@ -40,7 +40,7 @@ public class VerifyBioTask extends BlockedTask<String, Void, UserResponse> {
 		}
     	catch(Exception e){
     		
-    		MyLog.bag().e("VerifyBio", e.toString());
+    		MyLog.bag().add(e).e();
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);

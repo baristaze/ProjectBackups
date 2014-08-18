@@ -43,7 +43,7 @@ public class SendLocationTask extends AsyncTask<String, Void, BaseResponse> {
 		} 
     	catch (GingerException e) {
     		
-    		MyLog.bag().e("SendLocationTask", e.toString());
+    		MyLog.bag().add(e).e();
     		
 			BaseResponse response = new BaseResponse();
 			response.setErrorCode(1);
@@ -52,7 +52,7 @@ public class SendLocationTask extends AsyncTask<String, Void, BaseResponse> {
 		}
     	catch(Exception e){
     		
-    		MyLog.bag().e("SendLocationTask", e.toString());
+    		MyLog.bag().add(e).e();
     		
     		BaseResponse response = new BaseResponse();
 			response.setErrorCode(1);
@@ -71,11 +71,11 @@ public class SendLocationTask extends AsyncTask<String, Void, BaseResponse> {
 				}
 			}
 			else{
-				MyLog.bag().e("SendLocationTask", response.getErrorMessage());
+				MyLog.bag().e(response.getErrorMessage());
 			}
 		}
 		else{
-			MyLog.bag().e("SendLocationTask", "Returned response is null");
+			MyLog.bag().e("Returned response is null");
 		}
     }
 	

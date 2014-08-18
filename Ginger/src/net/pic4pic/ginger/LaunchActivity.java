@@ -138,7 +138,7 @@ public class LaunchActivity extends Activity {
 		}
 		else{
 			
-			MyLog.bag().e("Signin", response.getErrorMessage());
+			MyLog.bag().e(response.getErrorMessage());
 			
 			final ProgressBar spinnerProgressBar = (ProgressBar)this.findViewById(R.id.spinnerProgressBar);
 			spinnerProgressBar.setVisibility(View.INVISIBLE);

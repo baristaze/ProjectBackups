@@ -14,16 +14,16 @@ public class ImageStorageHelper {
 	public static boolean saveToInternalStorage(Context context, Bitmap bitmap, String fileName, boolean alertOnError){
 		byte[] byteArray = null;		
 		try{
-			MyLog.bag().v("Bitmap", "Bitmap Width before Compress: " + bitmap.getWidth());
-			MyLog.bag().v("Bitmap", "Bitmap Height before Compress: " + bitmap.getHeight());
+			MyLog.bag().v("Bitmap Width before Compress: " + bitmap.getWidth());
+			MyLog.bag().v("Bitmap Height before Compress: " + bitmap.getHeight());
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 			byteArray = stream.toByteArray();
-			MyLog.bag().v("Storage", "Bitmap has been compressed successfully");
+			MyLog.bag().v("Bitmap has been compressed successfully");
 		}
 		catch(Exception ex){
-			MyLog.bag().v("Storage", "Bitmap couldn't be compressed");
-			MyLog.bag().e("Storage", ex.toString());
+			MyLog.bag().v("Bitmap couldn't be compressed");
+			MyLog.bag().e(ex.toString());
 			if(alertOnError){
 				GingerHelpers.showErrorMessage(context, context.getString(R.string.err_image_compress_failed));
 			}
@@ -34,12 +34,12 @@ public class ImageStorageHelper {
 				FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
 				fos.write(byteArray);
 				fos.close();
-				MyLog.bag().v("Storage", "Bitmap has been saved successfully");
+				MyLog.bag().v("Bitmap has been saved successfully");
 				return true;
 			}
 			catch(Exception e){
-				MyLog.bag().v("Storage", "Bitmap couldn't be saved");
-				MyLog.bag().e("File", e.toString());
+				MyLog.bag().v("Bitmap couldn't be saved");
+				MyLog.bag().add(e).e();
 				if(alertOnError){
 					GingerHelpers.showErrorMessage(context, context.getString(R.string.err_image_save_failed));
 				}
@@ -74,7 +74,7 @@ public class ImageStorageHelper {
 		
 		try{
 			String absolutePath = getAbsolutePath(context, fileName);
-			MyLog.bag().v("Storage", "Absolute Path: " + absolutePath);
+			MyLog.bag().v("Absolute Path: " + absolutePath);
 			
 			System.gc();
 			Bitmap bitmap = null;
@@ -86,15 +86,15 @@ public class ImageStorageHelper {
 			}
 			
 			if(bitmap == null){
-				MyLog.bag().v("Storage", "Bitmap couldn't be read from the storage (null).");
+				MyLog.bag().v("Bitmap couldn't be read from the storage (null).");
 			}
 			else{
-				MyLog.bag().v("Storage", "Bitmap has been read from storage successfully");
+				MyLog.bag().v("Bitmap has been read from storage successfully");
 			}
 			return bitmap;
 		}
 		catch(Exception e){
-			MyLog.bag().v("Storage", "Bitmap couldn't be read from the storage (exception).");
+			MyLog.bag().v("Bitmap couldn't be read from the storage (exception).");
 			if(alertOnError){
 				GingerHelpers.showErrorMessage(context, context.getString(R.string.err_image_read_failed));
 			}

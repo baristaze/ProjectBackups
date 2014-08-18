@@ -85,7 +85,7 @@ public class BitmapHelpers {
 	    }
 	    catch(OutOfMemoryError ex){
 	    	String sizeInfo = "Source size: " + source.getWidth() + "x" + source.getHeight() + ". Required byte: " + source.getByteCount();
-	    	MyLog.bag().e("BitmapHelpers", "Out of memory exception when creating Bitmap in 'scale' method. " + sizeInfo);
+	    	MyLog.bag().e("Out of memory exception when creating Bitmap in 'scale' method. " + sizeInfo);
 	    	
 	    	throw new GingerException("Image processing requires more memory than allocated");
 	    }
@@ -145,7 +145,7 @@ public class BitmapHelpers {
 	    }
 	    catch(OutOfMemoryError ex){
 	    	String sizeInfo = "Source size: " + source.getWidth() + "x" + source.getHeight() + ". Required byte: " + source.getByteCount();
-	    	MyLog.bag().e("BitmapHelpers", "Out of memory exception when creating Bitmap in 'crop' method. " + sizeInfo);
+	    	MyLog.bag().e("Out of memory exception when creating Bitmap in 'crop' method. " + sizeInfo);
 	    	
 	    	throw new GingerException("Image processing requires more memory than allocated");
 	    }
@@ -220,7 +220,7 @@ public class BitmapHelpers {
 		int width = (bitmap.getWidth() % 2) == 0 ? bitmap.getWidth() : bitmap.getWidth()-1;
 		int height = (bitmap.getHeight() % 2) == 0 ? bitmap.getHeight() : bitmap.getHeight()-1;
 		if(width != bitmap.getWidth() || height != bitmap.getHeight()){
-			MyLog.bag().v("FaceDetection", "Cropping the image by 1 pixel since it must be even for face detection.");
+			MyLog.bag().v("Cropping the image by 1 pixel since it must be even for face detection.");
 			
 			System.gc();
 		    Bitmap temp = null;
@@ -229,7 +229,7 @@ public class BitmapHelpers {
 		    }
 		    catch(OutOfMemoryError ex){
 		    	String sizeInfo = "Source size: " + bitmap.getWidth() + "x" + bitmap.getHeight() + ". Required byte: " + bitmap.getByteCount();
-		    	MyLog.bag().e("BitmapHelpers", "Out of memory exception when creating Bitmap in 'crop' method. " + sizeInfo);
+		    	MyLog.bag().e("Out of memory exception when creating Bitmap in 'crop' method. " + sizeInfo);
 		    	
 		    	throw new GingerException("Image processing requires more memory than allocated");
 		    }
@@ -249,8 +249,8 @@ public class BitmapHelpers {
 			exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 		} 
 		catch (IOException e) {
-			MyLog.bag().e("Rotation", "Rotation information couldn't be retrieved");
-			MyLog.bag().e("Rotation", e.toString());
+			MyLog.bag().e("Rotation information couldn't be retrieved");
+			MyLog.bag().e(e.toString());
 			throw e;
 		}
 		
@@ -269,7 +269,7 @@ public class BitmapHelpers {
 		       break;
 		}
 	
-		MyLog.bag().v("BitmapHelpers", "Rotation of the image = " + rotate + ". Image = " + absoluteFilePath);
+		MyLog.bag().v("Rotation of the image = " + rotate + ". Image = " + absoluteFilePath);
 		return rotate;
 	}
 	

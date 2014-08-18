@@ -34,7 +34,7 @@ public class MatchedCandidatesTask extends AsyncTask<String, Void, MatchedCandid
 		} 
     	catch (GingerException e) {
     		
-    		MyLog.bag().e("TodaysMatches", e.toString());
+    		MyLog.bag().add(e).e();
     		
     		MatchedCandidateListResponse response = new MatchedCandidateListResponse();
 			response.setErrorCode(1);
@@ -43,7 +43,7 @@ public class MatchedCandidatesTask extends AsyncTask<String, Void, MatchedCandid
 		}
     	catch(Exception e){
     		
-    		MyLog.bag().e("TodaysMatches", e.toString());
+    		MyLog.bag().add(e).e();
     		
     		MatchedCandidateListResponse response = new MatchedCandidateListResponse();
 			response.setErrorCode(1);
