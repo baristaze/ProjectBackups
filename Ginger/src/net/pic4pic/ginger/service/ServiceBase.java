@@ -342,7 +342,13 @@ public class ServiceBase {
 	    finally {
 	    	long elapsedTime = System.nanoTime() - startTime;
 	    	elapsedTime /= 1000000;
-	    	MyLog.bag().add("ServiceCall", url).add("ElapsedTimeMSec", Long.toString(elapsedTime)).add("Success", (response == null ? "0" : "1")).i();
+	    	
+	    	if(pathAndQuery.equals("/svc/rest/log")){	    		
+	    		android.util.Log.i("Ginger-ServiceBase", "ServiceCall=" + url + ", ElapsedTimeMSec=" + Long.toString(elapsedTime) + ", Success=" + (response == null ? "0" : "1"));
+	    	}	    	
+	    	else{
+	    		MyLog.bag().add("ServiceCall", url).add("ElapsedTimeMSec", Long.toString(elapsedTime)).add("Success", (response == null ? "0" : "1")).i();
+	    	}
 	    }
 		
 		// below method throws GingerException

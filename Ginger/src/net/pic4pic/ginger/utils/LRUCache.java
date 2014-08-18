@@ -25,7 +25,15 @@ public class LRUCache<A, B> extends LinkedHashMap<A, B> {
 	 * @param maxEntries
 	 */
     public LRUCache(final int maxEntries) {
-        super(maxEntries + 1, 1.0f, true);
+        this(maxEntries, true);
+    }
+    
+    /**
+	 * Constructor
+	 * @param maxEntries
+	 */
+    public LRUCache(final int maxEntries, boolean accessOrdered) {
+        super(maxEntries + 1, 1.0f, accessOrdered);
         this.maxEntries = maxEntries;
     }
     

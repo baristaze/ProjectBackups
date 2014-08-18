@@ -121,7 +121,8 @@ public class GingerNetUtils {
 		}
 		scanner.close();
 		
-		// MyLog.bag().v("JSON", json.toString());
+		// MyLog.bag().d("JSON", json.toString());
+		// android.util.Log.v("Ginger-GingerNetUtils", "JSON=" + json.toString());
 		
 		Gson gson = createGson();
 		return gson.fromJson(json.toString(), theClass);
@@ -132,6 +133,7 @@ public class GingerNetUtils {
 		// convert object to JSON string
 		String json = convertToJsonString(input);
 		// MyLog.bag().v("JSON", json);
+		// android.util.Log.v("Ginger-GingerNetUtils", "JSON=" + json.toString());
 		
 		// convert JSON string to HttpEntity
 		StringEntity httpEntity = null;

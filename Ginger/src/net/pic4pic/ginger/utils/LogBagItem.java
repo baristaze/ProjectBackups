@@ -1,8 +1,13 @@
 package net.pic4pic.ginger.utils;
 
+import com.google.gson.annotations.SerializedName;
+
 public class LogBagItem {
 	
+	@SerializedName("Name")
 	protected String name;
+	
+	@SerializedName("Value")
 	protected String value;
 	
 	public LogBagItem(String name, String value)

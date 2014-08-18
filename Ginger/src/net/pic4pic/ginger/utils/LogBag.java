@@ -1,7 +1,12 @@
 package net.pic4pic.ginger.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.UUID;
+
+import com.google.gson.annotations.SerializedName;
 
 import android.util.Log;
 
@@ -26,15 +31,14 @@ public class LogBag {
 	public static final String TagAppVersion = "AppVersion";
 	
 	public static final String TagClientId = "ClientId";
-	public static final String TagUserId = "UserId";
-	public static final String TagUsername = "Username";
 	
 	public static final String TagObjectType = "ObjectType";
 	public static final String TagObjectId = "ObjectId";
 	
 	public static final String TagParam = "Param";
 	
-	private ArrayList<LogBagItem> items = new ArrayList<LogBagItem>();
+	@SerializedName("Pairs")
+	protected ArrayList<LogBagItem> items = new ArrayList<LogBagItem>();
 	
 	public LogBag add(String tag, String value){
 		
@@ -61,19 +65,6 @@ public class LogBag {
 		}
 		
 		return this.add(TagClientId, clientId.toString());
-	}
-	
-	public LogBag addUser(UUID userId){
-		
-		if(userId == null){
-			userId = new UUID(0, 0); 
-		}
-		
-		return this.add(TagUserId, userId.toString());
-	}
-	
-	public LogBag addUser(String username){		
-		return this.add(TagUsername, username);
 	}
 	
 	public LogBag addObject(String objectType, UUID objectId){
@@ -129,28 +120,6 @@ public class LogBag {
 	public void d (String message){
 		this.log(Verbose, message);
 	}
-	
-	/*
-	public void e(String tagNotInUse, String message){
-		this.log(Error, message);
-	}
-	
-	public void w(String tagNotInUse, String message){
-		this.log(Warning, message);
-	}
-	
-	public void i(String tagNotInUse, String message){
-		this.log(Info, message);
-	}
-	
-	public void v(String tagNotInUse, String message){
-		this.log(Verbose, message);
-	}
-	
-	public void d (String tagNotInUse, String message){
-		this.log(Verbose, message);
-	}
-	*/
 	
 	protected String getLevelAsText(int level){
 		
@@ -225,12 +194,29 @@ public class LogBag {
 	}
 	
 	protected void log(int level, String message){		
+		
+		// add level
 		this.add(TagLevel, this.getLevelAsText(level));
+		
+		// add message
 		if(message != null && message.length() > 0){
 			this.add(TagMessage, message);
 		}
 		
+		// log to console
 		this.logToConsole(level, false);
+		
+		// add extra since this needs to be sent to server
+		UUID logKey = UUID.randomUUID();
+		this.add("LogId", logKey.toString());		
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+		this.add("LogTimeUTC", dateFormatter.format(new Date()));
+		
+		// send
+		LogPusher.instance().add(logKey, this);
+		
+		// do not clear! we don't know what happens.
 	}
 	
 	protected void logToConsole(int level, boolean summarize){

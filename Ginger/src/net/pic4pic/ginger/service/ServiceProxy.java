@@ -10,6 +10,7 @@ import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.BuyingNewMatchRequest;
 import net.pic4pic.ginger.entities.CandidateDetailsRequest;
 import net.pic4pic.ginger.entities.CandidateDetailsResponse;
+import net.pic4pic.ginger.entities.ClientLogRequest;
 import net.pic4pic.ginger.entities.ConversationRequest;
 import net.pic4pic.ginger.entities.ConversationResponse;
 import net.pic4pic.ginger.entities.ConversationsSummaryResponse;
@@ -418,5 +419,23 @@ public class ServiceProxy extends ServiceBase implements IService {
 				ServiceEndpoint.MainService, 
 				super.getAuthToken(context, true),
 				"/svc/rest/location/current").getData();
+    }
+    
+    public BaseResponse sendClientLogs(ClientLogRequest request) throws GingerException{
+    	
+    	if(request.getClientId() == null){
+    		UUID temp = this.getCachedClientId();
+    		if(temp == null){
+    			temp = new UUID(0, 0);
+    		}
+    		request.setClientId(temp);
+		}		
+    	
+		return super.post(
+				request, 
+				BaseResponse.class, 
+				ServiceEndpoint.LogService, 
+				null,
+				"/svc/rest/log").getData();
     }
 }

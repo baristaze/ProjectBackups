@@ -8,6 +8,7 @@ import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.BuyingNewMatchRequest;
 import net.pic4pic.ginger.entities.CandidateDetailsRequest;
 import net.pic4pic.ginger.entities.CandidateDetailsResponse;
+import net.pic4pic.ginger.entities.ClientLogRequest;
 import net.pic4pic.ginger.entities.ConversationRequest;
 import net.pic4pic.ginger.entities.ConversationResponse;
 import net.pic4pic.ginger.entities.ConversationsSummaryResponse;
@@ -91,4 +92,6 @@ public interface IService {
     public BaseResponse assureSupportAtLocation(Context context, SimpleRequest<Location> request) throws GingerException;
     
     public BaseResponse setCurrentLocation(Context context, SimpleRequest<Location> request) throws GingerException;
+    
+    public BaseResponse sendClientLogs(ClientLogRequest request) throws GingerException;
 }
