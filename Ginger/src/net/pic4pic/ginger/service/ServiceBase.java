@@ -27,7 +27,7 @@ public class ServiceBase {
 	
 	private String authTokenCached = null;
 	
-	private UUID clientIdCached = null;
+	protected UUID clientIdCached = null;
 	
 	/**
 	 * Retrieves the authentication token either from cache or from local file

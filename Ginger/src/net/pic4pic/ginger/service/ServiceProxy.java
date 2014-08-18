@@ -54,6 +54,10 @@ public class ServiceProxy extends ServiceBase implements IService {
 		}		
 	}
 	
+	public UUID getCachedClientId(){
+		return this.clientIdCached;
+	}
+	
 	@Override
 	public UserResponse checkUsername(Context context, UserCredentials request) throws GingerException {
 		

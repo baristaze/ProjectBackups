@@ -1,7 +1,5 @@
 package net.pic4pic.ginger;
 
-import java.util.UUID;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,20 +30,16 @@ public class LaunchActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.recreatePropertiesFromSavedBundle(savedInstanceState);
 		
+		Service.getInstance().init(this);
+		MyLog.bag().v("Web Service Proxy is initialized");
+		
 		Intent intent = getIntent();
 		this.preSelectedTabIndexOnMainActivity = intent.getIntExtra("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity);
-		if(this.preSelectedTabIndexOnMainActivity != 0)
-		{
-			MyLog.v("LaunchActivity", "Launched by a push notification");
+		if(this.preSelectedTabIndexOnMainActivity != 0) {
+			MyLog.bag().add("LaunchByNotif", "1").v();
 		}
 		
-		setContentView(R.layout.activity_launch);
-		
-		UUID clientId = Service.getInstance().init(this);
-		if(clientId != null){
-			MyLog.i("ClientId", "ClientId = " + clientId.toString());
-		}
-		
+		setContentView(R.layout.activity_launch);		
 		this.signinOrSignup();
 	}
 	
