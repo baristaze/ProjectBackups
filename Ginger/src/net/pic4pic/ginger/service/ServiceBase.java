@@ -262,6 +262,7 @@ public class ServiceBase {
 		}
 		
 		// make the call in a safe way
+		long startTime = System.nanoTime();
 		HttpResponse response = null;
 		try {
 			HttpClient httpClient = GingerNetUtils.getHttpClient();
@@ -274,7 +275,12 @@ public class ServiceBase {
 		catch (IOException e) {
 			e.printStackTrace();
 			throw new GingerException("IO exception when " + actionDescription + " via remote server", e);
-		}
+		}		
+	    finally{
+	    	long elapsedTime = System.nanoTime() - startTime;
+	    	elapsedTime /= 1000000;
+	    	MyLog.bag().add("ServiceCall", url).add("ElapsedTimeMSec", Long.toString(elapsedTime)).add("Success", (response == null ? "0" : "1")).i();
+	    }
 		
 		// below method throws GingerException
 		R result = GingerNetUtils.getJsonObjectFrom(response, outputClass);
@@ -310,7 +316,6 @@ public class ServiceBase {
 		
 		// create post request
 		String url = webSvc.getUrl(pathAndQuery);	
-		MyLog.bag().add("ServiceCall", url).v();
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setEntity(inputEntity);
 		
@@ -321,6 +326,7 @@ public class ServiceBase {
 		
 		// make the call in a safe way
 		HttpResponse response = null;
+		long startTime = System.nanoTime();
 		try {
 			HttpClient httpClient = GingerNetUtils.getHttpClient();
 			response = httpClient.execute(httpPost);
@@ -333,6 +339,11 @@ public class ServiceBase {
 			e.printStackTrace();
 			throw new GingerException("IO exception when when making a remote call to the web service", e);
 		}
+	    finally {
+	    	long elapsedTime = System.nanoTime() - startTime;
+	    	elapsedTime /= 1000000;
+	    	MyLog.bag().add("ServiceCall", url).add("ElapsedTimeMSec", Long.toString(elapsedTime)).add("Success", (response == null ? "0" : "1")).i();
+	    }
 		
 		// below method throws GingerException
 		R result = GingerNetUtils.getJsonObjectFrom(response, outputClass);
@@ -363,9 +374,7 @@ public class ServiceBase {
 			throw new GingerException("Input image path is null or empty");
 		}
 		
-		MyLog.bag().v("File Path = " + localImageFullPath);
-		
-	    InputStreamEntity reqEntity = null;
+		InputStreamEntity reqEntity = null;
 		try {
 			File file = new File(localImageFullPath);	
 			reqEntity = new InputStreamEntity(new FileInputStream(file), -1);
@@ -375,18 +384,21 @@ public class ServiceBase {
 			String msg = "File not found: " + localImageFullPath;
 			throw new GingerException(msg, e);
 		}
+		finally{
+			MyLog.bag().add("LocalImagePath", localImageFullPath).add("Success", (reqEntity == null ? "0" : "1")).v();
+		}
 		
 		reqEntity.setContentType("binary/octet-stream");
 	    reqEntity.setChunked(true); // Send in multiple parts if needed
 	    
 	    String url = webSvc.getUrl(pathAndQuery);
 	    
-	    MyLog.bag().add("ServiceCall", url).v();
-	    
 	    HttpPost httpPost = new HttpPost(url);
 	    httpPost.setEntity(reqEntity);
 	    httpPost.addHeader("ClientId", clientId.toString());
-	    HttpResponse response = null;	    
+	    
+	    HttpResponse response = null;
+	    long startTime = System.nanoTime();
 	    try {
 	    	HttpClient httpClient = GingerNetUtils.getDefaultHttpClientForFiles();
 			response = httpClient.execute(httpPost);
@@ -399,6 +411,11 @@ public class ServiceBase {
 			e.printStackTrace();
 			throw new GingerException("IO exception when when making a remote call to the web service", e);
 		}
+	    finally{
+	    	long elapsedTime = System.nanoTime() - startTime;
+	    	elapsedTime /= 1000000;
+	    	MyLog.bag().add("ServiceCall", url).add("ElapsedTimeMSec", Long.toString(elapsedTime)).add("Success", (response == null ? "0" : "1")).i();
+	    }
 	    
 	    // below method throws GingerException
 	    R result = GingerNetUtils.getJsonObjectFrom(response, outputClass);

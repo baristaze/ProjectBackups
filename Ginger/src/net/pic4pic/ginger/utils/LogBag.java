@@ -230,10 +230,10 @@ public class LogBag {
 			this.add(TagMessage, message);
 		}
 		
-		this.logToConsole(level);
+		this.logToConsole(level, false);
 	}
 	
-	protected void logToConsole(int level){
+	protected void logToConsole(int level, boolean summarize){
 	
 		String tag = "Ginger";
 		String cls = this.getValueOf(TagClassName);
@@ -241,7 +241,22 @@ public class LogBag {
 			tag += "-" + cls;
 		}		
 		
-		String log = this.toString();
+		String log = "";
+		if(summarize){
+			String msg = this.getValueOf(TagMessage);
+			String exc = this.getValueOf(TagException);
+			log = msg == null ? "" : msg;
+			if(exc != null && exc.length() > 0){
+				if(log.length() > 0){
+					log += " : ";
+				}
+				log += exc;
+			}
+		}
+
+		if(log.length() <=0 ){
+			log = this.toString();
+		}
 		
 		switch(level){
 		

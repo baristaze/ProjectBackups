@@ -43,7 +43,8 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     	// else... download it
     	Bitmap bitmap = null;    	
     	if(urls != null && urls.length > 0){
-	        String urldisplay = urls[0];	        
+	        String urldisplay = urls[0];
+	        long startTime = System.nanoTime();
 	        try {
 	        	MyLog.bag().addObject("Image", this.imageId).v("Downloading Image... ");
 	        	System.gc();
@@ -54,6 +55,12 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 	            MyLog.bag().add(e).e("Image download failed with error");
 	            e.printStackTrace();
 	        }
+		    finally{
+		    	long elapsedTime = System.nanoTime() - startTime;
+		    	elapsedTime /= 1000000;
+		    	MyLog.bag().add("ImageDownload", urldisplay).add("ElapsedTimeMSec", Long.toString(elapsedTime)).add("Success", (bitmap == null ? "0" : "1")).i();
+		    }
+
     	}
     	else{
     		MyLog.bag().e("ImageDownloadTask.execute() method should have a valid Url to download.");
