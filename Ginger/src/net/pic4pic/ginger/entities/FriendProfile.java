@@ -26,6 +26,6 @@ public class FriendProfile extends UserProfile {
 	@Override
 	public String toString(){
 		
-		return this.getUsername() + " : " + this.getShortBio();
+		return this.getDisplayName() + " : " + this.getShortBio();
 	}
 }

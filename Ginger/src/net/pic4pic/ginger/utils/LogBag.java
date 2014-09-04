@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import net.pic4pic.ginger.entities.LogReportingLevel;
+import net.pic4pic.ginger.service.Service;
+
 import com.google.gson.annotations.SerializedName;
 
 import android.util.Log;
@@ -15,8 +18,9 @@ public class LogBag {
 	protected static final int Debug = 1;
 	protected static final int Verbose = 2;
 	protected static final int Info = 3;
-	protected static final int Warning = 4;
-	protected static final int Error = 5;
+	protected static final int Metric = 4;
+	protected static final int Warning = 5;
+	protected static final int Error = 6;
 	
 	public static final String TagLevel = "Level";
 	public static final String TagMessage = "Message";
@@ -97,6 +101,10 @@ public class LogBag {
 		this.log(Warning, message);
 	}
 	
+	public void m(String message){		
+		this.log(Metric, message);
+	}
+	
 	public void i(){
 		this.i(null);
 	}
@@ -130,6 +138,9 @@ public class LogBag {
 				
 			case Warning : 
 				return "Warning";
+			
+			case Metric : 
+				return "Metric";
 				
 			case Info : 
 				return "Info";
@@ -207,16 +218,44 @@ public class LogBag {
 		this.logToConsole(level, false);
 		
 		// add extra since this needs to be sent to server
-		UUID logKey = UUID.randomUUID();
-		this.add("LogId", logKey.toString());		
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
-		this.add("LogTimeUTC", dateFormatter.format(new Date()));
-		
-		// send
-		LogPusher.instance().add(logKey, this);
+		if(this.shouldBeSent(level)){
+			
+			UUID logKey = UUID.randomUUID();
+			this.add("LogId", logKey.toString());		
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+			this.add("LogTimeUTC", dateFormatter.format(new Date()));
+			
+			// send
+			LogPusher.instance().add(logKey, this);	
+		}
 		
 		// do not clear! we don't know what happens.
+	}
+	
+	protected boolean shouldBeSent(int level)
+	{
+		int reportingLevel = Service.getInstance().getLogReportingLevel();
+		if(level == LogBag.Error && reportingLevel >= LogReportingLevel.OnlyErrors){
+			return true;
+		}
+		if(level == LogBag.Warning && reportingLevel >= LogReportingLevel.WarningsAndAbove){
+			return true;
+		}
+		if(level == LogBag.Metric && reportingLevel >= LogReportingLevel.MetricsAndAbove){
+			return true;
+		}
+		if(level == LogBag.Info && reportingLevel >= LogReportingLevel.InfoAndAbove){
+			return true;
+		}
+		if(level == LogBag.Verbose && reportingLevel >= LogReportingLevel.VerboseAndAbove){
+			return true;
+		}
+		if(level == LogBag.Debug && reportingLevel >= LogReportingLevel.All){
+			return true;
+		}
+		
+		return false;
 	}
 	
 	protected void logToConsole(int level, boolean summarize){
@@ -252,6 +291,10 @@ public class LogBag {
 				
 			case Warning : 
 				Log.w(tag, log);
+				break;
+				
+			case Metric : 
+				Log.i(tag, log); // it is still info
 				break;
 				
 			case Info : 

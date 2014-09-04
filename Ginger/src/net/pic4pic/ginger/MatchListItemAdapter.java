@@ -50,7 +50,7 @@ public class MatchListItemAdapter extends ArrayAdapter<MatchedCandidate> {
 		
 		MatchedCandidate person = this.people.get(position);
 		
-		cachedView.usernameTextView.setText(person.getCandidateProfile().getUsername());
+		cachedView.usernameTextView.setText(person.getCandidateProfile().getDisplayName());
 		cachedView.shortBioTextView.setText(person.getCandidateProfile().getShortBio());
 		
 		// set type face: bold vs. regular

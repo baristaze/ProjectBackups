@@ -20,6 +20,9 @@ public class BaseResponse implements Serializable {
 	@SerializedName("NeedsRelogin")
 	protected boolean needsRelogin;
 	
+	@SerializedName("LogReportLevel")
+	protected int logReportLevel;
+	
 	public int getErrorCode(){
 		return this.errorCode;
 	}
@@ -56,5 +59,19 @@ public class BaseResponse implements Serializable {
 	
 	public void setNeedRelogin(boolean needsRelogin){
 		this.needsRelogin = needsRelogin;
+	}
+
+	/**
+	 * @return the logReportLevel
+	 */
+	public int getLogReportLevel() {
+		return logReportLevel;
+	}
+
+	/**
+	 * @param logReportLevel the logReportLevel to set
+	 */
+	public void setLogReportLevel(int logReportLevel) {
+		this.logReportLevel = logReportLevel;
 	}
 }

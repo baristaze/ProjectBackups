@@ -78,7 +78,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 		ViewCache cachedView = (ViewCache) convertView.getTag();
 		
 		// set user name
-		cachedView.usernameTextView.setText(notification.getSender().getCandidateProfile().getUsername());
+		cachedView.usernameTextView.setText(notification.getSender().getCandidateProfile().getDisplayName());
 				
 		// set title
 		cachedView.titleTextView.setText(notification.getTitle());

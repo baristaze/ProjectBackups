@@ -126,12 +126,12 @@ public class LocationManagerUtil {
             	
             	Locality locality = new Locality();
             	locality.setCountry(address.getCountryName());
+            	locality.setCountryCode(address.getCountryCode());
             	locality.setRegion(address.getAdminArea());
+            	locality.setSubRegion(address.getSubAdminArea()); // county
             	locality.setCity(address.getLocality());
+            	locality.setNeighborhood(address.getSubLocality()); // neighborhood
             	locality.setZipCode(address.getPostalCode());
-            	//address.getCountryCode();		// country
-            	//address.getSubAdminArea(); 	// county
-            	//address.getSubLocality();		// neighborhood
             	
             	return locality;
             }

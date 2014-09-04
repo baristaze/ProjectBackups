@@ -52,7 +52,7 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		ImageView meMainPhotoView = (ImageView) rootView.findViewById(R.id.meMainPhoto);
 		
 		final UserResponse me = this.getMe();
-		meUsernameView.setText(me.getUserProfile().getUsername());
+		meUsernameView.setText(me.getUserProfile().getDisplayName());
 		meShortBioView.setText(me.getUserProfile().getShortBio());
 		
 		String descr = me.getUserProfile().getDescription();

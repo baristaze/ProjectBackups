@@ -8,14 +8,23 @@ public class Locality implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@SerializedName("City")
-	protected String city;
+	@SerializedName("CountryCode")
+	protected String countryCode;
+	
+	@SerializedName("Country")
+	protected String country;
 	
 	@SerializedName("Region")
 	protected String region;
 	
-	@SerializedName("Country")
-	protected String country;
+	@SerializedName("SubRegion")
+	protected String subRegion;
+	
+	@SerializedName("City")
+	protected String city;
+	
+	@SerializedName("Neighborhood")
+	protected String neighborhood;
 	
 	@SerializedName("ZipCode")
 	protected String zipCode;
@@ -118,5 +127,47 @@ public class Locality implements Serializable {
 	 */
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	/**
+	 * @return the subRegion
+	 */
+	public String getSubRegion() {
+		return subRegion;
+	}
+
+	/**
+	 * @param subRegion the subRegion to set
+	 */
+	public void setSubRegion(String subRegion) {
+		this.subRegion = subRegion;
+	}
+
+	/**
+	 * @return the neighborhood
+	 */
+	public String getNeighborhood() {
+		return neighborhood;
+	}
+
+	/**
+	 * @param neighborhood the neighborhood to set
+	 */
+	public void setNeighborhood(String neighborhood) {
+		this.neighborhood = neighborhood;
+	}
+
+	/**
+	 * @return the countryCode
+	 */
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	/**
+	 * @param countryCode the countryCode to set
+	 */
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 }

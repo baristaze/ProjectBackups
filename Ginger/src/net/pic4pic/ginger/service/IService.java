@@ -47,6 +47,8 @@ public interface IService {
 	
 	public UUID getCachedClientId();
 	
+	public int getLogReportingLevel();
+	
     public UserResponse checkUsername(Context context, UserCredentials request) throws GingerException;
     
     public UserResponse signin(Context context, UserCredentials request) throws GingerException;

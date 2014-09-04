@@ -121,7 +121,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		
 		// set user-name
 		TextView usernameText = (TextView)this.findViewById(R.id.candidateUsername);
-		usernameText.setText(this.person.getCandidateProfile().getUsername());
+		usernameText.setText(this.person.getCandidateProfile().getDisplayName());
 		
 		// set short bio
 		TextView shortBioText = (TextView)this.findViewById(R.id.candidateShortBio);

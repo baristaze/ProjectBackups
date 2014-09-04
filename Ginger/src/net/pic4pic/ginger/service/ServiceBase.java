@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import net.pic4pic.ginger.entities.BaseRequest;
 import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.GingerException;
+import net.pic4pic.ginger.entities.LogReportingLevel;
 import net.pic4pic.ginger.utils.GingerNetUtils;
 import net.pic4pic.ginger.utils.MyLog;
 
@@ -28,6 +29,8 @@ public class ServiceBase {
 	private String authTokenCached = null;
 	
 	protected UUID clientIdCached = null;
+	
+	protected int logReportingLevel = LogReportingLevel.OnlyErrors;
 	
 	/**
 	 * Retrieves the authentication token either from cache or from local file
@@ -245,7 +248,7 @@ public class ServiceBase {
 	 * @return
 	 * @throws GingerException
 	 */
-	protected static<R extends BaseResponse> ResponseWrapper<R> get(
+	protected <R extends BaseResponse> ResponseWrapper<R> get(
 			String actionDescription, 
 			Class<R> outputClass, 
 			ServiceEndpoint webSvc, 
@@ -284,6 +287,7 @@ public class ServiceBase {
 		
 		// below method throws GingerException
 		R result = GingerNetUtils.getJsonObjectFrom(response, outputClass);
+		this.logReportingLevel = result.getLogReportLevel();
 		return new ResponseWrapper<R>(result);
 	}
 	
@@ -299,7 +303,7 @@ public class ServiceBase {
 	 * @return
 	 * @throws GingerException
 	 */
-	protected static<T extends BaseRequest, R extends BaseResponse> ResponseWrapper<R> post(
+	protected <T extends BaseRequest, R extends BaseResponse> ResponseWrapper<R> post(
 			T input, 
 			Class<R> outputClass, 
 			ServiceEndpoint webSvc, 
@@ -353,6 +357,7 @@ public class ServiceBase {
 		
 		// below method throws GingerException
 		R result = GingerNetUtils.getJsonObjectFrom(response, outputClass);
+		this.logReportingLevel = result.getLogReportLevel();
 		return new ResponseWrapper<R>(result);
 	}
 	
@@ -368,7 +373,7 @@ public class ServiceBase {
 	 * @return
 	 * @throws GingerException
 	 */
-	protected static<R extends BaseResponse> ResponseWrapper<R> postLocalImage(
+	protected <R extends BaseResponse> ResponseWrapper<R> postLocalImage(
 			String localImageFullPath,
 			UUID clientId,
 			Class<R> outputClass, 
@@ -425,6 +430,7 @@ public class ServiceBase {
 	    
 	    // below method throws GingerException
 	    R result = GingerNetUtils.getJsonObjectFrom(response, outputClass);
+	    this.logReportingLevel = result.getLogReportLevel();
 	    return new ResponseWrapper<R>(result);
 	}
 }

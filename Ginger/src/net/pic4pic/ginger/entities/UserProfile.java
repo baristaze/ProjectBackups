@@ -17,6 +17,9 @@ public class UserProfile implements Serializable {
     
     @SerializedName("Username")
     protected String username;
+    
+    @SerializedName("DisplayName")
+    protected String displayName;
 
     @SerializedName("Gender")
     protected Gender gender;
@@ -96,6 +99,20 @@ public class UserProfile implements Serializable {
 		this.username = username;
 	}
 	
+	/**
+	 * @return the displayName
+	 */
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	/**
+	 * @param displayName the displayName to set
+	 */
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
 	/**
 	 * @return the gender
 	 */
