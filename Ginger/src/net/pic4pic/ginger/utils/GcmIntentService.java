@@ -76,7 +76,7 @@ public class GcmIntentService extends IntentService {
         	MyLog.bag().e("Retrieved push notification data is null or empty: " + extras.toString());
         }
     	
-        int iconId = R.drawable.ic_notif;
+        int iconId = R.drawable.ic_notif_2;
         int selectedTabIndex = 1; // 2nd tab
         if(notification.getActionType() == 88){
         	selectedTabIndex = 0;
