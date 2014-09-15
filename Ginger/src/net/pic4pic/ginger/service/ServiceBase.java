@@ -30,7 +30,7 @@ public class ServiceBase {
 	
 	protected UUID clientIdCached = null;
 	
-	protected int logReportingLevel = LogReportingLevel.OnlyErrors;
+	protected int logReportingLevel = LogReportingLevel.MetricsAndAbove;
 	
 	/**
 	 * Retrieves the authentication token either from cache or from local file

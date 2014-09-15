@@ -59,6 +59,8 @@ public interface IService {
     
     public BaseResponse activateUser(Context context, BaseRequest request) throws GingerException;
     
+    public BaseResponse updateUserDetails(Context context, SimpleRequest<String> request) throws GingerException;
+    
     public BaseResponse downloadFriends(Context context, FacebookRequest request) throws GingerException;
     
     public ImageUploadResponse uploadProfileImage(Context context, ImageUploadRequest request) throws GingerException;

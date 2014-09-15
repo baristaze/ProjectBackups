@@ -21,16 +21,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.pic4pic.ginger.entities.BaseResponse;
 import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.PicturePair;
+import net.pic4pic.ginger.entities.SimpleRequest;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
+import net.pic4pic.ginger.tasks.UpdateUserDetailsTask;
+import net.pic4pic.ginger.tasks.UpdateUserDetailsTask.UserDetailsUpdateListener;
 import net.pic4pic.ginger.utils.ImageClickListener;
 import net.pic4pic.ginger.utils.ImageGalleryView;
 import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.TextInputDialog;
 
-public class ProfileFragment extends Fragment implements TextInputDialog.TextInputListener {
+public class ProfileFragment extends Fragment implements TextInputDialog.TextInputListener, UserDetailsUpdateListener {
 
 	private static final String defaultDescr = "tell something about yourself here (tap to edit)";
 	
@@ -151,14 +155,30 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		
 		UserResponse me = this.getMe();
 		
-		if(me != null && this.meDescriptionView != null){			
+		if(me != null && this.meDescriptionView != null){
+			
 			if (descr == null || descr.trim().length() == 0 || descr.trim().equalsIgnoreCase(defaultDescr)){
-				me.getUserProfile().setDescription("");
 				this.meDescriptionView.setText(defaultDescr);
 			}
 			else{
-				me.getUserProfile().setDescription(descr);
 				this.meDescriptionView.setText(descr);
+			}
+			
+			descr = ((descr == null) ? "" : descr.trim());
+			if(!descr.equals(me.getUserProfile().getDescription())){
+				SimpleRequest<String> request = new SimpleRequest<String>();
+				request.setData(descr);
+				UpdateUserDetailsTask task = new UpdateUserDetailsTask(this.getActivity(), this, request);
+				task.execute();
+			}
+		}
+	}
+	
+	public void onUserDetailsUpdated(BaseResponse response, SimpleRequest<String> request){
+		if(response.getErrorCode() == 0){
+			UserResponse me = this.getMe();
+			if(me != null){
+				me.getUserProfile().setDescription(request.getData());
 			}
 		}
 	}

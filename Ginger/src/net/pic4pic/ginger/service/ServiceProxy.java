@@ -172,6 +172,21 @@ public class ServiceProxy extends ServiceBase implements IService {
 	}
 	
 	@Override
+	public BaseResponse updateUserDetails(Context context, SimpleRequest<String> request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				BaseResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context), 
+				"/svc/rest/user/description").getData();
+	}
+	
+	@Override
 	public ImageUploadResponse uploadProfileImage(Context context, ImageUploadRequest request) throws GingerException {
 		
 		if(request.getClientId() == null){
