@@ -149,6 +149,7 @@ public class FaceDetectionFragment extends Fragment
 		String absoluteFilePath = ImageStorageHelper.getAbsolutePath(this.getActivity(), fileName);
 		ImageUploadRequest request = new ImageUploadRequest();
 		request.setFullLocalPath(absoluteFilePath);
+		request.setProfileImage(true);
 		ImageUploadTask task = new ImageUploadTask(this, this.getActivity(), request);
 		task.execute();
 	}

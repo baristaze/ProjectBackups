@@ -63,7 +63,7 @@ public interface IService {
     
     public BaseResponse downloadFriends(Context context, FacebookRequest request) throws GingerException;
     
-    public ImageUploadResponse uploadProfileImage(Context context, ImageUploadRequest request) throws GingerException;
+    public ImageUploadResponse uploadImage(Context context, ImageUploadRequest request) throws GingerException;
     
     public MatchedCandidateListResponse getTodaysMatches(Context context, SimpleRequest<Location> request) throws GingerException;
     

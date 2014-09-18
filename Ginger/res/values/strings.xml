@@ -93,6 +93,7 @@
     <string name="err_no_face_detected">We couldn\'t detect any face on the taken photo. Please try again and make sure that your face is clearly visible.</string>
     
     <string name="lastCapturedPhoto_filename_key">net.pic4pic.ginger.LAST_CAPTURED_PHOTO.jpg</string>
+    <string name="secondary_photos_last_filename_key">net.pic4pic.ginger.SECONDARY_PHOTOS_LAST_CAPTURED.jpg</string>
     <string name="face_detect_analyzing">Analyzing&#8230;</string>
     <string name="photo_uploading">Uploading&#8230;</string>
     <string name="face_detected">Face Detected!</string>

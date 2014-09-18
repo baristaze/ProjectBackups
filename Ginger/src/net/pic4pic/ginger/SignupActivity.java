@@ -20,7 +20,6 @@ import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.tasks.SendLocationTask;
 import net.pic4pic.ginger.tasks.SendLocationTask.LocationType;
 import net.pic4pic.ginger.tasks.SendLocationTask.SendLocationListener;
-import net.pic4pic.ginger.utils.BitmapHelpers;
 import net.pic4pic.ginger.utils.GingerHelpers;
 import net.pic4pic.ginger.utils.ImageActivity;
 import net.pic4pic.ginger.utils.ImageStorageHelper;
@@ -287,32 +286,8 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer, Lo
 		ImageActivity.Result result = ImageActivity.getProcessedResult(this, resultCode, data);
 		Bitmap photo = result.getBitmap();
 		if(photo != null){
-			if(photo.getWidth() > BitmapHelpers.MAX_SIZE || photo.getHeight() > BitmapHelpers.MAX_SIZE){
-				
-				int newWidth = photo.getWidth();
-				int newHeight = photo.getHeight();
-				if(photo.getWidth() >= photo.getHeight()){
-					newWidth = BitmapHelpers.MAX_SIZE;
-					newHeight = (int)((float)newWidth * ((float)photo.getHeight() / (float)photo.getWidth())); 
-				}
-				else {
-					newHeight = BitmapHelpers.MAX_SIZE;
-					newWidth = (int)((float)newHeight * ((float)photo.getWidth() / (float)photo.getHeight()));
-				}
-				
-				System.gc();
-				try{
-					String sizeInfoOld = "Old size: " + photo.getWidth() + "x" + photo.getHeight() + ". Required byte: " + photo.getByteCount();
-					photo = Bitmap.createScaledBitmap(photo, newWidth, newHeight, true);
-					String sizeInfoNew = "New size: " + photo.getWidth() + "x" + photo.getHeight() + ". Required byte: " + photo.getByteCount();
-					MyLog.bag().i("Photo size has been reduced: " + sizeInfoOld + " => " + sizeInfoNew);
-				}
-				catch(OutOfMemoryError exception){
-					String sizeInfo = "Source size: " + photo.getWidth() + "x" + photo.getHeight() + ". Required byte: " + photo.getByteCount();
-			    	MyLog.bag().e("Out of memory exception when creating scaling Bitmap in 'processPhotoActivityResult' method. " + sizeInfo);
-			    	// no need to re-throw it here. just swallow.
-				}
-			}
+			
+			photo = ImageActivity.trimSize(photo);
 			
 			String fileName = this.getString(R.string.lastCapturedPhoto_filename_key);
 			if(ImageStorageHelper.saveToInternalStorage(this, photo, fileName, true)){

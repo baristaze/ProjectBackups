@@ -48,9 +48,9 @@ public class ServiceBase {
 	 */
 	protected synchronized String getAuthToken(Context context, boolean throwOnNoAuth) throws GingerException {
 		
-		if(this.authTokenCached == null){
+		if(this.authTokenCached == null || this.authTokenCached.trim().length() == 0){
 			this.authTokenCached = this._getAuthTokenFromLocal(context);
-			if(this.authTokenCached == null && throwOnNoAuth){
+			if((this.authTokenCached == null  || this.authTokenCached.trim().length() == 0) && throwOnNoAuth){
 				throw new GingerException("Please sign in first");
 			}
 		}
@@ -406,7 +406,12 @@ public class ServiceBase {
 	    
 	    HttpPost httpPost = new HttpPost(url);
 	    httpPost.setEntity(reqEntity);
-	    httpPost.addHeader("ClientId", clientId.toString());
+	    httpPost.setHeader("ClientId", clientId.toString());
+	    
+	    // set authentication token
+ 		if(authToken != null && authToken.trim().length() > 0){
+ 			httpPost.setHeader("XAuthToken", authToken);
+ 		}
 	    
 	    HttpResponse response = null;
 	    long startTime = System.nanoTime();

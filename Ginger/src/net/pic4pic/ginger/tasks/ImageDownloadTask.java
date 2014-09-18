@@ -16,12 +16,17 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 	private UUID imageId;
 	private ImageView imageView;
 	private boolean clickableAfterDownload;
+	private ImageDownloadListener listener;
 	
 	public ImageDownloadTask(UUID imageId, ImageView imageView){
 		this(imageId, imageView, false);
 	}
-		
-    public ImageDownloadTask(UUID imageId, ImageView imageView, boolean clickableAfterDownload) {
+	
+	public ImageDownloadTask(UUID imageId, ImageView imageView, boolean clickableAfterDownload) {
+		this(imageId, imageView, clickableAfterDownload, null);
+	}
+	
+    public ImageDownloadTask(UUID imageId, ImageView imageView, boolean clickableAfterDownload, ImageDownloadListener listener) {
         this.imageId = imageId;
     	this.imageView = imageView;
         this.clickableAfterDownload = clickableAfterDownload;
@@ -30,6 +35,8 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
         	this.imageId = new UUID(0, 0);
         	MyLog.bag().w("Image ID hasn't been defined yet");
         }
+        
+        this.listener = listener;
     }
 
     @Override
@@ -85,5 +92,13 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     	else{
     		MyLog.bag().e("Image couldn't be downloaded? Result bitmap is null in onPostExecute()");
     	}
+    	
+    	if(this.listener != null){
+    		this.listener.onImageDownload(this.imageId, this.imageView, result);
+    	}
     }	
+    
+    public interface ImageDownloadListener {
+    	void onImageDownload(UUID imageId, ImageView imageView, Bitmap result);
+    }
 }

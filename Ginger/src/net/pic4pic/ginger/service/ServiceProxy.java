@@ -187,19 +187,21 @@ public class ServiceProxy extends ServiceBase implements IService {
 	}
 	
 	@Override
-	public ImageUploadResponse uploadProfileImage(Context context, ImageUploadRequest request) throws GingerException {
+	public ImageUploadResponse uploadImage(Context context, ImageUploadRequest request) throws GingerException {
 		
 		if(request.getClientId() == null){
 			request.setClientId(super.getClientId(context));
 		}
+		
+		String profileflag = request.isProfileImage() ? "1" : "0";
 		
 		return super.postLocalImage(
 				request.getFullLocalPath(), 
 				request.getClientId(),
 				ImageUploadResponse.class, 
 				ServiceEndpoint.ImageService, 
-				super.getAuthToken(context, false), 
-				"/file/upload?blurSize=20&profile=1&thumbx=200&thumby=200").getData();
+				super.getAuthToken(context, !request.isProfileImage()), 
+				"/file/upload?blurSize=20&profile=" + profileflag + "&thumbx=200&thumby=200").getData();
 	}
 	
 	@Override

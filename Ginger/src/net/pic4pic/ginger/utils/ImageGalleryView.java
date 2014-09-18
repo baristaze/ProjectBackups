@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -15,7 +13,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import net.pic4pic.ginger.MainActivity;
 import net.pic4pic.ginger.R;
 import net.pic4pic.ginger.entities.ImageFile;
 import net.pic4pic.ginger.entities.PicturePair;
@@ -64,9 +61,11 @@ public class ImageGalleryView {
 	private boolean insertAddImgIcon;
 	private int populatedImageCount;
 	private int initialChildCount;
+	private int startCameraResultCode;
+	private int startGalleryResultCode;
 	
 	public ImageGalleryView(Activity activity, LinearLayout parentView, List<PicturePair> images){
-		this(activity, parentView, images, true, null, 6, false);
+		this(activity, parentView, images, true, null, 6, false, 0, 0);
 	}
 	
 	public ImageGalleryView(
@@ -76,7 +75,9 @@ public class ImageGalleryView {
 			boolean enableImageClick,
 			Margin marginOuter, 
 			int gapBetweenImages,
-			boolean insertAddImgIcon){
+			boolean insertAddImgIcon,
+			int startCameraResultCode,
+			int startGalleryResultCode){
 		
 		this.activity = activity;
 		this.parentView = parentView;
@@ -98,6 +99,8 @@ public class ImageGalleryView {
 		}
 		
 		this.initialChildCount = this.parentView.getChildCount();
+		this.startCameraResultCode = startCameraResultCode;
+		this.startGalleryResultCode = startGalleryResultCode;
 	}
 	
 	protected int getMaxImageCountPerLine(){
@@ -183,10 +186,27 @@ public class ImageGalleryView {
 		return imgView;
 	}
 	
-	protected void assignImageToView(ImageView imgView){
-		ImageFile imageToDownload = images.get(this.populatedImageCount).getThumbnail();
-		imgView.setOnClickListener(new ImageClickListener(this.activity, imgView));
-		ImageDownloadTask photoDownloadTask = new ImageDownloadTask(imageToDownload.getId(), imgView, this.enableImageClick);
+	protected void assignImageToView(final ImageView imgView){
+		
+		final PicturePair pair = images.get(this.populatedImageCount);
+		
+		// set the click event so that we can show the full-size image
+		if(this.enableImageClick){
+			imgView.setOnClickListener(new View.OnClickListener() {						
+				@Override
+				public void onClick(View v) {
+					// download and show full image
+					ImageFile fullImageToDownload = pair.getFullSize();
+					ImageDownloadTask photoDownloadTask = new ImageDownloadTask(fullImageToDownload.getId(), imgView);
+					photoDownloadTask.execute(fullImageToDownload.getCloudUrl());
+		        }
+			});
+		}
+		
+		// download and show thumb-nail image
+		ImageFile imageToDownload = pair.getThumbnail();
+		imgView.setOnClickListener(new ImageClickListener(this.activity, imgView, pair.getFullSize()));
+		ImageDownloadTask photoDownloadTask = new ImageDownloadTask(imageToDownload.getId(), imgView, true);
 		photoDownloadTask.execute(imageToDownload.getCloudUrl());	
 	}
 	
@@ -196,10 +216,10 @@ public class ImageGalleryView {
 			@Override
 			public void onClick(View v) {
 				// start camera
-				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-				cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
-	            ImageGalleryView.this.activity.startActivityForResult(
-	            		cameraIntent, MainActivity.CaptureCameraCode);
+				ImageActivity.start(
+						ImageActivity.Source.Camera, 
+						ImageGalleryView.this.activity, 
+						startCameraResultCode);
 	        }
 		});
 	}
@@ -209,13 +229,11 @@ public class ImageGalleryView {
 		imgView.setOnClickListener(new View.OnClickListener() {						
 			@Override
 			public void onClick(View v) {
-				// in onCreate or any event where your want the user to
-                // select a file
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                ImageGalleryView.this.activity.startActivityForResult(
-                		Intent.createChooser(intent, "Select Picture"), MainActivity.PickFromGalleryCode);
+				// start gallery
+				ImageActivity.start(
+						ImageActivity.Source.Gallery, 
+						ImageGalleryView.this.activity, 
+						startGalleryResultCode);
 			}
 		});
 	}
@@ -272,7 +290,7 @@ public class ImageGalleryView {
 		}
 	} 
 	
- 	public void addNewImage(Bitmap bitmap, String persistedPath){
+ 	public void onNewImageAdded(){
 		// this.parentView.removeAllViews();
  		this.clearFilledPhotos();
 		this.fillPhotos();

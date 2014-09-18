@@ -1,17 +1,13 @@
 package net.pic4pic.ginger;
 
-import java.util.Random;
-import java.util.UUID;
-
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,22 +15,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.pic4pic.ginger.entities.BaseResponse;
-import net.pic4pic.ginger.entities.ImageFile;
+import net.pic4pic.ginger.entities.ImageUploadRequest;
+import net.pic4pic.ginger.entities.ImageUploadResponse;
 import net.pic4pic.ginger.entities.PicturePair;
 import net.pic4pic.ginger.entities.SimpleRequest;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.tasks.ImageDownloadTask;
+import net.pic4pic.ginger.tasks.ImageUploadTask;
 import net.pic4pic.ginger.tasks.UpdateUserDetailsTask;
 import net.pic4pic.ginger.tasks.UpdateUserDetailsTask.UserDetailsUpdateListener;
+import net.pic4pic.ginger.utils.GingerHelpers;
+import net.pic4pic.ginger.utils.ImageActivity;
 import net.pic4pic.ginger.utils.ImageClickListener;
 import net.pic4pic.ginger.utils.ImageGalleryView;
+import net.pic4pic.ginger.utils.ImageStorageHelper;
 import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.TextInputDialog;
 
-public class ProfileFragment extends Fragment implements TextInputDialog.TextInputListener, UserDetailsUpdateListener {
+public class ProfileFragment extends Fragment implements TextInputDialog.TextInputListener, UserDetailsUpdateListener, 
+/* implements */ ImageUploadTask.ImageUploadListener {
 
 	private static final String defaultDescr = "tell something about yourself here (tap to edit)";
 	
@@ -128,20 +129,28 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		LinearLayout photoGalleryParent = (LinearLayout)rootView.findViewById(R.id.thumbnailPlaceholder);
 		ImageGalleryView.Margin margin = new ImageGalleryView.Margin(6);   
 		this.gallery = new ImageGalleryView(
-				this.getActivity(), photoGalleryParent, me.getOtherPictures(), true, margin, 6, true);
+				this.getActivity(), 
+				photoGalleryParent, 
+				me.getOtherPictures(), 
+				true, 
+				margin, 
+				6, 
+				true,
+				MainActivity.CaptureCameraCode,
+				MainActivity.PickFromGalleryCode);
 		
 		gallery.fillPhotos();
 		
 		return rootView;
 	}	
 	
-	public void addNewImage(PicturePair image, Bitmap bitmap){
+	public void addNewImage(PicturePair image){
 		
 		UserResponse me = this.getMe();
 		if(me != null){
 			me.getOtherPictures().add(image);
 			if(this.gallery != null){
-				this.gallery.addNewImage(bitmap, image.getFullSize().getCloudUrl());
+				this.gallery.onNewImageAdded();
 			}
 		}
 	}
@@ -216,131 +225,74 @@ public class ProfileFragment extends Fragment implements TextInputDialog.TextInp
 		}
 	}
 	
-	public void processCameraActivityResult(int resultCode, Intent data){
-		
-		if(resultCode == Activity.RESULT_OK && data != null){
-			
-			MyLog.bag().v("Camera result seems OK");				
-			
-			Bitmap bitmapPhoto = (Bitmap) data.getExtras().get("data");
-			MyLog.bag().v("Photo width: " + bitmapPhoto.getWidth());
-			MyLog.bag().v("Photo height: " + bitmapPhoto.getHeight());
-			
-			String uri = "http://tvmedia.ign.com/tv/image/article/805/805797/bionic-woman-2007-20070717053021720.jpg";
-			if((new Random()).nextInt(2) % 2 == 0){
-				uri = "http://tvreviews.files.wordpress.com/2007/10/michelle-ryan-bionic-woman.jpg";
+	protected void processCameraActivityResult(int resultCode, Intent data){
+		this.processNewImageActivity(resultCode, data, ImageActivity.Source.Camera);
+	}
+	
+	protected void processGalleryActivityResult(int resultCode, Intent data){
+		this.processNewImageActivity(resultCode, data, ImageActivity.Source.Gallery);
+	}
+	
+	protected void processNewImageActivity(int resultCode, Intent data, ImageActivity.Source source)
+	{
+		ImageActivity.Result result = ImageActivity.getProcessedResult(this.getActivity(), resultCode, data);
+		if(result.getBitmap() == null){
+			String errorMessage = result.getErrorMessage();
+			if(errorMessage == null || errorMessage.length() == 0){
+				errorMessage = "Unexpected error occurred";
 			}
-			
-			ImageFile imgFile = new ImageFile();
-			imgFile.setId(UUID.randomUUID());
-			imgFile.setCloudUrl(uri);
-			imgFile.setThumbnailed(true);
-			
-			ImageFile imgFile2 = new ImageFile();
-			imgFile2.setId(UUID.randomUUID());
-			imgFile2.setCloudUrl(uri);
-			imgFile2.setThumbnailed(false);
-			
-			PicturePair info = new PicturePair();
-			info.setThumbnail(imgFile);
-			info.setFullSize(imgFile2);
-			
-			this.addNewImage(info, bitmapPhoto);
-			
-	        Toast toast = Toast.makeText(this.getActivity(), "Camera is a success", Toast.LENGTH_LONG);
-			toast.show();
+			GingerHelpers.toast(this.getActivity(), errorMessage);
+			return;
+		}
+		
+		Bitmap photo = result.getBitmap();
+		photo = ImageActivity.trimSize(photo);
+		
+		String fileName = this.getString(R.string.secondary_photos_last_filename_key);
+		if(!ImageStorageHelper.saveToInternalStorage(this.getActivity(), photo, fileName, true)){
+			GingerHelpers.toast(this.getActivity(), "A private copy of the selected photo couldn't be saved locally.");
+			return;
+		}
+		
+		MyLog.bag().v("Photo has been saved to the internal storage");
+		
+		String absoluteFilePath = ImageStorageHelper.getAbsolutePath(this.getActivity(), fileName);
+		ImageUploadRequest request = new ImageUploadRequest();
+		request.setFullLocalPath(absoluteFilePath);
+		request.setProfileImage(false);
+		ImageUploadTask task = new ImageUploadTask(this, this.getActivity(), request);
+		task.execute();
+	}
+	
+	@Override
+	public void onUpload(final ImageUploadRequest request, final ImageUploadResponse response){
+		
+		if(response.getErrorCode() != 0){			
+			// failure
+			String error = response.getErrorMessage();
+			// show error message
+			new AlertDialog.Builder(new ContextThemeWrapper(this.getActivity(), android.R.style.Theme_Holo_Dialog))
+		    .setTitle(this.getString(R.string.general_error_title))
+		    .setMessage(error)		    
+		    .setIcon(android.R.drawable.ic_dialog_alert)
+		    .setCancelable(false)
+		    .setNegativeButton(this.getString(R.string.general_Cancel), new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) {
+		        	// do nothing
+		        }})
+		    .setPositiveButton(this.getString(R.string.general_retry), new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) {
+		        	ImageUploadTask task = new ImageUploadTask(ProfileFragment.this, ProfileFragment.this.getActivity(), request);
+		    		task.execute();
+		        }})
+		    .show();
 		}
 		else{
-			MyLog.bag().e("Camera result is not ok");
-			
-			Toast toast = Toast.makeText(this.getActivity(), "Capturing photo is unsuccessfull", Toast.LENGTH_LONG);
-			toast.show();
+			// success... add to the gallery view
+			PicturePair picturePair = new PicturePair();
+			picturePair.setFullSize(response.getImages().getFullSizeClear());
+			picturePair.setThumbnail(response.getImages().getThumbnailClear());
+			this.addNewImage(picturePair);
 		}
 	}
-	
-	public void processGalleryActivityResult(int resultCode, Intent data){
-		boolean success = false;
-		String errorMessage = "Picking photo from gallery is unsuccessfull";		
-		if(resultCode == Activity.RESULT_OK && data != null){
-			Uri selectedImageUri = data.getData();
-			if(selectedImageUri != null){					
-				MyLog.bag().v("Gallery result seems OK");
-				MyLog.bag().v("Uri: " + selectedImageUri.toString());
-                
-				String selectedImagePath = this.getImagePath(selectedImageUri);
-				if(selectedImagePath == null){
-					errorMessage = "Selected image path couldn't be retrieved!";
-				}
-				else
-				{
-					MyLog.bag().v("Path: " + selectedImagePath);
-					
-					if(selectedImagePath.startsWith("http")){
-						errorMessage = "Selected image is not on this phone!";
-					}
-					else{
-						Bitmap bitmapPhoto = null;						
-						try{					
-							System.gc();
-							bitmapPhoto = BitmapFactory.decodeFile(selectedImagePath);
-						}
-						catch(Exception ex){
-							errorMessage = "Selected image couldn't be decoded!";
-							MyLog.bag().add(ex).e();
-						}
-						
-						if(bitmapPhoto != null){
-							
-							MyLog.bag().v("Photo width: " + bitmapPhoto.getWidth());
-							MyLog.bag().v("Photo height: " + bitmapPhoto.getHeight());
-							
-							String uri = "http://tvmedia.ign.com/tv/image/article/805/805797/bionic-woman-2007-20070717053021720.jpg";
-							if((new Random()).nextInt(2) % 2 == 0){
-								uri = "http://tvreviews.files.wordpress.com/2007/10/michelle-ryan-bionic-woman.jpg";
-							}
-							
-							ImageFile imgFile = new ImageFile();
-							imgFile.setId(UUID.randomUUID());
-							imgFile.setCloudUrl(uri);
-							imgFile.setThumbnailed(true);
-							
-							ImageFile imgFile2 = new ImageFile();
-							imgFile2.setId(UUID.randomUUID());
-							imgFile2.setCloudUrl(uri);
-							imgFile2.setThumbnailed(false);
-							
-							PicturePair info = new PicturePair();
-							info.setThumbnail(imgFile);
-							info.setFullSize(imgFile2);
-							
-							this.addNewImage(info, bitmapPhoto);
-							
-							success = true;
-						}
-					}
-				}
-			}
-		}
-
-		if(!success){
-			MyLog.bag().e("Gallery result is not ok");
-			
-			Toast toast = Toast.makeText(this.getActivity(), errorMessage, Toast.LENGTH_LONG);
-			toast.show();
-		}
-	}
-	
-	private String getImagePath(Uri uri) {
-		try{
-	        String[] projection = { MediaStore.Images.Media.DATA };
-	        Cursor cursor = this.getActivity().getContentResolver().query(uri, projection, null, null, null);
-	        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-	        cursor.moveToFirst();
-	        return cursor.getString(column_index);
-		}
-		catch(Exception ex){
-			MyLog.bag().add(ex).e();
-			return null;
-		}
-    }
 }

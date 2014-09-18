@@ -24,7 +24,7 @@ public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadRespon
     protected ImageUploadResponse doInBackground(String... execArgs) {
 		
 		try {
-			return Service.getInstance().uploadProfileImage(this.context, this.request);
+			return Service.getInstance().uploadImage(this.context, this.request);
 		} 
 		catch (GingerException e) {
 			

@@ -2,8 +2,6 @@ package net.pic4pic.ginger.utils;
 
 import java.io.IOException;
 
-import net.pic4pic.ginger.entities.IntegerEnum;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+
+import net.pic4pic.ginger.entities.IntegerEnum;
 
 public class ImageActivity {
 	
@@ -57,7 +57,7 @@ public class ImageActivity {
 	public static class Result {
 
 		private Bitmap resultBitmap;
-		private ErrorCode errorCode;
+		private ErrorCode errorCode = ErrorCode.None;
 		
 		public Bitmap getBitmap(){
 			return this.resultBitmap;
@@ -69,39 +69,39 @@ public class ImageActivity {
 		
 		public String getErrorMessage(){
 			
-			if(this.errorCode == ErrorCode.UnknownError){
+			if(this.errorCode.getIntValue() == ErrorCode.UnknownError.getIntValue()){
 				return "Unknown error";
 			}
 			
-			if(this.errorCode == ErrorCode.Canceled){
+			if(this.errorCode.getIntValue() == ErrorCode.Canceled.getIntValue()){
 				return "Camera or gallery activity has cancelled";
 			}
 			
-			if(this.errorCode == ErrorCode.InvalidUri){
+			if(this.errorCode.getIntValue() == ErrorCode.InvalidUri.getIntValue()){
 				return "Camera or gallery activity has failed";
 			}
 						
-			if(this.errorCode == ErrorCode.InvalidAbsolutePath){
+			if(this.errorCode.getIntValue() == ErrorCode.InvalidAbsolutePath.getIntValue()){
 				return "Image path is invalid";
 			}
 			
-			if(this.errorCode == ErrorCode.StoredRemotely){
+			if(this.errorCode.getIntValue() == ErrorCode.StoredRemotely.getIntValue()){
 				return "Image is not stored on this phone";
 			}
 			
-			if(this.errorCode == ErrorCode.OrientationFailure){
+			if(this.errorCode.getIntValue() == ErrorCode.OrientationFailure.getIntValue()){
 				return "Couldn't get the image orientation";
 			}
 			
-			if(this.errorCode == ErrorCode.RotationFailure){
+			if(this.errorCode.getIntValue() == ErrorCode.RotationFailure.getIntValue()){
 				return "Couldn't fix the image orientation";
 			}
 			
-			if(this.errorCode == ErrorCode.DecodingFailure){
+			if(this.errorCode.getIntValue() == ErrorCode.DecodingFailure.getIntValue()){
 				return "Image couldn't be decoded";
 			}
 			
-			if(this.errorCode == ErrorCode.NullAfterDecoding){
+			if(this.errorCode.getIntValue() == ErrorCode.NullAfterDecoding.getIntValue()){
 				return "Decoded image is invalid (null)";
 			}
 			
@@ -150,7 +150,9 @@ public class ImageActivity {
 	
 	public static Result getProcessedResult(Context context, int resultCode, Intent data){
 		
-		Result result = new Result();			
+		Result result = new Result();
+		result.errorCode = ErrorCode.None;
+		
 		if(resultCode != Activity.RESULT_OK || data == null){
 			result.errorCode = ErrorCode.Canceled;
 			return result;
@@ -219,4 +221,36 @@ public class ImageActivity {
 		MyLog.bag().v("ImageActivity: Dimension of Image (WxH) = " + bitmap.getWidth() + "x" + bitmap.getHeight());
 		return result;	
 	}	
+	
+	public static Bitmap trimSize(Bitmap photo){
+		
+		if(photo.getWidth() > BitmapHelpers.MAX_SIZE || photo.getHeight() > BitmapHelpers.MAX_SIZE){
+			
+			int newWidth = photo.getWidth();
+			int newHeight = photo.getHeight();
+			if(photo.getWidth() >= photo.getHeight()){
+				newWidth = BitmapHelpers.MAX_SIZE;
+				newHeight = (int)((float)newWidth * ((float)photo.getHeight() / (float)photo.getWidth())); 
+			}
+			else {
+				newHeight = BitmapHelpers.MAX_SIZE;
+				newWidth = (int)((float)newHeight * ((float)photo.getWidth() / (float)photo.getHeight()));
+			}
+			
+			System.gc();
+			try{
+				String sizeInfoOld = "Old size: " + photo.getWidth() + "x" + photo.getHeight() + ". Required byte: " + photo.getByteCount();
+				photo = Bitmap.createScaledBitmap(photo, newWidth, newHeight, true);
+				String sizeInfoNew = "New size: " + photo.getWidth() + "x" + photo.getHeight() + ". Required byte: " + photo.getByteCount();
+				MyLog.bag().i("Photo size has been reduced: " + sizeInfoOld + " => " + sizeInfoNew);
+			}
+			catch(OutOfMemoryError exception){
+				String sizeInfo = "Source size: " + photo.getWidth() + "x" + photo.getHeight() + ". Required byte: " + photo.getByteCount();
+		    	MyLog.bag().e("Out of memory exception when creating scaling Bitmap in 'processPhotoActivityResult' method. " + sizeInfo);
+		    	// no need to re-throw it here. just swallow.
+			}
+		}
+		
+		return photo;
+	}
 }
