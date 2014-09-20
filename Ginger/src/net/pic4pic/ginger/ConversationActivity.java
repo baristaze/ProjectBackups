@@ -381,7 +381,7 @@ public class ConversationActivity extends Activity implements ConversationListen
 					MyLog.bag().add(ge).e("Sending message failed");
 					GingerHelpers.toastShort(ConversationActivity.this, "Sending message failed. Please try again.");
 				}
-				catch(Exception e){
+				catch(Throwable e){
 					
 					// log error
 					MyLog.bag().add(e).e("Sending message failed");

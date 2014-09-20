@@ -86,7 +86,7 @@ public class PurchaseBackLogTask extends AsyncTask<String, Void, Integer> {
 			e.printStackTrace();
 			MyLog.bag().e("Retrieving ghost purchases failed: " + e.getMessage());
 		}
-		catch(Exception e){
+		catch(Throwable e){
 			e.printStackTrace();
 			MyLog.bag().e("Unexpected error when retrieving ghost purchases: " + e.getMessage());
 		}
@@ -119,7 +119,7 @@ public class PurchaseBackLogTask extends AsyncTask<String, Void, Integer> {
 			MyLog.bag().add(e).e("Sending purchase record (" + token + ") to the server failed");
 			return Integer.MIN_VALUE;
 		}
-		catch(Exception e){
+		catch(Throwable e){
 			MyLog.bag().add(e).e("Unknown error when sending purchase record (" + token + ") to the server");
 			return Integer.MIN_VALUE;
 		}	
@@ -138,7 +138,7 @@ public class PurchaseBackLogTask extends AsyncTask<String, Void, Integer> {
 		catch (GingerException e) {
 			MyLog.bag().add(e).e("Removing purchase record (" + token + ") from local file failed");
 		}
-		catch(Exception e){
+		catch(Throwable e){
 			MyLog.bag().add(e).e("Unknown error when removing purchase record (" + token + ") from local file");
 		}		
 		

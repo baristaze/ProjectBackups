@@ -187,7 +187,7 @@ public class NotificationListFragment extends Fragment {
 					catch(GingerException ge){
 						MyLog.bag().add(ge).e("Marking notification failed");
 					}
-					catch(Exception e){
+					catch(Throwable e){
 						MyLog.bag().add(e).e("Marking notification as read failed");
 					}					
 					

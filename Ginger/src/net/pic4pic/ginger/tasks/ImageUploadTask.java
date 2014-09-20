@@ -36,7 +36,7 @@ public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadRespon
 			response.setErrorMessage(e.getMessage());
 			return response;
 		}
-		catch(Exception e){
+		catch(Throwable e){
 			
 			MyLog.bag().add(e).e();
 			

@@ -142,7 +142,7 @@ public class ImageActivity {
 	        cursor.moveToFirst();
 	        return cursor.getString(column_index);
 		}
-		catch(Exception ex){
+		catch(Throwable ex){
 			MyLog.bag().e("ImageActivity: " + ex.toString());
 			return null;
 		}
@@ -196,7 +196,7 @@ public class ImageActivity {
 				return result;
 			}
 		}
-		catch(Exception ex){
+		catch(Throwable ex){
 			result.errorCode = ErrorCode.DecodingFailure;
 			return result;
 		}
@@ -206,7 +206,7 @@ public class ImageActivity {
 				MyLog.bag().v("ImageActivity: Fixing rotation of the image...");
 				bitmap = BitmapHelpers.rotateImage(bitmap, rotate);
 			}
-			catch(Exception ex){
+			catch(Throwable ex){
 				result.errorCode = ErrorCode.RotationFailure;
 				return result;	
 			}

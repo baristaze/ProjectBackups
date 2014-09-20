@@ -46,7 +46,7 @@ public class ConversationRetriever implements Runnable {
 				MyLog.bag().e("Conversation could not be retrieved. Error: " + result.getErrorMessage());
 			}
 		}
-		catch(Exception e){
+		catch(Throwable e){
 			
 		}
 	}

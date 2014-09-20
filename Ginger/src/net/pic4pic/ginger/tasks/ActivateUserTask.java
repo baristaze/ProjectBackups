@@ -36,7 +36,7 @@ public class ActivateUserTask extends BlockedTask<String, Void, BaseResponse> {
 			response.setErrorMessage(e.getMessage());
 			return response; 
 		}
-    	catch(Exception e){
+    	catch(Throwable e){
     		
     		MyLog.bag().add(e).e();
     		

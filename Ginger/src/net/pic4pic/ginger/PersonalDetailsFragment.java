@@ -244,7 +244,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 					age = Integer.toString(ageInt);
 				}
 			}
-			catch(Exception ex){
+			catch(Throwable ex){
 				MyLog.bag().add(ex).e();
 			}
 		}
@@ -532,7 +532,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 				Log.v("PersonalDetailsFragment", "Age: " + ageText);
 				return ageText;
 			}
-			catch(Exception ex){
+			catch(Throwable ex){
 				Log.e("PersonalDetailsFragment", ex.toString());
 				return null;
 			}
@@ -557,7 +557,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 				DateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
 				return format2.format(birthDate);
 			}
-			catch(Exception ex){
+			catch(Throwable ex){
 				Log.e("PersonalDetailsFragment", ex.toString());
 				return null;
 			}
@@ -570,7 +570,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 				}
 				return hometown;
 			}
-			catch(Exception ex){
+			catch(Throwable ex){
 				Log.e("PersonalDetailsFragment", ex.toString());
 				return null;
 			}
@@ -579,7 +579,7 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 			try{
 				return userJSON.getString("relationship_status");
 			}
-			catch(Exception ex){
+			catch(Throwable ex){
 				Log.e("PersonalDetailsFragment", ex.toString());
 				return null;
 			}
@@ -595,11 +595,11 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 							break;
 						}
 					}
-					catch(Exception e){}
+					catch(Throwable e){}
 				}
 				return profession;
 			}
-			catch(Exception ex){
+			catch(Throwable ex){
 				Log.e("PersonalDetailsFragment", ex.toString());
 				return null;
 			}
@@ -619,12 +619,12 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 							break;
 						}
 					}
-					catch(Exception e){}
+					catch(Throwable e){}
 				}
 				
 				return educationlevel;
 			}
-			catch(Exception ex){
+			catch(Throwable ex){
 				Log.e("PersonalDetailsFragment", ex.toString());
 				return null;
 			}

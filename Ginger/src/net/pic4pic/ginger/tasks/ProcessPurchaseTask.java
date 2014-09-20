@@ -42,7 +42,7 @@ public class ProcessPurchaseTask extends BlockedTask<String, Void, BaseResponse>
 			response.setErrorMessage(e.getMessage());
 			return response;
 		}
-		catch(Exception e){
+		catch(Throwable e){
 			
 			// log
 			String errorMessage = "Unexpected error occurred while processing the purchase";

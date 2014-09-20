@@ -36,7 +36,7 @@ public class AcceptPic4PicTask extends BlockedTask<String, Void, MatchedCandidat
 			response.setErrorMessage(e.getMessage());
 			return response; 
 		}
-    	catch(Exception e){
+    	catch(Throwable e){
     		
     		MyLog.bag().add(e).e();
     		

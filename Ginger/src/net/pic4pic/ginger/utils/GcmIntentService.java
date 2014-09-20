@@ -68,7 +68,7 @@ public class GcmIntentService extends IntentService {
         	try{
         		notification = GingerNetUtils.createFromJsonString(jsonData, PushNotification.class);
         	}
-        	catch(Exception e){
+        	catch(Throwable e){
         		MyLog.bag().e("Notification data couldn't be converted to object: " + jsonData);
         	}
         }

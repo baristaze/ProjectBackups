@@ -39,7 +39,7 @@ public class OfferRetrieverTask extends AsyncTask<String, Void, PurchaseOfferLis
 		catch(GingerException e){
 			MyLog.bag().add(e).e("Offers could not be retrieved.");
 		}
-		catch(Exception e){
+		catch(Throwable e){
 			e.printStackTrace();
 			MyLog.bag().add(e).e( "Unexpected error received while retrieving offers.");
 		}

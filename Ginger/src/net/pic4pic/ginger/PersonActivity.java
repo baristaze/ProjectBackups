@@ -839,7 +839,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 					// log error
 					MyLog.bag().e("Liking candidate(" + candidateId + ") failed: " + ge.getMessage());
 				}
-				catch(Exception e){
+				catch(Throwable e){
 					
 					// log error
 					MyLog.bag().e("Liking candidate(" + candidateId + ") failed: " + e.toString());
@@ -897,7 +897,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 						// log error
 						MyLog.bag().add(ge).e("Marking candidate as viewed failed");
 					}
-					catch(Exception e){
+					catch(Throwable e){
 						
 						// log error
 						MyLog.bag().add(e).e("Marking candidate as viewed failed");

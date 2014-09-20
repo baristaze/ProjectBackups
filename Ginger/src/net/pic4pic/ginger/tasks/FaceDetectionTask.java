@@ -45,7 +45,7 @@ public class FaceDetectionTask extends BlockedTask<String, Void, FaceDetector.Fa
 			
 			return all.toArray(new FaceDetector.Face[detectCount]);
     	}
-    	catch(Exception ex){    
+    	catch(Throwable ex){    
     		MyLog.bag().add(ex).e("Face detection failed");
     	}
 

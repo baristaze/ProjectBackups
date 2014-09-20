@@ -39,7 +39,7 @@ public class BuyNewMatchTask extends BlockedTask<String, Void, MatchedCandidateL
 			response.setErrorMessage(e.getMessage());
 			return response; 
 		}
-    	catch(Exception e){
+    	catch(Throwable e){
     		
     		MyLog.bag().add(e).e();
     		

@@ -21,7 +21,7 @@ public class ImageStorageHelper {
 			byteArray = stream.toByteArray();
 			MyLog.bag().v("Bitmap has been compressed successfully");
 		}
-		catch(Exception ex){
+		catch(Throwable ex){
 			MyLog.bag().v("Bitmap couldn't be compressed");
 			MyLog.bag().e(ex.toString());
 			if(alertOnError){
@@ -37,7 +37,7 @@ public class ImageStorageHelper {
 				MyLog.bag().v("Bitmap has been saved successfully");
 				return true;
 			}
-			catch(Exception e){
+			catch(Throwable e){
 				MyLog.bag().v("Bitmap couldn't be saved");
 				MyLog.bag().add(e).e();
 				if(alertOnError){
@@ -93,7 +93,7 @@ public class ImageStorageHelper {
 			}
 			return bitmap;
 		}
-		catch(Exception e){
+		catch(Throwable e){
 			MyLog.bag().v("Bitmap couldn't be read from the storage (exception).");
 			if(alertOnError){
 				GingerHelpers.showErrorMessage(context, context.getString(R.string.err_image_read_failed));

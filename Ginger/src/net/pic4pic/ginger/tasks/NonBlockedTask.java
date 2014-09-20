@@ -21,7 +21,7 @@ public class NonBlockedTask {
 				{
 					task.perform();
 				}
-				catch(Exception e)
+				catch(Throwable e)
 				{
 					MyLog.bag().add(e).e("Background task failed");
 				}
