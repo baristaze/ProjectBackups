@@ -290,7 +290,7 @@ public class ImageGalleryView {
 		}
 	} 
 	
- 	public void onNewImageAdded(){
+ 	public void onNewImageAdded(PicturePair pair){
 		// this.parentView.removeAllViews();
  		this.clearFilledPhotos();
 		this.fillPhotos();

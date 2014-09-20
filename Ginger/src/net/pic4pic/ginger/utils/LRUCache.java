@@ -19,7 +19,12 @@ public class LRUCache<A, B> extends LinkedHashMap<A, B> {
 	 * Capacity
 	 */
 	private final int maxEntries;
-
+	
+	/**
+	 * listener
+	 */
+	private EntryRemoveListener<A, B> listener;
+	
 	/**
 	 * Constructor
 	 * @param maxEntries
@@ -33,8 +38,13 @@ public class LRUCache<A, B> extends LinkedHashMap<A, B> {
 	 * @param maxEntries
 	 */
     public LRUCache(final int maxEntries, boolean accessOrdered) {
+    	this(maxEntries, accessOrdered, null);
+    }
+    
+    public LRUCache(final int maxEntries, boolean accessOrdered, EntryRemoveListener<A, B> listener) {
         super(maxEntries + 1, 1.0f, accessOrdered);
         this.maxEntries = maxEntries;
+        this.listener = listener;
     }
     
     /**
@@ -55,7 +65,15 @@ public class LRUCache<A, B> extends LinkedHashMap<A, B> {
      */
     @Override
     protected boolean removeEldestEntry(final Map.Entry<A, B> eldest) {
-        return super.size() > maxEntries;
+        boolean decision = super.size() > maxEntries;
+        if(decision && this.listener != null){
+        	this.listener.onRemovingEntry(eldest.getKey(), eldest.getValue());
+        }
+        return decision;
     }
+    
+    public interface EntryRemoveListener<A, B>{
+    	void onRemovingEntry(A key, B data);
+    }    
 }
 

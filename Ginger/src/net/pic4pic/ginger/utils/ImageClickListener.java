@@ -51,11 +51,11 @@ public class ImageClickListener implements OnClickListener {
     	dialog.getWindow().getAttributes().width = LayoutParams.MATCH_PARENT;    	
     	ImageView imageView = (ImageView) dialog.findViewById(R.id.fullImage);
     	
-    	if(this.bigImage == null){
-    		Bitmap bitmap = ((BitmapDrawable)this.original.getDrawable()).getBitmap();
-    		imageView.setImageBitmap(bitmap);
-    	}
-    	else{
+    	System.gc();
+    	Bitmap bitmap = ((BitmapDrawable)this.original.getDrawable()).getBitmap();
+		imageView.setImageBitmap(bitmap);
+		
+		if(this.bigImage != null){
     		ImageDownloadTask mainPhotoDownloadTask = new ImageDownloadTask(this.bigImage.getId(), imageView, true);
 			mainPhotoDownloadTask.execute(this.bigImage.getCloudUrl());	
     	}

@@ -44,7 +44,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     	
     	// check cache first
     	if(ImageCacher.Instance().exists(this.imageId)){
-    		return ImageCacher.Instance().get(this.imageId); 
+    		return ImageCacher.Instance().get(this.imageId);
     	}
     	
     	// else... download it
@@ -54,11 +54,30 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 	        long startTime = System.nanoTime();
 	        try {
 	        	MyLog.bag().addObject("Image", this.imageId).v("Downloading Image... ");
+	        	
 	        	System.gc();
 	            InputStream in = new java.net.URL(urldisplay).openStream();
-	            bitmap = BitmapFactory.decodeStream(in);
-	        } 
-	        catch (Exception e) {
+	            
+	            try{
+	            	bitmap = BitmapFactory.decodeStream(in);
+	            }
+	            catch(OutOfMemoryError e){
+	            	
+		        	// clear cache
+		    		ImageCacher.Instance().clear();
+		    		
+		    		// force FC as well
+		    		System.gc();
+		    		
+		    		// log
+		    		MyLog.bag().i("OutOfMemoryError error is received. Retrying after trimming memory.");
+		    		
+		    		// re-try
+		    		in = new java.net.URL(urldisplay).openStream();
+		    		bitmap = BitmapFactory.decodeStream(in);
+		        }	            
+	        }
+	        catch (Throwable e) {
 	            MyLog.bag().add(e).e("Image download failed with error");
 	            e.printStackTrace();
 	        }

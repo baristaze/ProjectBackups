@@ -53,7 +53,7 @@ public class LogBag {
 		return this;
 	}
 	
-	public LogBag add(Exception ex){		
+	public LogBag add(Throwable ex){		
 		
 		if(ex != null){
 			return this.add(TagException, ex.toString());

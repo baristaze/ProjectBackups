@@ -8,14 +8,19 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.ComponentCallbacks2;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -28,6 +33,8 @@ import net.pic4pic.ginger.entities.BuyingNewMatchRequest;
 import net.pic4pic.ginger.entities.Familiarity;
 import net.pic4pic.ginger.entities.GeoLocation;
 import net.pic4pic.ginger.entities.GingerException;
+import net.pic4pic.ginger.entities.ImageUploadRequest;
+import net.pic4pic.ginger.entities.ImageUploadResponse;
 import net.pic4pic.ginger.entities.InAppPurchaseResult;
 import net.pic4pic.ginger.entities.Locality;
 import net.pic4pic.ginger.entities.Location;
@@ -36,6 +43,7 @@ import net.pic4pic.ginger.entities.MatchedCandidateListResponse;
 import net.pic4pic.ginger.entities.Notification;
 import net.pic4pic.ginger.entities.NotificationListResponse;
 import net.pic4pic.ginger.entities.NotificationRequest;
+import net.pic4pic.ginger.entities.PicturePair;
 import net.pic4pic.ginger.entities.PurchaseOffer;
 import net.pic4pic.ginger.entities.PurchaseRecord;
 import net.pic4pic.ginger.entities.SimpleRequest;
@@ -44,6 +52,8 @@ import net.pic4pic.ginger.service.InAppPurchasingService;
 import net.pic4pic.ginger.service.InAppPurchasingService.PurchasingServiceListener;
 import net.pic4pic.ginger.tasks.BuyNewMatchTask.BuyNewMatchListener;
 import net.pic4pic.ginger.tasks.BuyNewMatchTask;
+import net.pic4pic.ginger.tasks.ImageUploadTask;
+import net.pic4pic.ginger.tasks.ImageUploadTask.ImageUploadListener;
 import net.pic4pic.ginger.tasks.MatchedCandidatesTask;
 import net.pic4pic.ginger.tasks.ProcessPurchaseTask;
 import net.pic4pic.ginger.tasks.MatchedCandidatesTask.MatchedCandidatesListener;
@@ -56,15 +66,19 @@ import net.pic4pic.ginger.tasks.PurchaseBackLogTask;
 import net.pic4pic.ginger.tasks.PurchaseBackLogTask.PurchaseBackLogListener;
 import net.pic4pic.ginger.tasks.PushNotificationRegisterTask;
 import net.pic4pic.ginger.utils.GingerHelpers;
+import net.pic4pic.ginger.utils.ImageCacher;
 import net.pic4pic.ginger.utils.LocationManagerUtil;
 import net.pic4pic.ginger.utils.LocationManagerUtil.LocationListener;
+import net.pic4pic.ginger.utils.ImageActivity;
+import net.pic4pic.ginger.utils.ImageStorageHelper;
 import net.pic4pic.ginger.utils.MyLog;
 import net.pic4pic.ginger.utils.PurchaseUtils;
 import net.pic4pic.ginger.utils.PushNotificationHelpers;
 
 public class MainActivity extends FragmentActivity 
 implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListener, OfferListener, 
-/*implements*/ PurchaseProcessListener, BuyNewMatchListener, PurchaseBackLogListener, PurchasingServiceListener, LocationListener {
+/*implements*/ PurchaseProcessListener, BuyNewMatchListener, PurchaseBackLogListener, PurchasingServiceListener, LocationListener,
+/*implements*/ ImageUploadListener, ComponentCallbacks2{
 	
 	public static final String AuthenticatedUserBundleType = "net.pic4pic.ginger.AuthenticatedUser";
 	public static final String UpdatedMatchCandidate = "net.pic4pic.ginger.UpdatedMatchCandidate";
@@ -90,6 +104,55 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	
 	private InAppPurchasingService inappPurchasingSvc = null;
 	private GoogleCloudMessaging pushNotificationSvc = null;
+	
+	@Override
+	public void onTrimMemory(int level){
+		
+		String memoryWarning = this.convertMemoryWarningLevelToString(level);
+		
+		if(level == TRIM_MEMORY_RUNNING_CRITICAL || level == TRIM_MEMORY_RUNNING_LOW){
+			MyLog.bag().add("MemoryWarningLevel", memoryWarning).w("onTrimMemory warning is fired");		
+			ImageCacher.Instance().clear();
+		}
+		else if(level == TRIM_MEMORY_RUNNING_MODERATE){
+			MyLog.bag().add("MemoryWarningLevel", memoryWarning).i("onTrimMemory warning is fired");
+			// no need to clear the cache yet.
+		}
+		else{
+			// ignore the rest
+		}
+		
+	}
+	
+	private String convertMemoryWarningLevelToString(int level){
+		
+		switch(level){
+		
+			case TRIM_MEMORY_BACKGROUND:
+				return "TRIM_MEMORY_BACKGROUND";
+				
+			case TRIM_MEMORY_COMPLETE:
+				return "TRIM_MEMORY_COMPLETE";
+				
+			case TRIM_MEMORY_MODERATE:
+				return "TRIM_MEMORY_MODERATE";
+				
+			case TRIM_MEMORY_RUNNING_CRITICAL:
+				return "TRIM_MEMORY_RUNNING_CRITICAL";
+				
+			case TRIM_MEMORY_RUNNING_LOW:
+				return "TRIM_MEMORY_RUNNING_LOW";
+				
+			case TRIM_MEMORY_RUNNING_MODERATE:
+				return "TRIM_MEMORY_RUNNING_MODERATE";
+				
+			case TRIM_MEMORY_UI_HIDDEN:
+				return "TRIM_MEMORY_UI_HIDDEN";
+				
+			default:
+				return Integer.toString(level);
+		}
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -703,6 +766,39 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	}
 	
 	@Override
+	public void onUpload(final ImageUploadRequest request, final ImageUploadResponse response){
+		
+		if(response.getErrorCode() != 0){			
+			// failure
+			String error = response.getErrorMessage();
+			// show error message
+			new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog))
+		    .setTitle(this.getString(R.string.general_error_title))
+		    .setMessage(error)		    
+		    .setIcon(android.R.drawable.ic_dialog_alert)
+		    .setCancelable(false)
+		    .setNegativeButton(this.getString(R.string.general_Cancel), new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) {
+		        	// do nothing
+		        }})
+		    .setPositiveButton(this.getString(R.string.general_retry), new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) {
+		        	ImageUploadTask task = new ImageUploadTask(MainActivity.this, MainActivity.this, request);
+		    		task.execute();
+		        }})
+		    .show();
+		}
+		else{
+			// success... add to the gallery view
+			PicturePair picturePair = new PicturePair();
+			picturePair.setFullSize(response.getImages().getFullSizeClear());
+			picturePair.setThumbnail(response.getImages().getThumbnailClear());
+			this.me.getOtherPictures().add(picturePair);
+			this.mSectionsPagerAdapter.getProfileFragment().onNewImageAdded(picturePair);
+		}
+	}
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
@@ -729,11 +825,11 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		
 		if (requestCode == MainActivity.CaptureCameraCode) {
 			MyLog.bag().v("CaptureCameraActivity has returned");
-			this.mSectionsPagerAdapter.getProfileFragment().processCameraActivityResult(resultCode, data);			
+			this.processCameraActivityResult(resultCode, data);			
 	    }
 		else if (requestCode == MainActivity.PickFromGalleryCode) {
 			MyLog.bag().v("PickFromGalleryActivity has returned");
-			this.mSectionsPagerAdapter.getProfileFragment().processGalleryActivityResult(resultCode, data);
+			this.processGalleryActivityResult(resultCode, data);
 		}
 		else if (requestCode == TextInputActivity.TextInputCode) {
 			MyLog.bag().v("TextInputActivity has returned");
@@ -764,6 +860,45 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		else{
 			MyLog.bag().v("Unknown Activity  has been received by MainActivity: " + requestCode);
 		}
+	}
+	
+	protected void processCameraActivityResult(int resultCode, Intent data){
+		this.processNewImageActivity(resultCode, data, ImageActivity.Source.Camera);
+	}
+	
+	protected void processGalleryActivityResult(int resultCode, Intent data){
+		this.processNewImageActivity(resultCode, data, ImageActivity.Source.Gallery);
+	}
+	
+	protected void processNewImageActivity(int resultCode, Intent data, ImageActivity.Source source)
+	{
+		ImageActivity.Result result = ImageActivity.getProcessedResult(this, resultCode, data);
+		if(result.getBitmap() == null){
+			String errorMessage = result.getErrorMessage();
+			if(errorMessage == null || errorMessage.length() == 0){
+				errorMessage = "Unexpected error occurred";
+			}
+			GingerHelpers.toast(this, errorMessage);
+			return;
+		}
+		
+		Bitmap photo = result.getBitmap();
+		photo = ImageActivity.trimSize(photo);
+		
+		String fileName = this.getString(R.string.secondary_photos_last_filename_key);
+		if(!ImageStorageHelper.saveToInternalStorage(this, photo, fileName, true)){
+			GingerHelpers.toast(this, "A private copy of the selected photo couldn't be saved locally.");
+			return;
+		}
+		
+		MyLog.bag().v("Photo has been saved to the internal storage");
+		
+		String absoluteFilePath = ImageStorageHelper.getAbsolutePath(this, fileName);
+		ImageUploadRequest request = new ImageUploadRequest();
+		request.setFullLocalPath(absoluteFilePath);
+		request.setProfileImage(false);
+		ImageUploadTask task = new ImageUploadTask(this, this, request);
+		task.execute();
 	}
 	
 	public void updateCandidate(MatchedCandidate candidate){

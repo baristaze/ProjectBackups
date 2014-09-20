@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import android.graphics.Bitmap;
 
-public class ImageCacher {
+public class ImageCacher implements LRUCache.EntryRemoveListener<UUID, Bitmap>{
 	
 	// constants
 	public static final UUID UserProfileFullPictureId = UUID.randomUUID();
@@ -17,7 +17,7 @@ public class ImageCacher {
 	// constructor
 	private ImageCacher(int capacity){		
 		// last parameter makes it get sorted by access-order		
-		this.cache = Collections.synchronizedMap(new LRUCache<UUID, Bitmap>(capacity));
+		this.cache = Collections.synchronizedMap(new LRUCache<UUID, Bitmap>(capacity, true, this));
 	}
 	
 	// public methods
@@ -33,6 +33,27 @@ public class ImageCacher {
 	public Bitmap get(UUID id){
 		// below method returns null if item doesn't exists
 		return this.cache.get(id);
+	}
+	
+	public void clear(){
+		
+		// not yet. it brings more problems... 
+		// e.g. Existing ImageViews' onDraw methods throws exception
+		// stating that image bitmap has been recycled already.
+		
+		/*	
+		MyLog.bag().w("Clearing image cache");
+		
+		// do not call iterate via 'this.cache.keySet()'
+		// because you will get a ConcurrentModificationException 
+		// when you make a this.cache.get(key) call within the for loop. 
+		for(Bitmap bitmap : this.cache.values()){
+			bitmap.recycle();
+			bitmap = null;
+		}		
+		
+		this.cache.clear();
+		*/
 	}
 	
 	// statics
@@ -59,5 +80,18 @@ public class ImageCacher {
 		}
 		
 		return ImageCacher.instance;
+	}
+
+	@Override
+	public void onRemovingEntry(UUID key, Bitmap bitmap) {
+		
+		// not yet. it brings more problems... 
+		// e.g. Existing ImageViews' onDraw methods throws exception
+		// stating that image bitmap has been recycled already.
+		
+		/*
+		bitmap.recycle();
+		bitmap = null;
+		*/
 	}
 }
