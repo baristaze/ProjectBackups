@@ -67,6 +67,8 @@ public interface IService {
     
     public MatchedCandidateListResponse getTodaysMatches(Context context, SimpleRequest<Location> request) throws GingerException;
     
+    public MatchedCandidateListResponse getPreviewMatches(Context context, SimpleRequest<Location> request) throws GingerException;
+    
     public MatchedCandidateListResponse buyNewMatches(Context context, BuyingNewMatchRequest request) throws GingerException;
     
     public MatchedCandidateResponse requestPic4Pic(Context context, StartingPic4PicRequest request) throws GingerException;

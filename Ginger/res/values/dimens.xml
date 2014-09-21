@@ -15,6 +15,8 @@
     <dimen name="person_li_showmore_layout_height">60dp</dimen>
     <dimen name="person_li_footer_height">72dp</dimen>
     
+    <dimen name="preview_li_register_height">60dp</dimen>
+    
     <dimen name="notif_li_padding">6dp</dimen>
     <dimen name="notif_li_avatar_layout_width">60dp</dimen>
     <dimen name="notif_li_avatar_layout_height">60dp</dimen>

@@ -220,6 +220,21 @@ public class ServiceProxy extends ServiceBase implements IService {
 	}
 	
 	@Override
+	public MatchedCandidateListResponse getPreviewMatches(Context context, SimpleRequest<Location> request) throws GingerException{
+		
+		if(request.getClientId() == null){
+			request.setClientId(super.getClientId(context));
+		}
+		
+		return super.post(
+				request, 
+				MatchedCandidateListResponse.class, 
+				ServiceEndpoint.MainService, 
+				super.getAuthToken(context, false), 
+				"/svc/rest/matches/preview").getData();	
+	}
+	
+	@Override
 	public MatchedCandidateListResponse buyNewMatches(Context context, BuyingNewMatchRequest request) throws GingerException{
 		
 		if(request.getClientId() == null){

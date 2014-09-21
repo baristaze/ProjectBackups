@@ -40,7 +40,7 @@ public class LaunchActivity extends Activity {
 		}
 		
 		setContentView(R.layout.activity_launch);		
-		this.signinOrSignup();
+		this.signinOrPreview();
 	}
 	
 	@Override
@@ -77,7 +77,7 @@ public class LaunchActivity extends Activity {
 		return restored;
 	}
 	
-	private void signinOrSignup(){
+	private void signinOrPreview(){
 		
 		SharedPreferences prefs = this.getSharedPreferences(getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
 		String username = prefs.getString(this.getString(R.string.pref_username_key), null);
@@ -92,8 +92,8 @@ public class LaunchActivity extends Activity {
 			this.signIn(credentials);			
 		}
 		else{
-			// sign up
-			this.startSignUp();
+			// preview
+			this.startPreview();
 		}
 	}
 	
@@ -102,14 +102,14 @@ public class LaunchActivity extends Activity {
 		asyncTask.execute(new String[]{});
 	}
 	
-	private void startSignUp(){
+	private void startPreview(){
 		
 		// track device...
 		TrackDeviceTask trackingTask = new TrackDeviceTask(this);
 		trackingTask.execute();
 		
-		// start sign-up
-		Intent intent = new Intent(this, SignupActivity.class);
+		// start preview
+		Intent intent = new Intent(this, PreviewActivity.class);
 		intent.putExtra("PreSelectedTabIndexOnMainActivity", this.preSelectedTabIndexOnMainActivity); // pass through
 		this.startActivity(intent);
 		this.finish();

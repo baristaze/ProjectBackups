@@ -2,10 +2,9 @@
 <resources>
 
     <string name="app_name">pic4pic</string>
-    
+
     <!-- This is being used by Facebook -->
     <string name="app_id">498161566945981</string>
-    
     <string name="general_OK">OK</string>
     <string name="general_Cancel">Cancel</string>
     <string name="general_continue">Continue</string>
@@ -16,10 +15,8 @@
     <string name="general_error_title">Error</string>
     <string name="general_processing">Processing&#8230;</string>
     <string name="general_please_wait">Please wait.</string>
-    
     <string name="photo_gallery">Photo Gallery</string>
     <string name="photo_camera">Camera</string>
-    
     <string name="action_settings">Settings</string>
     <string name="avatar_descr">Avatar</string>
     <string name="short_bio_descr">Short Bio</string>
@@ -70,34 +67,28 @@
     <string name="pref_user_relation_status">saved_relation_status</string>
     <string name="pref_user_profession_key">saved_profession</string>
     <string name="pref_user_education_key">saved_education</string>
-    
     <string name="purchase_filename_key">net.pic4pic.ginger.PURCHASES_FILE</string>
     <string name="purchase_file_unprocessed_purchases_key">unprocessed_purchases</string>
     <string name="purchase_file_unconsumed_purchases_key">unconsumed_purchases</string>
-    
     <string name="launch_signin_error_msg">Login attempt has failed</string>
     <string name="title_activity_signup">Signup</string>
     <string name="signup_username_label">Choose a screen name (public)</string>
     <string name="signup_username_text_hint">username</string>
     <string name="signup_password_label">Choose a password</string>
     <string name="signup_password_hint">password</string>
-    
     <string name="signup_err_enter_username">Please enter a username</string>
     <string name="signup_err_short_username">Username is too short. It must be at least 6 characters long.</string>
     <string name="signup_err_enter_password">Please enter a password</string>
     <string name="signup_err_short_password">Password is too short. It must be at least 6 characters long.</string>
-    
     <string name="err_image_compress_failed">Compressing the image has failed.</string>
     <string name="err_image_save_failed">Saving the image has failed.</string>
     <string name="err_image_read_failed">Reading the image has failed.</string>
     <string name="err_no_face_detected">We couldn\'t detect any face on the taken photo. Please try again and make sure that your face is clearly visible.</string>
-    
     <string name="lastCapturedPhoto_filename_key">net.pic4pic.ginger.LAST_CAPTURED_PHOTO.jpg</string>
     <string name="secondary_photos_last_filename_key">net.pic4pic.ginger.SECONDARY_PHOTOS_LAST_CAPTURED.jpg</string>
     <string name="face_detect_analyzing">Analyzing&#8230;</string>
     <string name="photo_uploading">Uploading&#8230;</string>
     <string name="face_detected">Face Detected!</string>
-    
     <string name="my_public_profile">My Public Profile</string>
     <string name="public_photo_label">public photo:</string>
     <string name="screen_name_label">screen name:</string>
@@ -111,25 +102,25 @@
     <string name="required">required</string>
     <string name="optional">optional</string>
     <string name="edit_button_description">edit</string>
-    
     <string name="match_list_retrieving">Retrieving Matches&#8230;</string>
     <string name="match_list_empty_info">Sorry, no match at this time.\nTap and pull down to refresh!</string>
-    
     <string name="notif_list_retrieving">Retrieving Notifications&#8230;</string>
     <string name="notif_list_empty_info">Sorry, no notification at this time.\nTap and pull down to refresh!</string>
-    
     <string name="title_conversation_activity">Messages</string>
     <string name="conversation_type_message_hint">Write a message&#8230;</string>
     <string name="conversation_send_button_text">Send</string>
-    
     <string name="credit_insufficient_title">Insufficient Credit</string>
     <string name="credit_insufficient_descr">You don\'t have enough credit to perform this action. Please buy some credit.</string>
-    
     <string name="google_play_svc_not_available">Google Play Services is not available on your phone. You won\'t be able to receive push notifications.</string>
     <string name="do_not_show_again">Don\'t show again</string>
     <string name="pref_error_hide_google_play_not_available">error_hide_google_play_not_available</string>
-    
     <string name="terms">Terms and Conditions</string>
     <string name="termsUrl">http://pic4pic.net/terms</string>
-    
+    <string name="title_activity_preview">pic4pic - preview</string>
+    <string name="title_activity_preview_person">pic4pic - preview - candidate</string>
+    <string name="preview_register">Register</string>
+    <string name="register_suggest_dlg_title">Join Us</string>
+    <string name="register_suggest_dlg_desc">You are in preview mode. You need to register to experience all features</string>
+    <string name="register_suggest_dlg_register">Register</string>
+
 </resources>
