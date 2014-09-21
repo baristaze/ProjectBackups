@@ -1,7 +1,6 @@
 package net.pic4pic.ginger;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -26,6 +25,7 @@ import net.pic4pic.ginger.entities.Notification;
 import net.pic4pic.ginger.entities.NotificationAction;
 import net.pic4pic.ginger.entities.NotificationType;
 import net.pic4pic.ginger.entities.ObjectType;
+import net.pic4pic.ginger.entities.PicForPic;
 import net.pic4pic.ginger.entities.StartingPic4PicRequest;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.service.Service;
@@ -199,8 +199,8 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 	
 	private boolean acceptLastPic4PicRequest(final View button, final Notification notification){
 		
-		UUID pic4picId = notification.getSender().getLastPendingPic4PicId();
-		if(pic4picId == null || pic4picId.equals(new UUID(0,0))){
+		PicForPic lastP4P = notification.getSender().getLastPendingPic4PicRequest(); 
+		if(lastP4P == null){
 			GingerHelpers.showErrorMessage(this.activity, "It seems like you don't have a pic4pic request anymore");
 			button.setEnabled(false);
 			return false;
@@ -208,7 +208,7 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 
 		UserResponse me = ((MainActivity)this.activity).getCurrentUser();
 		AcceptingPic4PicRequest request = new AcceptingPic4PicRequest();
-		request.setPic4PicRequestId(pic4picId);
+		request.setPic4PicRequestId(lastP4P.getId());
 		request.setPictureIdToExchange(me.getProfilePictures().getFullSizeClear().getGroupingId());
 		AcceptPic4PicTask task = new AcceptPic4PicTask(this, this.activity, (Button)button, request);
 		task.execute();
@@ -236,9 +236,9 @@ public class NotificationListItemAdapter extends ArrayAdapter<Notification> impl
 	
 	private boolean sendPic4PicRequest(final View button, final Notification notification){
 		
-		final UUID pic4picId = notification.getSender().getLastPendingPic4PicId();
-		if(pic4picId != null && !pic4picId.equals(new UUID(0,0))){
-			GingerHelpers.showErrorMessage(this.activity, "It seems like you have received a pic4pic request from this person already.");
+		PicForPic lastP4P = notification.getSender().getLastPendingPic4PicRequest();
+		if(lastP4P != null){
+			GingerHelpers.showErrorMessage(this.activity, "It seems like you have received a pic4pic request from this person. Consider accepting it first");
 			button.setEnabled(false);
 			return false;
 		}	

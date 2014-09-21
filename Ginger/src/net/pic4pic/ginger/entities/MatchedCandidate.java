@@ -22,12 +22,15 @@ public class MatchedCandidate implements Serializable {
 	
 	@SerializedName("LastLikeTimeUTC")
 	protected Date lastLikeTimeUTC;
-
-	@SerializedName("LastPendingPic4PicId")
-	protected UUID lastPendingPic4PicId;
 	
 	@SerializedName("OtherPictures")
     protected ArrayList<PicturePair> otherPictures = new ArrayList<PicturePair>();
+	
+	@SerializedName("SentPic4PicsToCandidate")
+	protected ArrayList<PicForPic> sentPic4PicsToCandidate = new ArrayList<PicForPic>();
+	
+	@SerializedName("SentPic4PicsByCandidate")
+	protected ArrayList<PicForPic> sentPic4PicsByCandidate = new ArrayList<PicForPic>();
 	
 	/**
 	 * shortcut to getCandidateProfile().getUserId()
@@ -123,31 +126,8 @@ public class MatchedCandidate implements Serializable {
 	 * @return the lastPendingPic4PicId
 	 */
 	public UUID getLastPendingPic4PicId() {
-		return lastPendingPic4PicId;
-	}
-
-	/**
-	 * Returns true if lastPendingPic4PicId has a valid value
-	 * @return
-	 */
-	public boolean hasPic4PicPending(){
-		
-		if(this.lastPendingPic4PicId == null){
-			return false;
-		}
-		
-		if(this.lastPendingPic4PicId.equals(new UUID(0,0))){
-			return false;
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * @param lastPendingPic4PicId the lastPendingPic4PicId to set
-	 */
-	public void setLastPendingPic4PicId(UUID lastPendingPic4PicId) {
-		this.lastPendingPic4PicId = lastPendingPic4PicId;
+		//return lastPendingPic4PicId;
+		return null;
 	}
 	
 	/**
@@ -155,5 +135,94 @@ public class MatchedCandidate implements Serializable {
 	 */
 	public ArrayList<PicturePair> getOtherPictures() {
 		return otherPictures;
+	}
+	
+	/**
+	 * @return the sent
+	 */
+	public ArrayList<PicForPic> getSentPic4PicsToCandidate() {
+		return sentPic4PicsToCandidate;
+	}
+
+	/**
+	 * @return the received
+	 */
+	public ArrayList<PicForPic> getSentPic4PicsByCandidate() {
+		return sentPic4PicsByCandidate;
+	}
+	
+	/**
+	 * Gets familiarity
+	 * @return familiarity
+	 */
+	public Familiarity getFamiliarity() {
+		
+        for(PicForPic p : this.sentPic4PicsToCandidate) {
+            if (p.isAccepted()) {
+                return Familiarity.Familiar;
+            }
+        }
+
+        for(PicForPic p : this.sentPic4PicsByCandidate){
+            if (p.isAccepted()) {
+                return Familiarity.Familiar;
+            }
+        }
+
+        return Familiarity.Stranger;
+    }
+	
+	/**
+	 * Gets last Pic4Pic request which is sent to me but hasn't been accepted by me
+	 * @return
+	 */
+	public PicForPic getLastPendingPic4PicRequest(){
+		
+		for(PicForPic p : this.sentPic4PicsByCandidate){
+            if (!p.isAccepted()) {
+                return p;
+            }
+        }	
+		
+		return null;
+	}
+	
+	public ArrayList<PicturePair> getNonTradedPicturesToBeUsedInPic4Pic(ArrayList<PicturePair> myOtherPictures){
+		
+		ArrayList<PicturePair> result = new ArrayList<PicturePair>();
+		
+		for(PicturePair pair : myOtherPictures){
+						
+			UUID imageGroupingId = pair.getGroupingImageId();
+			
+			boolean alreadySent = false;
+			for(PicForPic sentP4P : this.sentPic4PicsToCandidate){
+				if(imageGroupingId.equals(sentP4P.picId1) || imageGroupingId.equals(sentP4P.picId2)){
+					alreadySent = true;
+					break;
+				}
+			}
+			
+			if(alreadySent){
+				continue;
+			}
+			
+			boolean alreadyReceived = false;
+			for(PicForPic receivedP4P : this.sentPic4PicsByCandidate){
+				if(imageGroupingId.equals(receivedP4P.picId1) || imageGroupingId.equals(receivedP4P.picId2)){
+					alreadyReceived = true;
+					break;
+				}
+			}
+			
+			if(alreadyReceived){
+				continue;
+			}
+			
+			//
+			result.add(pair);
+		}
+		
+		return result;
 	}
 }
