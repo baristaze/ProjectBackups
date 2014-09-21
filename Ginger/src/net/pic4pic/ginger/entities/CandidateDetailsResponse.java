@@ -1,6 +1,7 @@
 package net.pic4pic.ginger.entities;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -11,11 +12,11 @@ public class CandidateDetailsResponse extends BaseResponse {
 	@SerializedName("Candidate")
 	protected MatchedCandidate candidate;
 	
-	@SerializedName("SentPic4Pics")
-	protected ArrayList<PicForPic> sentPic4Pics = new ArrayList<PicForPic>();
+	@SerializedName("SentPic4PicsToCandidate")
+	protected ArrayList<PicForPic> sentPic4PicsToCandidate = new ArrayList<PicForPic>();
 	
-	@SerializedName("ReceivedPic4Pics")
-	protected ArrayList<PicForPic> receivedPic4Pics = new ArrayList<PicForPic>();
+	@SerializedName("SentPic4PicsByCandidate")
+	protected ArrayList<PicForPic> sentPic4PicsByCandidate = new ArrayList<PicForPic>();
 	
 	/**
 	 * @return the candidate
@@ -34,15 +35,15 @@ public class CandidateDetailsResponse extends BaseResponse {
 	/**
 	 * @return the sent
 	 */
-	public ArrayList<PicForPic> getSentPic4Pics() {
-		return sentPic4Pics;
+	public ArrayList<PicForPic> getSentPic4PicsToCandidate() {
+		return sentPic4PicsToCandidate;
 	}
 
 	/**
 	 * @return the received
 	 */
-	public ArrayList<PicForPic> getReceivedPic4Pics() {
-		return receivedPic4Pics;
+	public ArrayList<PicForPic> getSentPic4PicsByCandidate() {
+		return sentPic4PicsByCandidate;
 	}
 	
 	/**
@@ -51,13 +52,13 @@ public class CandidateDetailsResponse extends BaseResponse {
 	 */
 	public Familiarity getFamiliarity() {
 		
-        for(PicForPic p : this.sentPic4Pics) {
+        for(PicForPic p : this.sentPic4PicsToCandidate) {
             if (p.isAccepted()) {
                 return Familiarity.Familiar;
             }
         }
 
-        for(PicForPic p : this.receivedPic4Pics){
+        for(PicForPic p : this.sentPic4PicsByCandidate){
             if (p.isAccepted()) {
                 return Familiarity.Familiar;
             }
@@ -72,12 +73,51 @@ public class CandidateDetailsResponse extends BaseResponse {
 	 */
 	public PicForPic getLastPendingPic4PicRequest(){
 		
-		for(PicForPic p : this.receivedPic4Pics){
+		for(PicForPic p : this.sentPic4PicsByCandidate){
             if (!p.isAccepted()) {
                 return p;
             }
         }	
 		
 		return null;
+	}
+	
+	public ArrayList<PicturePair> getNonTradedPicturesToBeUsedInPic4Pic(ArrayList<PicturePair> myOtherPictures){
+		
+		ArrayList<PicturePair> result = new ArrayList<PicturePair>();
+		
+		for(PicturePair pair : myOtherPictures){
+						
+			UUID imageGroupingId = pair.getGroupingImageId();
+			
+			boolean alreadySent = false;
+			for(PicForPic sentP4P : this.sentPic4PicsToCandidate){
+				if(imageGroupingId.equals(sentP4P.picId1) || imageGroupingId.equals(sentP4P.picId2)){
+					alreadySent = true;
+					break;
+				}
+			}
+			
+			if(alreadySent){
+				continue;
+			}
+			
+			boolean alreadyReceived = false;
+			for(PicForPic receivedP4P : this.sentPic4PicsByCandidate){
+				if(imageGroupingId.equals(receivedP4P.picId1) || imageGroupingId.equals(receivedP4P.picId2)){
+					alreadyReceived = true;
+					break;
+				}
+			}
+			
+			if(alreadyReceived){
+				continue;
+			}
+			
+			//
+			result.add(pair);
+		}
+		
+		return result;
 	}
 }

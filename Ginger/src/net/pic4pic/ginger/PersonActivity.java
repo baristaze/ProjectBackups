@@ -1,5 +1,6 @@
 package net.pic4pic.ginger;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -30,6 +31,8 @@ import net.pic4pic.ginger.entities.MarkingType;
 import net.pic4pic.ginger.entities.MatchedCandidate;
 import net.pic4pic.ginger.entities.MatchedCandidateResponse;
 import net.pic4pic.ginger.entities.ObjectType;
+import net.pic4pic.ginger.entities.PicForPic;
+import net.pic4pic.ginger.entities.PicturePair;
 import net.pic4pic.ginger.entities.StartingPic4PicRequest;
 import net.pic4pic.ginger.entities.UserResponse;
 import net.pic4pic.ginger.service.Service;
@@ -68,6 +71,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	
 	private UserResponse me;
 	private MatchedCandidate person;
+	private CandidateDetailsResponse personDetails;
 	private Date lastDetailsRetrieveTime = null;
 	
 	private ImageGalleryView galleryView;
@@ -150,7 +154,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			@Override
 			public void onClick(View v) {				
 				if(PersonActivity.this.person.hasPic4PicPending()){
-					PersonActivity.this.acceptLastPic4PicRequest(candidateSendP4PButton);
+					PersonActivity.this.acceptPic4PicRequest(candidateSendP4PButton);
 				}
 				else{
 					PersonActivity.this.sendPic4PicRequest(candidateSendP4PButton);
@@ -163,7 +167,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			@Override
 			public void onClick(View v) {
 				if(PersonActivity.this.person.hasPic4PicPending()){
-					PersonActivity.this.acceptLastPic4PicRequest(candidateSendMoreP4PButton);
+					PersonActivity.this.acceptPic4PicRequest(candidateSendMoreP4PButton);
 				}
 				else{
 					PersonActivity.this.sendPic4PicRequest(candidateSendMoreP4PButton);
@@ -221,6 +225,10 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			outState.putSerializable("person", this.person);
 		}
 		
+		if(this.personDetails != null){
+			outState.putSerializable("personDetails", this.personDetails);
+		}
+		
 		if(this.lastDetailsRetrieveTime != null){
 			outState.putSerializable("lastDetailsRetrieveTime", this.lastDetailsRetrieveTime);
 		}
@@ -253,6 +261,11 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		
 		if(state.containsKey("person")){
 			this.person = (MatchedCandidate)state.getSerializable("person");
+			restored = true;
+		}
+		
+		if(state.containsKey("personDetails")){
+			this.personDetails = (CandidateDetailsResponse)state.getSerializable("personDetails");
 			restored = true;
 		}
 		
@@ -321,31 +334,48 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 	protected void onCandidateDetailsSuccessfullyRetrieved(CandidateDetailsResponse response){
 		
 		// no error if we are here
-		MyLog.bag().v("More details on candidate has been retrieved.");
-		
+		MyLog.bag().v("More details on candidate has been retrieved.");		
 		this.lastDetailsRetrieveTime = new Date();
+		this.personDetails = response;
+		this.onFreshCandidateInfo(response.getCandidate(), "refreshing candidate details");	
+	}
+	
+	/**
+	 * 
+	 * @param candidate
+	 * @param actionDescription
+	 * 		  E.g.	
+	 * 			'sending pic4pic'	
+	 */
+	private void onFreshCandidateInfo(MatchedCandidate candidate, String actionDescription){
 		
 		Familiarity fam1 = this.person.getCandidateProfile().getFamiliarity();
-		Familiarity fam2 = response.getCandidate().getCandidateProfile().getFamiliarity();			
+		Familiarity fam2 = candidate.getCandidateProfile().getFamiliarity();			
 		
 		UUID pending1 = this.person.getLastPendingPic4PicId();
-		UUID pending2 = response.getCandidate().getLastPendingPic4PicId();
+		UUID pending2 = candidate.getLastPendingPic4PicId();
 		
-		this.person = response.getCandidate();
+		// set this first
+		this.person = candidate;
+		if(this.personDetails != null){
+			this.personDetails.setCandidate(candidate);
+		}
 		
 		if(fam1.getIntValue() != fam2.getIntValue()){			
-			MyLog.bag().i("Familiarity has changed.");
+			MyLog.bag().i("Familiarity has changed after " + actionDescription + ".");
 			this.adjustAll(false);
 		}
-		else if(!pending1.equals(pending2)){			
-			MyLog.bag().i("Pending pic4pic ID has changed.");
-			this.adjustActionButtons(false);
-		}
-		else{
-			MyLog.bag().v("Familiarity or Pending pic4pic IDs haven't changed.");
+		else {
+			MyLog.bag().i("Familiarity has not changed after " + actionDescription + ". Adjusting image gallery.");
+			this.adjustPhotoGallery(false);
+		
+			if(!pending1.equals(pending2)){			
+				MyLog.bag().i("Pending pic4pic ID has changed after sending pic4pic.");
+				this.adjustActionButtons(false);
+			}
 		}
 	}
-		
+	
 	private void adjustAll(boolean initialCreate){
 		MyLog.bag().v("Adjusting all...");
 		this.adjustAvatarImage(initialCreate);		
@@ -446,32 +476,22 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		MyLog.bag().v("Adjusting action buttons...");
 		
 		Button pic4picButton = null;
-		String acceptText = "accept pic4pic";
 		LinearLayout buttonGroupFamiliar = (LinearLayout)this.findViewById(R.id.candidateActions);
-		LinearLayout buttonGroupStranger = (LinearLayout)this.findViewById(R.id.candidateAnonymousActions);		
+		LinearLayout buttonGroupStranger = (LinearLayout)this.findViewById(R.id.candidateAnonymousActions);
 		
+		String sendText = this.getString(R.string.candidate_sendP4P);		
 		if(this.person.getCandidateProfile().getFamiliarity() == Familiarity.Familiar){
 			
 			buttonGroupStranger.setVisibility(View.INVISIBLE);
 			buttonGroupFamiliar.setVisibility(View.VISIBLE);
-			
 			pic4picButton = (Button)this.findViewById(R.id.candidateSendMoreP4PButton);
-			acceptText = this.getString(R.string.candidate_acceptP4P);
-			
-			if(this.person.getCandidateProfile().getGender() == Gender.Male){
-				acceptText = this.getString(R.string.candidate_acceptP4P_he);
-			}
-			else if(this.person.getCandidateProfile().getGender() == Gender.Female){
-				acceptText = this.getString(R.string.candidate_acceptP4P_she);
-			}
+			sendText = this.getString(R.string.candidate_sendMoreP4P);
 		}
 		else{
 			
 			buttonGroupFamiliar.setVisibility(View.INVISIBLE);
-			buttonGroupStranger.setVisibility(View.VISIBLE);
-			
+			buttonGroupStranger.setVisibility(View.VISIBLE);			
 			pic4picButton = (Button)this.findViewById(R.id.candidateSendP4PButton);
-			acceptText = this.getString(R.string.candidate_acceptP4P);
 			
 			Button likeButton = (Button)this.findViewById(R.id.candidateLikeButton);
 			if(this.person.isLiked()) {
@@ -485,8 +505,20 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		}
 		
 		MyLog.bag().v("Last Pending p4p ID: " + this.person.getLastPendingPic4PicId());
+		
+		String acceptText = this.getString(R.string.candidate_acceptP4P);
+		if(this.person.getCandidateProfile().getGender() == Gender.Male){
+			acceptText = this.getString(R.string.candidate_acceptP4P_he);
+		}
+		else if(this.person.getCandidateProfile().getGender() == Gender.Female){
+			acceptText = this.getString(R.string.candidate_acceptP4P_she);
+		}
+		
 		if(this.person.hasPic4PicPending()){
 			pic4picButton.setText(acceptText);
+		}
+		else{
+			pic4picButton.setText(sendText);
 		}
 	}
 	
@@ -600,7 +632,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		}*/	
 	}
 	
-	private void acceptLastPic4PicRequest(final Button button){
+	private void acceptPic4PicRequest(final Button button){
 	
 		UUID pic4picId = this.person.getLastPendingPic4PicId();
 		if(pic4picId == null || pic4picId.equals(new UUID(0,0))){
@@ -608,10 +640,47 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			this.adjustActionButtons(false);
 			return;
 		}
+		
+		UUID offeredImageId = this.person.getProfilePics().getThumbnail().getGroupingId(); // also thumb-nail image
+		UUID pictureIdToExchange = this.me.getProfilePictures().getFullSizeClear().getGroupingId();
+		if(this.person.getCandidateProfile().getFamiliarity().getIntValue() == Familiarity.Familiar.getIntValue()){			
+			
+			if(this.personDetails == null){
+				GingerHelpers.showErrorMessage(this, "We couldn't retrieve your pic4pic history with this candidate. Please try again!");
+				return;
+			}
+			
+			PicForPic target = null;
+			ArrayList<PicForPic> receivedP4Ps = this.personDetails.getSentPic4PicsByCandidate();
+			for(PicForPic receivedP4P : receivedP4Ps){
+				if(!receivedP4P.isAccepted()){
+					if(receivedP4P.getId().equals(pic4picId)){
+						target = receivedP4P;
+						break;
+					}
+				}
+			}
+			
+			if(target == null){
+				GingerHelpers.showErrorMessage(this, "Offered picture to exchange couldn't be found. Please re-visit this candidate later!");
+				return;	
+			}
+			else{
+				offeredImageId = target.getPicId1(); // group ID
+			}
+			
+			ArrayList<PicturePair> alternativeImagesToExchange = this.personDetails.getNonTradedPicturesToBeUsedInPic4Pic(this.me.getOtherPictures());
+			if(alternativeImagesToExchange.size() <= 0){
+				GingerHelpers.showErrorMessage(this, "You don't have any non-traded or non-pending picture to exchange with this user. Please add more photo!");
+				return;
+			}
+			
+			pictureIdToExchange = alternativeImagesToExchange.get(0).getGroupingImageId();
+		}
 
 		AcceptingPic4PicRequest request = new AcceptingPic4PicRequest();
 		request.setPic4PicRequestId(pic4picId);
-		request.setPictureIdToExchange(this.me.getProfilePictures().getFullSizeClear().getGroupingId());
+		request.setPictureIdToExchange(pictureIdToExchange);
 		AcceptPic4PicTask task = new AcceptPic4PicTask(this, this, button, request);
 		task.execute();
 	}
@@ -620,30 +689,22 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		
 		if(response.getErrorCode() == 0){	
 			
-			MyLog.bag().v("Accepting pic4pic call has returned.");
+			MyLog.bag().v("Accepting pic4pic call has returned.");			
+			MatchedCandidate candidate = response.getData();			
+			this.onFreshCandidateInfo(candidate, "accepting pic4pic");
 			
-			MatchedCandidate candidate = response.getData();
-			
-			Familiarity fam1 = this.person.getCandidateProfile().getFamiliarity();
-			Familiarity fam2 = candidate.getCandidateProfile().getFamiliarity();			
-			
-			UUID pending1 = this.person.getLastPendingPic4PicId();
-			UUID pending2 = candidate.getLastPendingPic4PicId();
-			
-			// set this first
-			this.person = candidate;
-			
-			if(fam1.getIntValue() != fam2.getIntValue()){			
-				MyLog.bag().i("Familiarity has changed after accepting pic4pic.");
-				this.adjustAll(false);
-			}
-			else {
-				MyLog.bag().i("Familiarity has not changed after accepting pic4pic. Adjusting image gallery.");
-				this.adjustPhotoGallery(false);
-			
-				if(!pending1.equals(pending2)){			
-					MyLog.bag().i("Pending pic4pic ID has changed after accepting pic4pic.");
-					this.adjustActionButtons(false);
+			if(this.personDetails != null){
+				boolean updated = false;
+				for(PicForPic p4p : this.personDetails.getSentPic4PicsByCandidate()){
+					if(p4p.getId().equals(request.getPic4PicRequestId())){
+						p4p.setPicId2(request.getPictureIdToExchange());
+						p4p.setAcceptTimeUTC(new Date());
+						updated = true;
+					}					
+				}
+				
+				if(!updated){
+					MyLog.bag().w("Candidate's sent p4p list couldn't be updated");
 				}
 			}
 			
@@ -658,22 +719,42 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		
 		final UUID pic4picId = this.person.getLastPendingPic4PicId();
 		if(pic4picId != null && !pic4picId.equals(new UUID(0,0))){
-			GingerHelpers.showErrorMessage(this, "It seems like you have received a pic4pic request from this person already.");
+			GingerHelpers.showErrorMessage(this, "It seems like you have received a pic4pic request from this person already. Consider accepting it first please.");
 			this.adjustActionButtons(false);
 			return;
 		}	
-				
+			
+		/*
 		String moreText = PersonActivity.this.getString(R.string.candidate_sendMoreP4P);
 		if(button.getText().equals(moreText)){
 			GingerHelpers.toast(PersonActivity.this, "Coming soon!..");
 			return;
 		}
+		*/
+		
+		if(this.personDetails == null){
+			GingerHelpers.showErrorMessage(this, "We couldn't retrieve your pic4pic history. Please try again!");
+			return;	
+		}
 		
 		// prepare request
 		final StartingPic4PicRequest request = new StartingPic4PicRequest();
 		request.setUserIdToInteract(this.person.getUserId());
-		// do not define this at the first time
-		// request.setPictureIdToExchange(this.person.getProfilePics().getFullSize().getGroupingId());
+		if(this.person.getCandidateProfile().getFamiliarity().getIntValue() == Familiarity.Stranger.getIntValue()){
+			// set my profile picture
+			request.setPictureIdToExchange(this.me.getProfilePictures().getFullSizeClear().getGroupingId());
+		}		
+		else{
+			// set my next available picture which hasn't been traded yet with this user
+			ArrayList<PicturePair> nonTradedPics = this.personDetails.getNonTradedPicturesToBeUsedInPic4Pic(this.me.getOtherPictures());
+			if(nonTradedPics.size() <= 0){
+				GingerHelpers.showErrorMessage(this, "You don't have any non-traded or non-pending picture to exchange with this user. Please add more photo!");
+				return;
+			}
+			
+			UUID imageIdToExchange = nonTradedPics.get(0).getGroupingImageId();
+			request.setPictureIdToExchange(imageIdToExchange);
+		}
 		
 		RequestPic4PicTask task = new RequestPic4PicTask(this, this, button, request);
 		task.execute();
@@ -685,32 +766,9 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 		if(response.getErrorCode() == 0){
 			
 			// log
-			MyLog.bag().v("pic4pic request has been sent to: " + request.getUserIdToInteract());
-		
-			MatchedCandidate candidate = response.getData();
-			
-			Familiarity fam1 = this.person.getCandidateProfile().getFamiliarity();
-			Familiarity fam2 = candidate.getCandidateProfile().getFamiliarity();			
-			
-			UUID pending1 = this.person.getLastPendingPic4PicId();
-			UUID pending2 = candidate.getLastPendingPic4PicId();
-			
-			// set this first
-			this.person = candidate;
-			
-			if(fam1.getIntValue() != fam2.getIntValue()){			
-				MyLog.bag().i("Familiarity has changed after sending pic4pic.");
-				this.adjustAll(false);
-			}
-			else {
-				MyLog.bag().i("Familiarity has not changed after sending pic4pic. Adjusting image gallery.");
-				this.adjustPhotoGallery(false);
-			
-				if(!pending1.equals(pending2)){			
-					MyLog.bag().i("Pending pic4pic ID has changed after sending pic4pic.");
-					this.adjustActionButtons(false);
-				}
-			}
+			MyLog.bag().v("pic4pic request has been sent to: " + request.getUserIdToInteract());		
+			MatchedCandidate candidate = response.getData();			
+			this.onFreshCandidateInfo(candidate, "sending pic4pic");
 						
 			// change text
 			Button button = getPic4PicButton();
@@ -718,6 +776,19 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			if(button.getText().equals(temp)){
 				String newText = PersonActivity.this.getString(R.string.candidate_sendMoreP4P);					
 				button.setText(newText);
+			}
+			
+			if(this.personDetails != null){
+				
+				// prepare a placeholder P4P
+				PicForPic newP4P = new PicForPic();
+				newP4P.setRequestTimeUTC(new Date());
+				newP4P.setUserId1(this.me.getUserId());
+				newP4P.setPicId1(request.getPictureIdToExchange());
+				newP4P.setUserId2(request.getUserIdToInteract());
+				
+				// add it to the current details to avoid duplicate requests...
+				this.personDetails.getSentPic4PicsToCandidate().add(newP4P);
 			}
 			
 			// toast

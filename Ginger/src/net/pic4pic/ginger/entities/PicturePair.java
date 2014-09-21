@@ -1,6 +1,8 @@
 package net.pic4pic.ginger.entities;
 
 import java.io.Serializable;
+import java.util.UUID;
+
 import com.google.gson.annotations.SerializedName;
 
 public class PicturePair  implements Serializable {
@@ -39,5 +41,36 @@ public class PicturePair  implements Serializable {
 	 */
 	public void setThumbnail(ImageFile thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean hasAnyClearPicture(){
+		
+		if(this.fullSize != null && !this.fullSize.isBlurred()){
+			return true;
+		}
+		
+		if(this.thumbnail != null && !this.thumbnail.isBlurred()){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public UUID getGroupingImageId(){
+		
+		UUID emptyGuid = new UUID(0, 0);
+		
+		if(this.fullSize != null && !this.fullSize.getGroupingId().equals(emptyGuid)){
+			return this.fullSize.getGroupingId();
+		}
+		
+		if(this.thumbnail != null && !this.thumbnail.getGroupingId().equals(emptyGuid)){
+			return this.thumbnail.getGroupingId();
+		}
+		
+		return emptyGuid;
 	}
 }
