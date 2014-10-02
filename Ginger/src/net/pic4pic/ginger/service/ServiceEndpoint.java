@@ -2,11 +2,11 @@ package net.pic4pic.ginger.service;
 
 /*package*/ class ServiceEndpoint{
 	
-	/*package*/ static final ServiceEndpoint MainService = new ServiceEndpoint(false, "pic4pic-web-svc.cloudapp.net");
-	/*package*/ static final ServiceEndpoint ImageService = new ServiceEndpoint(false, "pic4pic-web-svc.cloudapp.net");
-	/*package*/ static final ServiceEndpoint InstantMessageService = new ServiceEndpoint(false, "pic4pic-web-svc.cloudapp.net");
-	/*package*/ static final ServiceEndpoint AnalyticService = new ServiceEndpoint(false, "pic4pic-web-svc.cloudapp.net");
-	/*package*/ static final ServiceEndpoint LogService = new ServiceEndpoint(false, "pic4pic-web-svc.cloudapp.net");
+	/*package*/ static final ServiceEndpoint MainService = new ServiceEndpoint(true, "svc.pic4pic.net");
+	/*package*/ static final ServiceEndpoint ImageService = new ServiceEndpoint(false, "svc.pic4pic.net");
+	/*package*/ static final ServiceEndpoint InstantMessageService = new ServiceEndpoint(true, "svc.pic4pic.net");
+	/*package*/ static final ServiceEndpoint AnalyticService = new ServiceEndpoint(true, "svc.pic4pic.net");
+	/*package*/ static final ServiceEndpoint LogService = new ServiceEndpoint(true, "svc.pic4pic.net");
 	
 	private boolean ssl;
 	private String url;
