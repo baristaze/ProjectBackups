@@ -1,9 +1,9 @@
 package net.pic4pic.ginger.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.pic4pic.ginger.R;
+import net.pic4pic.ginger.entities.UserResponse;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,14 +23,14 @@ public class FacebookHelpers {
 	
 	public void startFacebook(final Activity activity, final FacebookLoginListener listener, final Object callersState){
 		// start Facebook Login
-		List<String> requiredPermissions = getRequiredFacebookPermissions(true);
+		List<String> requiredPermissions = getRequiredFacebookPermissions(activity, true);
 		Session.openActiveSession(activity, true, requiredPermissions, new Session.StatusCallback() {
 			// callback when session changes state
 			@Override
 			public void call(Session session, SessionState state, Exception exception) {
 				// session is never null indeed...
 				if (session != null && session.isOpened()) {
-					if (!hasRequiredPermissions(session, false)){
+					if (!hasRequiredPermissions(activity, session, false)){
 						String errorMessage = "We cannot continue because you have opt'ed out some Facebook permissions.";
 						GingerHelpers.showErrorMessage(activity, errorMessage);
 						session.closeAndClearTokenInformation();
@@ -85,9 +85,15 @@ public class FacebookHelpers {
 		Request.executeBatchAsync(request);
 	}
 	
-	protected List<String> getRequiredFacebookPermissions(boolean includeOptionals) {
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("email");
+	protected List<String> getRequiredFacebookPermissions(Activity activity, boolean includeOptionals) {
+		
+		SharedPreferences prefs = activity.getSharedPreferences(activity.getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
+		String permissionsConcatenated = prefs.getString(activity.getString(R.string.pref_fb_perm_list_key), "email");
+		List<String> permissions = UserResponse.splitAsFacebookPermissionsOrDefault(permissionsConcatenated);
+		if(permissions.size() == 0){
+			permissions.add("email");
+		}
+		
 		/*
 		// gender doesn't require any permission
 		permissions.add("user_hometown"); // field = hometown
@@ -108,8 +114,8 @@ public class FacebookHelpers {
 	 * Session.NewPermissionsRequest(this.getActivity(), permissions)); }
 	 */
 
-	protected boolean hasRequiredPermissions(Session session, boolean checkOptionals) {
-		List<String> requiredPermissions = getRequiredFacebookPermissions(checkOptionals);
+	protected boolean hasRequiredPermissions(Activity activity, Session session, boolean checkOptionals) {
+		List<String> requiredPermissions = getRequiredFacebookPermissions(activity, checkOptionals);
 		List<String> existingPermissions = session.getPermissions();
 		for (String reqPerm : requiredPermissions) {
 			if (!existingPermissions.contains(reqPerm)) {

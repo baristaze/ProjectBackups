@@ -144,6 +144,8 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 		}
 		else{
 			
+			UserHelpers.saveInitialFacebookPermissionsToFile(this.getActivity(), response.getInitialFacebookPermissionsAndConcat());
+			
 			if (response.getAuthToken() == null || response.getAuthToken().trim().length() == 0){
 				// ErrorCode == 0 & AuthToken == null => UserName is available
 				UserHelpers.saveUserCredentialsToFile(this.getActivity(), credentials, false);

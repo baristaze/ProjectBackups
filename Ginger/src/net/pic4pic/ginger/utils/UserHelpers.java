@@ -61,4 +61,12 @@ public class UserHelpers {
 		}
 		editor.commit();
 	}
+	
+	public static void saveInitialFacebookPermissionsToFile(Activity activity, String initialFBPermissions){
+		
+		SharedPreferences prefs = activity.getSharedPreferences(activity.getString(R.string.pref_filename_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();		
+		editor.putString(activity.getString(R.string.pref_fb_perm_list_key), initialFBPermissions);		
+		editor.commit();
+	}
 }
