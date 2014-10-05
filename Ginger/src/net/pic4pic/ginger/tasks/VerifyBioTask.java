@@ -33,6 +33,16 @@ public class VerifyBioTask extends BlockedTask<String, Void, UserResponse> {
     		
     		MyLog.bag().add(e).e();
     		
+    		MyLog.bag()
+    		.add("funnel", "signup")
+    		.add("step", "8")
+    		.add("page", "profile")
+    		.add("action", "post edit")
+    		.add("field", request.getUserFields())
+    		.add("success", "0")
+    		.add("error", "ginger")
+    		.m();
+    		
 			UserResponse response = new UserResponse();
 			response.setErrorCode(1);
 			response.setErrorMessage(e.getMessage());
@@ -41,6 +51,16 @@ public class VerifyBioTask extends BlockedTask<String, Void, UserResponse> {
     	catch(Throwable e){
     		
     		MyLog.bag().add(e).e();
+    		
+    		MyLog.bag()
+    		.add("funnel", "signup")
+    		.add("step", "8")
+    		.add("page", "profile")
+    		.add("action", "post edit")
+    		.add("field", request.getUserFields())
+    		.add("success", "0")
+    		.add("error", "throwable")
+    		.m();
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);

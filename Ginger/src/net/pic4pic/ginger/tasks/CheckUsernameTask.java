@@ -31,6 +31,15 @@ public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
     		
     		MyLog.bag().add(e).e();
     		
+    		MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "2")
+			.add("page", "credentials")
+			.add("action", "post credentials")
+			.add("success", "0")
+			.add("error", "ginger")
+			.m();
+    		
 			UserResponse response = new UserResponse();
 			response.setErrorCode(1);
 			response.setErrorMessage(e.getMessage());
@@ -39,6 +48,15 @@ public class CheckUsernameTask extends BlockedTask<String, Void, UserResponse> {
     	catch(Throwable e){
     		
     		MyLog.bag().add(e).e();
+    		
+    		MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "2")
+			.add("page", "credentials")
+			.add("action", "post credentials")
+			.add("success", "0")
+			.add("error", "throwable")
+			.m();
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);

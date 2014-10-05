@@ -109,8 +109,18 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 			public void onClick(View v) {
 				
 				if(!checkRequiredFields()){
+					
+					// error cases are written into the metrics in above function already
 					return;
 				}
+				
+				MyLog.bag()
+	    		.add("funnel", "signup")
+	    		.add("step", "8")
+	    		.add("page", "profile")
+	    		.add("action", "click finish")
+	    		.add("success", "1")
+	    		.m();
 				
 				PersonalDetailsFragment.this.activateUser();
 				
@@ -140,6 +150,14 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 			this.userInfo.getUserProfile().setActive(true);
 		}
 		
+		MyLog.bag()
+		.add("funnel", "signup")
+		.add("step", "8")
+		.add("page", "profile")
+		.add("action", "post activation")
+		.add("success", "1")
+		.m();
+		
 		// launch the main activity
 		SignupActivity activity = (SignupActivity)this.getActivity();
 		Intent intent = new Intent(activity, MainActivity.class);
@@ -159,42 +177,108 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 		TextView genderText = (TextView)(rootView.findViewById(R.id.genderText));
 		text = genderText.getText();
 		if(required.equals(text)){
+			
 			GingerHelpers.showErrorMessage(getActivity(), "Your gender info is a must");
+			
+			MyLog.bag()
+    		.add("funnel", "signup")
+    		.add("step", "8")
+    		.add("page", "profile")
+    		.add("action", "click finish")
+    		.add("success", "0")
+    		.add("error", "gender required")
+    		.m();
+			
 			return false;
 		}
 		
 		TextView ageText = (TextView)(rootView.findViewById(R.id.ageText));
 		text = ageText.getText();
 		if(required.equals(text)){
+			
 			GingerHelpers.showErrorMessage(getActivity(), "Your age info is a must");
+			
+			MyLog.bag()
+    		.add("funnel", "signup")
+    		.add("step", "8")
+    		.add("page", "profile")
+    		.add("action", "click finish")
+    		.add("success", "0")
+    		.add("error", "age required")
+    		.m();
+			
 			return false;
 		}
 		
 		TextView homeTownText = (TextView)(rootView.findViewById(R.id.homeTownText));
 		text = homeTownText.getText();
 		if(required.equals(text)){
+			
 			GingerHelpers.showErrorMessage(getActivity(), "Your hometown info is a must");
+			
+			MyLog.bag()
+    		.add("funnel", "signup")
+    		.add("step", "8")
+    		.add("page", "profile")
+    		.add("action", "click finish")
+    		.add("success", "0")
+    		.add("error", "hometown required")
+    		.m();
+			
 			return false;
 		}		
 
 		TextView relationStatusText = (TextView)(rootView.findViewById(R.id.relationStatusText));
 		text = relationStatusText.getText();
 		if(required.equals(text)){
+			
 			GingerHelpers.showErrorMessage(getActivity(), "Your marriage status is a must");
+			
+			MyLog.bag()
+    		.add("funnel", "signup")
+    		.add("step", "8")
+    		.add("page", "profile")
+    		.add("action", "click finish")
+    		.add("success", "0")
+    		.add("error", "marriage status required")
+    		.m();
+			
 			return false;
 		}
 		
 		TextView professionText = (TextView)(rootView.findViewById(R.id.professionText));
 		text = professionText.getText();
 		if(required.equals(text)){
+			
 			GingerHelpers.showErrorMessage(getActivity(), "Your profession info is a must");
+			
+			MyLog.bag()
+    		.add("funnel", "signup")
+    		.add("step", "8")
+    		.add("page", "profile")
+    		.add("action", "click finish")
+    		.add("success", "0")
+    		.add("error", "profession required")
+    		.m();
+			
 			return false;
 		}
 		
 		TextView educationLevelText = (TextView)(rootView.findViewById(R.id.educationLevelText));
 		text = educationLevelText.getText();
 		if(required.equals(text)){
+			
 			GingerHelpers.showErrorMessage(getActivity(), "Your education level is a must");
+			
+			MyLog.bag()
+    		.add("funnel", "signup")
+    		.add("step", "8")
+    		.add("page", "profile")
+    		.add("action", "click finish")
+    		.add("success", "0")
+    		.add("error", "education level required")
+    		.m();
+			
 			return false;
 		}
 		
@@ -328,6 +412,14 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 	
 	private void startFacebookGet(final String requiredPermission, final String fieldName, final int userSettingsKeyForField, final int matchingTextViewId){
 		
+		MyLog.bag()
+		.add("funnel", "signup")
+		.add("step", "8")
+		.add("page", "profile")
+		.add("action", "edit")
+		.add("field", fieldName)
+		.m();
+		
 		// start Facebook Login
 		List<String> permissionList = new ArrayList<String>();
 		permissionList.add(requiredPermission);		
@@ -368,12 +460,24 @@ public class PersonalDetailsFragment extends Fragment implements VerifyBioListen
 	public void onVerifyBio(UserResponse response, VerifyBioRequest request, int matchingTextViewId){
 		
 		if(response.getErrorCode() != 0){
+			
+			// error cases were written to the metrics in the task already
+			
 			//  "We couldn't verify your data with Facebook"
 			MyLog.bag().e(response.getErrorMessage());
 			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
 			this.updatePageField("optional", matchingTextViewId, false);
 		}
 		else{
+			
+			MyLog.bag()
+    		.add("funnel", "signup")
+    		.add("step", "8")
+    		.add("page", "profile")
+    		.add("action", "post edit")
+    		.add("field", request.getUserFields())
+    		.add("success", "1")
+    		.m();
 			
 			this.userInfo = response;
 			UserProfile user = response.getUserProfile();

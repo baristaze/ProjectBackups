@@ -46,7 +46,15 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 		
 		termsLink.setOnClickListener(new OnClickListener(){
 			@Override
-			public void onClick(View v) {				
+			public void onClick(View v) {		
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "2")
+				.add("page", "credentials")
+				.add("action", "click terms and conditions")
+				.m();
+				
 				Uri uri = Uri.parse( getResources().getString(R.string.termsUrl));
 				startActivity(new Intent(Intent.ACTION_VIEW, uri));
 			}});
@@ -58,8 +66,10 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 		continueButton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {				
+				
 				GingerHelpers.hideKeyboard(CheckUsernameFragment.this.getActivity(), usernameEditText);
 				GingerHelpers.hideKeyboard(CheckUsernameFragment.this.getActivity(), passwordEditText);
+				
 				checkUsername();
 			}});
 		
@@ -99,26 +109,78 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 		String password = passwordEditText.getText().toString().trim();
 		
 		if(username.length() == 0){
+			
 			GingerHelpers.showErrorMessage(this.getActivity(), this.getString(R.string.signup_err_enter_username));
+			
+			MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "2")
+			.add("page", "credentials")
+			.add("action", "click continue")
+			.add("success", "0")
+			.add("error", "username is empty")
+			.m();
+			
 			return;
 		}
 		
 		if(username.length() < 6){
+			
 			GingerHelpers.showErrorMessage(this.getActivity(), this.getString(R.string.signup_err_short_username));
+			
+			MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "2")
+			.add("page", "credentials")
+			.add("action", "click continue")
+			.add("success", "0")
+			.add("error", "username is short")
+			.m();
+			
 			return;
 		}
 		
 		if(password.length() == 0){
+			
 			GingerHelpers.showErrorMessage(this.getActivity(), this.getString(R.string.signup_err_enter_password));
+			
+			MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "2")
+			.add("page", "credentials")
+			.add("action", "click continue")
+			.add("success", "0")
+			.add("error", "password is empty")
+			.m();
+			
 			return;
 		}
 		
 		if(password.length() < 6){
+			
 			GingerHelpers.showErrorMessage(this.getActivity(), this.getString(R.string.signup_err_short_password));
+			
+			MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "2")
+			.add("page", "credentials")
+			.add("action", "click continue")
+			.add("success", "0")
+			.add("error", "password is short")
+			.m();
+			
 			return;
 		}
 		
 		Button continueButton = (Button)(rootView.findViewById(R.id.continueButton));
+		
+		MyLog.bag()
+		.add("funnel", "signup")
+		.add("step", "2")
+		.add("page", "credentials")
+		.add("action", "click continue")
+		.add("success", "1")
+		.m();
 		
 		// prepare input
 		UserCredentials credentials = new UserCredentials();
@@ -138,6 +200,9 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
          * ErrorCode == 0 & AuthToken != null => User is already signed up
          */
 		if(response.getErrorCode() != 0){
+			
+			// metrics are logged in the task already for error cases
+			
 			// ErrorCode != 0 : UserName is already in use
 			MyLog.bag().i(response.getErrorMessage());			
 			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
@@ -147,8 +212,19 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 			UserHelpers.saveInitialFacebookPermissionsToFile(this.getActivity(), response.getInitialFacebookPermissionsAndConcat());
 			
 			if (response.getAuthToken() == null || response.getAuthToken().trim().length() == 0){
+				
 				// ErrorCode == 0 & AuthToken == null => UserName is available
 				UserHelpers.saveUserCredentialsToFile(this.getActivity(), credentials, false);
+				
+	    		MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "2")
+				.add("page", "credentials")
+				.add("action", "post credentials")
+				.add("success", "1")
+				.add("newuser", "yes")
+				.m();
+				
 				((PageAdvancer)this.getActivity()).moveToNextPage(0);
 			}
 			else {
@@ -158,12 +234,30 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 					// flag that signup was done previously (full signup)
 					UserHelpers.saveUserCredentialsToFile(this.getActivity(), credentials, true);
 					
+		    		MyLog.bag()
+					.add("funnel", "signup")
+					.add("step", "2")
+					.add("page", "credentials")
+					.add("action", "post credentials")
+					.add("success", "1")
+					.add("newuser", "no")
+					.m();
+					
 					// launch the view for the signed-in use
 					this.startMainActivity(response);
 				}
 				else {
 					// user has already signed up but partially...
 					// we need to go to the last page but before that we need to make sure that there is a Facebook session
+					
+		    		MyLog.bag()
+					.add("funnel", "signup")
+					.add("step", "2")
+					.add("page", "credentials")
+					.add("action", "post credentials")
+					.add("success", "1")
+					.add("newuser", "partial")
+					.m();
 					
 					FacebookHelpers helpers = new FacebookHelpers();
 					helpers.startFacebook(getActivity(), CheckUsernameFragment.this, new Object[]{credentials, response});
@@ -181,6 +275,16 @@ public class CheckUsernameFragment extends Fragment implements CheckUsernameTask
 		
 		UserHelpers.saveUserCredentialsToFile(this.getActivity(), credentials, false);
 		UserHelpers.saveUserPropertiesToFile(this.getActivity(), response.getUserProfile());
+		
+		MyLog.bag()
+		.add("funnel", "signup")
+		.add("step", "2")
+		.add("page", "credentials")
+		.add("action", "connect facebook")
+		.add("success", "1")
+		.add("newuser", "partial")
+		.m();
+		
 		((PageAdvancer)this.getActivity()).moveToLastPage(response, false);
 	}
 	

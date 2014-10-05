@@ -33,6 +33,15 @@ public class ProcessPurchaseTask extends BlockedTask<String, Void, BaseResponse>
 		} 
 		catch (GingerException e) {
 			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "10")
+			.add("page", "matches")
+			.add("action", "post purchase to server")
+			.add("success", "0")
+			.add("error", "ginger")
+			.m();
+			
 			// log
 			MyLog.bag().add(e).e();
 			
@@ -43,6 +52,15 @@ public class ProcessPurchaseTask extends BlockedTask<String, Void, BaseResponse>
 			return response;
 		}
 		catch(Throwable e){
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "10")
+			.add("page", "matches")
+			.add("action", "post purchase to server")
+			.add("success", "0")
+			.add("error", "throwable")
+			.m();
 			
 			// log
 			String errorMessage = "Unexpected error occurred while processing the purchase";

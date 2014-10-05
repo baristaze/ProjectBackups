@@ -43,13 +43,45 @@ public class FaceDetectionTask extends BlockedTask<String, Void, FaceDetector.Fa
 				Thread.sleep(1500-millisecs);
 			}
 			
+			if(detectCount > 0){
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "5")
+				.add("page", "facedetect")
+				.add("action", "detected")
+				.add("success", "1")
+				.m();
+			}
+			else{
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "5")
+				.add("page", "facedetect")
+				.add("action", "noface")
+				.add("success", "0")
+				.add("error", "none")
+				.m();
+			}
+			
 			return all.toArray(new FaceDetector.Face[detectCount]);
     	}
-    	catch(Throwable ex){    
+    	catch(Throwable ex){
+    		
+    		MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "5")
+			.add("page", "facedetect")
+			.add("action", "noface")
+			.add("success", "0")
+			.add("error", "throwable")
+			.m();
+    		
     		MyLog.bag().add(ex).e("Face detection failed");
-    	}
-
-    	return new FaceDetector.Face[0];
+    		
+    		return new FaceDetector.Face[0]; // empty array
+    	}    	
     }
     
     protected void onPostExecute(FaceDetector.Face[] detectedFaces) {    	

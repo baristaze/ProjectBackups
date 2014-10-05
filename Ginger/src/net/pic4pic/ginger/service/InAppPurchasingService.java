@@ -141,7 +141,24 @@ public class InAppPurchasingService {
 	 */
 	public boolean startBuyingItem(String purchaseItemSku, String developerPayload) throws GingerException{
 		
+		MyLog.bag()
+		.add("funnel", "purchase")
+		.add("step", "4")
+		.add("page", "matches")
+		.add("action", "buy item on Google Play")
+		.m();
+		
 		if(!this.isConnected()){
+			
+			MyLog.bag()
+    		.add("funnel", "purchase")
+    		.add("step", "4")
+    		.add("page", "matches")
+    		.add("action", "buy item on Google Play")
+    		.add("success", "0")
+    		.add("error", "not connected to Google Play")
+    		.m();
+			
 			throw new GingerException("Application hasn't connected to the Google Play Billing service yet.");
 		}
 		
@@ -154,7 +171,17 @@ public class InAppPurchasingService {
 					InAppPurchasingService.INAPP_PURCHASE, 
 					developerPayload);
 		} 
-		catch (RemoteException e) {			
+		catch (RemoteException e) {	
+			
+			MyLog.bag()
+    		.add("funnel", "purchase")
+    		.add("step", "4")
+    		.add("page", "matches")
+    		.add("action", "buy item on Google Play")
+    		.add("success", "0")
+    		.add("error", "googleplay")
+    		.m();
+			
 			String errMsg = "Purchasing credit couldn't be placed";
 			MyLog.bag().add(e).e(errMsg);
 			throw new GingerException(errMsg, e);
@@ -162,6 +189,14 @@ public class InAppPurchasingService {
 		
 		int responseCode = buyIntentBundle.getInt("RESPONSE_CODE", -1);
 		if(responseCode == BILLING_RESPONSE_RESULT_USER_CANCELED){
+			
+			MyLog.bag()
+    		.add("funnel", "purchase")
+    		.add("step", "4")
+    		.add("page", "matches")
+    		.add("action", "click cancel on Google Play")
+    		.m();
+			
 			MyLog.bag().i("User cancelled in-app purchase.");
 			return false;
 		}
@@ -173,10 +208,27 @@ public class InAppPurchasingService {
 		*/
 		
 		if(responseCode != BILLING_RESPONSE_RESULT_OK){
+			
+			MyLog.bag()
+    		.add("funnel", "purchase")
+    		.add("step", "4")
+    		.add("page", "matches")
+    		.add("action", "buy item on Google Play")
+    		.add("success", "0")
+    		.add("error", "bad response code")
+    		.m();
+			
 			String errMsg = "Purchasing credit failed: " + getMessageForErrorCode(responseCode);
 			MyLog.bag().e(errMsg);
 			throw new GingerException(errMsg);	
 		}
+		
+		MyLog.bag()
+		.add("funnel", "purchase")
+		.add("step", "5")
+		.add("page", "matches")
+		.add("action", "get purchased item from Google Play")
+		.m();
 		
 		PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
 		
@@ -193,6 +245,16 @@ public class InAppPurchasingService {
 					0);
 		} 
 		catch (SendIntentException e) {
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "5")
+			.add("page", "matches")
+			.add("action", "get purchased item from Google Play")
+			.add("success", "0")
+			.add("error", "starting intent failed")
+			.m();
+			
 			String errMsg = "Purchasing credit couldn't be completed";
 			MyLog.bag().add(e).e(errMsg);
 			throw new GingerException(errMsg, e);
@@ -217,12 +279,32 @@ public class InAppPurchasingService {
 			responseCode = this.billingService.consumePurchase(BILLING_API_VERSION, this.parent.getPackageName(), purchaseToken);
 		} 
 		catch (RemoteException e) {
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "12")
+			.add("page", "matches")
+			.add("action", "mark purchase as consumed on Google Play")
+			.add("success", "0")
+			.add("error", "consuming purchase on Google Play failed")
+			.m();
+			
 			String errMsg = "Consuming purchase token failed";
 			MyLog.bag().add(e).e(errMsg);
 			throw new GingerException(errMsg, e);
 		}
 		
 		if(responseCode != BILLING_RESPONSE_RESULT_OK){
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "12")
+			.add("page", "matches")
+			.add("action", "mark purchase as consumed on Google Play")
+			.add("success", "0")
+			.add("error", "bad result from Google Play")
+			.m();
+			
 			String errMsg = "Consuming purchase token failed: " + getMessageForErrorCode(responseCode);
 			MyLog.bag().e(errMsg);
 			throw new GingerException(errMsg);	

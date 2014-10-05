@@ -352,6 +352,14 @@ public class PreviewActivity extends Activity implements PreviewCandidatesListen
 		registerButton.setOnClickListener(new OnClickListener() {
 			@Override
 		    public void onClick(View v) {
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "1")
+				.add("page", "preview")
+				.add("action", "click register")
+				.m();
+				
 				PreviewActivity.this.startSignUp();
 		    }
 		 });
@@ -360,6 +368,13 @@ public class PreviewActivity extends Activity implements PreviewCandidatesListen
 	}
 	
 	public void onShowPersonDetails(MatchedCandidate person){
+		
+		MyLog.bag()
+		.add("funnel", "signup")
+		.add("step", "1")
+		.add("page", "preview")
+		.add("action", "click candidate")
+		.m();
 		
 		// Toast.makeText(this.getActivity(), "Showing " + person, Toast.LENGTH_LONG).show();
 		Intent intent = new Intent(this, PreviewPersonActivity.class);

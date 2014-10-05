@@ -31,6 +31,15 @@ public class ActivateUserTask extends BlockedTask<String, Void, BaseResponse> {
     		
     		MyLog.bag().add(e).e();
     		
+    		MyLog.bag()
+    		.add("funnel", "signup")
+    		.add("step", "8")
+    		.add("page", "profile")
+    		.add("action", "post activation")
+    		.add("success", "0")
+    		.add("error", "ginger")
+    		.m();
+    		
     		BaseResponse response = new BaseResponse();
 			response.setErrorCode(1);
 			response.setErrorMessage(e.getMessage());
@@ -39,6 +48,15 @@ public class ActivateUserTask extends BlockedTask<String, Void, BaseResponse> {
     	catch(Throwable e){
     		
     		MyLog.bag().add(e).e();
+    		
+    		MyLog.bag()
+    		.add("funnel", "signup")
+    		.add("step", "8")
+    		.add("page", "profile")
+    		.add("action", "post activation")
+    		.add("success", "0")
+    		.add("error", "throwable")
+    		.m();
     		
     		BaseResponse response = new BaseResponse();
 			response.setErrorCode(1);

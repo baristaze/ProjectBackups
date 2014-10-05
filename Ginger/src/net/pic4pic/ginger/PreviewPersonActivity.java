@@ -93,7 +93,15 @@ public class PreviewPersonActivity extends Activity {
 		final Button candidateSendP4PButton = (Button)this.findViewById(R.id.candidateSendP4PButton);
 		candidateSendP4PButton.setOnClickListener(new OnClickListener(){
 			@Override
-			public void onClick(View v) {				
+			public void onClick(View v) {	
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "1")
+				.add("page", "previewcandidate")
+				.add("action", "click pic4pic")
+				.m();
+				
 				PreviewPersonActivity.this.suggestSignUp(candidateSendP4PButton);
 			}});
 		
@@ -101,7 +109,15 @@ public class PreviewPersonActivity extends Activity {
 		final Button candidateLikeButton = (Button)this.findViewById(R.id.candidateLikeButton);
 		candidateLikeButton.setOnClickListener(new OnClickListener(){
 			@Override
-			public void onClick(View v) {				
+			public void onClick(View v) {	
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "1")
+				.add("page", "previewcandidate")
+				.add("action", "click like")
+				.m();
+				
 				PreviewPersonActivity.this.suggestSignUp(candidateLikeButton);
 			}});
 	}
@@ -301,9 +317,24 @@ public class PreviewPersonActivity extends Activity {
 	    .setNegativeButton(this.getString(R.string.general_Cancel), new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) {
 	        	
+	        	MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "1")
+				.add("page", "previewcandidate")
+				.add("action", "click cancel on join-dialog")
+				.m();
+	        	
 	        }})
 	    .setPositiveButton(this.getString(R.string.register_suggest_dlg_register), new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) {
+	        	
+	        	MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "1")
+				.add("page", "preview candidate")
+				.add("action", "click OK on join-dialog")
+				.m();
+	        	
 	        	PreviewPersonActivity.this.startSignUp();
 	        }})
 	    .show();

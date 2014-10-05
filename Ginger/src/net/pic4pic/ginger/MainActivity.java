@@ -531,18 +531,46 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	public void onPurchaseCompleteOnAppStore(int requestCode, int resultCode, Intent data){
 		
 		if(resultCode != Activity.RESULT_OK){
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "5")
+			.add("page", "matches")
+			.add("action", "get purchased item from Google Play")
+			.add("success", "0")
+			.add("error", "bad activity result")
+			.m();
+			
 			MyLog.bag().v("onPurchaseCompletedOnAppStore cancelled or failed. resultCode = " + resultCode);
 			return;
 		}
 		
 		MyLog.bag().v("Purchase is completed on AppStore.");
 		
+		MyLog.bag()
+		.add("funnel", "purchase")
+		.add("step", "6")
+		.add("page", "matches")
+		.add("action", "process Google Play activity result")
+		.m();
+		
 		InAppPurchaseResult result = null;
 		try {
+			
 			result = this.inappPurchasingSvc.processActivityResult(requestCode, resultCode, data);
 			MyLog.bag().i("InAppPurchaseResult has been retrieved properly.");
 		} 
 		catch (GingerException e) {
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "6")
+			.add("page", "matches")
+			.add("action", "process Google Play activity result")
+			.add("success", "0")
+			.add("error", "bad activity result")
+			.m();
+			
 			MyLog.bag().add(e).e();
 			GingerHelpers.showErrorMessage(this, e.getMessage());
 			return;
@@ -556,6 +584,13 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		SimpleRequest<PurchaseRecord> request = new SimpleRequest<PurchaseRecord>();
 		request.setData(purchaseRecord);
 		
+		MyLog.bag()
+		.add("funnel", "purchase")
+		.add("step", "10")
+		.add("page", "matches")
+		.add("action", "post purchase to server")
+		.m();
+		
 		// below task calls 'onPurchaseProcessed' method below when done
 		MyLog.bag().v("Sending the purchase record to the server...");
 		ProcessPurchaseTask task = new ProcessPurchaseTask(this, this, request, null);
@@ -563,6 +598,13 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 	}
 	
 	private PurchaseRecord findOfferAndSavePurchaseRecord(InAppPurchaseResult result, ArrayList<PurchaseOffer> offers){
+		
+		MyLog.bag()
+		.add("funnel", "purchase")
+		.add("step", "7")
+		.add("page", "matches")
+		.add("action", "find purchased item")
+		.m();
 		
 		PurchaseOffer selectedOffer = null;
 		for(PurchaseOffer offer : offers){
@@ -573,6 +615,16 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		}
 		
 		if(selectedOffer == null){
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "7")
+			.add("page", "matches")
+			.add("action", "find purchased item")
+			.add("success", "0")
+			.add("error", "purchase not found")
+			.m();
+			
 			String errorMessage = "The purchased item '" + result.getProductItemSku() + "' is not one of the avaialable offers.";
 			MyLog.bag().e(errorMessage);
 			GingerHelpers.showErrorMessage(this, errorMessage);
@@ -589,14 +641,38 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		purchaseRecord.setOriginalData(result.getOriginalData());
 		purchaseRecord.setDataSignature(result.getDataSignature());
 		
+		MyLog.bag()
+		.add("funnel", "purchase")
+		.add("step", "8")
+		.add("page", "matches")
+		.add("action", "save unprocessed purchase")
+		.m();
+		
 		// save to the file
 		try {
 			MyLog.bag().v("Saving the unprocessed purchase record to the file: " + purchaseRecord.getPurchaseReferenceToken());
 			PurchaseUtils.saveUnprocessedPurchaseToFile(this, purchaseRecord);
 		} 
 		catch (GingerException e) {
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "8")
+			.add("page", "matches")
+			.add("action", "save unprocessed purchase")
+			.add("success", "0")
+			.add("error", "ginger")
+			.m();
+			
 			MyLog.bag().add(e).e("Saving the unprocessed purchase record to the file failed");
 		}
+		
+		MyLog.bag()
+		.add("funnel", "purchase")
+		.add("step", "9")
+		.add("page", "matches")
+		.add("action", "save unconsumed purchase")
+		.m();
 		
 		// save to the file 2
 		try {
@@ -604,6 +680,16 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			PurchaseUtils.saveUnconsumedPurchaseToFile(this, purchaseRecord);
 		} 
 		catch (GingerException e) {
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "9")
+			.add("page", "matches")
+			.add("action", "save unconsumed purchase")
+			.add("success", "0")
+			.add("error", "ginger")
+			.m();
+			
 			MyLog.bag().add(e).e("Saving the unconsumed purchase record to the file failed");
 		}
 		
@@ -622,6 +708,13 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			MyLog.bag().i("New Credit after purchase: " + response.getCurrentCredit());
 			this.me.setCurrentCredit(response.getCurrentCredit());
 			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "11")
+			.add("page", "matches")
+			.add("action", "mark purchase as processed")
+			.m();
+			
 			// update the file
 			try {
 				PurchaseRecord purchaseRecord = request.getData();
@@ -629,18 +722,46 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 				PurchaseUtils.removeUnprocessedPurchaseFromFile(this, purchaseRecord);
 			} 
 			catch (GingerException e) {
+				
+				MyLog.bag()
+				.add("funnel", "purchase")
+				.add("step", "11")
+				.add("page", "matches")
+				.add("action", "mark purchase as processed")
+				.add("success", "0")
+				.add("error", "ginger")
+				.m();
+				
 				MyLog.bag().add(e).e("Removing the unpurchase purchase record from file failed");
 			}
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "12")
+			.add("page", "matches")
+			.add("action", "mark purchase as consumed on Google Play")
+			.m();
 			
 			// consume
 			MyLog.bag().v("Consuming the last purchase on Google Play to enable future purchases.");
 			PurchaseUtils.startConsumingPurchaseOnAppStoreAndClearLocal(this, this.inappPurchasingSvc, request.getData());
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "13")
+			.add("page", "matches")
+			.add("action", "buy")
+			.add("success", "1")
+			.m();
 			
 			// buy new MATCHES since we have more credits now... 
 			MyLog.bag().v("Requesting more PAID matches after credit purchase.");
 			this.startBuyingNewCandidates();
 		}
 		else {
+			
+			// error cases are logged into the metrics already
+			
 			GingerHelpers.showErrorMessage(this, response.getErrorMessage());
 		}
 	}
@@ -783,7 +904,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		        }})
 		    .setPositiveButton(this.getString(R.string.general_retry), new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int which) {
-		        	ImageUploadTask task = new ImageUploadTask(MainActivity.this, MainActivity.this, request);
+		        	ImageUploadTask task = new ImageUploadTask(MainActivity.this, MainActivity.this, request, false);
 		    		task.execute();
 		        }})
 		    .show();
@@ -846,11 +967,35 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 			}
 		}
 		else if(requestCode == InAppPurchasingService.INAPP_PURCHASE_REQUEST_CODE){
+			
 			MyLog.bag().v("InAppPurchasingService has returned");
+			
 			if(resultCode != Activity.RESULT_OK){
+				
+				MyLog.bag()
+				.add("funnel", "purchase")
+				.add("step", "5")
+				.add("page", "matches")
+				.add("action", "complete purchase on Google Play")
+				.add("success", "0")
+				.add("error", "badactivityresult")
+				.m();
+				
 				MyLog.bag().v("onPurchaseCompletedOnAppStore cancelled or failed. resultCode = " + resultCode);
 			}
 			else if (data == null){
+				
+				// do not hit this
+				
+				MyLog.bag()
+				.add("funnel", "purchase")
+				.add("step", "5")
+				.add("page", "matches")
+				.add("action", "complete purchase on Google Play")
+				.add("success", "0")
+				.add("error", "nullactivityresult")
+				.m();
+				
 				MyLog.bag().e("onPurchaseCompletedOnAppStore returned null intent although resultCode is OK.");
 			}
 			else{
@@ -897,7 +1042,7 @@ implements ActionBar.TabListener, MatchedCandidatesListener, NotificationsListen
 		ImageUploadRequest request = new ImageUploadRequest();
 		request.setFullLocalPath(absoluteFilePath);
 		request.setProfileImage(false);
-		ImageUploadTask task = new ImageUploadTask(this, this, request);
+		ImageUploadTask task = new ImageUploadTask(this, this, request, false);
 		task.execute();
 	}
 	

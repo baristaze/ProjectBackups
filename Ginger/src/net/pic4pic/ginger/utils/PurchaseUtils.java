@@ -147,17 +147,38 @@ public class PurchaseUtils {
 			consumed = true;
 		} 
 		catch (GingerException e) {
+			
+			// error cases are handled already
+			
 			MyLog.bag().add(e).e("Consuming purchase is failed for the purchase token: " + purchase.getPurchaseReferenceToken());
 		}
 		
 		// update the file
 		if(consumed) {
+			
+			MyLog.bag()
+			.add("funnel", "purchase")
+			.add("step", "13")
+			.add("page", "matches")
+			.add("action", "mark purchase as consumed locally")
+			.m();
+			
 			try {
 				MyLog.bag().v("Removing the unconsumed purchase record from file: " + purchase.getPurchaseReferenceToken());
 				PurchaseUtils.removeUnconsumedPurchaseFromFile(activity, purchase);
 				return 2;
 			} 
 			catch (GingerException e) {
+				
+				MyLog.bag()
+				.add("funnel", "purchase")
+				.add("step", "13")
+				.add("page", "matches")
+				.add("action", "mark purchase as consumed locally")
+				.add("success", "0")
+				.add("error", "ginger")
+				.m();
+				
 				MyLog.bag().add(e).e("Removing the unconsumed purchase record from file failed");
 				return 1;
 			}

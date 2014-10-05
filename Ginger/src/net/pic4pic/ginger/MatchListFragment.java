@@ -191,9 +191,26 @@ public class MatchListFragment extends Fragment {
 		MyLog.bag().v("Show More button is clicked");
 		final MainActivity mainActivity = (MainActivity)this.getActivity();
 		if(mainActivity.getCurrentUser().getCurrentCredit() >= 10){
+			
+    		MyLog.bag()
+    		.add("funnel", "purchase")
+    		.add("step", "1")
+    		.add("page", "matches")
+    		.add("action", "click show more")
+    		.add("credit", "sufficient")
+    		.m();
+			
 			mainActivity.startBuyingNewCandidates();
 			return;
 		}
+		
+		MyLog.bag()
+		.add("funnel", "purchase")
+		.add("step", "1")
+		.add("page", "matches")
+		.add("action", "click show more")
+		.add("credit", "insufficient")
+		.m();
 		
 		// if we are here, that means the user doesn't have enough credit to buy new matches.
 		AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
@@ -202,6 +219,7 @@ public class MatchListFragment extends Fragment {
         builder.setNeutralButton(R.string.general_OK, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				
 				dialog.dismiss();
 				MatchListFragment.this.offerBuyingCredit();
 			}
@@ -212,16 +230,43 @@ public class MatchListFragment extends Fragment {
 	}
 	
     public void offerBuyingCredit(){
-    	 
+    	
+    	MyLog.bag()
+		.add("funnel", "purchase")
+		.add("step", "2")
+		.add("page", "matches")
+		.add("action", "show offers")
+		.m();
+    	
     	final MainActivity mainActivity = (MainActivity)this.getActivity();
 		final InAppPurchasingService purchasingSvc = mainActivity.getPurchasingService();
 		if(purchasingSvc == null || !purchasingSvc.isConnected()){
+			
+			MyLog.bag()
+    		.add("funnel", "purchase")
+    		.add("step", "2")
+    		.add("page", "matches")
+    		.add("action", "show offers")
+    		.add("success", "0")
+    		.add("error", "billing service unreachable")
+    		.m();
+			
 			GingerHelpers.showErrorMessage(this.getActivity(), "Couldn't be connected to the Google Play Billing Services. Please try again later.");
 			return;
 		}
 		
 		final ArrayList<PurchaseOffer> offers = mainActivity.getAvailableOffers();
 		if(offers == null || offers.size() == 0){
+			
+			MyLog.bag()
+    		.add("funnel", "purchase")
+    		.add("step", "2")
+    		.add("page", "matches")
+    		.add("action", "show offers")
+    		.add("success", "0")
+    		.add("error", "no available offers retrieved")
+    		.m();
+			
 			GingerHelpers.showErrorMessage(this.getActivity(), "Couldn't retrieve available offers. Please try again later.");
 			mainActivity.startRetrievingAvailableOffers(); // try again...
 			return;	
@@ -251,13 +296,29 @@ public class MatchListFragment extends Fragment {
         builder.setNegativeButton(R.string.general_Cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				
+				MyLog.bag()
+	    		.add("funnel", "purchase")
+	    		.add("step", "3")
+	    		.add("page", "matches")
+	    		.add("action", "click cancel on offer-dialog")
+	    		.m();
+				
 				MyLog.bag().v("Purchasing credit is cancelled");
+				
 				dialog.dismiss();
 			}
 		});        
         builder.setPositiveButton(R.string.general_OK, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				
+				MyLog.bag()
+	    		.add("funnel", "purchase")
+	    		.add("step", "3")
+	    		.add("page", "matches")
+	    		.add("action", "click OK on offer-dialog")
+	    		.m();
 				
 				ListView listView = ((AlertDialog)dialog).getListView();
 				int position = listView.getCheckedItemPosition();
@@ -274,6 +335,9 @@ public class MatchListFragment extends Fragment {
 								purchasingSvc.startBuyingItem(sku, UUID.randomUUID().toString());
 							} 
 							catch (final GingerException e) {
+								
+								// error cases are handled already
+								
 								MyLog.bag().e("InApp Purchase couldn't be started for SKU '" + sku + "'. Error: " + e.getMessage());
 								mainActivity.runOnUiThread(new Runnable(){
 									@Override
@@ -288,6 +352,16 @@ public class MatchListFragment extends Fragment {
 					dialog.dismiss();
 				}
 				else{
+					
+					MyLog.bag()
+		    		.add("funnel", "purchase")
+		    		.add("step", "3")
+		    		.add("page", "matches")
+		    		.add("action", "click OK on offer-dialog")
+		    		.add("success", "0")
+		    		.add("error", "no item selected")
+		    		.m();
+					
 					// MyLog.bag().e("MatchListFragment", "Invalid position is returned from AlertDialog: " + position);
 					GingerHelpers.showErrorMessage(mainActivity, "Please select an item");
 				}

@@ -154,12 +154,47 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer, Lo
 					return true;
 				}
 				else */if(currentFragment > 0){
+					
+					int step = 0;
+					String page = "unknown";
+					if(currentFragment == FRAG_INDEX_PHOTO_INFO){
+						step = 3;
+						page = "photoinfo";
+					}
+					else if(currentFragment == FRAG_INDEX_FACE_DETECT){
+						step = 5;
+						page = "facedetect";
+					}
+					else if(currentFragment == FRAG_INDEX_FBOOK_INFO){
+						step = 6;
+						page = "facebookinfo";
+					}
+					else if(currentFragment == FRAG_INDEX_PERSONAL_DETAILS){
+						step = 8;
+						page = "profile";
+					}
+					
+					MyLog.bag()
+		    		.add("funnel", "signup")
+		    		.add("step", Integer.toString(step))
+		    		.add("page", page)
+		    		.add("action", "go back")
+		    		.m();
+					
 					this.fragmentPager.setCurrentItem(currentFragment-1, true);
 			        return true;
 				}
 			}
 			else{
 				if(currentFragment > FRAG_INDEX_SIGN_UP){
+					
+					MyLog.bag()
+		    		.add("funnel", "signup")
+		    		.add("step", "8")
+		    		.add("page", "profile")
+		    		.add("action", "go back")
+		    		.m();
+					
 					this.fragmentPager.setCurrentItem(FRAG_INDEX_SIGN_UP); // go to beginning
 					return true;
 				}
@@ -293,15 +328,43 @@ public class SignupActivity extends FragmentActivity implements PageAdvancer, Lo
 			if(ImageStorageHelper.saveToInternalStorage(this, photo, fileName, true)){
 				MyLog.bag().v("Bitmap has been saved to the internal storage");
 				int currentFragment = this.fragmentPager.getCurrentItem();
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "4")
+				.add("page", "selectphoto")
+				.add("action", "click select")
+				.add("success", "1")
+				.m();
+				
 				this.fragmentPager.setCurrentItem(currentFragment+1);				
 				FaceDetectionFragment theFrag = (FaceDetectionFragment)this.getFragment(FRAG_INDEX_FACE_DETECT);
 				theFrag.applyData();				
 			}
 			else{
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "4")
+				.add("page", "selectphoto")
+				.add("action", "click select")
+				.add("success", "0")
+				.add("error", "save error")
+				.m();
+				
 				GingerHelpers.toast(this, "A private copy of the selected photo couldn't be saved to your phone.");
 			}
 		}
 		else{
+			
+			MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "4")
+			.add("page", "selectphoto")
+			.add("action", "click cancel")
+			.add("success", "0")
+			.m();
+			
 			GingerHelpers.toast(this, result.getErrorMessage());
 		}
 		

@@ -12,12 +12,14 @@ public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadRespon
 
 	private ImageUploadRequest request;
 	private ImageUploadListener listener;
+	private boolean isSignUp;
 	
-	public ImageUploadTask(ImageUploadListener listener, Context context, ImageUploadRequest request){
+	public ImageUploadTask(ImageUploadListener listener, Context context, ImageUploadRequest request, boolean isSignUp){
 		
 		super(context);
 		this.listener = listener;
 		this.request = request;
+		this.isSignUp = isSignUp;
 	}
 	
 	@Override
@@ -31,6 +33,19 @@ public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadRespon
 			
 			MyLog.bag().add(e).e();
 			
+			if(this.isSignUp){
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "5")
+				.add("page", "uploadphoto")
+				.add("action", "post upload")
+				.add("success", "0")
+				.add("error", "ginger")
+				.m();	
+			}
+			
+			
 			ImageUploadResponse response = new ImageUploadResponse();
 			response.setErrorCode(1);
 			response.setErrorMessage(e.getMessage());
@@ -39,6 +54,18 @@ public class ImageUploadTask extends BlockedTask<String, Void, ImageUploadRespon
 		catch(Throwable e){
 			
 			MyLog.bag().add(e).e();
+			
+			if(this.isSignUp){
+			
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "5")
+				.add("page", "uploadphoto")
+				.add("action", "post upload")
+				.add("success", "0")
+				.add("error", "throwable")
+				.m();
+			}			
 			
 			ImageUploadResponse response = new ImageUploadResponse();
 			response.setErrorCode(1);

@@ -31,14 +31,32 @@ public class SignupTask extends BlockedTask<String, Void, UserResponse> {
     		
     		MyLog.bag().add(e).e();
     		
+    		MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "7")
+			.add("page", "signup")
+			.add("action", "post signup request")
+			.add("success", "0")
+			.add("error", "ginger")
+			.m();
+    		
 			UserResponse response = new UserResponse();
 			response.setErrorCode(1);
 			response.setErrorMessage(e.getMessage());
-			return response; 
+			return response;
 		}
     	catch(Throwable e){
     		
     		MyLog.bag().add(e).e();
+    		
+    		MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "7")
+			.add("page", "signup")
+			.add("action", "post signup request")
+			.add("success", "0")
+			.add("error", "throwable")
+			.m();
     		
     		UserResponse response = new UserResponse();
 			response.setErrorCode(1);

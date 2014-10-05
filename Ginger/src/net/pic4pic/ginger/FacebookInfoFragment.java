@@ -51,6 +51,14 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 			@Override
 			public void onClick(View v) {
 				// ((PageAdvancer)FacebookInfoFragment.this.getActivity()).moveToNextPage(0);
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "6")
+				.add("page", "facebookinfo")
+				.add("action", "connect facebook")
+				.m();
+				
 				FacebookHelpers helpers = new FacebookHelpers();
 				helpers.startFacebook(getActivity(), FacebookInfoFragment.this, null);
 			}});
@@ -144,6 +152,14 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 		request.setFacebookAccessToken(facebookAccessToken);
 		request.setPhotoUploadReference(photoUploadReference);
 
+		MyLog.bag()
+		.add("funnel", "signup")
+		.add("step", "6")
+		.add("page", "facebookinfo")
+		.add("action", "connect facebook")
+		.add("success", "1")
+		.m();
+		
 		// start sign up
 		SignupTask task = new SignupTask(this, this.getActivity(), this.continueButton, request);
 		task.execute();
@@ -153,6 +169,9 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 	public void onSignup(UserResponse response, SignupRequest request) {
 
 		if (response.getErrorCode() != 0) {
+			
+			// error cases were written into metrics in the task already
+			
 			// "We couldn't verify your data with Facebook"
 			MyLog.bag().e(response.getErrorMessage());
 			GingerHelpers.showErrorMessage(this.getActivity(), response.getErrorMessage());
@@ -187,6 +206,14 @@ public class FacebookInfoFragment extends Fragment implements SignupTask.SignupL
 				}
 			});
 
+			MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "7")
+			.add("page", "signup")
+			.add("action", "post signup request")
+			.add("success", "1")
+			.m();
+			
 			SignupActivity activity = ((SignupActivity) this.getActivity());
 			PersonalDetailsFragment nextFragment = (PersonalDetailsFragment) activity.getFragment(SignupActivity.FRAG_INDEX_PERSONAL_DETAILS);
 			nextFragment.setUserResponse(response);

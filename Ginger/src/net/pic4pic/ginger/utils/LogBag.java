@@ -101,6 +101,10 @@ public class LogBag {
 		this.log(Warning, message);
 	}
 	
+	public void m(){		
+		this.m(null);
+	}
+	
 	public void m(String message){		
 		this.log(Metric, message);
 	}

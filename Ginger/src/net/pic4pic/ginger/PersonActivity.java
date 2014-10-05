@@ -627,7 +627,7 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 			return;
 		}
 		
-		UUID offeredImageId = this.person.getProfilePics().getThumbnail().getGroupingId(); // also thumb-nail image
+		//UUID offeredImageId = this.person.getProfilePics().getThumbnail().getGroupingId(); // also thumb-nail image // to be used later
 		UUID pictureIdToExchange = this.me.getProfilePictures().getFullSizeClear().getGroupingId();
 		if(this.person.getCandidateProfile().getFamiliarity().getIntValue() == Familiarity.Familiar.getIntValue()){			
 			
@@ -646,9 +646,9 @@ public class PersonActivity extends Activity implements AcceptPic4PicListener, R
 				GingerHelpers.showErrorMessage(this, "Offered picture to exchange couldn't be found. Please re-visit this candidate later!");
 				return;	
 			}
-			else{
+			/*else{ // to be used later
 				offeredImageId = target.getPicId1(); // group ID
-			}
+			}*/
 			
 			ArrayList<PicturePair> alternativeImagesToExchange = this.person.getNonTradedPicturesToBeUsedInPic4Pic(this.me.getOtherPictures());
 			if(alternativeImagesToExchange.size() <= 0){

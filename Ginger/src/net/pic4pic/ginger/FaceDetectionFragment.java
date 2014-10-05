@@ -47,6 +47,14 @@ public class FaceDetectionFragment extends Fragment
 		cancelUploadBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "5")
+				.add("page", "uploadphoto")
+				.add("action", "click cancel")		
+				.m();
+				
 				((PageAdvancer)FaceDetectionFragment.this.getActivity()).moveToPreviousPage();
 			}
 		});
@@ -55,6 +63,14 @@ public class FaceDetectionFragment extends Fragment
 		uploadBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "5")
+				.add("page", "uploadphoto")
+				.add("action", "click upload")		
+				.m();
+				
 				FaceDetectionFragment.this.startUpload();
 			}
 		});
@@ -123,11 +139,17 @@ public class FaceDetectionFragment extends Fragment
 		    .setCancelable(false)
 		    .setNeutralButton(this.getString(R.string.general_retry), new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int which) {
+		        	
+		        	// no-face-detected or error has been logged to metrics in the task already
+		        	
 		        	((PageAdvancer)FaceDetectionFragment.this.getActivity()).moveToPreviousPage();
 		        }})
 		    .show();
 		}
 		else{
+			
+			// success is logged into metrics in the task already
+			
 			MyLog.bag().v("Detected Face Count: " + detectedFaces.length);
 			drawGreenStrokesOnCanvas(bitmap, detectedFaces);	
 			showUploadControls();
@@ -145,12 +167,13 @@ public class FaceDetectionFragment extends Fragment
 	}
 	
 	private void startUpload(){
+		
 		String fileName = this.getString(R.string.lastCapturedPhoto_filename_key);
 		String absoluteFilePath = ImageStorageHelper.getAbsolutePath(this.getActivity(), fileName);
 		ImageUploadRequest request = new ImageUploadRequest();
 		request.setFullLocalPath(absoluteFilePath);
 		request.setProfileImage(true);
-		ImageUploadTask task = new ImageUploadTask(this, this.getActivity(), request);
+		ImageUploadTask task = new ImageUploadTask(this, this.getActivity(), request, true);
 		task.execute();
 	}
 
@@ -169,10 +192,26 @@ public class FaceDetectionFragment extends Fragment
 		    .setCancelable(false)
 		    .setNegativeButton(this.getString(R.string.general_Cancel), new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int which) {
+		        	
+		        	MyLog.bag()
+					.add("funnel", "signup")
+					.add("step", "5")
+					.add("page", "uploadphoto")
+					.add("action", "cancel retry")		
+					.m();
+		        	
 		        	// ((PageAdvancer)FaceDetectionFragment.this.getActivity()).moveToPreviousPage();
 		        }})
 		    .setPositiveButton(this.getString(R.string.general_retry), new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int which) {
+		        	
+		        	MyLog.bag()
+					.add("funnel", "signup")
+					.add("step", "5")
+					.add("page", "uploadphoto")
+					.add("action", "do retry")		
+					.m();
+		        	
 		        	FaceDetectionFragment.this.startUpload();
 		        }})
 		    .show();	
@@ -200,6 +239,14 @@ public class FaceDetectionFragment extends Fragment
 			editor.putString(this.getString(R.string.pref_user_thumbnail_blurred_key), response.getImages().getThumbnailBlurred().getCloudUrl());
 			editor.putString(this.getString(R.string.pref_user_uploadreference_key), response.getUploadReference());						
 			editor.commit();
+			
+			MyLog.bag()
+			.add("funnel", "signup")
+			.add("step", "5")
+			.add("page", "uploadphoto")
+			.add("action", "post upload")
+			.add("success", "1")
+			.m();
 			
 			((PageAdvancer)this.getActivity()).moveToNextPage(0);
 		}

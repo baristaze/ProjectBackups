@@ -28,14 +28,30 @@ public class PhotoInfoFragment extends Fragment {
 		Button galleryButton = (Button)rootView.findViewById(R.id.galleryButton);
 		galleryButton.setOnClickListener(new OnClickListener(){
 			@Override
-			public void onClick(View v) {				
+			public void onClick(View v) {	
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "3")
+				.add("page", "photoinfo")
+				.add("action", "click gallery")
+				.m();
+				
 				((PageAdvancer)PhotoInfoFragment.this.getActivity()).moveToNextPage(0);
 			}});
 		
 		Button cameraButton = (Button)rootView.findViewById(R.id.cameraButton);
 		cameraButton.setOnClickListener(new OnClickListener(){
 			@Override
-			public void onClick(View v) {				
+			public void onClick(View v) {
+				
+				MyLog.bag()
+				.add("funnel", "signup")
+				.add("step", "3")
+				.add("page", "photoinfo")
+				.add("action", "click camera")
+				.m();
+				
 				((PageAdvancer)PhotoInfoFragment.this.getActivity()).moveToNextPage(1);
 			}});
 		
