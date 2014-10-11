@@ -1,5 +1,8 @@
 package net.pic4pic.ginger;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -7,6 +10,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
+import android.util.Base64;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.View;
@@ -41,6 +49,24 @@ public class LaunchActivity extends Activity {
 		
 		setContentView(R.layout.activity_launch);		
 		this.signinOrPreview();
+	}
+	
+	private static void showHashKey(Context context) {
+		
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo("net.pic4pic.ginger", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                MyLog.bag().add("FacebookHashKey", Base64.encodeToString(md.digest(), Base64.DEFAULT)).i("Hashkey for FB is calculated.");                
+            }
+        } 
+        catch (NameNotFoundException e){
+        	MyLog.bag().add(e).e("Retrieving Hashkey for FB is failed.");
+        } 
+        catch (NoSuchAlgorithmException e) {
+        	MyLog.bag().add(e).e("Retrieving Hashkey for FB is failed.");
+        }
 	}
 	
 	@Override
@@ -92,6 +118,10 @@ public class LaunchActivity extends Activity {
 			this.signIn(credentials);			
 		}
 		else{
+			
+			// show hash key
+			showHashKey(this);
+			
 			// preview
 			this.startPreview();
 		}
