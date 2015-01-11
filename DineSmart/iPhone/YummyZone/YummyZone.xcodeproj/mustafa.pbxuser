@@ -1,0 +1,276 @@
+// !$*UTF8*$!
+{
+	1D3623240D0F684500981E51 /* YummyZoneAppDelegate.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1467, 1292}}";
+			sepNavSelRange = "{382, 0}";
+			sepNavVisRange = "{0, 389}";
+		};
+	};
+	1D3623250D0F684500981E51 /* YummyZoneAppDelegate.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {2523, 1746}}";
+			sepNavSelRange = "{945, 0}";
+			sepNavVisRange = "{0, 2144}";
+		};
+	};
+	1D6058900D05DD3D006BFB54 /* YummyZone */ = {
+		activeExec = 0;
+		executables = (
+			457088FA12EAA3C0002D3C74 /* YummyZone */,
+		);
+	};
+	28A0AAE50D9B0CCF005BE974 /* YummyZone_Prefix.pch */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1467, 1292}}";
+			sepNavSelRange = "{639, 0}";
+			sepNavVisRange = "{0, 639}";
+		};
+	};
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 457088FA12EAA3C0002D3C74 /* YummyZone */;
+		activeSDKPreference = iphonesimulator4.2;
+		activeTarget = 1D6058900D05DD3D006BFB54 /* YummyZone */;
+		addToTargets = (
+			1D6058900D05DD3D006BFB54 /* YummyZone */,
+		);
+		codeSenseManager = 4570890A12EAA3CA002D3C74 /* Code sense */;
+		executables = (
+			457088FA12EAA3C0002D3C74 /* YummyZone */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					1285,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 317799016;
+			PBXWorkspaceStateSaveDate = 317799016;
+		};
+		perUserProjectItems = {
+			4535DE0212F13F2800C26628 /* PBXTextBookmark */ = 4535DE0212F13F2800C26628 /* PBXTextBookmark */;
+			4535DE0312F13F2800C26628 /* PBXTextBookmark */ = 4535DE0312F13F2800C26628 /* PBXTextBookmark */;
+			4535DE0412F13F2800C26628 /* PBXTextBookmark */ = 4535DE0412F13F2800C26628 /* PBXTextBookmark */;
+			4535DE0512F13F2800C26628 /* PBXTextBookmark */ = 4535DE0512F13F2800C26628 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 4570890912EAA3CA002D3C74 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	29B97316FDCFA39411CA2CEA /* main.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1467, 1292}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 367}";
+		};
+	};
+	45131F2E12EAAEA700F9654C /* LocateMeViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 1292}}";
+			sepNavSelRange = "{156, 24}";
+			sepNavVisRange = "{0, 432}";
+		};
+	};
+	45131F2F12EAAEA700F9654C /* LocateMeViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 5904}}";
+			sepNavSelRange = "{8067, 0}";
+			sepNavVisRange = "{7089, 2232}";
+			sepNavWindowFrame = "{{15, 185}, {1638, 1228}}";
+		};
+	};
+	45131F8F12EAB79000F9654C /* RestaurantInfoCell.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 1292}}";
+			sepNavSelRange = "{152, 24}";
+			sepNavVisRange = "{0, 591}";
+		};
+	};
+	45131F9012EAB79000F9654C /* RestaurantInfoCell.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 2448}}";
+			sepNavSelRange = "{773, 0}";
+			sepNavVisRange = "{1903, 1839}";
+			sepNavWindowFrame = "{{15, 185}, {1638, 1228}}";
+		};
+	};
+	4535DE0212F13F2800C26628 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* YummyZoneAppDelegate.m */;
+		name = "YummyZoneAppDelegate.m: 44";
+		rLen = 0;
+		rLoc = 945;
+		rType = 0;
+		vrLen = 2144;
+		vrLoc = 0;
+	};
+	4535DE0312F13F2800C26628 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 45FD5E8212EBDBE700AAFE16 /* RestaurantViewController.m */;
+		name = "RestaurantViewController.m: 180";
+		rLen = 0;
+		rLoc = 4839;
+		rType = 0;
+		vrLen = 1857;
+		vrLoc = 0;
+	};
+	4535DE0412F13F2800C26628 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 45FD5EEC12EC02BC00AAFE16 /* RestaurantMenuViewController.m */;
+		name = "RestaurantMenuViewController.m: 402";
+		rLen = 0;
+		rLoc = 13653;
+		rType = 0;
+		vrLen = 2943;
+		vrLoc = 11883;
+	};
+	4535DE0512F13F2800C26628 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 45FD5EEC12EC02BC00AAFE16 /* RestaurantMenuViewController.m */;
+		name = "RestaurantMenuViewController.m: 290";
+		rLen = 6203;
+		rLoc = 7447;
+		rType = 0;
+		vrLen = 3775;
+		vrLoc = 10350;
+	};
+	457088FA12EAA3C0002D3C74 /* YummyZone */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = YummyZone;
+		savedGlobals = {
+		};
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	4570890912EAA3CA002D3C74 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	4570890A12EAA3CA002D3C74 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	45751FF112EAA67400F92934 /* StartupViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 1269}}";
+			sepNavSelRange = "{155, 24}";
+			sepNavVisRange = "{0, 349}";
+		};
+	};
+	45751FF212EAA67400F92934 /* StartupViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 3510}}";
+			sepNavSelRange = "{450, 0}";
+			sepNavVisRange = "{0, 1685}";
+		};
+	};
+	457C7C9A12EC3A9C00B9A563 /* ImageDownloader.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 1292}}";
+			sepNavSelRange = "{626, 8}";
+			sepNavVisRange = "{0, 758}";
+		};
+	};
+	457C7C9B12EC3A9C00B9A563 /* ImageDownloader.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 2736}}";
+			sepNavSelRange = "{631, 0}";
+			sepNavVisRange = "{0, 1661}";
+		};
+	};
+	45FD5E3B12EBD4F600AAFE16 /* KeyConstants.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 1292}}";
+			sepNavSelRange = "{277, 0}";
+			sepNavVisRange = "{0, 277}";
+		};
+	};
+	45FD5E7E12EBDBB300AAFE16 /* RestaurantMenuCell.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 1292}}";
+			sepNavSelRange = "{517, 0}";
+			sepNavVisRange = "{0, 541}";
+		};
+	};
+	45FD5E7F12EBDBB300AAFE16 /* RestaurantMenuCell.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 3096}}";
+			sepNavSelRange = "{4907, 0}";
+			sepNavVisRange = "{2326, 2352}";
+		};
+	};
+	45FD5E8112EBDBE700AAFE16 /* RestaurantViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 1292}}";
+			sepNavSelRange = "{395, 0}";
+			sepNavVisRange = "{0, 505}";
+		};
+	};
+	45FD5E8212EBDBE700AAFE16 /* RestaurantViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 4068}}";
+			sepNavSelRange = "{4839, 0}";
+			sepNavVisRange = "{0, 1857}";
+		};
+	};
+	45FD5EEB12EC02BC00AAFE16 /* RestaurantMenuViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1463, 1292}}";
+			sepNavSelRange = "{682, 0}";
+			sepNavVisRange = "{0, 688}";
+		};
+	};
+	45FD5EEC12EC02BC00AAFE16 /* RestaurantMenuViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1749, 8190}}";
+			sepNavSelRange = "{7447, 6203}";
+			sepNavVisRange = "{10350, 3775}";
+		};
+	};
+}

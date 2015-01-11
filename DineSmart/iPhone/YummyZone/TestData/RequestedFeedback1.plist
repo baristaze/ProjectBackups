@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FeedbackItems</key>
+	<array>
+		<dict>
+			<key>Id</key>
+			<string>Id7</string>
+			<key>Text</key>
+			<string>More comments</string>
+			<key>Type</key>
+			<integer>4</integer>
+		</dict>
+		<dict>
+			<key>Id</key>
+			<string>Id1</string>
+			<key>Text</key>
+			<string>Overall satisfaction</string>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>Id</key>
+			<string>Id2</string>
+			<key>Text</key>
+			<string>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>Id</key>
+			<string>Id3</string>
+			<key>Text</key>
+			<string>Come again??</string>
+			<key>Type</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>Id</key>
+			<string>Id4</string>
+			<key>Text</key>
+			<string>Would you recommend this restaurant to a friend?</string>
+			<key>Type</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>Id</key>
+			<string>Id5</string>
+			<key>Text</key>
+			<string>Friendliness....</string>
+			<key>Type</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>Choices</key>
+			<array>
+				<dict>
+					<key>Id</key>
+					<string>ChoiceId1</string>
+					<key>Text</key>
+					<string>I love you!</string>
+				</dict>
+				<dict>
+					<key>Id</key>
+					<string>ChoiceId2</string>
+					<key>Text</key>
+					<string>I really love you!</string>
+				</dict>
+				<dict>
+					<key>Id</key>
+					<string>ChoiceId3</string>
+					<key>Text</key>
+					<string>I can&apos;t get you out of my head!</string>
+				</dict>
+			</array>
+			<key>Id</key>
+			<string>Id6</string>
+			<key>Text</key>
+			<string>Do you like me?</string>
+			<key>Type</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>Choices</key>
+			<array>
+				<dict>
+					<key>Id</key>
+					<string>ChoiceId1</string>
+					<key>Text</key>
+					<string>He is ok</string>
+				</dict>
+				<dict>
+					<key>Id</key>
+					<string>ChoiceId2</string>
+					<key>Text</key>
+					<string>Meh</string>
+				</dict>
+				<dict>
+					<key>Id</key>
+					<string>ChoiceId3</string>
+					<key>Text</key>
+					<string>Nope</string>
+				</dict>
+			</array>
+			<key>Id</key>
+			<string>Id6</string>
+			<key>Text</key>
+			<string>Do you like Baris?</string>
+			<key>Type</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>Id</key>
+			<string>Id7</string>
+			<key>Text</key>
+			<string>Comments</string>
+			<key>Type</key>
+			<integer>4</integer>
+		</dict>
+	</array>
+</dict>
+</plist>

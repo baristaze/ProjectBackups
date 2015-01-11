@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>MenuCategories</key>
+	<array>
+		<dict>
+			<key>Id</key>
+			<string>GUID1</string>
+			<key>MenuItems</key>
+			<array>
+				<dict>
+					<key>Id</key>
+					<string>GUID2</string>
+					<key>ImageUrl</key>
+					<string>http://www.applebees.com/images/menu/menu_sizzleChix.jpg</string>
+					<key>MyOwnRating</key>
+					<real>4.5</real>
+					<key>Name</key>
+					<string>Chicken Pot Stickers</string>
+					<key>Price</key>
+					<real>10.5</real>
+					<key>Rating</key>
+					<real>3.299999952316284</real>
+					<key>ShortDescription</key>
+					<string>Oriental Dumplings Pan-Fried in the Classic Tradition. Served with our Soy-Ginger Sesame Sauce</string>
+					<key>TopPick</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>Id</key>
+					<string>GUID3</string>
+					<key>ImageUrl</key>
+					<string>http://www.applebees.com/images/menu/land_2for20c.jpg</string>
+					<key>MyOwnRating</key>
+					<integer>0</integer>
+					<key>Name</key>
+					<string>Fried Macaroni and Cheese</string>
+					<key>Price</key>
+					<real>10.5</real>
+					<key>Rating</key>
+					<real>3.299999952316284</real>
+					<key>ShortDescription</key>
+					<string>Crispy Crumb Coated Macaroni and Cheese Balls. Served over a Creamy Marinara Sauce.</string>
+					<key>TopPick</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>Id</key>
+					<string>GUID4</string>
+					<key>ImageUrl</key>
+					<string>http://www.applebees.com/images/menu/land_Under550.jpg</string>
+					<key>MyOwnRating</key>
+					<integer>0</integer>
+					<key>Name</key>
+					<string>Soup of The Day</string>
+					<key>Price</key>
+					<real>10.5</real>
+					<key>Rating</key>
+					<real>3.299999952316284</real>
+					<key>ShortDescription</key>
+					<string>Our restaurant makes all of our soups fresh from scratch daily, available by the cup or bowl. Please ask your server about today’s available soups.</string>
+					<key>TopPick</key>
+					<false/>
+				</dict>
+			</array>
+			<key>Name</key>
+			<string>Apetizers</string>
+		</dict>
+		<dict>
+			<key>Id</key>
+			<string>GUID5</string>
+			<key>MenuItems</key>
+			<array>
+				<dict>
+					<key>Id</key>
+					<string>GUID6</string>
+					<key>ImageUrl</key>
+					<string>http://www.applebees.com/images/menu/land_UltimateTrios.jpg</string>
+					<key>MyOwnRating</key>
+					<integer>0</integer>
+					<key>Name</key>
+					<string>Louisiana Chicken Pasta</string>
+					<key>Price</key>
+					<real>10.5</real>
+					<key>Rating</key>
+					<real>3.299999952316284</real>
+					<key>ShortDescription</key>
+					<string>Parmesan Crusted Chicken Served Over Pasta with Mushrooms, Peppers and Onions in a Spicy New Orleans Sauce.</string>
+					<key>TopPick</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>Id</key>
+					<string>GUID7</string>
+					<key>ImageUrl</key>
+					<string>http://www.applebees.com/images/menu/land_salads.jpg</string>
+					<key>MyOwnRating</key>
+					<integer>0</integer>
+					<key>Name</key>
+					<string>Evelyn&apos;s Favorite Pasta</string>
+					<key>Price</key>
+					<real>10.5</real>
+					<key>Rating</key>
+					<real>3.299999952316284</real>
+					<key>ShortDescription</key>
+					<string>Penne Tossed with Broccoli, Oven-Dried Tomato, Roasted Eggplant, Peppers, Artichoke, Kalamata Olives, Garlic, Pine Nuts and Parmesan.</string>
+					<key>TopPick</key>
+					<false/>
+				</dict>
+				<dict>
+					<key>Id</key>
+					<string>GUID8</string>
+					<key>ImageUrl</key>
+					<string>http://www.applebees.com/images/menu/land_ribsAndFajitas.jpg</string>
+					<key>MyOwnRating</key>
+					<integer>4</integer>
+					<key>Name</key>
+					<string>Farfalle with Chicken and Roasted Garlic</string>
+					<key>Price</key>
+					<real>10.5</real>
+					<key>Rating</key>
+					<real>3.299999952316284</real>
+					<key>ShortDescription</key>
+					<string>Bow-Tie Pasta, Chicken, Mushrooms, Tomato, Pancetta, Peas and Caramelized Onions in a Roasted Garlic-Parmesan Cream Sauce.</string>
+					<key>TopPick</key>
+					<false/>
+				</dict>
+			</array>
+			<key>Name</key>
+			<string>Pastas</string>
+		</dict>
+		<dict>
+			<key>Id</key>
+			<string>GUID9</string>
+			<key>MenuItems</key>
+			<array>
+				<dict>
+					<key>Id</key>
+					<string>GUID10</string>
+					<key>ImageUrl</key>
+					<string>http://www.applebees.com/images/menu/land_desserts.jpg</string>
+					<key>MyOwnRating</key>
+					<integer>0</integer>
+					<key>Name</key>
+					<string>Hot Fudge Sundae</string>
+					<key>Price</key>
+					<real>10.5</real>
+					<key>Rating</key>
+					<real>3.299999952316284</real>
+					<key>ShortDescription</key>
+					<string>The Best Hot Fudge Anywhere. Topped with Whipped Cream and Almonds.</string>
+					<key>TopPick</key>
+					<false/>
+				</dict>
+				<dict>
+					<key>Id</key>
+					<string>GUID11</string>
+					<key>ImageUrl</key>
+					<string>http://www.applebees.com/images/menu/highlight_kidsDesserts.jpg</string>
+					<key>MyOwnRating</key>
+					<integer>0</integer>
+					<key>Name</key>
+					<string>Godiva® Chocolate Brownie Sundae</string>
+					<key>Price</key>
+					<real>10.5</real>
+					<key>Rating</key>
+					<real>3.299999952316284</real>
+					<key>ShortDescription</key>
+					<string>Our own Fabulous Godiva Chocolate Brownie, Vanilla Ice Cream, Hot Fudge, Whipped Cream and Toasted Almonds.</string>
+					<key>TopPick</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>Id</key>
+					<string>GUID12</string>
+					<key>ImageUrl</key>
+					<string>http://www.applebees.com/images/menu/highlight_shooters.jpg</string>
+					<key>MyOwnRating</key>
+					<integer>3</integer>
+					<key>Name</key>
+					<string>Dish of Ice Cream</string>
+					<key>Price</key>
+					<real>10.5</real>
+					<key>Rating</key>
+					<real>3.299999952316284</real>
+					<key>ShortDescription</key>
+					<string>Two and a half scoops of your choice of Vanilla, Coffee or Chocolate Ice Cream. With a dollop of whipped cream on top.</string>
+					<key>TopPick</key>
+					<true/>
+				</dict>
+			</array>
+			<key>Name</key>
+			<string>Ice Cream Delights</string>
+		</dict>
+	</array>
+</dict>
+</plist>

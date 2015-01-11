@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Restaurants</key>
+	<array>
+		<dict>
+			<key>Name</key>
+			<string>FatBurger</string>
+			<key>Distance</key>
+			<string>0.2 mile</string>
+			<key>Address</key>
+			<string>123 Nowhere Str. Bellevue, WA 98052</string>
+			<key>LogoUrl</key>
+			<string>http://www.cnn.com</string>
+			<key>Id</key>
+			<string>063a2162-d1a8-431a-a4fa-f10f45773fb4</string>
+		</dict>
+		<dict>
+			<key>Name</key>
+			<string>Chillie&apos;s</string>
+			<key>Distance</key>
+			<string>0.4 mile</string>
+			<key>Address</key>
+			<string>124 Nowhere Str. Bellevue, WA 98052</string>
+			<key>LogoUrl</key>
+			<string>http://www.chillies.com</string>
+			<key>Id</key>
+			<string>b1bd1396-2382-40e8-b75d-adb494e4aee3</string>
+		</dict>
+	</array>
+</dict>
+</plist>

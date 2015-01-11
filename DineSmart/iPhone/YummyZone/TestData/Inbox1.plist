@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Messages</key>
+	<array>
+		<dict>
+			<key>Content</key>
+			<string>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar sem ut nisl vulputate vitae convallis turpis luctus. Nam nulla sapien, hendrerit ac consectetur at, auctor sed velit. Proin tristique, sem at tincidunt bibendum, massa sapien ullamcorper ligula, at porta nisi ante ac turpis. Curabitur vitae odio eu eros condimentum malesuada. Quisque tellus diam, convallis eu condimentum sit amet, consectetur ut quam. Praesent ultricies erat ac sem adipiscing ut egestas purus sollicitudin. Aliquam hendrerit ultricies risus id gravida. Donec imperdiet tempus felis ac lobortis. Suspendisse blandit odio ut neque scelerisque eu ultrices elit scelerisque. Quisque et nunc ante. Morbi ut venenatis mi. Sed volutpat consectetur sollicitudin. Quisque vestibulum ornare condimentum.</string>
+			<key>Date</key>
+			<date>2011-05-30T23:31:30Z</date>
+			<key>IsRead</key>
+			<false/>
+			<key>Sender</key>
+			<string>AppleBees</string>
+			<key>Id</key>
+			<string>MessageId0</string>
+			<key>Subject</key>
+			<string>Message subject blah blah</string>
+		</dict>
+		<dict>
+			<key>IsRead</key>
+			<false/>
+			<key>Content</key>
+			<string>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar sem ut nisl vulputate vitae convallis turpis luctus. Nam nulla sapien, hendrerit ac consectetur at, auctor sed velit. Proin tristique, sem at tincidunt bibendum, massa sapien ullamcorper ligula, at porta nisi ante ac turpis. Curabitur vitae odio eu eros condimentum malesuada. Quisque tellus diam, convallis eu condimentum sit amet, consectetur ut quam. Praesent ultricies erat ac sem adipiscing ut egestas purus sollicitudin. Aliquam hendrerit ultricies risus id gravida. Donec imperdiet tempus felis ac lobortis. Suspendisse blandit odio ut neque scelerisque eu ultrices elit scelerisque. Quisque et nunc ante. Morbi ut venenatis mi. Sed volutpat consectetur sollicitudin. Quisque vestibulum ornare condimentum.</string>
+			<key>Date</key>
+			<date>2011-05-29T23:31:30Z</date>
+			<key>Sender</key>
+			<string>AppleBees1</string>
+			<key>Id</key>
+			<string>MessageId1</string>
+			<key>Subject</key>
+			<string>Message subject blah blah1</string>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<string>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar sem ut nisl vulputate vitae convallis turpis luctus. Nam nulla sapien, hendrerit ac consectetur at, auctor sed velit. Proin tristique, sem at tincidunt bibendum, massa sapien ullamcorper ligula, at porta nisi ante ac turpis. Curabitur vitae odio eu eros condimentum malesuada. Quisque tellus diam, convallis eu condimentum sit amet, consectetur ut quam. Praesent ultricies erat ac sem adipiscing ut egestas purus sollicitudin. Aliquam hendrerit ultricies risus id gravida. Donec imperdiet tempus felis ac lobortis. Suspendisse blandit odio ut neque scelerisque eu ultrices elit scelerisque. Quisque et nunc ante. Morbi ut venenatis mi. Sed volutpat consectetur sollicitudin. Quisque vestibulum ornare condimentum.</string>
+			<key>Date</key>
+			<date>2011-05-28T23:31:30Z</date>
+			<key>Sender</key>
+			<string>AppleBees2</string>
+			<key>IsRead</key>
+			<false/>
+			<key>Id</key>
+			<string>MessageId2</string>
+			<key>Subject</key>
+			<string>Message subject blah blah2</string>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<string>Message body3</string>
+			<key>Date</key>
+			<date>2011-05-30T23:31:30Z</date>
+			<key>Sender</key>
+			<string>AppleBees3</string>
+			<key>IsRead</key>
+			<false/>
+			<key>Id</key>
+			<string>MessageId3</string>
+			<key>Subject</key>
+			<string>Message subject blah blah3</string>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<string>Message body4</string>
+			<key>Date</key>
+			<date>2011-05-30T23:31:30Z</date>
+			<key>Sender</key>
+			<string>AppleBees4</string>
+			<key>IsRead</key>
+			<false/>
+			<key>Id</key>
+			<string>MessageId4</string>
+			<key>Subject</key>
+			<string>Message subject blah blah4</string>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<string>Message body5</string>
+			<key>Date</key>
+			<date>2011-05-30T23:31:30Z</date>
+			<key>Sender</key>
+			<string>AppleBees5</string>
+			<key>IsRead</key>
+			<false/>
+			<key>Id</key>
+			<string>MessageId5</string>
+			<key>Subject</key>
+			<string>Message subject blah blah5</string>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<string>Message body6</string>
+			<key>Date</key>
+			<date>2011-05-30T23:31:30Z</date>
+			<key>Sender</key>
+			<string>AppleBees6</string>
+			<key>IsRead</key>
+			<false/>
+			<key>Id</key>
+			<string>MessageId6</string>
+			<key>Subject</key>
+			<string>Message subject blah blah6</string>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<string>Message body7</string>
+			<key>Date</key>
+			<date>2011-05-30T23:31:30Z</date>
+			<key>Sender</key>
+			<string>AppleBees7</string>
+			<key>IsRead</key>
+			<false/>
+			<key>Id</key>
+			<string>MessageId7</string>
+			<key>Subject</key>
+			<string>Message subject blah blah7</string>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<string>Message body8</string>
+			<key>Date</key>
+			<date>2011-05-30T23:31:30Z</date>
+			<key>Sender</key>
+			<string>AppleBees8</string>
+			<key>IsRead</key>
+			<false/>
+			<key>Id</key>
+			<string>MessageId8</string>
+			<key>Subject</key>
+			<string>Message subject blah blah8</string>
+		</dict>
+	</array>
+	<key>HasMoreMessageOnServer</key>
+	<true/>
+	<key>HintForNextPage</key>
+	<string>123</string>
+	<key>OperationResult</key>
+	<dict>
+		<key>ErrorMessage</key>
+		<string>Success</string>
+		<key>ErrorCode</key>
+		<integer>0</integer>
+	</dict>
+</dict>
+</plist>

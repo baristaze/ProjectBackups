@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FavoriteMenuItems</key>
+	<array>
+		<dict>
+			<key>MenuItemName</key>
+			<string>Create Your Own Pizza1</string>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland</string>
+			<key>MenuItemAverageRate</key>
+			<real>4</real>
+		</dict>
+		<dict>
+			<key>MenuItemName</key>
+			<string>Create Your Own Pizza2</string>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland2</string>
+			<key>MenuItemAverageRate</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>MenuItemName</key>
+			<string>Create Your Own Pizza3</string>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland3</string>
+			<key>MenuItemAverageRate</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>MenuItemName</key>
+			<string>Create Your Own Pizza4</string>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland4</string>
+			<key>MenuItemAverageRate</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>MenuItemName</key>
+			<string>Create Your Own Pizza5</string>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland5</string>
+			<key>MenuItemAverageRate</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>MenuItemName</key>
+			<string>Create Your Own Pizza6</string>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland6</string>
+			<key>MenuItemAverageRate</key>
+			<integer>2</integer>
+		</dict>
+	</array>
+	<key>FavoriteVenues</key>
+	<array>
+		<dict>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland</string>
+			<key>VenueAverageRate</key>
+			<real>3.4</real>
+		</dict>
+		<dict>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland2</string>
+			<key>VenueAverageRate</key>
+			<integer>4</integer>
+		</dict>
+		<dict>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland3</string>
+			<key>VenueAverageRate</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland4</string>
+			<key>VenueAverageRate</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+</dict>
+</plist>

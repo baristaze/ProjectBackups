@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Checkins</key>
+	<array>
+		<dict>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland</string>
+			<key>CheckinTimeUTC</key>
+			<date>2012-01-15T02:56:45Z</date>
+			<key>RatedItems</key>
+			<array>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Sampler Italiano</string>
+					<key>MenuItemRate</key>
+					<integer>2</integer>
+				</dict>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Create Your Own Pizza</string>
+					<key>MenuItemRate</key>
+					<integer>4</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland</string>
+			<key>CheckinTimeUTC</key>
+			<date>2012-01-15T02:56:45Z</date>
+			<key>RatedItems</key>
+			<array>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Sampler Italiano1</string>
+					<key>MenuItemRate</key>
+					<integer>2</integer>
+				</dict>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Create Your Own Pizza1</string>
+					<key>MenuItemRate</key>
+					<integer>4</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland</string>
+			<key>CheckinTimeUTC</key>
+			<date>2012-01-15T02:56:45Z</date>
+			<key>RatedItems</key>
+			<array>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Create Your Own Pizza2</string>
+					<key>MenuItemRate</key>
+					<integer>4</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland</string>
+			<key>CheckinTimeUTC</key>
+			<date>2012-01-15T02:56:45Z</date>
+			<key>RatedItems</key>
+			<array/>
+		</dict>
+		<dict>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland</string>
+			<key>CheckinTimeUTC</key>
+			<date>2012-01-15T02:56:45Z</date>
+		</dict>
+		<dict>
+			<key>VenueName</key>
+			<string>Olive Garden - Kirkland</string>
+			<key>CheckinTimeUTC</key>
+			<date>2012-01-15T02:56:45Z</date>
+			<key>RatedItems</key>
+			<array>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Sampler Italiano5</string>
+					<key>MenuItemRate</key>
+					<integer>2</integer>
+				</dict>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Create Your Own Pizza5</string>
+					<key>MenuItemRate</key>
+					<integer>4</integer>
+				</dict>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Create Your Own Pizza5</string>
+					<key>MenuItemRate</key>
+					<integer>4</integer>
+				</dict>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Create Your Own Pizza5</string>
+					<key>MenuItemRate</key>
+					<integer>4</integer>
+				</dict>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Create Your Own Pizza5</string>
+					<key>MenuItemRate</key>
+					<integer>4</integer>
+				</dict>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Create Your Own Pizza5</string>
+					<key>MenuItemRate</key>
+					<integer>4</integer>
+				</dict>
+				<dict>
+					<key>MenuItemName</key>
+					<string>Create Your Own Pizza5</string>
+					<key>MenuItemRate</key>
+					<integer>4</integer>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
