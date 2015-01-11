@@ -3,3 +3,4 @@ Ginger/gen/
 facebook-android-sdk-3.5/facebook/bin/
 Ginger_Deploy/KeyStore/keystore.password.txt
 Ginger_Deploy/APKs/keystore.password.txt
+.DS_Store
