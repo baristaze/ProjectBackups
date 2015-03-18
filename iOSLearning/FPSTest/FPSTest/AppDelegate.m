@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "DetailViewController.h"
+#import "RRFPSBar.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -22,6 +23,10 @@
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
+    
+    // initialize FPS chart
+    [[RRFPSBar sharedInstance] setHidden:NO];
+    
     return YES;
 }
 

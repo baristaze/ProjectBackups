@@ -15,6 +15,7 @@
 		604BE9FC1ABA0EFF0096833F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 604BE9FB1ABA0EFF0096833F /* Images.xcassets */; };
 		604BE9FF1ABA0EFF0096833F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 604BE9FD1ABA0EFF0096833F /* LaunchScreen.xib */; };
 		604BEA0B1ABA0EFF0096833F /* FPSTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 604BEA0A1ABA0EFF0096833F /* FPSTestTests.m */; };
+		604BEA161ABA14970096833F /* RRFPSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 604BEA151ABA14970096833F /* RRFPSBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,8 @@
 		604BEA041ABA0EFF0096833F /* FPSTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FPSTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		604BEA091ABA0EFF0096833F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		604BEA0A1ABA0EFF0096833F /* FPSTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FPSTestTests.m; sourceTree = "<group>"; };
+		604BEA141ABA14970096833F /* RRFPSBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRFPSBar.h; sourceTree = "<group>"; };
+		604BEA151ABA14970096833F /* RRFPSBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRFPSBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +87,8 @@
 		604BE9EA1ABA0EFF0096833F /* FPSTest */ = {
 			isa = PBXGroup;
 			children = (
+				604BEA141ABA14970096833F /* RRFPSBar.h */,
+				604BEA151ABA14970096833F /* RRFPSBar.m */,
 				604BE9EF1ABA0EFF0096833F /* AppDelegate.h */,
 				604BE9F01ABA0EFF0096833F /* AppDelegate.m */,
 				604BE9F21ABA0EFF0096833F /* MasterViewController.h */,
@@ -226,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				604BE9F11ABA0EFF0096833F /* AppDelegate.m in Sources */,
+				604BEA161ABA14970096833F /* RRFPSBar.m in Sources */,
 				604BE9F41ABA0EFF0096833F /* MasterViewController.m in Sources */,
 				604BE9EE1ABA0EFF0096833F /* main.m in Sources */,
 				604BE9F71ABA0EFF0096833F /* DetailViewController.m in Sources */,
