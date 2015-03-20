@@ -19,7 +19,7 @@
 
 @implementation FloatingView
 {
-    BOOL isViewExpanded;
+    BOOL isStarted;
     
     double initialDragLocationX;
     double initialDragLocationY;
@@ -47,6 +47,8 @@
     self = [super initWithFrame:CGRectMake(INIT_ORIG_X, INIT_ORIG_Y, size, size * heightF)];
     if(self){
         
+        isStarted = FALSE;
+        
         // dim the background
         //[self setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5]];
         
@@ -54,7 +56,7 @@
         [self registerForPanGesture];
         
         // register for tap gesture
-        //[self registerForTapAndHoldGesture];
+        [self registerForTapAndHoldGesture];
         [self registerForDoubleTapGesture];
         
         // create FPS view and add it
@@ -112,7 +114,14 @@
 - (void) onTapAndHold: (UILongPressGestureRecognizer *)recognizer
 {
     if ([recognizer state] == UIGestureRecognizerStateBegan) {
-        [self showInfo];
+        // [self showInfo];
+        if(isStarted){
+            [self stopMonitoring];
+            [fpsView setTitleWithStatus:@"FPS" :Unknown];
+        }
+        else{
+            [self startMonitoring];
+        }
     }
 }
 
@@ -204,11 +213,13 @@
 - (void)startMonitoring
 {
     [fpsMonitor resume];
+    isStarted = TRUE;
 }
 
 - (void)stopMonitoring
 {
     [fpsMonitor pause];
+    isStarted = FALSE;
 }
 
 - (void)animationDidFinish
