@@ -19,6 +19,8 @@
 
 @implementation FloatingView
 {
+    BOOL isViewExpanded;
+    
     double initialDragLocationX;
     double initialDragLocationY;
     
@@ -48,8 +50,12 @@
         // dim the background
         //[self setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5]];
         
-        // register pan gesture
+        // register for pan gesture
         [self registerForPanGesture];
+        
+        // register for tap gesture
+        //[self registerForTapAndHoldGesture];
+        [self registerForDoubleTapGesture];
         
         // create FPS view and add it
         fpsView = [[QuickHealthViewItem alloc] initWithSize:size];
@@ -73,6 +79,52 @@
     }
     
     return self;
+}
+
+- (void)registerForDoubleTapGesture
+{
+    UITapGestureRecognizer *doubleTapGesture =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onDoubleTapped:)];
+    
+    [doubleTapGesture setNumberOfTapsRequired:2];
+    [doubleTapGesture setNumberOfTouchesRequired:1];
+    [self addGestureRecognizer:doubleTapGesture];
+}
+
+- (void)registerForTapAndHoldGesture
+{
+    UILongPressGestureRecognizer *tapAndHoldGesture =
+        [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onTapAndHold:)];
+    
+    //[tapAndHoldGesture setMinimumPressDuration:0.5f];
+    //[tapAndHoldGesture setNumberOfTapsRequired:1];
+    //[tapAndHoldGesture setNumberOfTouchesRequired:1];
+    [self addGestureRecognizer:tapAndHoldGesture];
+}
+
+- (void) onDoubleTapped: (UITapGestureRecognizer*)recognizer
+{
+    if ([recognizer state] == UIGestureRecognizerStateEnded) {
+        [self showInfo];
+    }
+}
+
+- (void) onTapAndHold: (UILongPressGestureRecognizer *)recognizer
+{
+    if ([recognizer state] == UIGestureRecognizerStateBegan) {
+        [self showInfo];
+    }
+}
+
+- (void)showInfo
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info"
+                                                    message:@"Shows minimum FPS (Frame Per Second) for last 0.5 seconds. Swipe fast to get rid of it."
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+
 }
 
 // Start observing the middleware for changes
@@ -103,7 +155,8 @@
 - (void) registerForPanGesture
 {
     UIPanGestureRecognizer* panGesture =
-    [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+        [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+    
     [panGesture setMinimumNumberOfTouches:1];
     [panGesture setMaximumNumberOfTouches:1];
     [self addGestureRecognizer:panGesture];
