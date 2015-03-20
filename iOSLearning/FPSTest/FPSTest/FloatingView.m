@@ -3,7 +3,7 @@
 //  FPSTest
 //
 //  Created by Baris Taze on 3/18/15.
-//  Copyright (c) 2015 Baris Taze. All rights reserved.
+//  Copyright (c) 2015 Uber. All rights reserved.
 //
 
 #import <UIKit/UIPanGestureRecognizer.h>
@@ -33,6 +33,7 @@
 - (void) dealloc
 {
     [self stopMonitoring];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (id) initWithSize:(CGFloat)size
@@ -48,11 +49,14 @@
         //[self setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5]];
         
         // register pan gesture
-        [self registerPanGesture];
+        [self registerForPanGesture];
         
         // create FPS view and add it
         fpsView = [[QuickHealthViewItem alloc] initWithSize:size];
         [self addSubview:fpsView];
+        
+        // register for FPS update
+        [self registerForFPSUpdates];
         
         // create FPS monitor
         fpsMonitor = [[FPSMonitor alloc] init];
@@ -64,14 +68,39 @@
         [self addSubview:cpuView];
         */
         
-        [fpsView setTitleWithStatus:@"35" :Amber];
+        //[fpsView setTitleWithStatus:@"35" :Amber];
         //[cpuView setTitleWithStatus:@"48" :Red];
     }
     
     return self;
 }
 
-- (void) registerPanGesture
+// Start observing the middleware for changes
+- (void)registerForFPSUpdates {
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(fpsUpdated:)
+     name:FramePerSecondUpdatedNotification
+     object:nil];
+}
+
+- (void)fpsUpdated:(NSNotification *) notification
+{
+    FPSData *fpsData = (FPSData *)[notification object];
+    CGFloat minFPS = fpsData.minFPS;
+    NSString* minFpsText = [NSString stringWithFormat:@"%.f", minFPS];
+    if(minFPS <= 20.0){
+        [fpsView setTitleWithStatus:minFpsText :Red];
+    }
+    else if(minFPS <= 40.0){
+        [fpsView setTitleWithStatus:minFpsText :Amber];
+    }
+    else {
+        [fpsView setTitleWithStatus:minFpsText :Green];
+    }
+}
+
+- (void) registerForPanGesture
 {
     UIPanGestureRecognizer* panGesture =
     [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];

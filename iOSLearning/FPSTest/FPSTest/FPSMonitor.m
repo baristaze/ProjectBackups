@@ -3,12 +3,28 @@
 //  FPSTest
 //
 //  Created by Baris Taze on 3/19/15.
-//  Copyright (c) 2015 Baris Taze. All rights reserved.
+//  Copyright (c) 2015 Uber. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "FPSMonitor.h"
+
+NSString* const FramePerSecondUpdatedNotification = @"FramePerSecondUpdatedNotification";
+
+@implementation FPSData
+{
+}
+- (instancetype)initWithMin:(CGFloat)minFPS :(CGFloat)avgFPS
+{
+    if(self = [super init]){
+        _minFPS = minFPS;
+        _avgFPS = avgFPS;
+    }
+    return self;
+}
+@end
+
 
 @implementation FPSMonitor
 {
@@ -118,7 +134,9 @@
         
         // notify
         //NSLog(@"Avg FPS: %.f", avgFPS);
-        NSLog(@"Min FPS: %.f", minFPS);
+        //NSLog(@"Min FPS: %.f", minFPS);
+        FPSData* fpsData = [[FPSData alloc] initWithMin:minFPS :avgFPS];
+        [self notifyObservers:fpsData];
         
         // keep track of last
         _lastNotificationTime = _displayLink.timestamp;
@@ -132,6 +150,12 @@
         _maxMeasureSoFar = 0.0f;
     }
     */
+}
+
+- (void)notifyObservers:(FPSData*) fpsData {
+    
+    // notify all observers
+    [[NSNotificationCenter defaultCenter] postNotificationName:FramePerSecondUpdatedNotification object:fpsData];
 }
 
 @end

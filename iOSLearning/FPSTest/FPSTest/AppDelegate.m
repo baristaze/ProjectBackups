@@ -27,8 +27,8 @@
     splitViewController.delegate = self;
     
     // initialize FPS chart
-    [[RRFPSBar sharedInstance] setShowsAverage:TRUE];
-    [[RRFPSBar sharedInstance] setHidden:NO];
+    //[[RRFPSBar sharedInstance] setShowsAverage:TRUE];
+    //[[RRFPSBar sharedInstance] setHidden:NO];
     
     /*
     UIWindow* mainWindow = [[[UIApplication sharedApplication] delegate] window];

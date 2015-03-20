@@ -9,8 +9,21 @@
 #ifndef FPSTest_FPSMonitor_h
 #define FPSTest_FPSMonitor_h
 
+NSString* const FramePerSecondUpdatedNotification;
+
+@interface FPSData : NSObject
+{
+}
+@property(nonatomic, readonly) CGFloat minFPS;
+@property(nonatomic, readonly) CGFloat avgFPS;
+
+- (instancetype)initWithMin:(CGFloat)minFPS :(CGFloat)avgFPS;
+@end
+
+
 @interface FPSMonitor : NSObject
 {
+    
 }
 
 - (void) start;
