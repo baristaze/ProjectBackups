@@ -16,6 +16,10 @@
 		604BE9FF1ABA0EFF0096833F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 604BE9FD1ABA0EFF0096833F /* LaunchScreen.xib */; };
 		604BEA0B1ABA0EFF0096833F /* FPSTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 604BEA0A1ABA0EFF0096833F /* FPSTestTests.m */; };
 		604BEA161ABA14970096833F /* RRFPSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 604BEA151ABA14970096833F /* RRFPSBar.m */; };
+		604BEA1B1ABA27700096833F /* FloatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 604BEA1A1ABA27700096833F /* FloatingView.m */; };
+		604BEA241ABB58F30096833F /* FloatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 604BEA231ABB58F30096833F /* FloatingViewController.m */; };
+		604BEA271ABB8D4B0096833F /* QuickHealthViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 604BEA261ABB8D4B0096833F /* QuickHealthViewItem.m */; };
+		604BEA2A1ABBA9E50096833F /* FPSMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 604BEA291ABBA9E50096833F /* FPSMonitor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +50,14 @@
 		604BEA0A1ABA0EFF0096833F /* FPSTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FPSTestTests.m; sourceTree = "<group>"; };
 		604BEA141ABA14970096833F /* RRFPSBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRFPSBar.h; sourceTree = "<group>"; };
 		604BEA151ABA14970096833F /* RRFPSBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRFPSBar.m; sourceTree = "<group>"; };
+		604BEA191ABA25D80096833F /* FloatingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FloatingView.h; sourceTree = "<group>"; };
+		604BEA1A1ABA27700096833F /* FloatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatingView.m; sourceTree = "<group>"; };
+		604BEA221ABB58B70096833F /* FloatingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FloatingViewController.h; sourceTree = "<group>"; };
+		604BEA231ABB58F30096833F /* FloatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatingViewController.m; sourceTree = "<group>"; };
+		604BEA251ABB8D320096833F /* QuickHealthViewItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuickHealthViewItem.h; sourceTree = "<group>"; };
+		604BEA261ABB8D4B0096833F /* QuickHealthViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickHealthViewItem.m; sourceTree = "<group>"; };
+		604BEA281ABBA9A30096833F /* FPSMonitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FPSMonitor.h; sourceTree = "<group>"; };
+		604BEA291ABBA9E50096833F /* FPSMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPSMonitor.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +107,14 @@
 				604BE9F31ABA0EFF0096833F /* MasterViewController.m */,
 				604BE9F51ABA0EFF0096833F /* DetailViewController.h */,
 				604BE9F61ABA0EFF0096833F /* DetailViewController.m */,
+				604BEA191ABA25D80096833F /* FloatingView.h */,
+				604BEA1A1ABA27700096833F /* FloatingView.m */,
+				604BEA221ABB58B70096833F /* FloatingViewController.h */,
+				604BEA231ABB58F30096833F /* FloatingViewController.m */,
+				604BEA251ABB8D320096833F /* QuickHealthViewItem.h */,
+				604BEA261ABB8D4B0096833F /* QuickHealthViewItem.m */,
+				604BEA281ABBA9A30096833F /* FPSMonitor.h */,
+				604BEA291ABBA9E50096833F /* FPSMonitor.m */,
 				604BE9F81ABA0EFF0096833F /* Main.storyboard */,
 				604BE9FB1ABA0EFF0096833F /* Images.xcassets */,
 				604BE9FD1ABA0EFF0096833F /* LaunchScreen.xib */,
@@ -231,9 +251,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				604BE9F11ABA0EFF0096833F /* AppDelegate.m in Sources */,
+				604BEA2A1ABBA9E50096833F /* FPSMonitor.m in Sources */,
 				604BEA161ABA14970096833F /* RRFPSBar.m in Sources */,
 				604BE9F41ABA0EFF0096833F /* MasterViewController.m in Sources */,
 				604BE9EE1ABA0EFF0096833F /* main.m in Sources */,
+				604BEA241ABB58F30096833F /* FloatingViewController.m in Sources */,
+				604BEA271ABB8D4B0096833F /* QuickHealthViewItem.m in Sources */,
+				604BEA1B1ABA27700096833F /* FloatingView.m in Sources */,
 				604BE9F71ABA0EFF0096833F /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "RRFPSBar.h"
+#import "FloatingView.h"
+#import "FloatingViewController.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -25,7 +27,24 @@
     splitViewController.delegate = self;
     
     // initialize FPS chart
+    [[RRFPSBar sharedInstance] setShowsAverage:TRUE];
     [[RRFPSBar sharedInstance] setHidden:NO];
+    
+    /*
+    UIWindow* mainWindow = [[[UIApplication sharedApplication] delegate] window];
+    if(mainWindow == nil){
+        NSLog(@"Main window is nill");
+    }
+    else{
+        [mainWindow.rootViewController.view addSubview:[FloatingView sharedInstance]];
+    }
+    */
+    
+    FloatingView* floatingView = [[FloatingView alloc] initWithSize:40.0f];
+    [self.window.rootViewController.view addSubview:floatingView]; // ***
+    [floatingView moveTo:CGPointMake(100, 300)];
+    [floatingView startMonitoring];
+    //[self.window.rootViewController addChildViewController:[[FloatingViewController alloc] init]];
     
     return YES;
 }

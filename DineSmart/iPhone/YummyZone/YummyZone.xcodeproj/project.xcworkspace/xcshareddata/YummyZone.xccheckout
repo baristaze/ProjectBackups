@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>8081481C-B879-4242-A49D-3B1DD2CFBF93</string>
+	<key>IDESourceControlProjectName</key>
+	<string>YummyZone</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>58292246DE5BDB011D9E258D87C1B5B527A80605</key>
+		<string>https://github.com/baristaze/PrivateRepo1.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>DineSmart/iPhone/YummyZone/YummyZone.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>58292246DE5BDB011D9E258D87C1B5B527A80605</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/baristaze/PrivateRepo1.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>58292246DE5BDB011D9E258D87C1B5B527A80605</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>58292246DE5BDB011D9E258D87C1B5B527A80605</string>
+			<key>IDESourceControlWCCName</key>
+			<string>PrivateRepo1</string>
+		</dict>
+	</array>
+</dict>
+</plist>
