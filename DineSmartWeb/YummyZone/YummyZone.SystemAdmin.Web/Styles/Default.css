@@ -1,0 +1,68 @@
+﻿.ui-autocomplete{background-color:#ffffee; width:255px;margin:0px;padding:0px;list-style: none;border:1px solid #ccc;padding:1px 0px;}
+.ui-menu-item{width:100%;margin:1px 4px;}
+
+.header{border-bottom:1px solid Black; padding-top:20px;}
+.headerLeftWrp{float:left;}
+.headerRightWrp{float:right;}
+.logoSlogan{font-size:22px;}
+.userSection{color:Maroon;font-size:22px;}
+.main{margin-top:50px;}
+       
+.searchDescr{margin-right:86px;}
+.searchInput{width:400px;}
+.searchButton{width:80px;}
+.searchStatusWrp{margin-top:20px;margin-right:90px;}
+.searchResultListWrp{margin-top:30px; position:relative;} /*rel pos important*/
+.searchResultWrp{border:1px solid #ccc; margin-top:-1px;}
+.searchResultLeft{float:left; width:35%;}
+.searchResultMiddle{float:left; width:35%;}
+.searchResultRight{float:right; width:30%; position:relative;}
+.searchResultLeftInner{padding:5px;}
+.searchResultMiddleInner{padding:5px;margin-top:3px;}
+.searchResultRightInner{padding:5px;text-align:right;margin-top:3px;}
+.entityType{color:Gray;}
+.entityName{color:Maroon;font-size:16px; margin:0px 3px;}
+.entityStatus{color:Gray;}
+.entityAddress{color:Black;}
+.entityAction{margin:2px 4px;}
+.addNewButton{margin-top:5px;}
+        
+.labelWrp{float:left;width:160px;text-align:right;margin-top:8px; margin-right:10px;}
+.inputWrp{float:left;width:290px;text-align:left;margin-top:4px;}
+.secInputLabel{width:140px;}
+.secInput{margin-left:2px; width:100%;}
+.stateWrp{float:left;width:48%;}
+.zipWrp{float:right;width:48%;}
+.state{width:100%; text-transform: uppercase;}        
+.zip{width:100%;}
+.timeZoneCombo{margin-left:2px;width:298px;}
+.venueBasicInfo{width:500px;}
+.actionWrp{text-align:right;width:450px;margin-top:4px;margin-right:5px; background-color:Yellow;}
+.errorText{color:Red;}
+.cancelButton{float:right;margin-right:4px;}
+.nextButton{float:right;}
+.errorStrip{float:right; margin-top:2px;margin-right:4px;}
+        
+.mapWrp{position:relative;}
+.gmap{width:700px; height:500px;}
+.cross{position: absolute;top:242px;height:19px;width:19px;left: 50%;margin-left:-8px;display: block;background-image:url("../Images/cross.gif");background-position:center center;background-repeat:no-repeat;}
+.outputAndAction{margin-top:8px;width:700px;}
+.outputWrp{float:left;width:570px;text-align:left;margin-top:3px;}
+.nextToOrgWrp{float:right;width:125px;text-align:right;margin-left:4px;}
+.nextToOrgButton{margin-left:4px;}
+.orgAreaWrp{margin-left:100px;}
+.orgArea{width:550px;text-align:left;}
+.orgAreaDesc{margin-top:6px;background-color:Black; color:White; padding:4px 8px; margin-left:20px;}
+.orgTypeRadio{margin-top:6px;}
+.chainAndVenue{margin-top:10px;position:relative;}
+.labelWrp2{float:left;width:88px;margin-top:8px; text-align:left;margin-left:22px;}
+.inputWrp2{float:left;width:440px;margin-top:4px;}
+.secInput2{margin-left:2px; width:255px; margin-right:4px;}
+.saveAllWrp{float:right;margin-top:6px;margin-right:175px;}
+.saveAllButton{float:right;}
+.backToMapButton{float:right;margin-right:4px;}
+.errorStrip2{float:right;margin-right:6px;}
+.errorText2{color:Red; margin-right:4px;margin-top:2px;}
+.descGroupExisting{margin-left:4px; color:Gray;}
+.descChainExisting{margin-left:4px; color:Gray;}
+

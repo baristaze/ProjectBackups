@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" CodeBehind="CouponsGetCount.ashx.cs" Class="YummyZone.VenueAdmin.Web.CouponsGetCount" %>

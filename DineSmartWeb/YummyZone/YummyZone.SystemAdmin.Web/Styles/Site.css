@@ -1,0 +1,21 @@
+﻿body{font-size: .80em;margin: 0px;padding: 0px;color:Black;background-color:White;
+     font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;}
+.page{width:1024px;height:100%;margin:0px auto 0px auto;}
+.main{padding:0px;margin:0px;min-height: 600px;}
+
+.clear{clear:both;}
+.hidden{display:none;}
+.inline{display:inline;}
+.condensedFont{font-family:Myriad Pro Cond, Arial Narrow, Arial; font-stretch:condensed;}
+.roundedCorners4 {-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
+p.centerText{text-align:center; margin-top:0;}
+p.rightText{text-align:right; margin-top:0;}
+
+a:link, a:visited{color:#0077cc;text-decoration: none;}
+a:hover{color: #ff6600;text-decoration: none;}
+a:active{color: #ff6600;}
+
+.inputText{padding:4px 3px 4px 3px;border:1px solid #cccccc;}
+.highlightedRow{background-color:#ffffdd;}
+.highlightedText{background-color:#ffffdd;}
+

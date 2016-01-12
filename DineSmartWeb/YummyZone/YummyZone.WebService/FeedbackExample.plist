@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Restriction: Content type of HTTP POST request must be text/html as shown below -->
+<!-- Content-Type: text/xml -->
+<plist version="1.0">
+<dict>
+  <key>VenueId</key>
+  <string>00000000-0000-0000-0000-000000000111</string>
+  <key>MenuItemRates</key>
+	<array>
+		<dict>
+			<key>MenuItemId</key>
+			<string>00000000-0000-0000-0001-000000000001</string>
+			<key>Rate</key>
+			<int>3</int>
+		</dict>
+		<dict>
+			<key>MenuItemId</key>
+			<string>00000000-0000-0000-0002-000000000001</string>
+			<key>Rate</key>
+			<int>0</int>
+		</dict>
+		<dict>
+			<key>MenuItemId</key>
+			<string>00000000-0000-0000-0003-000000000001</string>
+			<key>Rate</key>
+			<int>4</int>
+		</dict>
+	</array>
+
+	<key>RateQuestionAnswers</key>
+	<array>
+		<dict>
+			<key>QuestionId</key>
+			<string>00000000-0000-0000-0000-000000000001</string>
+			<key>Rate</key>
+			<int>5</int>			
+		</dict>
+		<dict>
+		<key>QuestionId</key>
+			<string>00000000-0000-0000-0000-000000000002</string>
+			<key>Rate</key>
+			<int>2</int>			
+		</dict>
+		<dict>		
+			<key>QuestionId</key>
+			<string>00000000-0000-0000-0000-000000000004</string>
+			<key>Rate</key>
+			<int>3</int>
+		</dict>
+	</array>
+
+	<key>YesNoQuestionAnswers</key>
+	<array>
+		<dict>
+			<key>QuestionId</key>
+			<string>00000000-0000-0000-0000-000000000005</string>
+			<key>Answer</key>
+			<bool>True</bool>			
+		</dict>
+	</array>
+	
+	<key>MultiChoiceQuestionAnswers</key>
+	<array>
+		<dict>
+			<key>QuestionId</key>
+			<string>00000000-0000-0000-0000-000000000006</string>
+			<key>AnswerId</key>
+			<string>00000000-0000-0000-0000-000000000002</string>			
+		</dict>
+	</array>
+	
+	<key>OpenEndedQuestionAnswers</key>
+	<array>
+		<dict>
+			<key>QuestionId</key>
+			<string>00000000-0000-0000-0000-000000000007</string>
+			<key>Answer</key>
+			<string>We like you restaurant a lot! Hell, yeah!...</string>
+		</dict>
+	</array>
+
+</dict>
+</plist>

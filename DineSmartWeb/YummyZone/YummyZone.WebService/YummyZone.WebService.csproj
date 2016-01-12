@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F09FC361-D66A-4010-BF06-B81D5113290F}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YummyZone.WebService</RootNamespace>
+    <AssemblyName>YummyZone.WebService</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PackageAsSingleFile>false</PackageAsSingleFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PackageAsSingleFile>false</PackageAsSingleFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SqlScripts\0_CreateDatabase.sql" />
+    <Content Include="SqlScripts\1_OrganizationTables.sql" />
+    <Content Include="SqlScripts\2_MenuTables.sql" />
+    <Content Include="SqlScripts\3_DinerTables.sql" />
+    <Content Include="SqlScripts\4_SurveyTables.sql" />
+    <Content Include="SqlScripts\5_CouponTables.sql" />
+    <Content Include="SqlScripts\6_ContactTables.sql" />
+    <Content Include="SqlScripts\7_DiagnosticTables.sql" />
+    <Content Include="SqlScripts\Updates\Update_001.sql" />
+    <Content Include="SqlScripts\Updates\Update_002.sql" />
+    <Content Include="SqlScripts\Updates\Update_003_azure.sql" />
+    <Content Include="SqlScripts\Y_DummyDataForTest.sql" />
+    <Content Include="SqlScripts_Azure\0_CreateDatabase.sql" />
+    <Content Include="SqlScripts_Azure\1_OrganizationTables.sql" />
+    <Content Include="SqlScripts_Azure\2_MenuTables.sql" />
+    <Content Include="SqlScripts_Azure\3_DinerTables.sql" />
+    <Content Include="SqlScripts_Azure\4_SurveyTables.sql" />
+    <Content Include="SqlScripts_Azure\5_CouponTables.sql" />
+    <Content Include="SqlScripts_Azure\6_ContactTables.sql" />
+    <Content Include="SqlScripts_Azure\7_DiagnosticTables.sql" />
+    <Content Include="SqlScripts_Azure\Updates\Update_001.sql" />
+    <Content Include="SqlScripts_Azure\Updates\Update_002.sql" />
+    <Content Include="SqlScripts_Azure\Updates\Update_003_azure.sql" />
+    <Content Include="SqlScripts_Azure\Y_DummyDataForTest.sql" />
+    <Content Include="SqlScripts_Azure\Z_HelperQueries.sql" />
+    <Content Include="YummyZoneWebService.svc" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviors\PListDispatchFormatter.cs" />
+    <Compile Include="Behaviors\PListSerializer.Reader.cs" />
+    <Compile Include="Behaviors\PListSerializer.Writer.cs" />
+    <Compile Include="Behaviors\PListWebHttpBehavior.cs" />
+    <Compile Include="Behaviors\PListSerializer.cs" />
+    <Compile Include="Behaviors\PListBehaviorAttribute.cs" />
+    <Compile Include="Behaviors\PListBehavior.cs" />
+    <Compile Include="DinerUserHelper.cs" />
+    <Compile Include="Exceptions\YummyZoneException.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="Logger\Logger.cs" />
+    <Compile Include="Types\AuthResult.cs" />
+    <Compile Include="Types\BaseResponse.cs" />
+    <Compile Include="Types\Coupon.cs" />
+    <Compile Include="Types\Error.cs" />
+    <Compile Include="Types\Favorites.cs" />
+    <Compile Include="Types\Feedback.cs" />
+    <Compile Include="Types\History.cs" />
+    <Compile Include="Types\IdAndText.cs" />
+    <Compile Include="Types\Identity.cs" />
+    <Compile Include="Types\Message.cs" />
+    <Compile Include="Types\RedeemResult.cs" />
+    <Compile Include="Types\Survey.cs" />
+    <Compile Include="Types\UserSettings.cs" />
+    <Compile Include="Types\Venue.cs" />
+    <Compile Include="Types\MenuCategory.cs" />
+    <Compile Include="Types\Menu.cs" />
+    <Compile Include="Types\MenuItem.cs" />
+    <Compile Include="UserNameAuthenticator.cs" />
+    <Compile Include="YummyZoneWebService.svc.cs">
+      <DependentUpon>YummyZoneWebService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\IYummyZoneWebService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="DataModel\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FeedbackExample.plist" />
+    <None Include="Properties\PublishProfiles\Profile1.pubxml" />
+    <None Include="Signup.plist" />
+    <None Include="SqlScripts\YummyZone.ssmssln" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YummyZone.ObjectModel\YummyZone.ObjectModel.csproj">
+      <Project>{B37547F2-660E-4E18-94C7-8A5F392F8594}</Project>
+      <Name>YummyZone.ObjectModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>37022</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <EnableWcfTestClientForSVCDefaultValue>True</EnableWcfTestClientForSVCDefaultValue>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

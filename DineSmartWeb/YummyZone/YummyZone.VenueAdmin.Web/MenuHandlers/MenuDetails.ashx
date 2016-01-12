@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" CodeBehind="MenuDetails.ashx.cs" Class="YummyZone.VenueAdmin.Web.MenuDetails" %>

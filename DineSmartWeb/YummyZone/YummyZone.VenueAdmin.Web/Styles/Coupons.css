@@ -1,0 +1,28 @@
+﻿.main{margin-top:6px}
+.cpnsLeftWrp{float:left;width:65%;}
+.cpn{border-top:1px solid #ccc;padding:8px; margin-right:8px;}
+.statsRightWrp{float:right;width:35%;position:relative;;}
+.periodWrpr{float:left;width:50%;}
+.dataWrpr{float:right;width:50%;}
+.statSect{border:1px solid #ccc;background:#ebebeb;position:relative;}
+.redeemStats{margin-top:10px;}   
+.campaignStats{margin-top:10px;}   
+.statRowSep{border-bottom:1px solid #ccc;}
+.statRow{padding:2px 6px;background:#edf3fe;}
+.colHeaders{color:Black;font-size:large;background:#ebebeb;margin:2px;}
+.cpnType{color:Maroon;}
+.data{color:Black;}
+.cpnInfoWrpr{float:left;width:60%;}
+.cpnActionsWrpr{float:right;width:40%;}
+.cpnTitleWrpr{font-size:15px;margin:2px;}
+.cpnReceiverInfo{margin:2px;}
+.cpnSendInfo{margin:2px;}
+.cpnRedeemInfo{margin:2px;}
+.cpnTitleLabel{/*background:#edf8dd;color:#FF8C00*/ color:Black;font-weight:700;}
+.cpnTitle{color:Maroon;}
+.dinerType{color:Black;}
+.cpnAction{padding:4px 10px;border:1px solid Transparent; max-width:110px;}
+.cpnAction:hover{background:#edf3fe;border:1px solid #ccc;-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
+.showMoreWrapper{width:99%; border-top:1px solid #ccc;}
+.showMoreBtn{float:right; margin:4px 150px 5px 5px;padding:4px 10px;border:1px solid Transparent; width:70px; }
+.showMoreBtn:hover{background:#edf3fe;border:1px solid #ccc;-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B37547F2-660E-4E18-94C7-8A5F392F8594}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YummyZone.ObjectModel</RootNamespace>
+    <AssemblyName>YummyZone.ObjectModel</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AsciiBase64Codex.cs" />
+    <Compile Include="DBase\Address.DBase.cs" />
+    <Compile Include="DBase\AssetImage.DBase.cs" />
+    <Compile Include="DBase\Campaign.DBase.cs" />
+    <Compile Include="DBase\Chain.DBase.cs" />
+    <Compile Include="DBase\Coupon.DBase.cs" />
+    <Compile Include="DBase\DinerSettings.DBase.cs" />
+    <Compile Include="DBase\Group.DBase.cs" />
+    <Compile Include="DBase\MemberUser.DBase.cs" />
+    <Compile Include="DBase\Message.DBase.cs" />
+    <Compile Include="DBase\NotificationClient.DBase.cs" />
+    <Compile Include="DBase\Password.DBase.cs" />
+    <Compile Include="DBase\SignupInfo.DBase.cs" />
+    <Compile Include="DBase\SystemUser.DBase.cs" />
+    <Compile Include="DBase\User.DBase.cs" />
+    <Compile Include="DBase\UserRole.DBase.cs" />
+    <Compile Include="DBase\Venue.DBase.cs" />
+    <Compile Include="Entities\Address.cs" />
+    <Compile Include="Entities\Answer.cs" />
+    <Compile Include="DBase\Answer.DBase.cs" />
+    <Compile Include="Entities\Campaign.cs" />
+    <Compile Include="Entities\Chain.cs" />
+    <Compile Include="Entities\Checkin.cs" />
+    <Compile Include="DBase\Checkin.DBase.cs" />
+    <Compile Include="Entities\Choice.cs" />
+    <Compile Include="DBase\Choice.DBase.cs" />
+    <Compile Include="DBase\Database.cs" />
+    <Compile Include="Entities\Coupon.cs" />
+    <Compile Include="Entities\DietType.cs" />
+    <Compile Include="Entities\Diner.cs" />
+    <Compile Include="Entities\DinerSettings.cs" />
+    <Compile Include="Entities\Feedback.cs" />
+    <Compile Include="DBase\Feedback.DBase.cs" />
+    <Compile Include="DBase\IEditable.cs" />
+    <Compile Include="Entities\Group.cs" />
+    <Compile Include="Entities\LoggerBase.cs" />
+    <Compile Include="Entities\AssetImage.cs" />
+    <Compile Include="Entities\LogoImage.cs" />
+    <Compile Include="Entities\MemberUser.cs" />
+    <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\NotificationClient.cs" />
+    <Compile Include="Entities\Password.cs" />
+    <Compile Include="Entities\SignupInfo.cs" />
+    <Compile Include="Entities\SystemUser.cs" />
+    <Compile Include="Entities\USAState.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\UserRole.cs" />
+    <Compile Include="Entities\Venue.cs" />
+    <Compile Include="MailUtil\MailSender.cs" />
+    <Compile Include="Maps\MapCategoryToMenuItem.cs" />
+    <Compile Include="Maps\MapChainToQuestion.cs" />
+    <Compile Include="Maps\MapMenuToCategory.cs" />
+    <Compile Include="Maps\MapQuestionToChoice.cs" />
+    <Compile Include="Maps\MapVenueToMenu.cs" />
+    <Compile Include="Entities\MarkAs.cs" />
+    <Compile Include="DBase\MarkAs.DBase.cs" />
+    <Compile Include="Entities\Menu.cs" />
+    <Compile Include="DBase\Menu.DBase.cs" />
+    <Compile Include="Entities\MenuCategory.cs" />
+    <Compile Include="DBase\MenuCategory.DBase.cs" />
+    <Compile Include="Entities\MenuItem.cs" />
+    <Compile Include="DBase\MenuItem.DBase.cs" />
+    <Compile Include="Entities\MenuItemImage.cs" />
+    <Compile Include="Entities\MenuItemRate.cs" />
+    <Compile Include="DBase\MenuItemRate.DBase.cs" />
+    <Compile Include="Entities\NameAndValue.cs" />
+    <Compile Include="StringHelpers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Entities\Question.cs" />
+    <Compile Include="DBase\Question.DBase.cs" />
+    <Compile Include="Entities\QuestionType.cs" />
+    <Compile Include="Maps\RelationMap.cs" />
+    <Compile Include="DBase\RelationMap.DBase.cs" />
+    <Compile Include="Entities\Status.cs" />
+    <Compile Include="YummyZoneArgumentException.cs" />
+    <Compile Include="DBase\YummyZoneEntity.cs" />
+    <Compile Include="YummyZoneException.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Restriction: Content type of HTTP POST request must be text/html as shown below -->
+<!-- Content-Type: text/xml -->
+<plist version="1.0">
+  <dict>
+    <key>UserName</key>
+    <string>7A09516E-0908-11E1-9C43-951D4924019B</string>
+    <key>Password</key>
+    <string>8C2854DA-0908-11E1-8FAD-C61D4924019B</string>    
+  </dict>
+</plist>

@@ -1,0 +1,601 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{42FCF59A-F81D-4DE3-B153-D53EE545B021}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YummyZone.VenueAdmin.Web</RootNamespace>
+    <AssemblyName>YummyZone.VenueAdmin.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PackageAsSingleFile>false</PackageAsSingleFile>
+    <DeployIisAppPath />
+    <DesktopBuildPackageLocation>
+    </DesktopBuildPackageLocation>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+    <PublishDatabases>false</PublishDatabases>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PublishDatabases>false</PublishDatabases>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+    <PackageAsSingleFile>false</PackageAsSingleFile>
+    <DesktopBuildPackageLocation>
+    </DesktopBuildPackageLocation>
+    <DeployIisAppPath />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="About.aspx" />
+    <Content Include="app.html" />
+    <Content Include="bizcard-back.png" />
+    <Content Include="bizcard-front.png" />
+    <Content Include="canvas.html" />
+    <Content Include="Cities.aspx" />
+    <Content Include="Coupons.aspx" />
+    <Content Include="Default.aspx" />
+    <Content Include="Disclaimer.aspx" />
+    <Content Include="Downloads.aspx" />
+    <Content Include="FAQs.aspx" />
+    <Content Include="Feedbacks.aspx" />
+    <Content Include="footer.html" />
+    <Content Include="Global.asax" />
+    <Content Include="header.html" />
+    <Content Include="header2.html" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\coupon.png" />
+    <Content Include="Images\editBkg.png" />
+    <Content Include="Images\facebook.png" />
+    <Content Include="Images\footerBig.jpg" />
+    <Content Include="Images\footerSmall.jpg" />
+    <Content Include="Images\iphone.png" />
+    <Content Include="Images\joinNowBtn.png" />
+    <Content Include="Images\loginButton.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\mail.png" />
+    <Content Include="Images\mainMenuBkgV.png" />
+    <Content Include="Images\managers.png" />
+    <Content Include="Images\menuDivider.png" />
+    <Content Include="Images\message.png" />
+    <Content Include="Images\middleStrip.jpg" />
+    <Content Include="Images\pageBkg.jpg" />
+    <Content Include="Images\sectionBkg.png" />
+    <Content Include="Images\sectionBkg_s.png" />
+    <Content Include="Images\sectionBottomLine.png" />
+    <Content Include="Images\sectionBottomLine_s.png" />
+    <Content Include="Images\sectionHeader.png" />
+    <Content Include="Images\sectionHeader_s.png" />
+    <Content Include="Images\sectionTopLine.png" />
+    <Content Include="Images\signoutButton.png" />
+    <Content Include="Images\smoothness\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Images\smoothness\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Images\smoothness\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Images\smoothness\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Images\smoothness\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Images\smoothness\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Images\smoothness\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Images\smoothness\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Images\smoothness\ui-icons_222222_256x240.png" />
+    <Content Include="Images\smoothness\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Images\smoothness\ui-icons_454545_256x240.png" />
+    <Content Include="Images\smoothness\ui-icons_888888_256x240.png" />
+    <Content Include="Images\smoothness\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Images\spinner.gif" />
+    <Content Include="Images\stars\star_0.png" />
+    <Content Include="Images\stars\star_1.png" />
+    <Content Include="Images\stars\star_2.png" />
+    <Content Include="Images\stars\star_3.png" />
+    <Content Include="Images\stars\star_4.png" />
+    <Content Include="Images\stars\star_5.png" />
+    <Content Include="Images\storyBkg.jpg" />
+    <Content Include="Images\storyWordBkg.jpg" />
+    <Content Include="Images\strip.png" />
+    <Content Include="Images\topMenuBkg.png" />
+    <Content Include="Images\trans160.png" />
+    <Content Include="Images\transBtnGray.png" />
+    <Content Include="Images\transButton.png" />
+    <Content Include="Images\TreeCollapsed.png" />
+    <Content Include="Images\TreeExpanded.png" />
+    <Content Include="Images\twitter.png" />
+    <Content Include="Images\venueDefaultImage.png" />
+    <Content Include="Images\whiteness.png" />
+    <Content Include="Login.aspx" />
+    <Content Include="mBrnch.html" />
+    <Content Include="Menus.aspx" />
+    <Content Include="PlatePicsPreload.aspx" />
+    <Content Include="preload.html" />
+    <Content Include="Privacy.aspx" />
+    <Content Include="Scripts\common1.js" />
+    <Content Include="Scripts\common2.js" />
+    <Content Include="Scripts\Coupons.js" />
+    <Content Include="Scripts\date.format.js" />
+    <Content Include="Scripts\Default.js" />
+    <Content Include="Scripts\Feedbacks.js" />
+    <Content Include="Scripts\jquery-1.5.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.12.custom.min.js" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.scrollTo-min.js" />
+    <Content Include="Scripts\Login.js" />
+    <Content Include="Scripts\MultiBranch.js" />
+    <Content Include="Scripts\RestMenusBulkInsert.js" />
+    <Content Include="Scripts\RestMenusCategories.js" />
+    <Content Include="Scripts\RestMenusHighlightAndSort.js" />
+    <Content Include="Scripts\RestMenusLoadSelMenu.js" />
+    <Content Include="Scripts\RestMenusMenus.js" />
+    <Content Include="Scripts\RestMenusPlates.js" />
+    <Content Include="Scripts\Settings.js" />
+    <Content Include="Scripts\Signup.js" />
+    <Content Include="Scripts\SingleActHelper.js" />
+    <Content Include="Scripts\Survey.js" />
+    <Content Include="Settings.aspx" />
+    <Content Include="Signout.aspx" />
+    <Content Include="Signup.aspx" />
+    <Content Include="Styles\Coupons.css" />
+    <Content Include="Styles\Default.css" />
+    <Content Include="Styles\Feedbacks.css" />
+    <Content Include="Styles\ipad.css" />
+    <Content Include="Styles\iphone.css" />
+    <Content Include="Styles\Menus.css" />
+    <Content Include="Styles\Settings.css" />
+    <Content Include="Styles\Site_1_PublicBrief.css" />
+    <Content Include="Styles\jquery-ui-1.8.12.custom.css" />
+    <Content Include="Styles\Site_0_Common.css" />
+    <Content Include="Styles\Site_1_PublicBrief2.css" />
+    <Content Include="Styles\Survey.css" />
+    <Content Include="Support.aspx" />
+    <Content Include="Survey.aspx" />
+    <Content Include="Terms.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="About.aspx.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="About.aspx.designer.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Cities.aspx.cs">
+      <DependentUpon>Cities.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Cities.aspx.designer.cs">
+      <DependentUpon>Cities.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CouponHandlers\CouponsGetCount.ashx.cs">
+      <DependentUpon>CouponsGetCount.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="CouponHandlers\CouponsGetRecentBulk.ashx.cs">
+      <DependentUpon>CouponsGetRecentBulk.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Coupons.aspx.cs">
+      <DependentUpon>Coupons.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Coupons.aspx.designer.cs">
+      <DependentUpon>Coupons.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Disclaimer.aspx.cs">
+      <DependentUpon>Disclaimer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Disclaimer.aspx.designer.cs">
+      <DependentUpon>Disclaimer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Downloads.aspx.cs">
+      <DependentUpon>Downloads.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Downloads.aspx.designer.cs">
+      <DependentUpon>Downloads.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FAQs.aspx.cs">
+      <DependentUpon>FAQs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FAQs.aspx.designer.cs">
+      <DependentUpon>FAQs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FeedbackHandlers\CouponSend.ashx.cs">
+      <DependentUpon>CouponSend.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="FeedbackHandlers\FeedbacksGetNewCount.ashx.cs">
+      <DependentUpon>FeedbacksGetNewCount.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="FeedbackHandlers\FeedbacksGetRecentBulk.ashx.cs">
+      <DependentUpon>FeedbacksGetRecentBulk.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="FeedbackHandlers\FeedbacksMarkAs.ashx.cs">
+      <DependentUpon>FeedbacksMarkAs.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="FeedbackHandlers\MessageSend.ashx.cs">
+      <DependentUpon>MessageSend.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Feedbacks.aspx.cs">
+      <DependentUpon>Feedbacks.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Feedbacks.aspx.designer.cs">
+      <DependentUpon>Feedbacks.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FileDownloader.ashx.cs">
+      <DependentUpon>FileDownloader.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LoginHelper.cs" />
+    <Compile Include="MenuHandlers\FileDownload.ashx.cs">
+      <DependentUpon>FileDownload.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenuAddUpdate.ashx.cs">
+      <DependentUpon>MenuAddUpdate.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenuBulkInsert.ashx.cs">
+      <DependentUpon>MenuBulkInsert.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenuCategoryNames.ashx.cs">
+      <DependentUpon>MenuCategoryNames.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenuDeleteDisable.ashx.cs">
+      <DependentUpon>MenuDeleteDisable.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenuDetails.ashx.cs">
+      <DependentUpon>MenuDetails.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenuCategoriesReorder.ashx.cs">
+      <DependentUpon>MenuCategoriesReorder.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenuCategoryAddUpdate.ashx.cs">
+      <DependentUpon>MenuCategoryAddUpdate.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenuCategoryDeleteDisable.ashx.cs">
+      <DependentUpon>MenuCategoryDeleteDisable.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenuImportCategories.ashx.cs">
+      <DependentUpon>MenuImportCategories.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenuItemAddUpdate.ashx.cs">
+      <DependentUpon>MenuItemAddUpdate.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers.cs" />
+    <Compile Include="MenuHandlers\MenuItemDeleteDisable.ashx.cs">
+      <DependentUpon>MenuItemDeleteDisable.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenuItemsReorder.ashx.cs">
+      <DependentUpon>MenuItemsReorder.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuHandlers\MenusReorder.ashx.cs">
+      <DependentUpon>MenusReorder.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Menus.aspx.cs">
+      <DependentUpon>Menus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Menus.aspx.designer.cs">
+      <DependentUpon>Menus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PlatePicsPreload.aspx.cs">
+      <DependentUpon>PlatePicsPreload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PlatePicsPreload.aspx.designer.cs">
+      <DependentUpon>PlatePicsPreload.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Privacy.aspx.cs">
+      <DependentUpon>Privacy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Privacy.aspx.designer.cs">
+      <DependentUpon>Privacy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.aspx.cs">
+      <DependentUpon>Settings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings.aspx.designer.cs">
+      <DependentUpon>Settings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsHandlers\AddNewUser.ashx.cs">
+      <DependentUpon>AddNewUser.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsHandlers\ChangePassword.ashx.cs">
+      <DependentUpon>ChangePassword.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsHandlers\ChangeUserStatus.ashx.cs">
+      <DependentUpon>ChangeUserStatus.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsHandlers\GetUser.ashx.cs">
+      <DependentUpon>GetUser.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsHandlers\LogoDownload.ashx.cs">
+      <DependentUpon>LogoDownload.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsHandlers\LogoUpload.ashx.cs">
+      <DependentUpon>LogoUpload.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsHandlers\SearchUser.ashx.cs">
+      <DependentUpon>SearchUser.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Signout.aspx.cs">
+      <DependentUpon>Signout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Signout.aspx.designer.cs">
+      <DependentUpon>Signout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Support.aspx.cs">
+      <DependentUpon>Support.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Support.aspx.designer.cs">
+      <DependentUpon>Support.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Terms.aspx.cs">
+      <DependentUpon>Terms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Terms.aspx.designer.cs">
+      <DependentUpon>Terms.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserHandlers\Authenticate.ashx.cs">
+      <DependentUpon>Authenticate.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="UserHandlers\CheckBranchCount.ashx.cs">
+      <DependentUpon>CheckBranchCount.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="UserHandlers\GetBranches.ashx.cs">
+      <DependentUpon>GetBranches.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="UserHandlers\RegisterVenue.ashx.cs">
+      <DependentUpon>RegisterVenue.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Signup.aspx.cs">
+      <DependentUpon>Signup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Signup.aspx.designer.cs">
+      <DependentUpon>Signup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Survey.aspx.cs">
+      <DependentUpon>Survey.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Survey.aspx.designer.cs">
+      <DependentUpon>Survey.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SurveyHandlers\ChoicesReorder.ashx.cs">
+      <DependentUpon>ChoicesReorder.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SurveyHandlers\QuestionAddUpdate.ashx.cs">
+      <DependentUpon>QuestionAddUpdate.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SurveyHandlers\QuestionDeleteDisable.ashx.cs">
+      <DependentUpon>QuestionDeleteDisable.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SurveyHandlers\QuestionsReorder.ashx.cs">
+      <DependentUpon>QuestionsReorder.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="TenantIdentity.cs" />
+    <Compile Include="BaseHttpHandlers\YummyZoneHttpHandler.cs" />
+    <Compile Include="BaseHttpHandlers\YummyZoneHttpHandlerJson.cs" />
+    <Compile Include="YummyZonePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuItemAddUpdate.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YummyZone.ObjectModel\YummyZone.ObjectModel.csproj">
+      <Project>{B37547F2-660E-4E18-94C7-8A5F392F8594}</Project>
+      <Name>YummyZone.ObjectModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\FileDownload.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuItemDeleteDisable.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuCategoryAddUpdate.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuCategoryDeleteDisable.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuItemsReorder.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuCategoriesReorder.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuDetails.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenusReorder.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuAddUpdate.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuDeleteDisable.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuCategoryNames.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuImportCategories.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SurveyHandlers\QuestionAddUpdate.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SurveyHandlers\QuestionDeleteDisable.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SurveyHandlers\QuestionsReorder.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SurveyHandlers\ChoicesReorder.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FeedbackHandlers\FeedbacksMarkAs.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FeedbackHandlers\FeedbacksGetRecentBulk.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FeedbackHandlers\FeedbacksGetNewCount.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FeedbackHandlers\MessageSend.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FeedbackHandlers\CouponSend.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CouponHandlers\CouponsGetCount.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CouponHandlers\CouponsGetRecentBulk.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UserHandlers\RegisterVenue.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UserHandlers\Authenticate.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="disclaimer.docx" />
+    <Content Include="privacy.docx" />
+    <Content Include="terms.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SettingsHandlers\LogoDownload.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SettingsHandlers\LogoUpload.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SettingsHandlers\ChangePassword.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SettingsHandlers\SearchUser.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SettingsHandlers\AddNewUser.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SettingsHandlers\GetUser.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SettingsHandlers\ChangeUserStatus.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FileDownloader.ashx" />
+    <Content Include="flyer.pdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MenuHandlers\MenuBulkInsert.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\Profile1.pubxml" />
+    <Content Include="UserHandlers\CheckBranchCount.ashx" />
+    <Content Include="UserHandlers\GetBranches.ashx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>37027</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

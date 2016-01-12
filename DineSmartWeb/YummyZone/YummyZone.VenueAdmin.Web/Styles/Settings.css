@@ -1,0 +1,40 @@
+﻿.settingsSectionWrp{margin-top:20px;}
+.settingsSectionHeader{border-bottom:1px solid #ccc;}
+.settingsSectionTitle{text-align:left;}
+.settingsSectionContent{padding-top:10px;}
+.pairLineLeftWrp{float:left; width:50%; text-align:right;}
+.pairLineRightWrp{float:left; width:50%; text-align:left;}
+.pairLine{margin-top:10px;}
+.pairLineLeft{margin-right:5px; margin-top:2px;}
+.userNameLineRight{margin-top:2px;}
+.errorStripWrp{margin-top:4px;}
+.errorText{color:Red;padding-top:8px; margin-right:4px;}
+.errorStripWrp2{margin-top:4px;}
+.errorText2{color:Red;padding-top:8px; margin-right:4px;}
+.changePasswordButton{width:148px;display:inline;}
+.customerLogoImg{border:1px solid #ccc; width:110px; height:110px;}
+.imageInputWrp{margin-top:15px;}
+.imageSourceRadioText{margin-right:20px;}
+.fromWebLink{width:355px;}
+.fromLocalFile{width:363px;}
+.imageInput{margin-top:5px;}
+.changeLogoButton{margin-top:5px; width:148px;display:inline;}
+.currentUserName{color:Maroon;}
+.passwordChangeLink{margin-left:5px;}
+.cancelPasswordChangeLink{margin-left:5px;}
+.cancelLogoChangeLink{margin-left:5px;}
+        
+.membersTableWrp{margin-top:10px;}
+.memberColumnLeft{float:left;width:45%;text-align:right;}
+.memberColumnLeft2{float:left;width:25%;text-align:left;}
+.memberColumnRight{float:left;width:30%;text-align:left;}
+.memberColumnWrp{position:relative;}
+.memberColumnInner{color:Black;margin:5px 10px;}
+.memberAction{margin-right:10px;}
+.memberStatus{color:Gray;}
+.addNewWrp{float:right;width:30%;text-align:left;}
+.addNewMemberBtn{margin-left:5px; margin-top:10px;}
+.inputHint{color:Gray;margin-left:5px;}
+.saveUserButton{margin-left:60px; width:93px;}
+.cancelNewMemberLink{margin-left:8px;}
+.memberEmail{color:Maroon;}

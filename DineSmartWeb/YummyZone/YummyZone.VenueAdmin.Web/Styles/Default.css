@@ -1,0 +1,52 @@
+﻿/*customs*/
+.main{margin-top:-112px;}
+.upperStory{background-image:url("../Images/storyBkg.jpg"); width:100%; height:447px;}
+
+/*specifics*/
+.leftWrpr{float:left;width:50%;}
+.rightWrpr{float:right;width:50%;}
+.loginWrp{float:right; padding-right:40px; color:White; padding-top:4px;}
+.loginItem{display:inline;}
+.managersImg{vertical-align:middle;}
+.loginBtnImg{vertical-align:middle;border:0px;}
+.loginBtnImg:hover{cursor:pointer;}
+.bizEmail{padding:4px; border:0px; width:145px; vertical-align:middle;}
+.password{padding:4px; border:0px; width:100px; vertical-align:middle; margin-left:5px; }
+
+.middleSeparatorStrip{background-image:url("../Images/middleStrip.jpg"); width:100%; height:58px;margin-top:0px;}
+.midHeaderWrp{padding-top:10px;}
+.midHeader{font-size:30px;color:White;font-weight:300;}
+.midHdr1{margin-left:190px;}
+.midHdr2{margin-left:56px;}
+.lowerHalf{background-image:url("../Images/storyWordBkg.jpg"); width:100%; height:275px;}
+.benefits{margin-top:20px; text-align:left;color:White;font-size:20px; font-weight:300; position:relative;}
+.bnfts1{margin-left:60px;}
+.bnfts2{margin-left:16px;}
+.soon{font-size:18px; font-style:italic;color:#ccc;}
+.bullets{list-style-image:url("../Images/bullet.png");}
+.bulletItem{margin-top:2px; background-position:left center;}
+.free{color:#fff799;}
+.joinNowBtn{margin-left:90px; margin-top:-2px;}
+.joinNowImg{border:0px;}
+.joinNowImg:hover{cursor:pointer;}
+
+.fakeHeight{height:2px;}
+.ctrlPanelLinkWrp{margin-left:90px; margin-top:-2px;background-image:url("../Images/trans160.png");width:160px;height:30px;}
+.ctrlPanelLink{font-family:Calibri, Arial Narrow;font-size:20px; font-weight:600;}
+a.ctrlPanelLink:link, a.ctrlPanelLink:visited, a.ctrlPanelLink:hover{color:#002446;text-decoration: none;}
+a.ctrlPanelLink:active{color: #002446;}
+
+.appsAndSocialContainer{background-image:url("../Images/footerBig.jpg"); width:100%; height:66px; color:#959595;}
+.appsTextWrp{padding-left:170px; float:left; }
+.socialLinks{float:right; padding-top:20px; padding-right:50px;}
+.socialImg{padding-right:5px;border:0px;}
+.socialImg:hover{cursor:pointer;}
+.twitter{padding-right:3px;}
+.appsTextHeader{padding-top:12px; font-size:22px;}
+.appsText{font-size:16px;}
+.appName{color:#fff799; }
+.appName:hover{text-decoration:underline;}
+        
+.iphone{position:relative; left:102px; top:724px;display:inline;}
+.nonmobile{display:list-item;}
+.mobile{display:none;}

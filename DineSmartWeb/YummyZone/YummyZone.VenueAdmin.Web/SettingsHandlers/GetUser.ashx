@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" CodeBehind="GetUser.ashx.cs" Class="YummyZone.VenueAdmin.Web.GetUser" %>

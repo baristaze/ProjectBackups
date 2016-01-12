@@ -1,0 +1,97 @@
+﻿.menuListPageContainer{margin-top:10px;}
+.rightWrapper{width:30%;float:right;margin:0px;}
+.leftWrapper {margin-right:30%;}
+.right{margin-left:8px;border-top:0px solid #ccc;}
+.menuRowList{margin-bottom:15px;}
+.menuRowWrapper{padding:5px;border:1px solid #ccc;margin-top:-1px; background:#ebebeb;}
+.menuRow{display:inline;}
+.nonSelectedMenuRow{cursor:pointer;}
+.selectedMenuRow {background:#edf3fe;}
+.menuRowSelectHint{display:none;}
+.menuRowHoverActions{display:none;}
+.menuRowEditLink, .menuRowDeleteLink, .menuSave, .menuCancel{margin-left:2px;}
+.menuRowActions{margin:5px 0px 5px 20px; display:none;}
+.importCategoryIntoMenuLinkWrapper{margin-top:5px;border-top:1px solid #cccccc;}
+.addCategoryIntoMenuLinkWrapper{border-top:1px solid #cccccc;}
+.menuName{font-size:large;font-weight:bold;color:Black;}
+.menuNameSelected{color:#ff007f;}
+.staticMenuLiteral{margin-left:1px;}
+.serviceTimes{color:Black;margin-top:5px;margin-left:20px;}
+.serviceTime{margin-right:10px;}
+
+.menuCategoryWrapper{border:1px solid #ccc;margin-bottom:20px;}
+                
+.menuCategoryHeader{height:40px; background-color:#ebebeb;}
+.menuCategoryNameWrapper{ float:left;width:64%;height:40px;}
+.menuCategoryNameRow, .menuCategoryNameEditableRow{margin:5px 5px 5px 10px;}
+.menuCategoryNameSave, .menuCategoryNameCancel{margin-left:10px;}
+.menuCategoryActionsWrapper{float:right;width:36%;height:40px;}
+.menuCategoryActions{margin:10px 7px 5px 5px;padding-top:5px;text-align:right;}
+.menuCategoryBottomActions{padding:5px;border-top:1px solid #ccc;margin-top:-1px; text-align:right;}
+.menuCategoryNameReadOnly{font-size:large;color:Black;font-weight:bold;}
+.menuCategoryNameEditable{min-width:250px;}
+.menuCategoryStaticLabel{font-size:small;color:Gray;font-weight:normal;margin-left:2px;}
+.menuCategoryNameWithToggle{display:inline;cursor:pointer;}
+.menuCategoryHooverActions{display:inline;}
+.menuCategoryNameEdit, .menuCategoryDelete{margin-left:6px;}
+.treeCollapsed{vertical-align:text-bottom;}
+.treeExpanded{vertical-align:text-bottom; }
+
+.imageWrapper{width:82px;max-height:82px;float:left;margin:0px;padding:2px;}
+.image{width:80px;height:80px;border:1px solid #ccc;}
+.menuItemContentWrapper{padding:2px;margin-left:86px;}
+.menuItemContent{padding:0px 4px;}
+        
+.rowWrapper{border-top:1px solid #ccc;}
+.row{position:relative; /*this is for peek-a-boo bug*/}
+.rowSeparator{position: relative; /*this is for peek-a-boo bug*/border-top:0px solid #ccc;}
+
+.menuItemActionsWrapper{float:right;width:200px;padding-top:4px;}
+.menuItemActions{float:right;width:auto;color:Blue;}
+
+.price{float:right;width:60px;padding:2px 0px;font-size:14px;font-weight:600;color:#FF8C00;}
+.plateName{margin-right:260px;padding:2px 0px;font-size:14px;font-weight:600;color:Maroon;}
+.plateDescription{color:Black;}
+
+.editableRow{background-color:#edf3fe;padding:10px 0px;min-height:1%;display:none;}
+.editImageWrapper{padding:10px 5px 0px 5px;}
+.editDescriptionWrapper{padding:10px 5px 0px 5px;}
+.actionsWrapper{padding:10px 5px;padding-left:416px;}
+.editNameWrapper{float:left;width:65%;}
+.editPriceWrapper{float:left;width:34%;}
+.namePair{padding:10px 5px;}
+.pricePair{padding:10px 5px;}
+.nameLabel{display:inline-block;text-align:right;width:120px;}
+.imageLabel{display:inline-block;text-align:right;width:120px;}
+.descriptionLabel{display:inline-block;text-align:right;width:120px;}
+.imageInput{margin-left:5px;display:inline-block;width:435px;}
+.fromLocalFile{margin-left:5px;display:inline-block;width:440px;}
+.descriptionInput{margin-left:5px;display:inline-block;width:435px;}
+.nameInput{margin-left:5px;display:inline-block;width:310px;}
+.priceLabel{text-align:right;margin-right:5px;}
+.priceInput{width:60px;}
+
+.saveButton, .addNewMenuButton{padding: 5px;min-width:160px;border-width:1px;border-color:#3a4f63;color: White;font-weight:bolder;background-color: #4b6c9e;vertical-align:middle;}
+
+a.cancelLink{color:#8B0000;font-weight:bold;}
+.linkSeparator{color: #666;}
+.imageSourceRadioText{margin-right:5px;}
+
+.bulkInsertArea{margin-right:30%;}
+.bulkInsertLinkWrapper{text-align:center; margin-bottom:20px;}
+.bulkInsertInstructionsArea{color:Gray;padding-right:10px;}
+.bulkInsertTag{color:Red;}
+.validExamples{text-decoration:underline; color:Black;}
+.bulkInsertDataArea{margin-bottom:20px;}
+.bulkInsertForm{margin:10px 0px;}
+.bulkInsertActionArea{text-align:right;}
+.bulkInsertData{width:100%;}
+.bulkInsertActionArea{margin-bottom:30px;}
+.bulkInsertInstLeftWrp{float:left;width:50%;}
+.bulkInsertInstRightWrp{float:left;width:50%;}
+.bulkInsertInstRight{border-left:1px solid #ccc; padding-left:10px;}
+.bulkInsertButton{padding: 5px;min-width:160px;border-width:1px;border-color:#3a4f63;color: White;font-weight:bolder;background-color: #4b6c9e;vertical-align:middle; margin-right:6px;}
+a.bulkInsertCancel{color:#8B0000;font-weight:bold;}
+.bulkInsertErrorLeft{float:left;}
+.bulkInsertActionRight{float:right;}
+.errorText{color:Red;}

@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" CodeBehind="FeedbacksGetRecentBulk.ashx.cs" Class="YummyZone.VenueAdmin.Web.FeedbacksGetRecentBulk" %>

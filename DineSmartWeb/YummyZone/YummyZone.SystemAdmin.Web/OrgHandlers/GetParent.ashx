@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" CodeBehind="GetParent.ashx.cs" Class="YummyZone.SystemAdmin.Web.GetParent" %>

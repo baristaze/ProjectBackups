@@ -1,0 +1,45 @@
+﻿.fbkList{width:100%;color:Black;}
+.fbkInfoWrapper{float:left; width:78%;}
+.fbkActionsWrapper{float:right; width:22%;}
+.fbk{width:100%; border-top:1px solid #ccc;margin-bottom:0px;margin-top:-1;padding:6px 0px; min-height:145px;}
+.fbkUnread{background-color:#edf3fe;}
+.fbkActions{padding:2px 5px 5px 5px;}
+.fbkAction{padding:4px 10px;border:1px solid Transparent; max-width:125px;}
+.fbkAction:hover{background:#edf3fe;border:1px solid #ccc;-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
+.dinerTypeWrapper{float:left; width:50%;}
+.customerTypeWrapper{float:left;}
+.dateTimeWrapper{float:right; margin-top:5px;}
+.interactionStatusWrapper{float:left;}
+.dinnerTypeOuter{float:right;}
+.dinerTypeEx{margin:2px 5px 2px 5px; text-align:right;}
+.dinerTypeStatic{font-size:normal;color:Gray;display:inline;}
+.dinerType{margin-left:2px; font-size:large;color:#ff007f;display:inline;}
+.customerType{margin:2px 5px 2px 5px; font-size:large;color:#bb007f;text-align:left;}
+.dateTime{margin:2px 5px 2px 5px; color:#696969;}
+.replyStatus{display:inline;}
+.couponStatus{display:inline;}
+.fbkItemNameWrapper{float:left; width:50%;}
+.fbkItemValueWrapper{margin-left:50%;}
+.fbkItemName{margin:2px 5px 2px 5px; text-align:right; vertical-align:middle;}
+.fbkRateItemName{margin-top:4px;}
+.fbkItemValue{margin:2px 5px 2px 5px; font-weight:600; vertical-align:middle;}
+.starImg{width:100px; height:20px;}
+.showMoreWrapper{width:100%; border-top:1px solid #ccc;margin-bottom:10px;margin-top:-1;padding:6px 0px; text-align:center;}
+.showMoreBtn{float:right; margin:2px 5px 5px 5px;padding:4px 10px;border:1px solid Transparent; width:70px; }
+.showMoreBtn:hover{background:#edf3fe;border:1px solid #ccc;-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
+.newFbkBtnWrapper{width:100%;}
+.newFbkBtn{float:right; margin:6px 0px; padding:4px 10px; background:#ffffdd;border:1px solid #ccc;-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; width:200px; text-align:center;}
+a.newFbk{color:Black; font-weight:bold;}
+.msgSubject{margin-bottom:8px;}
+.msgSubjectInput{margin-top:2px; width:400px;color:#800000;}
+.msgContent{margin:12px 0px 0px 0px;}
+.msgContentInput{width:400px;color:#800000;}
+.cpnSummary{margin-bottom:8px;}
+.cpnSummaryExampleLabel{font-size:10px;font-style:italic;color:Gray;}
+.cpnSummaryInput{margin-top:2px; width:400px;color:#800000;}
+.cpnContent{margin-bottom:8px;}
+.cpnContentInput{color:#800000;}
+.cpnValidThroughInput{width:30px;color:#800000;}
+.cpnContentLabelExample{font-size:10px;font-style:italic;color:Gray;}
+.cpnValidThroughMinMax{font-size:10px;font-style:italic;color:Gray;}
+.cpnContentInput{width:400px;}

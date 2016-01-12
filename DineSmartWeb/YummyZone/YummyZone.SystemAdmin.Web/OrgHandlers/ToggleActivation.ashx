@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" CodeBehind="ToggleActivation.ashx.cs" Class="YummyZone.SystemAdmin.Web.ToggleActivation" %>

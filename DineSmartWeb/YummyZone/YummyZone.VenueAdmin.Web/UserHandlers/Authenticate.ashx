@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" CodeBehind="Authenticate.ashx.cs" Class="YummyZone.VenueAdmin.Web.Authenticate" %>

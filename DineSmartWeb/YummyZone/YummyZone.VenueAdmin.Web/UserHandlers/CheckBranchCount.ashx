@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" CodeBehind="CheckBranchCount.ashx.cs" Class="YummyZone.VenueAdmin.Web.CheckBranchCount" %>

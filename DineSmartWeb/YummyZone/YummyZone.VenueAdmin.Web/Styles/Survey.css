@@ -1,0 +1,20 @@
+﻿.surveyExplanation{color:Black;margin-top:20px;}
+.surveySectionWrapper{width:100%; border:1px solid #ccc; margin-top:20px; background-color:#edf3fe;}
+.surveySectionHeader{height:26px;background-color:#edf3fe;margin:2px 6px;}
+.surveySectionToggle{font-size:20px;color: black;}
+.surveySectionTitle{font-size:large;color:Black;font-weight:bold; float:left; min-width:230px; margin-right:20px;}
+.titleDetail{font-size:small;color:Gray;font-weight:normal;margin-left:4px;}
+.addNewWrapper{float:left; margin-top:4px;}
+.surveyQuestions{background-color:#f5f5f5;border-top:1px solid #ccc;}
+.surveyQuestionWrapper{padding:4px 0px 4px 40px;}
+.surveyQuestionText{color:Maroon;float:left;}
+.questionActions{float:left; margin-left:20px;}
+.editAction{margin-right:5px;}
+.questionWording{min-width:200px;}
+.questionWordingLonger{min-width:400px;}
+.questionSave{margin-left:5px;}
+.questionCancel{margin-left:5px;}
+.choiceInputWrapper{margin:2px 0px 2px 20px;}
+.choiceInput{margin-left:4px;min-width:320px;}
+.choicesDesc{font-size:small;color:Gray;font-weight:normal;margin-left:10px;}
+.choice{margin-left:20px;color:Black;}

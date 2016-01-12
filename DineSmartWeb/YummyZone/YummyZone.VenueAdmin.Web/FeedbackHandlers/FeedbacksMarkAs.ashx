@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" CodeBehind="FeedbacksMarkAs.ashx.cs" Class="YummyZone.VenueAdmin.Web.FeedbacksMarkAs" %>

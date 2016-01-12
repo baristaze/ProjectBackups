@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" CodeBehind="MenuCategoriesReorder.ashx.cs" Class="YummyZone.VenueAdmin.Web.MenuCategoriesReorder" %>

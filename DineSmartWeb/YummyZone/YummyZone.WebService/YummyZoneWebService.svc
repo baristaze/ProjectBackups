@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="YummyZone.WebService.YummyZoneWebService" CodeBehind="YummyZoneWebService.svc.cs" %>

@@ -1,0 +1,42 @@
+﻿<html>
+<head>
+    <title></title>
+ <style type="text/css" media="screen">
+   .clear{clear:both;}
+   .page{background-image:url("/Images/pageBkg.jpg"); width:500px; height:500px;}
+   .darkCanvas{width:400px; height:400px;}
+   .canvasCorner{display:inline;width:2px;height:2px;background-image:url("/Images/darkBkg.png");background-repeat:repeat;}
+   .canvasTopBorder{display:inline;/*background-image:url("/Images/borderTop.png");background-repeat:repeat-x;*/ background:Yellow; height:2px;width:100px;}
+   .canvasLeftBorder{display:inline;/*background-image:url("/Images/borderLeft.png");background-repeat:repeat-y;*/background:Chan; width:2px;height:100%;}
+   .canvasRightBorder{display:inline;/*background-image:url("/Images/borderRight.png");background-repeat:repeat-y;*/background:Blue; width:2px;height:100%;}   
+   .canvasBottomBorder{display:inline;/*background-image:url("/Images/borderBottom.png");background-repeat:repeat-x;*/background:Green; height:2px;width:100%;}
+   .canvasBody{display:inline;background-image:url("/Images/darkBkg.png");background-repeat:repeat;width:100%;height:100%;margin:0px 2px;}
+ </style>
+</head>
+
+<body>
+    <center>
+        <div class="page">
+            <div style="width:200px;height:200px;"></div>
+          <div class="darkCanvas">
+            <div>
+                <div class="canvasCorner"></div>
+                <div class="canvasTopBorder"></div>
+                <div class="canvasCorner"></div>
+            </div>
+            <div>
+                <div class="canvasLeftBorder"></div>
+                <div class="canvasBody"></div>
+                <div class="canvasRightBorder"></div>
+            </div>
+            <div>
+                <div class="canvasCorner"></div>
+                <div class="canvasBottomBorder"></div>
+                <div class="canvasCorner"></div>
+            </div>
+          </div>
+        </div>
+    </center>
+</body>
+
+</html>
