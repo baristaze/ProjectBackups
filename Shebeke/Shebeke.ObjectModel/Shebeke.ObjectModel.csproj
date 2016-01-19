@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{18389DA4-A91B-46F9-8257-9AA717238A16}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Shebeke.ObjectModel</RootNamespace>
+    <AssemblyName>Shebeke.ObjectModel</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.AzureClientHelper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureClientHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.AzureCommon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.DistributedCache, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.Web.DistributedCache.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WindowsFabric.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.WindowsFabric.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsFabric.Data.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.WindowsFabric.Data.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caches\CacheHelper.cs" />
+    <Compile Include="Caches\CacheUtils.cs" />
+    <Compile Include="Caches\CssSplitter.Cache.cs" />
+    <Compile Include="Caches\FacebookUser.Cache.cs" />
+    <Compile Include="Caches\Reaction.Cache.cs" />
+    <Compile Include="Caches\Splitter.Cache.cs" />
+    <Compile Include="Caches\TextSplitter.Cache.cs" />
+    <Compile Include="Caches\Topic.Cache.cs" />
+    <Compile Include="Caches\TopicInfo.Cache.cs" />
+    <Compile Include="Cloud\BlobStorageAccount.cs" />
+    <Compile Include="Cloud\ImageFile.Cloud.cs" />
+    <Compile Include="ConfigBase.cs" />
+    <Compile Include="DBaseObj\Reaction.DBase.cs" />
+    <Compile Include="DBaseObj\UserLogActivity.DBase.cs" />
+    <Compile Include="ShebekeArgumentException.cs" />
+    <Compile Include="ShebekeAuthException.cs" />
+    <Compile Include="ShebekeException.cs" />
+    <Compile Include="ShebekeUtils.cs" />
+    <Compile Include="DBaseObj\ActionLog.DBase.cs" />
+    <Compile Include="DBaseObj\CssSplitter.DBase.cs" />
+    <Compile Include="DBaseObj\Entry.DBase.cs" />
+    <Compile Include="DBaseObj\FacebookUser.DBase.cs" />
+    <Compile Include="DBaseObj\ImageFile.DBase.cs" />
+    <Compile Include="DBaseObj\ReactionSummary.DBase.cs" />
+    <Compile Include="DBaseObj\RedirectInfo.DBase.cs" />
+    <Compile Include="DBaseObj\Splitter.DBase.cs" />
+    <Compile Include="DBaseObj\TextSplitter.DBase.cs" />
+    <Compile Include="DBaseObj\Topic.DBase.cs" />
+    <Compile Include="DBaseObj\TopicInfo.DBase.cs" />
+    <Compile Include="DBaseObj\UserToken.DBase.cs" />
+    <Compile Include="DBaseObj\VotingSummary.DBase.cs" />
+    <Compile Include="DBase\Database.cs" />
+    <Compile Include="DBaseObj\FacebookFriend.DBase.cs" />
+    <Compile Include="DBase\IEditable.cs" />
+    <Compile Include="Entities\Action.cs" />
+    <Compile Include="Entities\ActionLog.cs" />
+    <Compile Include="Entities\ActionLogView.cs" />
+    <Compile Include="Entities\AssetStatus.cs" />
+    <Compile Include="Entities\AssetType.cs" />
+    <Compile Include="Entities\AuthorInfo.cs" />
+    <Compile Include="Entities\Category.cs" />
+    <Compile Include="Entities\Entry.cs" />
+    <Compile Include="Entities\Identifiable.cs" />
+    <Compile Include="Entities\IPrintable.cs" />
+    <Compile Include="Entities\NameValuePair.cs" />
+    <Compile Include="Entities\PageVisit.cs" />
+    <Compile Include="Entities\ReactionSummary.cs" />
+    <Compile Include="Entities\ShareType.cs" />
+    <Compile Include="Entities\SocialChannel.cs" />
+    <Compile Include="Entities\Topic.cs" />
+    <Compile Include="Entities\RedirectInfo.cs" />
+    <Compile Include="Entities\TopicInfo.cs" />
+    <Compile Include="Entities\VotingSummary.cs" />
+    <Compile Include="Identity\Crypto.cs" />
+    <Compile Include="Identity\UserType.cs" />
+    <Compile Include="Splits\CssSplitter.cs" />
+    <Compile Include="Splits\Splitter.cs" />
+    <Compile Include="Splits\TextSplitter.cs" />
+    <Compile Include="Utils\EntryFormatHelper.cs" />
+    <Compile Include="Utils\EntryFormatter.cs" />
+    <Compile Include="Utils\EntryFormatterFactory.cs" />
+    <Compile Include="Entities\FacebookFriend.cs" />
+    <Compile Include="Entities\FacebookFriendList.cs" />
+    <Compile Include="Entities\ImageFile.cs" />
+    <Compile Include="Entities\LogCategory.cs" />
+    <Compile Include="Entities\MetaFile.cs" />
+    <Compile Include="Entities\Reaction.cs" />
+    <Compile Include="Identity\OauthProvider.cs" />
+    <Compile Include="Identity\UserToken.cs" />
+    <Compile Include="Entities\FacebookPostItem.cs" />
+    <Compile Include="Utils\ImageIdDetector.cs" />
+    <Compile Include="Utils\ImageIdReplacer.cs" />
+    <Compile Include="Utils\LinkReplacer.cs" />
+    <Compile Include="Utils\EntryPlainTextFormatter.cs" />
+    <Compile Include="Utils\LogParser.cs" />
+    <Compile Include="Utils\LogProcessor.cs" />
+    <Compile Include="Utils\MetricParser.cs" />
+    <Compile Include="Utils\PageVisitMetricParser.cs" />
+    <Compile Include="Utils\SpecialCharUtils.cs" />
+    <Compile Include="Utils\SimpleTagReplacer.cs" />
+    <Compile Include="Entities\SocialShare.cs" />
+    <Compile Include="Utils\SocialShareMetricParser.cs" />
+    <Compile Include="Entities\UserLogActivity.cs" />
+    <Compile Include="Utils\WADLogsTable.cs" />
+    <Compile Include="WebSvc\ServiceBase.cs" />
+    <Compile Include="Web\AuthResult.cs" />
+    <Compile Include="Web\BaseResponse.cs" />
+    <Compile Include="Web\ShebekeHttpHandler.cs" />
+    <Compile Include="Web\ShebekeHttpHandlerJson.cs" />
+    <Compile Include="Utils\FacebookHelpers.cs" />
+    <Compile Include="Entities\FacebookUser.cs" />
+    <Compile Include="Entities\Gender.cs" />
+    <Compile Include="Entities\NameIdPair.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringHelpers.cs" />
+    <Compile Include="Identity\UserAuthInfo.cs" />
+    <Compile Include="Entities\UserInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Microsoft.WindowsAzure.Caching\PerformanceCounters.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

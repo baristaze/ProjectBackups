@@ -1,0 +1,110 @@
+﻿<%@ ContentType="text/css" %>
+<%@ OutputCache Duration="604800" Location="Any" VaryByParam="version" %>
+
+html { height:100%; margin:0 0;padding:0 0; }
+body { height:100%; margin:0 0;padding:0 0; background-color:White;font-family: Helvetica, Arial, Verdana, sans-serif;}
+        
+.landingWrp { height:100%; }
+.landing
+{
+    height:100%;
+    background-image:url(<%= Request.ApplicationPath.TrimEnd("/") %>/Images/bkg.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover; 
+    background-size: cover;
+}
+        
+.roundedCorners {-moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; }
+        
+.leftWrp { height:100%; float:left;width:50%;}
+.rightWrp { height:100%; float:right;width:49%;}
+.leftInner{height:100%; z-index:1; background-color:#55a4f2;
+            -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+            filter: alpha(opacity=30);
+            -khtml-opacity: 0.3;
+            -moz-opacity:0.3;
+            opacity: 0.3;}
+.logoWrp {position:absolute; top:30px; left:25%; height:70px; width:260px; margin-left:-130px; margin-right:40px;
+            background-color:#be004c; color:White;border:1px solid Black;font-size:36px; font-weight:bold; 
+            z-index:10;}
+.logoWrp:hover{cursor:pointer;}
+.companyName{margin:10px 0px 0px 0px; padding:0px; text-align:center;}
+.ideaWrp{position:absolute; top:150px; left:10%;width:30%; margin-left:-40px; overflow:hidden;
+        background-color:#000; color:White;font-size:36px; padding:20px 40px;
+        border:1px solid White;font-size:36px; z-index:10;
+        -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+        filter: alpha(opacity=75);
+        -khtml-opacity: 0.75;
+        -moz-opacity:0.75;
+        opacity: 0.75;}
+.idea{vertical-align:middle; margin:0px; padding:0px; text-align:center;}
+.rightInner{height:100%;position:relative;}
+.statusWrp{position:absolute;top:150px; height:100px; left:50px;}
+.signUpWrp{position:absolute;top:150px; height:100px; left:50px;margin-right:50px;}
+.reqInvCode{margin:20px 50px;font-size:larger;}
+.signUp{padding:5px 20px; cursor:pointer; width:350px;}
+.signUpImgWrp{display:table-cell; vertical-align:middle;}
+.signUpTextWrp{display:table-cell; vertical-align:middle; color:White;}
+.signUpText{margin-left:20px;font-size:24px;}
+.fbSignUp{background-color:#3b5998;border:1px solid Black;}
+.fbSignUp:hover
+{
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+    -khtml-opacity: 0.8;
+    -moz-opacity:0.8;
+    opacity: 0.8;
+}
+        
+.waitingList{margin:40px 60px 0px 60px; text-align:justify;}
+.emphasize{color:Black; font-weight:bold;}
+        
+.contentWrp{position:relative;height:100%;z-index:2;overflow-y:hidden;}
+.contentInner{position:relative; top:40px; height:384px; min-width:384px; width:100%;}
+.contentBkg
+{
+    background-image:url(<%= Request.ApplicationPath.TrimEnd("/") %>/Images/invite.png);
+    background-repeat: no-repeat;
+    background-position: center center;            
+    background-size: contain;
+}
+        
+.invitedStats{margin-top:80px;height:40px; width:220px; padding-top:12px;}
+.invitedLabel{color:Gray;}
+.invitedResult{color:Maroon; font-size:larger; font-weight:bold;}
+.loginInfoWrp{text-align:right;padding:10px 20px;font-size:smaller; color:Gray;}
+.cover-page-logout{margin-left:5px;}
+        
+.inviteWrp{position:absolute;height:100%;width:100%;}
+.invite{height:40px; margin-top:182px; width:140px; left:50%;
+        background-color:#3b5998; color:White; cursor:pointer; font-size:larger; font-weight:bold;
+        border:1px solid Black;}
+.invite:hover
+{
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+    -khtml-opacity: 0.8;
+    -moz-opacity:0.8;
+    opacity: 0.8;
+}
+.inviteInner{margin-top:8px; padding:0px;}
+
+a.skip-link, a.skip-link:focus, a.skip-link:active, a.skip-link:visited {text-decoration:none;color:#19558f;outline:none;}
+a.skip-link:hover{text-decoration:underline;}
+
+a.reload, a.reload:focus, a.reload:active, a.reload:visited {text-decoration:none;color:#19558f;outline:none;}
+a.reload:hover{text-decoration:underline;}
+
+.skip-wrp{margin-top:100px;}
+        
+.footer{margin:10px; font-size:smaller; position:absolute; top:100%; margin-top:-40px; left:150px; z-index:1;}
+.footer2{width:200px; left:50%; margin-left:-100px;}
+.legal{color: Gray; cursor:pointer;}
+.legal:hover{text-decoration:underline;}
+.sep{cursor:none;}
+.sep:hover{text-decoration:none;}
+

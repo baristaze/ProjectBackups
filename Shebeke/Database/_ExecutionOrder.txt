@@ -1,0 +1,19 @@
+1) Splitter_Tables.sql
+2) User_Tables.sql
+3) Topic_Tables.sql
+4) Entry_Tables.sql
+5) InitialData.sql
+6) Splitter_SPs.sql
+7) User_SPs.sql
+8) Topic_SPs.sql
+9) Topic_SPs_RecentPopular.sql
+10) Entry_SPs.sql
+11) Entry_SPs_GetRange.sql
+12) Entry_SPs_GetRange2.sql
+13) Entry_SPs_Image.sql
+14) Activity_SPs.sql	// don't run Admin_SPs.sql
+15) _Helper_Functions.sql
+16) Splitter_Tests.sql
+17) Topic_Tests.sql	// don't run this
+18) Entry_Tests.sql	// don't run this
+19) Localization.sql

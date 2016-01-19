@@ -1,0 +1,47 @@
+﻿<%@ ContentType="text/css" %>
+<%@ OutputCache Duration="604800" Location="Any" VaryByParam="version" %>
+
+html {margin:0 0;padding:0 0;}
+body{margin:0 0;padding:0 0;font-family: Helvetica, Arial, Verdana, sans-serif;}
+.page{margin:0px auto;text-align:left;}
+.content, .helper{}
+
+@media all and (min-width:980px)  
+{ 
+    .page{width:980px;}
+    .content{width:760px;float:left;}
+    .helper{width:220px;float:left;}
+    .helper-inner{padding:10px 0px;}
+    .main-block{width:760px;padding:10px 0px;}
+    .mb-aux1{width:110px;float:left;text-align:right;}
+    .mb-aux2{width:110px;float:right;text-align:left;}
+    .mb-inner{width:540px;margin-left:110px;}
+            
+    .tb-strip{height:40px; width:100%;text-align:center;}
+    .topbar{width:980px;margin:0px auto;text-align:left;}
+    .tbi-left-wrp{width:760px;float:left;height:40px;}
+    .tbi-right-wrp{width:220px;float:left;height:40px;text-align:right;}
+    .tb-left{height:40px;width:760px;}
+    .tb-right{height:40px;width:220px;}
+            
+    .mobile-only{display:none;}
+}
+@media all and (max-width:980px)  
+{   
+    .page, .content, .helper, .main-block {max-width:980px;}
+    .mb-aux1, .mb-aux2{max-width:110px;float:right;text-align:right;}
+            
+    .main-block{padding:10px 10px;}
+    .helper-inner{padding:10px 10px;}
+            
+    .tb-strip{height:40px; width:100%;text-align:center;}
+    .topbar{max-width:980px;margin:0px;text-align:left;}
+    .tbi-left-wrp{max-width:980px;float:left;height:40px;}
+    .tbi-right-wrp{display:none;}
+    .tb-left{max-width:980px;height:40px;}
+    .logo{display:none;}
+            
+    .desktop-only{display:none;}
+}        
+
+.main-block-top{margin-top:10px;}

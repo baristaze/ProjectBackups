@@ -1,0 +1,132 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DBaseScripts", "DBaseScripts", "{88A86AEF-85B9-4248-A2D0-080271C7F229}"
+	ProjectSection(SolutionItems) = preProject
+		DBaseScripts\_CopyTestData.sql = DBaseScripts\_CopyTestData.sql
+		DBaseScripts\_Helper_Func_Tokenize_Guids.sql = DBaseScripts\_Helper_Func_Tokenize_Guids.sql
+		DBaseScripts\_Helper_Func_Tokenize_Longs.sql = DBaseScripts\_Helper_Func_Tokenize_Longs.sql
+		DBaseScripts\_Helper_Func_Tokenize_Strings.sql = DBaseScripts\_Helper_Func_Tokenize_Strings.sql
+		DBaseScripts\_TestOnly_MyDaily_SPs.sql = DBaseScripts\_TestOnly_MyDaily_SPs.sql
+		DBaseScripts\_TestOnly_SendPush_SPs.sql = DBaseScripts\_TestOnly_SendPush_SPs.sql
+		DBaseScripts\Action_SPs.sql = DBaseScripts\Action_SPs.sql
+		DBaseScripts\Action_Tables.sql = DBaseScripts\Action_Tables.sql
+		DBaseScripts\City_InitData.sql = DBaseScripts\City_InitData.sql
+		DBaseScripts\City_SPs.sql = DBaseScripts\City_SPs.sql
+		DBaseScripts\City_Tables.sql = DBaseScripts\City_Tables.sql
+		DBaseScripts\Credit_SPs.sql = DBaseScripts\Credit_SPs.sql
+		DBaseScripts\Credit_Tables.sql = DBaseScripts\Credit_Tables.sql
+		DBaseScripts\Facebook_SPs.sql = DBaseScripts\Facebook_SPs.sql
+		DBaseScripts\Facebook_Tables.sql = DBaseScripts\Facebook_Tables.sql
+		DBaseScripts\Image_SPs.sql = DBaseScripts\Image_SPs.sql
+		DBaseScripts\Image_Tables.sql = DBaseScripts\Image_Tables.sql
+		DBaseScripts\Init_Data.sql = DBaseScripts\Init_Data.sql
+		DBaseScripts\Logs_SPs.sql = DBaseScripts\Logs_SPs.sql
+		DBaseScripts\Logs_Tables.sql = DBaseScripts\Logs_Tables.sql
+		DBaseScripts\Message_SPs.sql = DBaseScripts\Message_SPs.sql
+		DBaseScripts\Message_Tables.sql = DBaseScripts\Message_Tables.sql
+		DBaseScripts\Pic4Pic_SPs.sql = DBaseScripts\Pic4Pic_SPs.sql
+		DBaseScripts\Pic4Pic_Tables.sql = DBaseScripts\Pic4Pic_Tables.sql
+		DBaseScripts\Recommendation_SPs.sql = DBaseScripts\Recommendation_SPs.sql
+		DBaseScripts\Recommendation_Tables.sql = DBaseScripts\Recommendation_Tables.sql
+		DBaseScripts\Split_SPs.sql = DBaseScripts\Split_SPs.sql
+		DBaseScripts\Split_Tables.sql = DBaseScripts\Split_Tables.sql
+		DBaseScripts\User_SPs.sql = DBaseScripts\User_SPs.sql
+		DBaseScripts\User_Tables.sql = DBaseScripts\User_Tables.sql
+		DBaseScripts\WorkerRoles_InitData.sql = DBaseScripts\WorkerRoles_InitData.sql
+		DBaseScripts\WorkerRoles_SPs.sql = DBaseScripts\WorkerRoles_SPs.sql
+		DBaseScripts\WorkerRoles_Tables.sql = DBaseScripts\WorkerRoles_Tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3F2C8F24-0555-4B02-A8DE-78F13B7060AB}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		Pic4Pic.vsmdi = Pic4Pic.vsmdi
+		team.png = team.png
+		team2.jpg = team2.jpg
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Pic4Pic", "Pic4Pic\Pic4Pic.ccproj", "{D648F578-F163-44B1-B3E9-CE06114A3A8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pic4Pic.WebSvc", "Pic4Pic.WebSvc\Pic4Pic.WebSvc.csproj", "{5C999F87-1B4E-4A8F-B5BD-81D04D345D0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pic4Pic.ObjectModel", "Pic4Pic.ObjectModel\Pic4Pic.ObjectModel.csproj", "{BEEC629B-6569-454A-BB07-DD3AC2681213}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pic4Pic.UnitTests", "Pic4Pic.UnitTests\Pic4Pic.UnitTests.csproj", "{3D4BCEA7-9EBD-494C-95CC-D04D6E63C3F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{62844AB1-D3E6-4784-8864-C91DF50B52B6}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pic4Pic.WorkerRole", "Pic4Pic.WorkerRole\Pic4Pic.WorkerRole.csproj", "{46BC0513-9129-468C-A7D4-17046CA331CA}"
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Pic4Pic.Workers", "Pic4Pic.Workers\Pic4Pic.Workers.ccproj", "{72A34D19-B292-4D72-9837-680410491507}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://pic4pic.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Pic4Pic.ObjectModel\\Pic4Pic.ObjectModel.csproj
+		SccProjectName1 = Pic4Pic.ObjectModel
+		SccLocalPath1 = Pic4Pic.ObjectModel
+		SccProjectUniqueName2 = Pic4Pic.WebSvc\\Pic4Pic.WebSvc.csproj
+		SccProjectName2 = Pic4Pic.WebSvc
+		SccLocalPath2 = Pic4Pic.WebSvc
+		SccProjectUniqueName3 = Pic4Pic\\Pic4Pic.ccproj
+		SccProjectName3 = Pic4Pic
+		SccLocalPath3 = Pic4Pic
+		SccProjectUniqueName4 = Pic4Pic.UnitTests\\Pic4Pic.UnitTests.csproj
+		SccProjectName4 = Pic4Pic.UnitTests
+		SccLocalPath4 = Pic4Pic.UnitTests
+		SccProjectUniqueName5 = Pic4Pic.WorkerRole\\Pic4Pic.WorkerRole.csproj
+		SccProjectName5 = Pic4Pic.WorkerRole
+		SccLocalPath5 = Pic4Pic.WorkerRole
+		SccProjectUniqueName6 = Pic4Pic.Workers\\Pic4Pic.Workers.ccproj
+		SccProjectName6 = Pic4Pic.Workers
+		SccLocalPath6 = Pic4Pic.Workers
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D648F578-F163-44B1-B3E9-CE06114A3A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D648F578-F163-44B1-B3E9-CE06114A3A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D648F578-F163-44B1-B3E9-CE06114A3A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D648F578-F163-44B1-B3E9-CE06114A3A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C999F87-1B4E-4A8F-B5BD-81D04D345D0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C999F87-1B4E-4A8F-B5BD-81D04D345D0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C999F87-1B4E-4A8F-B5BD-81D04D345D0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C999F87-1B4E-4A8F-B5BD-81D04D345D0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEEC629B-6569-454A-BB07-DD3AC2681213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEEC629B-6569-454A-BB07-DD3AC2681213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEEC629B-6569-454A-BB07-DD3AC2681213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEEC629B-6569-454A-BB07-DD3AC2681213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D4BCEA7-9EBD-494C-95CC-D04D6E63C3F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D4BCEA7-9EBD-494C-95CC-D04D6E63C3F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D4BCEA7-9EBD-494C-95CC-D04D6E63C3F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D4BCEA7-9EBD-494C-95CC-D04D6E63C3F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46BC0513-9129-468C-A7D4-17046CA331CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46BC0513-9129-468C-A7D4-17046CA331CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46BC0513-9129-468C-A7D4-17046CA331CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46BC0513-9129-468C-A7D4-17046CA331CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A34D19-B292-4D72-9837-680410491507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A34D19-B292-4D72-9837-680410491507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A34D19-B292-4D72-9837-680410491507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A34D19-B292-4D72-9837-680410491507}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Pic4Pic.vsmdi
+	EndGlobalSection
+EndGlobal

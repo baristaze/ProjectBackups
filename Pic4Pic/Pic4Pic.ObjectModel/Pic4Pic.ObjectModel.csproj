@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BEEC629B-6569-454A-BB07-DD3AC2681213}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pic4Pic.ObjectModel</RootNamespace>
+    <AssemblyName>Pic4Pic.ObjectModel</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Facebook">
+      <HintPath>..\packages\Facebook.6.4.2\lib\net40-client\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.AzureClientHelper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureClientHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.AzureCommon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.DistributedCache, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.Web.DistributedCache.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.Storage.4.0.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WindowsFabric.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.WindowsFabric.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsFabric.Data.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.3.1.0\lib\net40-full\Microsoft.WindowsFabric.Data.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssetType.cs" />
+    <Compile Include="DBaseObj\Action.DBase.cs" />
+    <Compile Include="DBaseObj\City.DBase.cs" />
+    <Compile Include="DBaseObj\ConversationsSummary.DBase.cs" />
+    <Compile Include="DBaseObj\Country.DBase.cs" />
+    <Compile Include="DBaseObj\CreditAdjustment.DBase.cs" />
+    <Compile Include="DBaseObj\Education.DBase.cs" />
+    <Compile Include="DBaseObj\FacebookFriend.DBase.cs" />
+    <Compile Include="DBaseObj\FacebookUser.DBase.cs" />
+    <Compile Include="DBaseObj\ImageFile.DBase.cs" />
+    <Compile Include="DBaseObj\InstantMessage.DBase.cs" />
+    <Compile Include="DBaseObj\MobileDevice.DBase.cs" />
+    <Compile Include="DBaseObj\PicForPic.DBase.cs" />
+    <Compile Include="DBaseObj\PurchaseRecord.DBase.cs" />
+    <Compile Include="DBaseObj\Recommendation.DBase.cs" />
+    <Compile Include="DBaseObj\Region.DBase.cs" />
+    <Compile Include="DBaseObj\SubRegion.DBase.cs" />
+    <Compile Include="DBaseObj\User.DBase.cs" />
+    <Compile Include="DBaseObj\UserLogActivity.DBase.cs" />
+    <Compile Include="DBaseObj\UserPreferences.DBase.cs" />
+    <Compile Include="DBaseObj\Work.DBase.cs" />
+    <Compile Include="Entities\ActionStatus.cs" />
+    <Compile Include="Entities\AppStoreType.cs" />
+    <Compile Include="Entities\AssetState.cs" />
+    <Compile Include="Entities\BaseDistrict.cs" />
+    <Compile Include="Entities\City.cs" />
+    <Compile Include="Entities\ConversationsSummary.cs" />
+    <Compile Include="Entities\Country.cs" />
+    <Compile Include="Entities\CreditAdjustment.cs" />
+    <Compile Include="Entities\CreditAdjustmentReason.cs" />
+    <Compile Include="Entities\Education.cs" />
+    <Compile Include="Entities\EducationLevel.cs" />
+    <Compile Include="Entities\FacebookFriend.cs" />
+    <Compile Include="Entities\FacebookFriendList.cs" />
+    <Compile Include="Entities\FacebookUser.cs" />
+    <Compile Include="Entities\Familiarity.cs" />
+    <Compile Include="Entities\FriendProfile.cs" />
+    <Compile Include="Entities\GeoLocation.cs" />
+    <Compile Include="Entities\InstantMessage.cs" />
+    <Compile Include="Entities\Locality.cs" />
+    <Compile Include="Entities\Location.cs" />
+    <Compile Include="Entities\LogBag.cs" />
+    <Compile Include="Entities\MobileDevice.cs" />
+    <Compile Include="Entities\Pic4PicHistory.cs" />
+    <Compile Include="Entities\PicturePair.cs" />
+    <Compile Include="Entities\Gender.cs" />
+    <Compile Include="Entities\ImageFile.cs" />
+    <Compile Include="Entities\Action.cs" />
+    <Compile Include="Entities\Interaction.cs" />
+    <Compile Include="Entities\LogCategory.cs" />
+    <Compile Include="Entities\MaritalStatus.cs" />
+    <Compile Include="Entities\MatchedCandidate.cs" />
+    <Compile Include="Entities\NameIdPair.cs" />
+    <Compile Include="Entities\NameValuePair.cs" />
+    <Compile Include="Entities\PicForPic.cs" />
+    <Compile Include="Entities\PurchaseOffer.cs" />
+    <Compile Include="Entities\PurchaseRecord.cs" />
+    <Compile Include="Entities\PushNotification.cs" />
+    <Compile Include="Entities\Recommendation.cs" />
+    <Compile Include="Entities\Region.cs" />
+    <Compile Include="Entities\SubRegion.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="DBaseObj\UserToken.DBase.cs" />
+    <Compile Include="Entities\UserLogActivity.cs" />
+    <Compile Include="Entities\UserPreferences.cs" />
+    <Compile Include="Entities\UserProfile.cs" />
+    <Compile Include="Entities\UserProfilePics.cs" />
+    <Compile Include="Entities\UserStatus.cs" />
+    <Compile Include="Entities\Work.cs" />
+    <Compile Include="Utils\AndroidNotificationPusher.cs" />
+    <Compile Include="Utils\AndroidNotificationPusherConfig.cs" />
+    <Compile Include="Utils\ConfigOnAzure.cs" />
+    <Compile Include="Utils\ConfigOnDBase.cs" />
+    <Compile Include="Utils\CraigsListParser.cs" />
+    <Compile Include="Utils\Crypto.cs" />
+    <Compile Include="Utils\ImageHelper.cs" />
+    <Compile Include="Utils\InteractionEngine.cs" />
+    <Compile Include="Utils\ITask.cs" />
+    <Compile Include="Utils\Logger.cs" />
+    <Compile Include="Utils\LogProcessor.cs" />
+    <Compile Include="Utils\LogProcessorConfig.cs" />
+    <Compile Include="Utils\MailSender.cs" />
+    <Compile Include="Utils\MailSettings.cs" />
+    <Compile Include="Utils\MailSettingsEx.cs" />
+    <Compile Include="Utils\MatchEngine.cs" />
+    <Compile Include="Utils\MultiImageUploader.cs" />
+    <Compile Include="Utils\NotificationBag.cs" />
+    <Compile Include="Utils\NotificationCalculator.cs" />
+    <Compile Include="Utils\PicTradeEngine.cs" />
+    <Compile Include="Utils\RegexUtil.cs" />
+    <Compile Include="Utils\WADLogsTable.cs" />
+    <Compile Include="Utils\WebParser.cs" />
+    <Compile Include="Web\AuthResult.cs" />
+    <Compile Include="Web\BaseRequest.cs" />
+    <Compile Include="Web\BaseResponse.cs" />
+    <Compile Include="Cloud\BlobStorageAccount.cs" />
+    <Compile Include="Caches\CacheHelper.cs" />
+    <Compile Include="Caches\CacheUtils.cs" />
+    <Compile Include="Utils\ConfigBase.cs" />
+    <Compile Include="Identity\Crypto.cs" />
+    <Compile Include="DBase\Database.cs" />
+    <Compile Include="Utils\FacebookHelpers.cs" />
+    <Compile Include="Entities\Identifiable.cs" />
+    <Compile Include="DBase\IEditable.cs" />
+    <Compile Include="Cloud\ImageFile.Cloud.cs" />
+    <Compile Include="Identity\OAuthProvider.cs" />
+    <Compile Include="Pic4PicArgumentException.cs" />
+    <Compile Include="Pic4PicAuthException.cs" />
+    <Compile Include="Web\Pic4PicHttpHandlerJson.cs" />
+    <Compile Include="Pic4PicUtils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebSvc\ServiceBase.cs" />
+    <Compile Include="Pic4PicException.cs" />
+    <Compile Include="Web\Pic4PicHttpHandler.cs" />
+    <Compile Include="StringHelpers.cs" />
+    <Compile Include="Entities\UserAuthInfo.cs" />
+    <Compile Include="Entities\UserToken.cs" />
+    <Compile Include="Entities\UserType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Microsoft.WindowsAzure.Caching\PerformanceCounters.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

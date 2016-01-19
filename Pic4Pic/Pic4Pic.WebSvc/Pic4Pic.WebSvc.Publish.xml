@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="https://pic4pic-web-svc.cloudapp.net:8172/MsDeploy.axd" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="Pic4Pic.WebSvc_IN_0_Web" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="True" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="pic4pic-web-svc - Production" publishMethod="MSDeploy" replaceMatchingFiles="True" userName="pic4picadmin" savePWD="True" userPWD="GingerSecureX1234" SelectedForPublish="True" />
+</publishData>

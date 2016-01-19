@@ -1,0 +1,35 @@
+﻿<?xml version="1.0"?>
+<ServiceConfiguration serviceName="Pic4Pic" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2014-01.2.3">
+  <Role name="Pic4Pic.WebSvc">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="DBConnectionString" value="SERVER=cl2yszx8kw.database.windows.net;UID=ginger-bizspark-db-admin;PWD=sUphangile-yedi-K;database=ginger-test-dbase" />
+      <Setting name="CloudAccountName" value="gingertest" />
+      <Setting name="CloudAccountKey" value="3u5eL8jRgxu2mjmiVNH5D7JSP+zZqqtmjo15oo3miOY0KwKqffNhVFXTkNxFNiLaTl6tmSKSvDRs5Ilaeke5Ng==" />
+      <Setting name="CloudBlobEntryImageContainer" value="photos" />
+      <Setting name="CloudBlobUriTemplate" value="http://{0}.blob.core.windows.net" />
+      <Setting name="RootWebUrl" value="http://dev-pic4pic.net:81" />
+      <Setting name="FacebookAppId" value="498161566945981" />
+      <Setting name="FacebookAppSecret" value="6b9a19ff86b6145f1a5cde1afb6609e8" />
+      <Setting name="AES_Key" value="Hj5qG5X9f4BRy/o0QEV6Rg==" />
+      <Setting name="AES_IV" value="9T0JwgbAPCsyZfXJ57Mvdg==" />
+      <Setting name="GooglePlayBillingServicePublicKey" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi2Xkr5D/lO5NX/zVg/QYWbysq5taPVW2yztBEn6EXziEfBnrosQvqJT+lsuO2lPbKRJPD38aOhPK2LBZ/gxEYelvdHhytrbB05u5zoLX7aYEEZenqiogxul+tVewac5f+ZeiRn4TDCzW/SgWViX/aT9TaaR7lYl8l4yw9VUPS4dVeJh0OJE6zNIiCxFkAn5lHGX2LfY4QWqxif8/uEhv6fWjVd8TIq1BpyhPeatlm/FbTuvMbYmWS640grjMVr5aulEzzn/dmFOG+HO0IlLBTpnxIUgDiwackREyT6ellP/czju2B809Ld9WBkXHSgesyQFOBJp9ucUoy2ijUrZQUwIDAQAB" />
+      <Setting name="GoogleAPIServerKey" value="AIzaSyAYVidqUWTItez8neiLhLblheyAN8S_RWk" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" value="1" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="pic4picadmin" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBpQYJKoZIhvcNAQcDoIIBljCCAZICAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEGEWD91tbeqQSZtzkERmSi4wDQYJKoZIhvcNAQEBBQAEggEAJQm/2v/kpNtBYQpVC3JlVcz8zv1Tit+3lHIJLdpdk08YnTOfQSvG6bYWgOCVAI6ikKBAG9T5qdGBsaqpfbuXDzZo5kQBfK+E4Oj4cIfe8EPuxmXlGqU0ZUYfqF+qGODd5ndJO+GHhqCAk5WXrAILR1hQ7QukTdL5COFLvOIxjg6ZVfSgUa64vL/XEGrGRhuIUWppr2k14MGd4okRJd4ohquHEkVtn7mEAHgnQ496CdG9KFi+ShcAKjH0of3dn1/CHRDKC/DZWRaQtI+RgSNqLeSZ5aMJrtS3JevUH1MCJhyRlhXk22iD8p/NYMZGm9lWyx9gS3S8u6yaGPu9QdPqezA7BgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECFOzvNnK/69OgBj5k8VqzCfBZDs7AK/37oefXSNMjhyF8pU=" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2015-01-25T23:59:59.0000000-08:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.NamedCaches" value="{&quot;caches&quot;:[{&quot;name&quot;:&quot;default&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:30,&quot;isExpirable&quot;:true,&quot;type&quot;:2},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:false}},&quot;secondaries&quot;:0},{&quot;name&quot;:&quot;conversations&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:90,&quot;isExpirable&quot;:true,&quot;type&quot;:2},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:false}},&quot;secondaries&quot;:0},{&quot;name&quot;:&quot;users&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:30,&quot;isExpirable&quot;:true,&quot;type&quot;:2},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:false}},&quot;secondaries&quot;:0},{&quot;name&quot;:&quot;matches&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:30,&quot;isExpirable&quot;:true,&quot;type&quot;:2},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:false}},&quot;secondaries&quot;:0},{&quot;name&quot;:&quot;images&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:30,&quot;isExpirable&quot;:true,&quot;type&quot;:2},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:false}},&quot;secondaries&quot;:0},{&quot;name&quot;:&quot;statics&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:0,&quot;isExpirable&quot;:false,&quot;type&quot;:0},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:false}},&quot;secondaries&quot;:0}]}" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel" value="1" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="30" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="DefaultEndpointsProtocol=https;AccountName=ginger;AccountKey=ChC10hlx4G7EWz4tVwDgZKjmx56zbyy9TGDkVmUWfgS0EW4lBXbPmsNkDfte44WfDm60cYBRagG89cqFHpI8mA==" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="A55A92E468E4C519A2EA4651108CC678F2BE790E" thumbprintAlgorithm="sha1" />
+      <Certificate name="PicForPicCert" thumbprint="84AF6BC14119804E2AA5EC7C1D15477A33F0FC9E" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

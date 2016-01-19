@@ -1,0 +1,173 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{97342D77-A917-4E60-A200-1B3EE236C31D}"
+	ProjectSection(SolutionItems) = preProject
+		Database\_Helper_Functions.sql = Database\_Helper_Functions.sql
+		Database\Activity_SPs.sql = Database\Activity_SPs.sql
+		Database\Admin_SPs.sql = Database\Admin_SPs.sql
+		Database\Entry_SPs.sql = Database\Entry_SPs.sql
+		Database\Entry_SPs_GetRange.sql = Database\Entry_SPs_GetRange.sql
+		Database\Entry_SPs_GetRange2.sql = Database\Entry_SPs_GetRange2.sql
+		Database\Entry_SPs_Image.sql = Database\Entry_SPs_Image.sql
+		Database\Entry_Tables.sql = Database\Entry_Tables.sql
+		Database\Entry_Tests.sql = Database\Entry_Tests.sql
+		Database\InitialData.sql = Database\InitialData.sql
+		Database\Splitter_SPs.sql = Database\Splitter_SPs.sql
+		Database\Splitter_Tables.sql = Database\Splitter_Tables.sql
+		Database\Splitter_Tests.sql = Database\Splitter_Tests.sql
+		Database\Topic_SPs.sql = Database\Topic_SPs.sql
+		Database\Topic_SPs_RecentPopular.sql = Database\Topic_SPs_RecentPopular.sql
+		Database\Topic_Tables.sql = Database\Topic_Tables.sql
+		Database\Topic_Tests.sql = Database\Topic_Tests.sql
+		Database\User_SPs.sql = Database\User_SPs.sql
+		Database\User_Tables.sql = Database\User_Tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C8CBC4E3-0E26-4524-B33D-8C993B2C7C2E}"
+	ProjectSection(SolutionItems) = preProject
+		Crosspl.vsmdi = Crosspl.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0B5899C7-B72B-4C9E-AEF3-A75D60093B16}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{60CD2B6F-E750-47C0-B84A-6070CD12AF11}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\3-Month Free Trial-1-22-2013-credentials.publishsettings = Docs\3-Month Free Trial-1-22-2013-credentials.publishsettings
+		Docs\crosspl2-free.azurewebsites.net.PublishSettings = Docs\crosspl2-free.azurewebsites.net.PublishSettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Buildx", "Buildx", "{C35D4D58-7D4F-41E5-8B25-71BDFABA8272}"
+	ProjectSection(SolutionItems) = preProject
+		Buildx\yuicompressor-2.4.7.jar = Buildx\yuicompressor-2.4.7.jar
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{EA0D2F5E-A028-4727-8C8A-2D3D10178404}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\logo_16.png = Resources\logo_16.png
+		Resources\logo_75.png = Resources\logo_75.png
+	EndProjectSection
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Crosspl", "Crosspl\Crosspl.ccproj", "{A5977ABF-185F-483F-963E-25CDD38250F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosspl.Web", "Crosspl.Web\Crosspl.Web.csproj", "{30EF519B-A96B-4486-9EB1-15703A7A33DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosspl.ObjectModel", "Crosspl.ObjectModel\Crosspl.ObjectModel.csproj", "{CE981526-0CFF-4601-B597-33DC431ED6CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosspl.UnitTests", "Crosspl.UnitTests\Crosspl.UnitTests.csproj", "{208B57C1-DE17-4A5C-B494-1E144DD6E0F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosspl.LogCleaner", "Crosspl.LogCleaner\Crosspl.LogCleaner.csproj", "{806A0D08-ED41-49D3-9527-9ABEC139570E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosspl.LogProcessor", "Crosspl.LogProcessor\Crosspl.LogProcessor.csproj", "{CCAA2B67-DDA2-44A1-B8CB-91655549050F}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://crosspl.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Crosspl.ObjectModel\\Crosspl.ObjectModel.csproj
+		SccProjectName1 = Crosspl.ObjectModel
+		SccLocalPath1 = Crosspl.ObjectModel
+		SccProjectUniqueName2 = Crosspl.UnitTests\\Crosspl.UnitTests.csproj
+		SccProjectName2 = Crosspl.UnitTests
+		SccLocalPath2 = Crosspl.UnitTests
+		SccProjectUniqueName3 = Crosspl.Web\\Crosspl.Web.csproj
+		SccProjectName3 = Crosspl.Web
+		SccLocalPath3 = Crosspl.Web
+		SccProjectUniqueName4 = Crosspl\\Crosspl.ccproj
+		SccProjectName4 = Crosspl
+		SccLocalPath4 = Crosspl
+		SccProjectUniqueName5 = Crosspl.LogCleaner\\Crosspl.LogCleaner.csproj
+		SccProjectName5 = Crosspl.LogCleaner
+		SccLocalPath5 = Crosspl.LogCleaner
+		SccProjectUniqueName6 = Crosspl.LogProcessor\\Crosspl.LogProcessor.csproj
+		SccProjectName6 = Crosspl.LogProcessor
+		SccLocalPath6 = Crosspl.LogProcessor
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5977ABF-185F-483F-963E-25CDD38250F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5977ABF-185F-483F-963E-25CDD38250F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5977ABF-185F-483F-963E-25CDD38250F1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A5977ABF-185F-483F-963E-25CDD38250F1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A5977ABF-185F-483F-963E-25CDD38250F1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A5977ABF-185F-483F-963E-25CDD38250F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5977ABF-185F-483F-963E-25CDD38250F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5977ABF-185F-483F-963E-25CDD38250F1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A5977ABF-185F-483F-963E-25CDD38250F1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A5977ABF-185F-483F-963E-25CDD38250F1}.Release|x86.ActiveCfg = Release|Any CPU
+		{30EF519B-A96B-4486-9EB1-15703A7A33DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30EF519B-A96B-4486-9EB1-15703A7A33DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30EF519B-A96B-4486-9EB1-15703A7A33DD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{30EF519B-A96B-4486-9EB1-15703A7A33DD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{30EF519B-A96B-4486-9EB1-15703A7A33DD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{30EF519B-A96B-4486-9EB1-15703A7A33DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30EF519B-A96B-4486-9EB1-15703A7A33DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30EF519B-A96B-4486-9EB1-15703A7A33DD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{30EF519B-A96B-4486-9EB1-15703A7A33DD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{30EF519B-A96B-4486-9EB1-15703A7A33DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{CE981526-0CFF-4601-B597-33DC431ED6CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE981526-0CFF-4601-B597-33DC431ED6CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE981526-0CFF-4601-B597-33DC431ED6CE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CE981526-0CFF-4601-B597-33DC431ED6CE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CE981526-0CFF-4601-B597-33DC431ED6CE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CE981526-0CFF-4601-B597-33DC431ED6CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE981526-0CFF-4601-B597-33DC431ED6CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE981526-0CFF-4601-B597-33DC431ED6CE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CE981526-0CFF-4601-B597-33DC431ED6CE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CE981526-0CFF-4601-B597-33DC431ED6CE}.Release|x86.ActiveCfg = Release|Any CPU
+		{208B57C1-DE17-4A5C-B494-1E144DD6E0F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{208B57C1-DE17-4A5C-B494-1E144DD6E0F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{208B57C1-DE17-4A5C-B494-1E144DD6E0F3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{208B57C1-DE17-4A5C-B494-1E144DD6E0F3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{208B57C1-DE17-4A5C-B494-1E144DD6E0F3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{208B57C1-DE17-4A5C-B494-1E144DD6E0F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{208B57C1-DE17-4A5C-B494-1E144DD6E0F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{208B57C1-DE17-4A5C-B494-1E144DD6E0F3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{208B57C1-DE17-4A5C-B494-1E144DD6E0F3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{208B57C1-DE17-4A5C-B494-1E144DD6E0F3}.Release|x86.ActiveCfg = Release|Any CPU
+		{806A0D08-ED41-49D3-9527-9ABEC139570E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{806A0D08-ED41-49D3-9527-9ABEC139570E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{806A0D08-ED41-49D3-9527-9ABEC139570E}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{806A0D08-ED41-49D3-9527-9ABEC139570E}.Debug|x86.ActiveCfg = Debug|x86
+		{806A0D08-ED41-49D3-9527-9ABEC139570E}.Debug|x86.Build.0 = Debug|x86
+		{806A0D08-ED41-49D3-9527-9ABEC139570E}.Release|Any CPU.ActiveCfg = Release|x86
+		{806A0D08-ED41-49D3-9527-9ABEC139570E}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{806A0D08-ED41-49D3-9527-9ABEC139570E}.Release|Mixed Platforms.Build.0 = Release|x86
+		{806A0D08-ED41-49D3-9527-9ABEC139570E}.Release|x86.ActiveCfg = Release|x86
+		{806A0D08-ED41-49D3-9527-9ABEC139570E}.Release|x86.Build.0 = Release|x86
+		{CCAA2B67-DDA2-44A1-B8CB-91655549050F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CCAA2B67-DDA2-44A1-B8CB-91655549050F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{CCAA2B67-DDA2-44A1-B8CB-91655549050F}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{CCAA2B67-DDA2-44A1-B8CB-91655549050F}.Debug|x86.ActiveCfg = Debug|x86
+		{CCAA2B67-DDA2-44A1-B8CB-91655549050F}.Debug|x86.Build.0 = Debug|x86
+		{CCAA2B67-DDA2-44A1-B8CB-91655549050F}.Release|Any CPU.ActiveCfg = Release|x86
+		{CCAA2B67-DDA2-44A1-B8CB-91655549050F}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{CCAA2B67-DDA2-44A1-B8CB-91655549050F}.Release|Mixed Platforms.Build.0 = Release|x86
+		{CCAA2B67-DDA2-44A1-B8CB-91655549050F}.Release|x86.ActiveCfg = Release|x86
+		{CCAA2B67-DDA2-44A1-B8CB-91655549050F}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Crosspl.vsmdi
+	EndGlobalSection
+EndGlobal

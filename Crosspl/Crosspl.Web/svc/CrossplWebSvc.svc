@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Crosspl.Web.Services.CrossplWebSvc" CodeBehind="CrossplWebSvc.svc.cs" %>

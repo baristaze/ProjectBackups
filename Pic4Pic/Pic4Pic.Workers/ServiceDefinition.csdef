@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="Pic4Pic.Workers" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-01.2.3">
+  <WorkerRole name="Pic4Pic.WorkerRole" vmsize="Small">
+    <Imports>
+      <Import moduleName="Diagnostics" />
+      <Import moduleName="RemoteAccess" />
+      <Import moduleName="RemoteForwarder" />
+    </Imports>
+    <ConfigurationSettings>
+      <Setting name="DBConnectionString" />
+      <Setting name="ConfigRefreshPeriodInSec" />
+      <Setting name="EnvironmentId" />
+    </ConfigurationSettings>
+  </WorkerRole>
+</ServiceDefinition>

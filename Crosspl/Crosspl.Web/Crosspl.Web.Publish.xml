@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="https://crosspl4-free.cloudapp.net:8172/MsDeploy.axd" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="Crosspl.Web_IN_0_Web" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="True" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="crosspl4-free - Production" publishMethod="MSDeploy" replaceMatchingFiles="True" userName="crosspl3-free" savePWD="False" userPWD="" SelectedForPublish="True" />
+  <publishProfile publishUrl="https://crosspl-bizspark.cloudapp.net:8172/MsDeploy.axd" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="Crosspl.Web_IN_0_Web" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="True" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="crosspl-bizspark - Production" publishMethod="MSDeploy" replaceMatchingFiles="True" userName="baris" savePWD="False" userPWD="" SelectedForPublish="False" />
+</publishData>
